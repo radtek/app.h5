@@ -1,0 +1,65 @@
+@mixin flex-direc($direction, $reverse: false) {
+	&.#{$direction} {
+		@if $reverse {
+			flex-direction: #{$direction}-reverse;
+		}
+
+		@else {
+			flex-direction: $direction;
+		}
+	}
+}
+
+@mixin flex-wrap($wrap, $reverse) {
+	&.#{$wrap} {
+		@if $wrap == wrap and $reverse {
+			flex-wrap: wrap-reverse;
+		}
+
+		@else {
+			flex-wrap: $wrap;
+		}
+	}
+}
+
+$flex-common: (
+	start: flex-start,
+	end: flex-end,
+	center: center
+);
+
+@mixin flex-common() {
+	@each $s in start, end, center {
+		&.#{$s} {
+			justify-content: map-get($flex-common, $s);
+			align-content: map-get($flex-common, $s);
+			align-items: map-get($flex-common, $s);
+		}
+	}
+}
+
+$justifys: (
+	space-between: space-between,
+	space-around: space-around
+);
+
+@mixin flex-justify() {
+	@each $s in sb, sa {
+		&.#{$s} {
+			justify-content: map-get($justifys, $s);
+		}
+	}
+}
+
+$align-items: (
+	baseline: baseline,
+	stretch: stretch
+);
+
+@mixin flex-align-items() {
+	@each $s in baseline, stretch {
+		&.#{$s} {
+			align-items: map-get($align-items, $s);
+		}
+	}
+}

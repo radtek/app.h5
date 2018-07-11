@@ -1,0 +1,18 @@
+@import "../mixins/row.scss";
+
+.rx-row {
+	&.flex {
+		display: flex;
+
+		@include flex-direc(row);
+		@include flex-direc(column);
+		@include flex-common();
+		@include flex-justify();
+		@include flex-align-items();
+	}
+
+	&.grid {
+		position: relative;
+		overflow: hidden;
+	}
+}

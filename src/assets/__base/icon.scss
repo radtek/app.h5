@@ -1,0 +1,100 @@
+@import "../../../relax-ui/src/styles/mixins/icon.scss";
+
+@font-face {
+	font-family: "rx-iconfont"; /* project id 553680 */
+	/* stylelint-disable declaration-colon-newline-after */
+	src: url("../fonts/jxrs/iconfont.eot"),
+		url("../fonts/jxrs/iconfont.eot?#iefix") format("embedded-opentype"),
+		url("../fonts/jxrs/iconfont.woff") format("woff"),
+		url("../fonts/jxrs/iconfont.ttf") format("truetype"),
+		url("../fonts/jxrs/iconfont.svg#iconfont") format("svg");
+}
+
+.icon-word {
+	color: #0097ee;
+}
+
+.icon-pdf {
+	color: #ff3254;
+}
+
+.icon-ppt {
+	color: #ff6e1f;
+}
+
+.icon-txt {
+	color: #36baff;
+}
+
+.icon-excel {
+	color: #1db847;
+}
+
+.icon-doc-word {
+	color: #3695ff;
+}
+
+.icon-doc-pdf {
+	color: #ec5641;
+}
+
+.icon-doc-ppt {
+	color: #ff8b36;
+}
+
+.icon-doc-txt {
+	color: #36baff;
+}
+
+.icon-doc-excel {
+	color: #1db847;
+}
+
+$icons: (
+	back-top: "\e60e",
+	share: "\e601",
+	comment: "\e603",
+	collect: "\e604",
+	ques: "\e605",
+	zan: "\e606",
+	answer: "\e607",
+	close: "\e609",
+	plus: "\e60a",
+	edit: "\e60b",
+	tiwen1: "\e60c",
+	dati: "\e60d",
+	loading: "\e71d",
+	chat: "\e611",
+	arrow-down: "\e615",
+	arrow-up: "\e67c",
+	arrow-left: "\e9d8",
+	arrow-right: "\e9d9",
+	star: "\e62d",
+	star-fill: "\e62e",
+	pdf: "\e613",
+	ppt: "\e617",
+	word: "\e619",
+	excel: "\e61f",
+	txt: "\e620",
+	doc-word: "\e621",
+	doc-txt: "\e622",
+	doc-excel: "\e623",
+	doc-pdf: "\e624",
+	doc-ppt: "\e625",
+	red-heart: "\e61a",
+	user-upload: "\e614",
+	user-collect: "\e616",
+	user-download: "\e618",
+	user-share: "\e61b",
+	reading-history: "\e61c",
+	circle: "\e638",
+	success_circle: "\e640",
+	send: "\e626",
+	download: "\e627",
+	remove: "\e628",
+	audio: "\e629",
+	pc: "\e62a",
+	mobile: "\e62b"
+);
+
+@include each-icons($icons);

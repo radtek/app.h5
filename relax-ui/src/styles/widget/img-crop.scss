@@ -1,0 +1,20 @@
+.rx-imgcrop {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+
+	img {
+		vertical-align: middle;
+
+		&.out-box,
+		&.in-box {
+			position: absolute;
+			z-index: 100;
+		}
+
+		&.fit {
+			width: 100%;
+			height: auto;
+		}
+	}
+}

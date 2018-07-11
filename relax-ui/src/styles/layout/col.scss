@@ -1,0 +1,17 @@
+@import "../mixins/col.scss";
+
+.rx-col {
+	position: relative;
+	margin-top: 2px;
+
+	@include col-span();
+}
+
+.rx-row.flex {
+	.rx-col {
+		flex: 1;
+		min-width: 0;
+
+		@include col-span-flex();
+	}
+}

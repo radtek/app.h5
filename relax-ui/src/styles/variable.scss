@@ -1,0 +1,183 @@
+$border-color: #e6e6e6;
+$transition-time: 0.2s;
+
+/*********** 基础元素类 ***************/
+$btn-padding: 12px 18px;
+$btn-border-width: 1px;
+$btn-border-style: solid;
+$btn-border-color: transparent;
+$btn-radius: 12px;
+$btn-font-weight: 500;
+$btn-font-size: 26px;
+$btn-font-family: inherit;
+$btn-line-height: 1.15;
+
+$btn-disabled: (
+	border-color: #fff,
+	color: #c0c4cc,
+	background-color: #fff
+);
+
+$btn-size: (
+	medium: (
+		size: 22px,
+		padding: 10px 20px,
+		radius: 4px
+	),
+	small: (
+		size: 18px,
+		padding: 7px 15px,
+		radius: 3px
+	),
+	mini: (
+		size: 18px,
+		padding: 9px 15px,
+		radius: 3px
+	)
+);
+
+$btn-type-colors: (
+	text: (
+		border-color: transparent,
+		color: #409eff,
+		bg-color: transparent,
+		disabled-border-color: transparent,
+		disabled-bg-color: transparent,
+		disabled-color: inherit
+	),
+	primary: (
+		border-color: #409eff,
+		color: #fff,
+		bg-color: #409eff,
+		disabled-border-color: #a0cfff,
+		disabled-bg-color: #a0cfff,
+		disabled-color: #fff
+	),
+	success: (
+		border-color: #67c23a,
+		color: #fff,
+		bg-color: #67c23a,
+		disabled-border-color: #b3e19d,
+		disabled-bg-color: #b3e19d,
+		disabled-color: #fff
+	),
+	info: (
+		border-color: #909399,
+		color: #fff,
+		bg-color: #909399,
+		disabled-border-color: #c8c9cc,
+		disabled-bg-color: #c8c9cc,
+		disabled-color: #fff
+	),
+	warning: (
+		border-color: #e6a23c,
+		color: #fff,
+		bg-color: #e6a23c,
+		disabled-border-color: #f3d19e,
+		disabled-bg-color: #f3d19e,
+		disabled-color: #fff
+	),
+	danger: (
+		border-color: #f56c6c,
+		color: #fff,
+		bg-color: #f56c6c,
+		disabled-border-color: #fab6b6,
+		disabled-bg-color: #fab6b6,
+		disabled-color: #fff
+	)
+);
+
+$btn-plain-colors: (
+	text: (
+		border-color: transparent,
+		color: #c0c4cc,
+		bg-color: transparent,
+		disabled-border-color: transparent,
+		disabled-bg-color: transparent,
+		disabled-color: inherit
+	),
+	primary: (
+		border-color: #b3d8ff,
+		color: #409eff,
+		bg-color: #fff,
+		bg-color2: #ecf5ff,
+		disabled-border-color: #d9ecff,
+		disabled-bg-color: #ecf5ff,
+		disabled-color: #8cc5ff
+	),
+	success: (
+		border-color: #c2e7b0,
+		color: #67c23a,
+		bg-color: #fff,
+		bg-color2: #f0f9eb,
+		disabled-border-color: #e1f3d8,
+		disabled-bg-color: #f0f9eb,
+		disabled-color: #a4da89
+	),
+	info: (
+		color: #909399,
+		bg-color: #fff,
+		border-color: #d3d4d6,
+		bg-color2: #f4f4f5,
+		disabled-color: #bcbec2,
+		disabled-bg-color: #f4f4f5,
+		disabled-border-color: #e9e9eb
+	),
+	warning: (
+		border-color: #e6a23c,
+		color: #fff,
+		bg-color: #fff,
+		bg-color2: #e6a23c,
+		disabled-color: #f0c78a,
+		disabled-bg-color: #fdf6ec,
+		disabled-border-color: #faecd8
+	),
+	danger: (
+		color: #f56c6c,
+		bg-color: #fef0f0,
+		border-color: #fff,
+		bg-color2: #fbc4c4,
+		disabled-color: #f9a7a7,
+		disabled-bg-color: #fef0f0,
+		disabled-border-color: #fde2e2
+	)
+);
+
+$btn-sharpes: (
+	circle: (
+		padding: 12px,
+		radius: 50%
+	),
+	round: (
+		padding: 12px 24px,
+		radius: 40px
+	)
+);
+
+/********** widget ***************/
+
+/********** 容器类 card *******/
+$card-radius: 0;
+$card-border: 1px solid #ebeef5;
+$card-bg-color: #fff;
+$card-color: #303133;
+$card-padding: 0 30px;
+$card_header-font-size: 32px;
+$card_header-border: 1px solid #ebeef5;
+$card_header_height: 91px;
+$card_footer_height: 45px;
+
+/********** 列表类 cell *******/
+$cell-color: #333;
+$cell-lineheight: 48px;
+$cell-maxheight: 2 * 31px;
+$cell-header-font-size: 32px;
+$cell-header-padding: 15px 0;
+$cell-body-font-size: 28px;
+$cell-body-margin: 19px 0;
+
+$cell-footer-margin: 15px 0 24px 0;
+$cell-footer-color: #999;
+$cell-footer-font-size: 24px;
+
+/********** tab *******/

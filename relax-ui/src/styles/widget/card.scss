@@ -1,0 +1,49 @@
+@import "../variable.scss";
+
+/********** 容器类 card *******/
+
+.rx-card {
+	border-radius: $card-radius;
+	color: $card-color;
+	background-color: $card-bg-color;
+
+	&.border {
+		border: $card-border;
+	}
+
+	&.padding > &_header,
+	&.padding > &_body,
+	&.padding > &_footer {
+		padding: $card-padding;
+	}
+
+	&_header {
+		position: relative;
+		box-sizing: border-box;
+		height: $card_header_height;
+		border-bottom: $card_header-border;
+		font-weight: bold;
+		font-size: $card_header-font-size;
+		line-height: $card_header_height;
+
+		&:after,
+		&:before {
+			display: table;
+			content: "";
+		}
+
+		&:after {
+			clear: both;
+		}
+	}
+
+	&_body {
+		position: relative;
+	}
+
+	&_footer {
+		position: relative;
+		height: $card_footer-height;
+		line-height: $card_footer-height;
+	}
+}

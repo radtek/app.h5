@@ -1,0 +1,67 @@
+@import "../variable.scss";
+
+.rx-tab {
+	position: relative;
+}
+
+.rx-tab {
+	&-navs {
+		position: relative;
+		padding: 0;
+		color: #666;
+		background-color: #fff;
+		font-size: 32px;
+		line-height: 60px;
+		z-index: 100;
+	}
+
+	&-nav {
+		position: relative;
+		display: inline-block;
+		height: 100%;
+		padding: 20px 24px;
+		text-decoration: none;
+		transition-property: color background-color;
+		transition-duration: $transition-time;
+		transition-timing-function: ease-in-out;
+
+		&:nth-child(1) {
+			padding-left: 30px;
+		}
+
+		&.active {
+			color: #0097ee;
+		}
+
+		&.active:before {
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			width: 35px;
+			height: 4px;
+			border-radius: 2px;
+			background-color: #0097ee;
+			transform: translateX(-50%) translateZ(0);
+			content: "";
+		}
+	}
+
+	&-content {
+		display: flex;
+		flex-direction: row;
+		height: 100%;
+		transition: transform 0.25s ease-in-out;
+		will-change: transform;
+	}
+
+	&-pane {
+		position: relative;
+		flex-shrink: 0;
+		width: 100%;
+		padding: 20px 30px;
+		background-color: #fff;
+		opacity: 1;
+		font-size: 33px;
+		transition: opacity $transition-time;
+	}
+}

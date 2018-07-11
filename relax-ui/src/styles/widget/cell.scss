@@ -1,0 +1,80 @@
+@import "../variable.scss";
+@import "./skeleton.scss";
+
+.rx-cell {
+	position: relative;
+	border-bottom: 1px solid #e6e6e6;
+	color: $cell-color;
+	line-height: $cell-lineheight;
+	text-align: left;
+
+	&-header {
+		position: relative;
+		padding: $cell-header-padding;
+		color: inherit;
+		font-weight: 600;
+		font-size: $cell-header-font-size;
+	}
+
+	&-body {
+		padding: $cell-body-margin;
+		overflow: hidden;
+		font-size: $cell-body-font-size;
+
+		&.hide {
+			max-height: $cell-maxheight;
+		}
+	}
+
+	&-content {
+		color: #666;
+		font-size: 28px;
+		line-height: 44px;
+	}
+
+	&-imgs {
+		margin-top: 42px;
+
+		img {
+			width: 100%;
+			height: 180px;
+		}
+	}
+
+	&-footer {
+		margin: $cell-footer-margin;
+		color: $cell-footer-color;
+		font-size: $cell-footer-font-size;
+		line-height: 48px;
+	}
+}
+
+.rx-cell.rx-skeleton {
+	.rx-cell {
+		&-imgs {
+			.block {
+				display: inline-block;
+				width: 200px;
+				height: 180px;
+				animation: fade 1s ease-in-out infinite;
+
+				&:nth-child(2) {
+					margin-right: 14.5px;
+					margin-left: 14.5px;
+				}
+			}
+		}
+
+		&-content {
+			.block {
+				height: 70px;
+			}
+		}
+
+		&-footer {
+			.block {
+				height: 20px;
+			}
+		}
+	}
+}

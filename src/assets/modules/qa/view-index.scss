@@ -1,0 +1,57 @@
+[rs-view="index"] {
+	.card-user {
+		.entry {
+			height: 94px;
+			border-top: 1px solid #e6e6e6;
+
+			.rx-col {
+				&:first-child {
+					border-right: 1px solid #e6e6e6;
+				}
+			}
+
+			.rx-btn {
+				font-size: 32px;
+				line-height: 48px;
+
+				span {
+					color: #333;
+					font-size: 32px;
+				}
+			}
+
+			.rx-icon {
+				font-size: 40px;
+			}
+
+			.icon-tiwen1 {
+				color: #f6c42c;
+			}
+		}
+	}
+
+	.rx-card_header {
+		.title {
+			font-weight: bolder;
+		}
+
+		.rx-btn {
+			position: absolute;
+			top: 50%;
+			right: 32px;
+			color: #666;
+			font-size: 24px;
+			transform: translateY(-50%);
+		}
+	}
+
+	.list-card.padding .rx-card_body {
+		padding: 0;
+	}
+
+	.rx-card.list-card {
+		.rx-card_body > .rx-cell {
+			padding: 0 30px;
+		}
+	}
+}

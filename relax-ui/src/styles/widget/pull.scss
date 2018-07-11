@@ -1,0 +1,51 @@
+.rx-pull {
+	position: relative;
+	z-index: 1;
+
+	&.scrollx {
+		display: inline-block;
+	}
+}
+
+.rx-pull {
+	&-wrap {
+		position: relative;
+		height: 100%;
+		background: #fff;
+		overflow: hidden;
+	}
+
+	&-down,
+	&-up {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		font-size: 20px;
+		transition: all;
+	}
+
+	&-down-inner,
+	&-up-inner {
+		* {
+			vertical-align: middle;
+		}
+	}
+
+	&-down {
+		position: absolute;
+		left: 0;
+		z-index: 10;
+	}
+
+	&-up {
+		padding: 16px 0;
+	}
+
+	&-wrap.show-up &-up {
+		position: absolute;
+		left: 0;
+		padding: 0;
+		text-align: center;
+	}
+}

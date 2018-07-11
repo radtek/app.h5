@@ -1,0 +1,55 @@
+@import "../variable.scss";
+@import "../mixins/button.scss";
+
+.rx-btn {
+	display: inline-block;
+	padding: $btn-padding;
+	border: $btn-border-width $btn-border-style $btn-border-color;
+	border-radius: $btn-radius;
+	background-image: none;
+	vertical-align: middle;
+	font-weight: $btn-font-weight;
+	font-size: $btn-font-size;
+	font-family: $btn-font-family;
+	line-height: $btn-line-height;
+	white-space: nowrap;
+	text-align: center;
+	transition: color $transition-time linear,
+		background-color $transition-time linear, border $transition-time linear;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+	-webkit-appearance: none;
+	-webkit-user-drag: none;
+
+	&.text {
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+	i,
+	span {
+		vertical-align: middle;
+		font-size: $btn-font-size;
+	}
+
+	// i + span {
+	// 	margin-left: -2px;
+	// }
+
+	&.text {
+		i + span {
+			margin-left: 5px;
+		}
+	}
+
+	&.round.small {
+		padding: 9px 15px;
+	}
+
+	@include btntype-colors();
+	@include btntype-colors(true);
+	@include btn-disabled();
+	@include btn-size();
+	@include btn-sharpes();
+}

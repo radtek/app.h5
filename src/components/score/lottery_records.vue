@@ -1,0 +1,52 @@
+<template>
+	<ul class="wrap-records">
+		<li v-for="(record,index) in list"
+		    :key="index"
+		    class="item">
+			<p class="title">{{record.goodsTitle}}</p>
+			<p class="date">{{record.gotTime | formatDate("yyyy-MM-dd hh:mm")}}</p>
+			<a v-if="record.receive"
+			   href="javascript:;"
+			   class="btn">已到账</a>
+			<a v-else
+			   href="javascript:;"
+			   class="btn unreceive">未领取</a>
+		</li>
+		<li class="wrap-pager"
+		    v-if="list && list.length">
+			<a class="pager-prev"
+			   :class="{'disabled':!prev}"
+			   href="javascript:;"
+			   @click.stop="onClick('prev',$event)">上一页</a>
+			<a class="pager-next"
+			   :class="{'disabled':!next}"
+			   href="javascript:;"
+			   @click.stop="onClick('next',$event)">下一页</a>
+		</li>
+	</ul>
+</template>
+<script>
+	export default {
+		name: "LotteryRecords",
+		props: {
+			list: {
+				type: Array,
+				default() {
+					return [];
+				}
+			},
+			prev: { type: Boolean, default: false },
+			next: { type: Boolean, default: true }
+		},
+		methods: {
+			__getStatusText(item) {
+				return item.receive === true ? "" : "未领取";
+			},
+			onClick(direction, event) {
+				if (!this[direction]) return false;
+				this.$emit("on-pager-changed", direction);
+			}
+		}
+	};
+</script>
+

@@ -1,0 +1,22 @@
+.rx-backtop {
+	position: fixed;
+	right: 80px;
+	bottom: 80px;
+	padding: 20px 10px;
+	border-radius: 15px;
+	color: #fff;
+	background-color: #0097ee;
+	text-align: center;
+	z-index: 1000;
+
+	&.icon {
+		width: 80px;
+		height: 80px;
+		padding: 0;
+		border-radius: 50%;
+
+		.rx-icon {
+			font-size: 70px;
+		}
+	}
+}

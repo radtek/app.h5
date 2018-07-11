@@ -1,0 +1,86 @@
+[rs-view="rdsc"] {
+	background: #f6f0e2;
+
+	.wrap-audio {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		box-sizing: border-box;
+		width: 70px;
+		height: 70px;
+		border-radius: 50%;
+		background-color: rgba(0, 0, 0, 0.2);
+		transform: translate3d(0, 0, 0);
+		z-index: 999;
+
+		&.playing {
+			animation: musicIconRotate 3s 0s linear infinite !important;
+		}
+
+		div {
+			box-sizing: border-box;
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			margin: 0.08rem;
+			background-image: url(https://cd.faisys.com/image/preview/musicIcon.png?v=201703241457);
+			background-position: 50% 50%;
+			background-size: 40%;
+			background-repeat: no-repeat;
+			background-color: rgba(0, 0, 0, 0.5);
+			cursor: pointer;
+		}
+	}
+
+	img {
+		width: 100%;
+	}
+
+	.center {
+		position: relative;
+		margin-top: -100px;
+		z-index: 100;
+
+		.wrap-words {
+			position: absolute;
+			top: 110px;
+			left: 17%;
+			width: 68%;
+			color: #fdd835;
+			font-weight: bolder;
+			font-size: 32px;
+			line-height: 46px;
+			letter-spacing: 10px;
+			z-index: 1000;
+		}
+	}
+
+	.bottom {
+		position: absolute;
+		bottom: 0;
+		z-index: 10;
+
+		img {
+			display: block;
+			width: 90%;
+			margin: auto;
+		}
+	}
+
+	.text-animation {
+		display: inline-block;
+		background-color: initial;
+		animation-duration: 1s;
+		animation-fill-mode: both;
+	}
+
+	@keyframes musicIconRotate {
+		0% {
+			transform: rotate(0);
+		}
+
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+}

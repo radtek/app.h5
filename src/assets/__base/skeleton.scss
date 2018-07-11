@@ -1,0 +1,43 @@
+.skeleton {
+	height: 100%;
+	padding: 30px;
+
+	.long {
+		&-txt {
+			width: 100%;
+			height: 30px;
+			margin: 0 0 10px;
+			background-color: #f1f1f1;
+			animation: fade 1s ease-in-out infinite;
+		}
+
+		&-img {
+			width: 80%;
+			height: 264px;
+			margin: 30px auto;
+			background-color: #f1f1f1;
+			animation: fade 1s ease-in-out infinite;
+		}
+	}
+
+	.short-txt {
+		display: inline-block;
+		width: 80px;
+		height: 20px;
+		margin-right: 5px;
+		background-color: #f1f1f1;
+		animation: fade 1s ease-in-out infinite;
+	}
+
+	.wrap {
+		&-short {
+			padding: 30px 0;
+			text-align: left;
+		}
+
+		&-long {
+			width: 100%;
+			margin: auto;
+		}
+	}
+}

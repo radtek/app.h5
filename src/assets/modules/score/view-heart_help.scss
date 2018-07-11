@@ -1,0 +1,50 @@
+[rs-view="heart_help"] {
+	.container {
+		width: 100%;
+
+		li {
+			position: relative;
+			line-height: 40px;
+
+			&:nth-child(odd) {
+				background: #f9f9f9;
+			}
+		}
+
+		.header {
+			padding: 10px 15px;
+			font-size: 30px;
+			line-height: 60px;
+
+			&:after {
+				position: absolute;
+				top: 30px;
+				right: 50px;
+				width: 20px;
+				height: 20px;
+				border: 1px solid #000;
+				border-bottom-color: transparent;
+				border-left-color: transparent;
+				transform: rotate(135deg);
+				transition: transform 0.2s;
+				content: "";
+				will-change: transform;
+			}
+
+			&.active {
+				&:after {
+					transform: rotate(-45deg);
+				}
+			}
+		}
+
+		.content {
+			padding: 35px 20px;
+			background: #efefef;
+			font-size: 30px;
+			line-height: 60px;
+			letter-spacing: 2px;
+			transition: all 0.1s ease-in-out;
+		}
+	}
+}

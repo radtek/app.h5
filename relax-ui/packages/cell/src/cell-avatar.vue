@@ -1,0 +1,71 @@
+<style lang="sass">
+@import "../../../src/styles/widget/cell-avatar.scss"
+</style>
+<template>
+	<div class="rx-cell-avatar"
+	     :class="[{'no-body':!$slots.default}]">
+		<div class="rx-cell-img"
+		     v-if="imgPosition === 'left'">
+			<slot name="img">
+				<img :src="avatar"
+				     :class="[{'circle':circle}]"
+				     alt="头像"
+				     @click.stop="onImgClick"
+				     @error="onImgErr($event,true)" />
+			</slot>
+		</div>
+		<div class="rx-cell-content"
+		     @click.stop="onClick">
+			<div class="content">
+				<div class="header"
+				     v-if="$slots.header">
+					<slot name="header"></slot>
+				</div>
+				<div class="body"
+				     v-if="$slots.default">
+					<slot></slot>
+				</div>
+				<div class="footer"
+				     v-if="$slots.footer">
+					<slot name="footer"></slot>
+				</div>
+			</div>
+			<div class="action"
+			     :class="[`${actionPosition}`]"
+			     v-if="$slots.rightAction">
+				<slot name="rightAction"></slot>
+			</div>
+		</div>
+		<div class="rx-cell-img"
+		     v-if="imgPosition === 'right'">
+			<slot name="img">
+				<img :src="avatar"
+				     :class="[{'circle':circle}]"
+				     alt="头像"
+				     @click.stop="onImgClick"
+				     @error="onImgErr($event,true)" />
+			</slot>
+		</div>
+	</div>
+</template>
+
+<script>
+	export default {
+		name: "RxCellAvatar",
+		props: {
+			imgPosition: { type: String, default: "left" },
+			avatar: String,
+			circle: { type: Boolean, default: true },
+			actionPosition: { type: String, default: "center" }
+		},
+		methods: {
+			onClick(evt) {
+				this.$emit("on-click", evt);
+			},
+			onImgClick(evt) {
+				this.$emit("on-img-click", evt);
+			}
+		}
+	};
+</script>
+

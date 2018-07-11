@@ -1,0 +1,18 @@
+@mixin col-span-flex() {
+	@for $i from 1 to 13 {
+		&-#{$i} {
+			flex: 0 0 percentage($i / 12);
+			height: 100%;
+		}
+	}
+}
+
+@mixin col-span() {
+	@for $i from 1 to 13 {
+		&-#{$i} {
+			float: left;
+			width: percentage($i / 12);
+			height: 100%;
+		}
+	}
+}

@@ -1,0 +1,70 @@
+@mixin btn-colors($map) {
+	border-color: map-get($map, border-color);
+	color: map-get($map, color);
+	background-color: map-get($map, bg-color);
+
+	&.disabled,
+	&.disabled:focus,
+	&.disabled:hover {
+		border-color: map-get($map, disabled-border-color);
+		color: map-get($map, disabled-color);
+		background-color: map-get($map, disabled-bg-color);
+	}
+}
+
+@mixin btntype-colors($isplain: false) {
+	@each $c in map-keys($btn-type-colors) {
+		@if $isplain {
+			&.plain {
+				&.disabled,
+				&.disabled:forcus,
+				&.disabled:hover {
+					border-color: #ebeef5;
+					color: #c0c4cc;
+					background-color: #fff;
+				}
+
+				&.#{$c} {
+					@include btn-colors(map-get($btn-plain-colors, $c));
+				}
+			}
+		}
+
+		@else {
+			&.#{$c} {
+				@include btn-colors(map-get($btn-type-colors, $c));
+			}
+		}
+	}
+}
+
+@mixin btn-sharpes() {
+	@each $s in circle, round {
+		&.#{$s} {
+			padding: map-get(map-get($btn-sharpes, $s), padding);
+			border-radius: map-get(map-get($btn-sharpes, $s), radius);
+		}
+	}
+}
+
+@mixin btn-disabled() {
+	&.disabled,
+	&.disabled:focus,
+	&.disabled:hover {
+		border-color: #ebeef5;
+		color: #c0c4cc;
+		background-image: none;
+		background-color: #fff;
+		cursor: not-allowed;
+	}
+}
+
+@mixin btn-size() {
+	@each $s in medium, small, mini {
+		&.#{$s} {
+			padding: map-get(map-get($btn-size, $s), padding);
+			border-radius: map-get(map-get($btn-size, $s), radius);
+			font-size: map-get(map-get($btn-size, $s), size);
+		}
+	}
+}

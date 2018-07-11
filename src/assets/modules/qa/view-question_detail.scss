@@ -1,0 +1,51 @@
+[rs-view="qa-ques-detail"] {
+	overflow: hidden;
+
+	.empty {
+		position: relative;
+		width: 100%;
+		height: 440px;
+		padding: 208px 0;
+		color: #666;
+		background-color: #f5f5f5;
+		font-size: 28px;
+		text-align: center;
+
+		* {
+			vertical-align: middle;
+		}
+		// position: absolute;
+		// bottom: 113px * 2;
+		// left: 50%;
+		// z-index: 10;
+		// transform: translateX(-50%);
+	}
+
+	.ques-wrap {
+		background: #fff;
+		z-index: 10;
+	}
+
+	.card-answers {
+		&.noempty {
+			position: relative;
+			height: 100%;
+			max-height: 1000px;
+		}
+
+		.rx-cell-imgs {
+			.img-1 {
+				width: 33.3%;
+			}
+		}
+	}
+
+	.ui-loadmore {
+		padding: 20px 0;
+		text-align: center;
+
+		.rx-btn {
+			width: 60%;
+		}
+	}
+}

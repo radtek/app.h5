@@ -54,6 +54,11 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+
 # dotenv environment variables file
 .env
 
+yarn.lock
+/.vscode/
+/build-api/
+/jxrs-h5-depoly/
