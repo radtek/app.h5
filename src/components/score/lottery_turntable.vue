@@ -1,12 +1,11 @@
 <!-- 抽奖转盘 -->
 
 <style lang="sass">
-@import "../../assets/modules/score/wc-lottery_turntable.scss";
+@import "../../assets/modules/score/wc-lottery_turntable.scss"
 </style>
 
 <template>
-	<div class="pane-turntable">
-		<!-- <rx-toast></rx-toast> -->
+	<div class="pane pane-turntable">
 		<div class="lottery-time">今日还剩
 			<span class="strong">{{remainTime}}次</span> 抽奖机会哦</div>
 		<img :src="getLocalMduImg('score','bg-panel')" />
@@ -17,14 +16,12 @@
 			    :key="index"
 			    :class="[{active:__isRight(activeIndex,index)}]">
 				<template v-if="good.id>0">
-					<template v-if="__isRight(activeIndex,index)">
-						<img :src="getLocalMduImg('score','lottery-item-active')"
-						     :alt="good.goodsTitle" />
-					</template>
-					<template v-else>
-						<img :src="getLocalMduImg('score','lottery-item')"
-						     :alt="good.goodsTitle" />
-					</template>
+					<img v-if="__isRight(activeIndex,index)"
+					     :src="getLocalMduImg('score','lottery-item-active')"
+					     :alt="good.goodsTitle" />
+					<img v-else
+					     :src="getLocalMduImg('score','lottery-item')"
+					     :alt="good.goodsTitle" />
 					<img :src="good.goodsPic"
 					     :alt="good.goodsTitle"
 					     class="good-img" />
@@ -133,13 +130,12 @@
 							const good = this.goods[this.targetIndex];
 
 							if (good.type === 0) {
-								this.toastContent = "谢谢参与";
-								this.showToast = true;
+								this.$toast.text("谢谢参与");
 							} else {
-								this.toastContent = `恭喜您获得了${
-									good.goodsTitle
-								}`;
-								this.showToast = true;
+								this.$toast.text(
+									`恭喜您获得了${good.goodsTitle}`,
+									"middle"
+								);
 								this.$emit("on-lotteried", good);
 							}
 						}, 200);
@@ -171,24 +167,21 @@
 
 				// 判断当前的剩余次数
 				if (this.remainTime === 0) {
-					// 弹出toast提示
-					this.toastContent = "您的抽奖次数已用完";
-					this.showToast = true;
+					this.$toast.text("您的抽奖次数已用完");
 					return false;
 				}
 
 				this.isRunning = true;
 
 				this.$http.lottery
-					.runLottery(this.AuthInfo)
+					.runLottery()
 					.then(res => {
 						this.targetIndex = this.__find(res.result);
 						this.__roll();
 					})
 					.catch(err => {
 						// toast提示
-						this.toastContent = err.msg;
-						this.showToast = true;
+						this.$toast.text(err.msg);
 						this.isRunning = false;
 					});
 			}

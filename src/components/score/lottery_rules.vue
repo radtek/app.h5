@@ -1,3 +1,7 @@
+<style lang="sass">
+@import "../../assets/modules/score/wc-lottery_rules.scss"
+</style>
+
 <template>
 	<ol class="wrap-rules">
 		<li v-for="(rule,index) in rules"
@@ -17,7 +21,7 @@
 		},
 		mounted() {
 			this.$http.lottery
-				.getLotteryRules({ unitId: this.unitid })
+				.getLotteryRules({ unitId: this.unitId })
 				.then(res => {
 					this.rules = res.rulers;
 				});

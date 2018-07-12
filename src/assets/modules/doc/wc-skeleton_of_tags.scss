@@ -1,0 +1,18 @@
+.skeleton-tags {
+	.wrap {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-bottom: 2px;
+	}
+
+	.block {
+		float: left;
+		width: 25%;
+		height: 70px;
+		margin-right: 1px;
+		margin-left: 1px;
+		background: #f1f1f1;
+		animation: fade 1s ease-in-out infinite;
+	}
+}

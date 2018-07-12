@@ -1,0 +1,19 @@
+.tag-item {
+	padding: 23px;
+	color: #333;
+	background: #f1f1f1;
+	font-size: 28px;
+
+	&.active {
+		color: #0097ee;
+	}
+
+	&.icon {
+		padding: 11px 30px;
+	}
+
+	.rx-icon {
+		color: #0097ee;
+		font-size: 48px;
+	}
+}

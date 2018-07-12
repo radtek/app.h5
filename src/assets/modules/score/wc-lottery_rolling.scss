@@ -1,0 +1,37 @@
+[rs-view="lottery"] {
+
+	$line-height: 50px;
+
+	.ctn-rolling {
+		position: absolute;
+		top: 130px;
+		left: 10%;
+		width: 80%;
+		color: #fff;
+		overflow: hidden;
+		z-index: 10;
+	}
+
+	.pane-rolling {
+		width: 8000%;
+		height: $line-height;
+
+		.pane-rolling-inner {
+			float: left;
+		}
+
+		ul {
+			float: left;
+			height: $line-height;
+			overflow: hidden;
+			zoom: 1;
+
+			li {
+				float: left;
+				padding: 0 20px;
+				margin-top: -3px;
+				line-height: $line-height;
+			}
+		}
+	}
+}

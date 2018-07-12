@@ -30,6 +30,9 @@ import SwipeCell from "./packages/swipe-cell/index";
 
 import ImgCrop from "./packages/img-crop/index";
 
+import Toast from "./packages/toast/index";
+import ToastPlugin from "./src/plugin/toast/index";
+
 const components = [
 	Row,
 	Col,
@@ -50,14 +53,15 @@ const components = [
 	Backtop,
 	SwipeCell,
 	ImgCrop,
-	CollapseTransition
+	CollapseTransition,
+	Toast
 ];
 
 function install(Vue, options = {}) {
 	// locale.use(options.locale);
 
 	components.forEach(component => {
-		Vue.component(component.name, component);
+		Vue.component(component.name || "", component);
 	});
 
 	Vue.prototype.$RX = {
@@ -77,6 +81,8 @@ function install(Vue, options = {}) {
 	Vue.mixin(Webp);
 
 	Vue.filter("formatDate", utils.formatDate);
+
+	Vue.prototype.$toast = ToastPlugin;
 }
 
 if (typeof window !== "undefined" && window.Vue) {
@@ -105,7 +111,9 @@ export {
 	Backtop,
 	SwipeCell,
 	ImgCrop,
-	CollapseTransition
+	CollapseTransition,
+	Toast,
+	ToastPlugin
 };
 
 export default install;

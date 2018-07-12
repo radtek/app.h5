@@ -10,6 +10,7 @@ export default [
 		desp: "获取抽奖规则",
 		action: "/prize/listPrizeRulerInfoByUnitId.score",
 		outKey: "getLotteryRules",
+		reqParams: ["unitId"],
 		verb: "get"
 	},
 

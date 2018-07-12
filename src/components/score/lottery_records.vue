@@ -1,3 +1,7 @@
+<style lang="sass">
+@import "../../assets/modules/score/wc-lottery_records.scss"
+</style>
+
 <template>
 	<ul class="wrap-records">
 		<li v-for="(record,index) in list"
@@ -14,14 +18,16 @@
 		</li>
 		<li class="wrap-pager"
 		    v-if="list && list.length">
-			<a class="pager-prev"
-			   :class="{'disabled':!prev}"
-			   href="javascript:;"
-			   @click.stop="onClick('prev',$event)">上一页</a>
-			<a class="pager-next"
-			   :class="{'disabled':!next}"
-			   href="javascript:;"
-			   @click.stop="onClick('next',$event)">下一页</a>
+			<rx-btn type="info"
+			        plain
+			        class="pager-prev"
+			        :disabled="!prev"
+			        @on-click="onClick('prev',$event)">上一页</rx-btn>
+			<rx-btn type="info"
+			        plain
+			        class="pager-prev"
+			        :disabled="!next"
+			        @on-click="onClick('next',$event)">下一页</rx-btn>
 		</li>
 	</ul>
 </template>

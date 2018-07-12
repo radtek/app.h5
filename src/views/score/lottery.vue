@@ -5,7 +5,8 @@
 <template>
 	<section rs-view="lottery">
 		<turntable></turntable>
-		<div class="panel">
+		<rolling :unit-id="unitid"></rolling>
+		<div class="pane">
 			<h3 class="title">我的中奖
 				<span class="right-tip">已中奖{{recordsTotal}}次</span>
 			</h3>
@@ -14,7 +15,7 @@
 			         :next="recordsNeedNext"
 			         @on-pager-changed="handleRecordsPagerChanged"></records>
 		</div>
-		<div class="panel">
+		<div class="pane">
 			<h3 class="title">活动规则</h3>
 			<rules :unit-id="unitid"></rules>
 		</div>
@@ -37,6 +38,10 @@
 			Rules: () =>
 				import(/* webpackChunkName:"wc-lottery_rules" */ "~c/score/lottery_rules.vue").then(
 					utils.fixAsyncCmpLifeCycle
+				),
+			Rolling: () =>
+				import(/* webpackChunkName:"wc-lottery_rolling" */ "~c/score/lottery_rolling.vue").then(
+					utils.fixAsyncCmpLifeCycle
 				)
 		},
 		data() {
@@ -44,7 +49,7 @@
 				records: [],
 				recordsTotal: 0,
 				recordsPageIndex: 1,
-				recordsPageSize: 5
+				recordsPageSize: 10
 			};
 		},
 		computed: {
@@ -57,7 +62,8 @@
 			__fetchRecords() {
 				return this.$http.lottery
 					.getMyLotteriedRecords({
-						unitId: this.unitid
+						unitId: this.unitid,
+						pageNo: this.recordsPageIndex
 					})
 					.then(res => {
 						this.records = res.record;

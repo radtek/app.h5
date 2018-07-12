@@ -1,0 +1,11 @@
+[rs-view="lottery"] {
+	.wrap-rules {
+		li {
+			line-height: 60px;
+
+			&:first-child {
+				margin-top: 20px;
+			}
+		}
+	}
+}

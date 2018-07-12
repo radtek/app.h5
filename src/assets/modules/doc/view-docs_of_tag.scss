@@ -1,0 +1,16 @@
+[rs-view="tags"] {
+	overflow: hidden;
+
+	.pane-banner {
+		position: relative;
+		width: 100%;
+		height: 140px;
+		line-height: 140px;
+		text-align: center;
+
+		img {
+			height: 100px;
+			vertical-align: middle;
+		}
+	}
+}

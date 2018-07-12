@@ -1,0 +1,87 @@
+[rs-view="lottery"] {
+	.wrap-records {
+		li {
+			position: relative;
+			padding: 10px;
+			padding-bottom: 20px;
+			line-height: 50px;
+
+			&.item {
+				border-bottom: 0.9px solid #efcf3a;
+
+				&:first-child {
+					margin-top: 20px;
+				}
+
+				&:before,
+				&:after {
+					position: absolute;
+					bottom: -5px;
+					width: 10px;
+					height: 10px;
+					background: #efcf3a;
+					transform: rotate(45deg);
+					content: "";
+				}
+
+				&:before {
+					left: 0;
+				}
+
+				&:after {
+					right: 0;
+				}
+			}
+
+			&.wrap-pager {
+				display: flex;
+				justify-content: space-around;
+			}
+
+			.btn {
+				position: absolute;
+				top: 30px;
+				right: 15px;
+				padding: 5px 15px;
+				border-radius: 40px;
+				color: #86773d;
+				background: #f0cd29;
+				letter-spacing: 5px;
+
+				&.unreceive {
+					color: #fff;
+					background: #fd6562;
+				}
+			}
+
+			.title {
+				font-weight: bolder;
+				font-size: 35px;
+			}
+
+			.date {
+				font-weight: bold;
+				font-size: 25px;
+			}
+		}
+
+		.pager {
+			&-prev,
+			&-next {
+				padding: 10px 20px;
+				border: none;
+				border-radius: 15px;
+				margin-top: 20px;
+				color: #86773d;
+				background-color: #f0cd29;
+				font-weight: bold;
+				font-size: 25px;
+
+				&.disabled {
+					color: #fff;
+					background: #ccc;
+				}
+			}
+		}
+	}
+}
