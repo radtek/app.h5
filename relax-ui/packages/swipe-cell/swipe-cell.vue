@@ -32,7 +32,7 @@
 
 <script>
 	export default {
-		name: "RxSwipeoutItem",
+		name: "RxSwipeCellItem",
 		props: {
 			sensitivity: {
 				type: Number,
@@ -296,9 +296,9 @@
 				};
 			},
 			leftButtonBoxStyle() {
-				let styles = JSON.parse(JSON.stringify(this.buttonBoxStyle));
+				const styles = JSON.parse(JSON.stringify(this.buttonBoxStyle));
 				if (this.transitionMode === "follow") {
-					let offset =
+					const offset =
 						this.styles.transform.indexOf("(0px, 0, 0)") === -1
 							? this.leftMenuWidth - this.distX
 							: this.leftMenuWidth;
@@ -307,7 +307,7 @@
 				return styles;
 			},
 			rightButtonBoxStyle() {
-				let styles = JSON.parse(JSON.stringify(this.buttonBoxStyle));
+				const styles = JSON.parse(JSON.stringify(this.buttonBoxStyle));
 				if (this.transitionMode === "follow") {
 					let offset =
 						this.styles.transform.indexOf("(0px, 0, 0)") === -1

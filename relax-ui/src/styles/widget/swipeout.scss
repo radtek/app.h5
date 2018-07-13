@@ -1,0 +1,42 @@
+.rx-swipeout {
+	width: 100%;
+	overflow: hidden;
+}
+
+.rx-swipeout {
+	&-item {
+		position: relative;
+	}
+
+	&_btn_box {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		font-size: 0;
+		text-align: right;
+
+		> div {
+			height: 100%;
+		}
+	}
+
+	&_left {
+		text-align: left;
+	}
+
+	&_content {
+		position: relative;
+		background: #fff;
+	}
+
+	&-btn {
+		height: 100%;
+		border: none;
+		margin-right: 1px;
+		color: #fff;
+		font-size: 30px;
+		text-align: center;
+	}
+}

@@ -25,9 +25,19 @@
 			</div>
 
 			<div class="pane-swipeout">
-				<rx-swipe-cell v-if="list && list.length">
-					<doc-item :item="list[0]"></doc-item>
-				</rx-swipe-cell>
+				<rx-swipeout v-if="list && list.length">
+					<rx-swipeout-item>
+						<template slot="content">
+							<doc-item :item="list[0]"></doc-item>
+						</template>
+						<template slot="rightMenu">
+							<rx-swipeout-btn :width="100"
+							                 text="收藏"></rx-swipeout-btn>
+							<rx-swipeout-btn :width="100"
+							                 text="删除"></rx-swipeout-btn>
+						</template>
+					</rx-swipeout-item>
+				</rx-swipeout>
 			</div>
 
 			<div class="pane-ad">

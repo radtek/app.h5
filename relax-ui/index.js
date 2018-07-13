@@ -27,6 +27,7 @@ import { Tab, TabPane } from "./packages/tab/index";
 import { lazyImgDirective } from "./packages/lazyload/index";
 
 import SwipeCell from "./packages/swipe-cell/index";
+import Swipeout from "./packages/swipeout/index";
 
 import ImgCrop from "./packages/img-crop/index";
 
@@ -52,6 +53,9 @@ const components = [
 	CheckIcon,
 	Backtop,
 	SwipeCell,
+	Swipeout,
+	Swipeout.Item,
+	Swipeout.Btn,
 	ImgCrop,
 	CollapseTransition,
 	Toast
@@ -110,6 +114,7 @@ export {
 	CheckIcon,
 	Backtop,
 	SwipeCell,
+	Swipeout,
 	ImgCrop,
 	CollapseTransition,
 	Toast,

@@ -3,7 +3,7 @@
 </style>
 
 <template>
-	<section rs-view="rdsc"
+	<section data-view="rdsc"
 	         style="overflow:hidden;">
 		<audio :src="audioSrc"
 		       :loop="isFinished"
@@ -19,11 +19,11 @@
 		</div>
 
 		<div class="top animated fadeIn">
-			<img :src="getLocalImg('rdsc-top')"
+			<img :src="getLocalMduImg('news','rdsc-top')"
 			     alt="">
 		</div>
 		<div class="center animated fadeIn">
-			<img :src="getLocalImg('rdsc-center')"
+			<img :src="getLocalMduImg('news','rdsc-center')"
 			     alt="">
 			<div class="wrap-words">
 				<span v-for="(word,index) in words"
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 		<div class="bottom">
-			<img :src="getLocalImg('rdsc-bottom')"
+			<img :src="getLocalMduImg('news','rdsc-bottom')"
 			     alt="">
 		</div>
 	</section>
@@ -100,6 +100,7 @@
 		},
 		created() {
 			if (this.$isProd || this.$isTest) {
+				// 由于在App中无法自动播放,需要App端通过主动请求H5来播放
 				JXRSApi.wrap("on.app.news.rdscAudioPlay", () => {
 					this.$refs.audio.play();
 				});

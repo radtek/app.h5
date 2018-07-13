@@ -1,3 +1,6 @@
+<style lang="sass">
+@import "../../assets/modules/qa/im_users.scss"
+</style>
 
 <template>
 	<rx-pull :vertical="false"
