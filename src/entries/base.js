@@ -30,6 +30,7 @@ export function createVue(Vue, { router, http }) {
 
 	Vue.prototype.$isProd = process.env.NODE_ENV === "production";
 	Vue.prototype.$isTest = process.env.NODE_ENV === "test";
+	Vue.prototype.$isDev = process.env.NODE_ENV === "development";
 
 	Vue.prototype.$DEFAULT_AVATAR =
 		"http://dangjian-limin.oss-cn-hangzhou.aliyuncs.com/avatar_male.png?Expires=43020012813&OSSAccessKeyId=LTAIO6w6CI0rif2M&Signature=zVQ5Y7%2Bickigq1WqW8cYbZ4SsGc%3D";

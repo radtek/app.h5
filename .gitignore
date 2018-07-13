@@ -62,3 +62,5 @@ yarn.lock
 /.vscode/
 /build-api/
 /jxrs-h5-depoly/
+*.pdf
+

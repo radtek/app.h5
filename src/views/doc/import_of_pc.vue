@@ -1,59 +1,9 @@
 <style lang="scss">
-	@import "../../assets/modules/doc/step.scss";
-
-	.step {
-		.url {
-			padding: 28px 0;
-			color: #333;
-			font-size: 36px;
-			text-align: center;
-		}
-
-		.wrap-input {
-			position: relative;
-			width: 360px;
-			height: 100px;
-			padding: 0 18px;
-			border: 2px solid #e6e6e6;
-			border-radius: 4px;
-			margin: auto;
-			line-height: 72px;
-
-			.number-text {
-				color: #0097ee;
-				font-size: 36px;
-			}
-		}
-	}
-
-	[rs-view="doc-pc-import"] {
-		.status-text {
-			position: absolute;
-			top: 46px;
-			left: 50%;
-			color: #999;
-			font-size: 20px;
-			transform: translateX(-50%) translateZ(0);
-			z-index: 10;
-		}
-
-		.fixed-footer {
-			position: fixed;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-			text-align: center;
-		}
-
-		.tips {
-			@include tips();
-		}
-	}
+	@import "../../assets/modules/doc/view-import_of_pc.scss";
 </style>
 
 <template>
-	<section rs-view="doc-pc-import"
-	         style="overflow-x:hidden;">
+	<section rs-view="doc-pc-import">
 		<p class="status-text animated zoomInDown">{{status}}</p>
 		<img class="animated fadeInDown"
 		     :src="getLocalMduImg('doc','import_bg')" />
@@ -80,11 +30,12 @@
 			<rx-row justify="start"
 			        class="wrap-input">
 				<rx-col>
-					<span class="number-text">550020</span>
+					<span class="number-text">{{code}}</span>
 				</rx-col>
 				<rx-col style="text-align:right;">
-					<rx-btn type="primary"
+					<rx-btn type="info"
 					        size="mini"
+					        plain
 					        :loading="isRefreshing"
 					        @on-click="handleClick">{{isRefreshing ? '刷新中':'刷新'}}</rx-btn>
 				</rx-col>
@@ -104,7 +55,8 @@
 		data() {
 			return {
 				status: "等待传输",
-				isRefreshing: false
+				isRefreshing: false,
+				code: ""
 			};
 		},
 		computed: {
@@ -113,11 +65,26 @@
 			}
 		},
 		methods: {
+			__fetchCode() {
+				return this.$http.doc.getLinkCode().then(resp => {
+					this.code = resp.result;
+				});
+			},
 			handleClick() {
 				// 刷新连接码
 				if (this.isRefreshing) return;
 				this.isRefreshing = true;
+				this.__fetchCode()
+					.then(() => {
+						this.isRefreshing = false;
+					})
+					.catch(() => {
+						this.isRefreshing = false;
+					});
 			}
+		},
+		mounted() {
+			this.__fetchCode();
 		}
 	};
 </script>

@@ -5,9 +5,6 @@
 
 <template>
 	<section rs-view="tags">
-		<rx-backtop :listen-native-scroll="false"
-		            @on-click="handleBackToTop"
-		            icon="back-top"></rx-backtop>
 		<div class="pane-banner"
 		     v-if="background">
 			<img :src="background"
@@ -33,8 +30,12 @@
 		</rx-pull>
 		<div class="empty"
 		     v-else
-		     @click.stop="onEmptyClick">
-			<p>该分类下还没有任何资料文件哦</p>
+		     @click.stop="goto('党建文库','/index')">
+			<img :src="getLocalMduImg('doc','empty-tag')"
+			     alt="">
+			<p>还没有内容哦,
+				<span class="strong">去看看其他的~</span>
+			</p>
 		</div>
 	</section>
 </template>
@@ -87,8 +88,9 @@
 		created() {
 			this.getQS("tagid");
 
-			if (this.$isProd || this.$isTest) {
-				JXRSApi.wrap("on.app.doc.refreshTagDocs", () => {
+			if (!this.$isDev) {
+				JXRSApi.wrap("on.app.doc.fetchDocsOfTag", ({ tagId }) => {
+					this.tagid = tagId;
 					this.__fetch();
 				});
 			}

@@ -46,7 +46,7 @@ export default {
 				});
 			} else {
 				alert(
-					`原生App端接受调用:${action},${
+					`原生App端接受调用:native://${action},${
 						params ? JSON.stringify(params) : ""
 					}`
 				);

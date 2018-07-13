@@ -101,10 +101,8 @@ module.exports = {
 					"/my_uploaded",
 					"/my_readed",
 					"/share",
-					"import_of_pc",
-					"import_of_mobile",
-					"/msg_list",
-					"/msg_center"
+					"/import_of_pc",
+					"/import_of_mobile"
 				];
 			default:
 				break;

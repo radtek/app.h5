@@ -1,3 +1,7 @@
+<style lang="sass">
+@import "../../assets/modules/doc/wc-item_of_doc.scss"
+</style>
+
 <template>
 	<rx-cell class="doc-item"
 	         @on-click="onClick">
@@ -6,7 +10,7 @@
 			<rx-row justify="start"
 			        align="center">
 				<rx-col>
-					<rx-icon :name="item.mineType"></rx-icon>
+					<rx-icon :name="item.mineType | mimeType"></rx-icon>
 					<span>{{item.readCount || 0}}人阅读</span>
 				</rx-col>
 				<rx-col style="text-align:right;">
@@ -39,19 +43,23 @@
 		},
 		methods: {
 			onClick() {
-				if (this.$isProd || this.$isTest) {
-					JXRSApi.view.goto({
-						title: this.item.fileName,
-						url: "native://openDoc",
-						query: {
-							docid: this.item.id,
-							docType: this.item.mineType,
-							url: this.item.url,
-							fileSize: this.item.fileSize || 0
-						}
-					});
+				const _item = this.item;
+				const params = {
+					id: _item.id,
+					fileName: _item.fileName,
+					fileSize: _item.fileSize,
+					isCollected: _item.isCollected,
+					url: _item.url,
+					mineType: _item.mineType
+				};
+				if (this.$isDev) {
+					alert("app原生端打开" + JSON.stringify(params));
 				} else {
-					alert("app原生端打开");
+					JXRSApi.view.goto({
+						title: _item.fileName,
+						url: "native://openDoc",
+						query: params
+					});
 				}
 			},
 			onCollectClick() {

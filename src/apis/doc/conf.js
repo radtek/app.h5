@@ -50,7 +50,7 @@ export default [
 		// desp: "用户收藏文档",
 		outKey: "collectDoc",
 		action: "/library/recordCollection.qa",
-		reqParams: ["documentId", { name: "type", default: 0 }]
+		reqParams: ["documentId"]
 	},
 	{
 		// desp: "用户删除文档记录",
@@ -82,14 +82,9 @@ export default [
 		]
 	},
 	{
-		// desp: "获取功能标签下对应的文档列表",
-		verb: "get",
-		outKey: "getDocsOfTag",
-		action: "",
-		reqParams: [
-			"tagId",
-			{ name: "page", default: 1 },
-			{ name: "pageSize", default: 20 }
-		]
+		// desp:"获取链接码"
+		verb: "post",
+		outKey: "getLinkCode",
+		action: "/importdocument/getLinkCode.qa"
 	}
 ];

@@ -3,7 +3,9 @@
 	        class="rx-swipeout-btn"
 	        :style="btnStyles"
 	        @click.stop="onClick">
-		<slot>{{text}}</slot>
+		<slot>
+			<p v-html="text"></p>
+		</slot>
 	</button>
 </template>
 
@@ -14,10 +16,11 @@
 			swipeoutItem: { default: {} }
 		},
 		props: {
-			color: String,
+			color: { type: String, default: "#fff" },
 			bgColor: String,
 			text: String,
-			width: { type: Number, default: 80 }
+			width: { type: Number, default: 80 },
+			action: String
 		},
 		computed: {
 			btnStyles() {
@@ -30,7 +33,7 @@
 		},
 		methods: {
 			onClick(evt) {
-				this.swipeoutItem.handleMenuItemClick(evt);
+				this.swipeoutItem.handleMenuClick(this.action, evt);
 			}
 		}
 	};

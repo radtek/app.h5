@@ -12,7 +12,7 @@ spinner.start();
 rm(
 	path.join(
 		__dirname,
-		`../${api.getDistDirName()}/${process.env.JXRS_APP_MODULE}/`
+		`../${api.getDistDirName()}/${process.env.JXRS_APP_MODULE}`
 	),
 	err => {
 		if (err) throw err;

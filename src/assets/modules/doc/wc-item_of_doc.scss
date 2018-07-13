@@ -1,0 +1,17 @@
+.doc-item {
+	.rx-col:last-child {
+		span {
+			vertical-align: middle;
+		}
+
+		.rx-icon {
+			margin-left: 22px;
+			vertical-align: middle;
+			font-size: 40px;
+
+			&.active {
+				color: #0097ee;
+			}
+		}
+	}
+}

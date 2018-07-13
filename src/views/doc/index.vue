@@ -14,6 +14,12 @@
 		         :total="total">
 			<rx-pull-down slot="down"></rx-pull-down>
 			<rx-pull-up slot="up"></rx-pull-up>
+			<msg-box class="animated fadeInDown"
+			         v-if="msgboxCount"
+			         category="doc"
+			         :count="msgboxCount"
+			         :last-id="msgboxLastId"
+			         :avatar="msgboxAvatar"></msg-box>
 			<div class="pane-entry">
 				<rx-row justify="center"
 				        align="center">
@@ -23,23 +29,6 @@
 					</rx-col>
 				</rx-row>
 			</div>
-
-			<div class="pane-swipeout">
-				<rx-swipeout v-if="list && list.length">
-					<rx-swipeout-item>
-						<template slot="content">
-							<doc-item :item="list[0]"></doc-item>
-						</template>
-						<template slot="rightMenu">
-							<rx-swipeout-btn :width="100"
-							                 text="收藏"></rx-swipeout-btn>
-							<rx-swipeout-btn :width="100"
-							                 text="删除"></rx-swipeout-btn>
-						</template>
-					</rx-swipeout-item>
-				</rx-swipeout>
-			</div>
-
 			<div class="pane-ad">
 				<img :src="getLocalMduImg('doc', 'banner','jpg')"
 				     alt="banner" />
@@ -87,6 +76,7 @@
 <script>
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
+	import Msgbox from "~m/__msgbox";
 	import Entries from "~v/doc/data/entry";
 	export default {
 		name: "PageOfIndex",
@@ -108,7 +98,7 @@
 					utils.fixAsyncCmpLifeCycle
 				)
 		},
-		mixins: [Pull],
+		mixins: [Pull, Msgbox],
 		data() {
 			return {
 				tags: [],
@@ -183,17 +173,22 @@
 							title: item.category,
 							url: `${
 								location.origin
-							}/doc/tag-list/${this.$rxUtils.stringify(params)}`,
+							}/doc/docs_of_tag/${this.$rxUtils.qs.stringify(
+								params
+							)}`,
 							query: params
 						});
 					} else {
 						this.$router.push({
-							path: "/tag-list",
+							path: "/docs_of_tag",
 							query: params
 						});
 					}
 				}
 			}
+		},
+		created() {
+			this.recieveAppNotice("doc");
 		},
 		mounted() {
 			this.__fetchTags();

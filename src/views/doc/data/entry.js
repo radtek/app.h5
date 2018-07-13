@@ -2,19 +2,19 @@ export default [
 	{
 		icon: "reading-history",
 		title: "最近阅读",
-		path: "/reading-history",
+		path: "/my_readed",
 		color: "#ff3254"
 	},
 	{
 		icon: "user-upload",
 		title: "我的导入",
-		path: "/my-upload",
+		path: "/my_uploaded",
 		color: "#f39e37"
 	},
 	{
 		icon: "user-collect",
 		title: "我的收藏",
-		path: "/my-collect",
+		path: "/my_collected",
 		color: "#f39e37"
 	},
 	{
@@ -26,7 +26,7 @@ export default [
 	{
 		icon: "user-download",
 		title: "我的下载",
-		path: "/my-download",
+		path: "/my_downloaded",
 		color: "#f39e37"
 	}
 ];

@@ -1,0 +1,24 @@
+.doc-statusbar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 98px;
+	border-top: 1px solid #e5e5e5;
+	background-color: #fff;
+	line-height: 98px;
+	z-index: 100;
+
+	.rx-btn {
+		height: 98px;
+		color: #333 !important;
+
+		i {
+			font-size: 36px;
+		}
+
+		span {
+			font-size: 32px;
+		}
+	}
+}

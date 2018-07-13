@@ -26,7 +26,6 @@ import Backtop from "./packages/backtop/index";
 import { Tab, TabPane } from "./packages/tab/index";
 import { lazyImgDirective } from "./packages/lazyload/index";
 
-import SwipeCell from "./packages/swipe-cell/index";
 import Swipeout from "./packages/swipeout/index";
 
 import ImgCrop from "./packages/img-crop/index";
@@ -52,7 +51,6 @@ const components = [
 	Pull.up,
 	CheckIcon,
 	Backtop,
-	SwipeCell,
 	Swipeout,
 	Swipeout.Item,
 	Swipeout.Btn,
@@ -113,7 +111,6 @@ export {
 	lazyImgDirective,
 	CheckIcon,
 	Backtop,
-	SwipeCell,
 	Swipeout,
 	ImgCrop,
 	CollapseTransition,

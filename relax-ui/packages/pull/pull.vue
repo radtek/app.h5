@@ -107,9 +107,7 @@
 		},
 		computed: {
 			showUp() {
-				return (
-					this.list && this.list.length && this.list.length < this.total
-				);
+				return this.list && this.list.length;
 			},
 			realUpTipHeight() {
 				return this.getRealSize(this.upTipHeight);

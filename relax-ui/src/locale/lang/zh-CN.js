@@ -14,7 +14,7 @@ export default {
 			up: {
 				ing: "数据加载中",
 				complete: "加载成功",
-				empty: "暂无更多数据",
+				empty: "暂无更多",
 				error: "网络异常,点击加载"
 			}
 		}

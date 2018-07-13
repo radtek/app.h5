@@ -1,0 +1,46 @@
+.editable-item {
+	padding: 0 30px;
+
+	.rx-chk-icon .rx-icon {
+		font-size: 60px;
+
+		&.icon-success_circle {
+			color: #0097ee;
+		}
+	}
+
+	> .rx-col:last-child {
+		border-bottom: 1px solid #e6e6e6;
+	}
+
+	.rx-col:last-child {
+		.rx-icon {
+			&.active {
+				color: #0097ee;
+				font-size: 34px;
+			}
+		}
+	}
+
+	.rx-cell-avatar {
+		padding-right: 0;
+		padding-left: 0;
+
+		.footer {
+			color: #999;
+			font-size: 28px;
+
+			span {
+				&:last-child {
+					margin-left: 24px;
+				}
+			}
+		}
+	}
+
+	.rx-cell-avatar .rx-cell-img {
+		.rx-icon {
+			font-size: 90px;
+		}
+	}
+}
