@@ -17,6 +17,13 @@ export default {
 				empty: "暂无更多",
 				error: "网络异常,点击加载"
 			}
+		},
+		alert: {
+			ok: "确定"
+		},
+		confirm: {
+			yes: "确定",
+			no: "取消"
 		}
 	}
 };

@@ -1,21 +1,34 @@
+<style lang="sass">
+@import "../../assets/modules/doc/wc-skeleton_of_item.scss"
+</style>
 <template>
-	<section rs-view="my-readed">
-		<rx-pull ref="pull"
-		         :can-pull="!isChooseMode"
-		         :bottom-offset="isChooseMode?50:0"
-		         :up="up"
-		         :down="down"
-		         @uping="handleUp"
-		         @downing="handleDown"
-		         @scroll-end="handleScrollEnd"
-		         :list="list"
-		         :total="total">
-			<rx-pull-down slot="down"></rx-pull-down>
-			<rx-pull-up slot="up"></rx-pull-up>
-			<div class="pane-list"
-			     v-if="total>0">
-				<rx-skeleton-simple-cell v-if="isPrerender"></rx-skeleton-simple-cell>
-				<template v-else>
+	<section rs-view="my-readed"
+	         :style="viewStyles">
+		<template v-if="isPrerender">
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+		</template>
+		<template v-else>
+			<rx-pull v-if="total>0"
+			         ref="pull"
+			         :can-pull="!isChooseMode"
+			         :bottom-offset="isChooseMode?50:0"
+			         :up="up"
+			         :down="down"
+			         @uping="handleUp"
+			         @downing="handleDown"
+			         @scroll-end="handleScrollEnd"
+			         :list="list"
+			         :total="total">
+				<rx-pull-down slot="down"></rx-pull-down>
+				<rx-pull-up slot="up"></rx-pull-up>
+				<div class="pane-list">
 					<rx-swipeout>
 						<doc-item v-for="(doc,index) in list"
 						          :key="index"
@@ -24,21 +37,19 @@
 						          :time="doc.readTime"
 						          :item="doc"></doc-item>
 					</rx-swipeout>
-				</template>
+				</div>
+			</rx-pull>
+			<status v-if="isChooseMode && total>0"
+			        category="readed"></status>
+			<div class="empty"
+			     v-if="!isPrerender && total<=0"
+			     @click.stop="goto('党建文库','/index')">
+				<img :src="getLocalMduImg('doc','empty-readed')" />
+				<p>您还没有阅读哦，
+					<span class="strong">去看看~</span>
+				</p>
 			</div>
-		</rx-pull>
-		<status v-if="isChooseMode && total>0"
-		        category="readed"
-		        @on-removed="__fetch"
-		        @on-collected="__fetch"></status>
-		<div class="empty"
-		     v-if="total<=0"
-		     @click.stop="goto('党建文库','/index')">
-			<img :src="getLocalMduImg('doc','empty-readed')" />
-			<p>您还没有阅读哦，
-				<span class="strong">去看看~</span>
-			</p>
-		</div>
+		</template>
 	</section>
 </template>
 
@@ -59,12 +70,16 @@
 				)
 		},
 		mixins: [Pull, Doc],
+		provide() {
+			return {
+				page: this
+			};
+		},
 		data() {
 			return {
 				list: [],
 				total: 0,
-				page: 1,
-				isPrerender: true
+				page: 1
 			};
 		},
 		methods: {

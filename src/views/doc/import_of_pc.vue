@@ -61,7 +61,9 @@
 		},
 		computed: {
 			url() {
-				return "http://manage.jxdangjian.com/doc-import";
+				return this.$isDev || this.$isTest
+					? "http://whrdd.f3322.net:8889/page/docImport/docImportLogin.html"
+					: "http://manage.jxdangjian.com/doc-import";
 			}
 		},
 		methods: {

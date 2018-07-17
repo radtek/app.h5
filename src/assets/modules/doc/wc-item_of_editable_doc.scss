@@ -34,6 +34,26 @@
 				&:last-child {
 					margin-left: 24px;
 				}
+
+				&.auditing {
+					color: #fcb146;
+				}
+
+				&.refuse {
+					color: #ff3254;
+				}
+
+				&.platform {
+					color: #52ce67;
+				}
+
+				&.friend {
+					color: #0097ee;
+				}
+			}
+
+			> *:nth-child(odd) {
+				margin: 0;
 			}
 		}
 	}

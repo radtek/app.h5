@@ -21,7 +21,7 @@
 				<rx-pull-down slot="down"></rx-pull-down>
 				<rx-pull-up slot="up"></rx-pull-up>
 				<div class="wrap"
-				     :class="[{[`not_wechat`]: channelid !== '48'}]">
+				     :class="[{[`not_wechat`]: channelid !== '48' && channelid !== '13'&& channelid !== '50'}]">
 					<h3 class="title">{{info.title}}</h3>
 					<div class="status">
 						<span>{{info.origin}}</span>
@@ -143,7 +143,23 @@
 						this.$nextTick(() => {
 							this.__loadLazyImgs();
 						});
-						if (this.$isProd || this.$isTest) {
+
+						if (!this.$isDev) {
+							const content = info.txt
+								? info.txt
+									.replace(
+										/<script[^>]*?>[\s\S]*?<\/script>/g,
+										""
+									)
+									.replace(
+										/<style[^>]*?>[\s\S]*?<\/style>/g,
+										""
+									)
+									.replace(/<[^<>]+>/g, "")
+									.replace(/(^\s*)|(\s*&)/g, "")
+									.replace(/[\r\n]/g, "")
+								: "";
+
 							JXRSApi.app.news.updateNewsInfoIcon({
 								contentId: parseInt(this.contentid, 10),
 								channelId: parseInt(this.channelid, 10),
@@ -151,7 +167,7 @@
 								isSupported: !!info.isSupported,
 								likeCount: info.likeCount,
 								commentCount: info.commentCount || 0,
-								content: info.txt
+								content
 							});
 						}
 					});
@@ -196,7 +212,7 @@
 			},
 			handleCommentEmptyClick() {
 				// 通知App去发表评论
-				if (this.$isProd || this.$isTest) {
+				if (!this.$isDev) {
 					JXRSApi.app.news.addComment({
 						contentId: this.contentid,
 						channelId: this.channelid
@@ -224,29 +240,24 @@
 			// 	}
 			// });
 
-			if (this.$isProd || this.$isTest) {
-				if ("JXRSApi" in window) {
-					JXRSApi.wrap("on.app.news.refreshComments", () => {
-						this.__fetchComments();
-					});
-					JXRSApi.wrap("on.app.news.scrollToComment", () => {
-						this.__scrollToComment();
-					});
-					JXRSApi.wrap("on.app.news.changePageFontSize", ({ size }) => {
-						this.size = size;
-					});
-					// 切换夜间模式
-					JXRSApi.wrap(
-						"on.app.news.changePageModeToNight",
-						({ isNight }) => {
-							this.isNight = isNight;
-						}
-					);
-					// 更新点赞数
-					JXRSApi.wrap("on.app.news.changeLikeCount", ({ count }) => {
-						this.info.likeCount = count;
-					});
-				}
+			if (!this.$isDev) {
+				JXRSApi.on("app.news.refreshComments", () => {
+					this.__fetchComments();
+				});
+				JXRSApi.on("app.news.scrollToComment", () => {
+					this.__scrollToComment();
+				});
+				JXRSApi.on("app.news.changePageFontSize", ({ size }) => {
+					this.size = size;
+				});
+				// 切换夜间模式
+				JXRSApi.on("app.news.changePageModeToNight", ({ isNight }) => {
+					this.isNight = isNight;
+				});
+				// 更新点赞数
+				JXRSApi.on("app.news.changeLikeCount", ({ count }) => {
+					this.info.likeCount = count;
+				});
 			}
 		},
 		activated() {

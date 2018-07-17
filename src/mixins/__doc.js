@@ -2,7 +2,8 @@ export default {
 	data() {
 		return {
 			isChooseMode: false,
-			isChooseAll: false
+			isChooseAll: false,
+			isPrerender: true
 		};
 	},
 	computed: {
@@ -11,17 +12,17 @@ export default {
 			const arr = [];
 			this.list.forEach(item => {
 				if (item.isChecked) {
-					arr.push(item);
+					arr.push(item.infoDocument);
 				}
 			});
 			return arr;
-		}
-	},
-	watch: {
-		isChooseAll(val) {
-			this.list.forEach(item => {
-				item.isChecked = val;
-			});
+		},
+		viewStyles() {
+			const styles = {};
+			if (this.isPrerender) {
+				styles.overflow = "hidden";
+			}
+			return styles;
 		}
 	},
 	methods: {
@@ -30,7 +31,7 @@ export default {
 				for (let l = this.list.length; l--;) {
 					let l2 = ids.length;
 					for (; l2--;) {
-						if (ids[l2] === this.list[l].id) {
+						if (ids[l2] === this.list[l].infoDocument.id) {
 							this.list.splice(l, 1);
 							this.total -= 1;
 						}
@@ -40,14 +41,17 @@ export default {
 		}
 	},
 	created() {
-		if (this.$isProd || this.$isTest) {
+		if (!this.$isDev) {
 			// 是否全选
-			JXRSApi.wrap("on.app.doc.isChoiceAll", isChoice => {
-				this.isChooseAll = isChoice === 1 || isChoice === "1";
+			JXRSApi.on("app.doc.isChoiceAll", isChoice => {
+				const val = isChoice === 1 || isChoice === "1";
+				this.list.forEach(item => {
+					item.isChecked = val;
+				});
 			});
 
 			// 是否切换成编辑模式
-			JXRSApi.wrap("on.app.doc.isChangeToChooseMode", isChoose => {
+			JXRSApi.on("app.doc.isChangeToChooseMode", isChoose => {
 				this.isChooseMode = isChoose === 1 || isChoose === "1";
 			});
 		}

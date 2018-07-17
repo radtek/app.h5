@@ -1,24 +1,24 @@
 <template>
 	<div rs-view="comments">
-		<rx-pull ref="pull"
-		         :list="list"
-		         :total="total"
-		         :up="up"
-		         :down="down"
-		         @downing="handleDown"
-		         @uping="handleUp"
-		         @scroll-end="handleScrollEnd">
-			<rx-pull-down slot="down"></rx-pull-down>
-			<rx-pull-up slot="up"></rx-pull-up>
-			<comment-pane :total="total"
-			              :list="list"
-			              @on-empty-click="handleCommentEmptyClick">
+		<comment-pane :total="total"
+		              :list="list"
+		              @on-empty-click="handleCommentEmptyClick">
+			<rx-pull ref="pull"
+			         :list="list"
+			         :total="total"
+			         :up="up"
+			         :down="down"
+			         @downing="handleDown"
+			         @uping="handleUp"
+			         @scroll-end="handleScrollEnd">
+				<rx-pull-down slot="down"></rx-pull-down>
+				<rx-pull-up slot="up"></rx-pull-up>
 				<comment-item ref="items"
 				              v-for="(comment,index) in list"
 				              :key="index"
 				              :item="comment"></comment-item>
-			</comment-pane>
-		</rx-pull>
+			</rx-pull>
+		</comment-pane>
 	</div>
 </template>
 <script>
@@ -71,8 +71,8 @@
 			},
 			handleCommentEmptyClick() {
 				// 通知App去发表评论
-				if (this.$isProd || this.$isTest) {
-					JXRSApi.app.news.addComment({
+				if (!this.$isDev) {
+					JXRSApi.app.news.commentInputFocus({
 						contentId: this.contentid,
 						channelId: this.channelid
 					});
@@ -81,9 +81,8 @@
 		},
 		created() {
 			this.getQS("contentid");
-
-			if (this.$isProd || this.$isTest) {
-				JXRSApi.wrap("on.app.news.refreshComments", () => {
+			if (!this.$isDev) {
+				JXRSApi.on("app.news.refreshComments", () => {
 					this.__fetch();
 				});
 			}

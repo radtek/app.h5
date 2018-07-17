@@ -33,11 +33,13 @@
 			// 是否禁用
 			disabled: Boolean,
 			// 菜单显示触发的最小距离
-			showMenuX: { type: Number, default: 40 },
+			showMenuX: { type: Number, default: 15 },
 			// 多少距离之后自动打开菜单或关闭菜单
-			threshold: { type: Number, default: 0.5 },
+			threshold: { type: Number, default: 0.2 },
 			// 菜单点击的时候是否默认关闭
-			autoCloseOnMenuClick: Boolean
+			autoCloseOnMenuClick: Boolean,
+			// 是否已经打开
+			opened: Boolean
 		},
 		provide() {
 			return {
@@ -52,7 +54,7 @@
 				contentSwipeX: 0,
 				contentSwipeY: 0,
 				// 滑动方向
-				direction: "",
+				position: "",
 				hasRight: false,
 				rightMenuWidth: 0,
 				hasLeft: false,
@@ -90,17 +92,20 @@
 				return styles;
 			},
 			menuWidth() {
+				let width;
 				if (!this.hasLeft && this.hasRight) {
-					return this.rightMenuWidth;
+					width = this.rightMenuWidth;
 				}
 				if (this.hasLeft && !this.hasRight) {
-					return this.leftMenuWidth;
+					width = this.leftMenuWidth;
 				}
 				if (this.hasLeft && this.hasRight) {
-					return this.contentSwipeX < 0
-						? this.rightMenuWidth
-						: this.leftMenuWidth;
+					width =
+						this.contentSwipeX < 0
+							? this.rightMenuWidth
+							: this.leftMenuWidth;
 				}
+				return width;
 			}
 		},
 		methods: {
@@ -131,7 +136,9 @@
 				}
 			},
 			onContentClick() {
-				this.close();
+				if (this.contentSwipeX !== 0) {
+					this.close();
+				}
 			},
 			start(evt) {
 				if (
@@ -146,6 +153,7 @@
 				if (this.swipeout) {
 					const openItems = [];
 					eachChilds(this.swipeout, "RxSwipeoutItem", child => {
+						if (child === this) return;
 						if (child.$data.contentSwipeX !== 0) {
 							openItems.push(child);
 						}
@@ -186,7 +194,7 @@
 					// 超出规定的滑动小距离
 					this.contentSwipeX = diffX;
 				} else {
-					this.position = "";
+					this.contentSwipeX = 0;
 				}
 
 				if (
@@ -216,8 +224,9 @@
 					this.disabled ||
 					evt.target.tagName === "BUTTON" ||
 					this.valid !== true
-				)
+				) {
 					return;
+				}
 
 				// 判断滑动的距离是否在thresold和menuWidth之间一半的距离,如果存在则直接设置成menuWidth
 				const absX = Math.abs(this.contentSwipeX);
@@ -241,8 +250,10 @@
 				this.position = "";
 			},
 			close() {
-				this.$emit("on-close");
-				this.contentSwipeX = 0;
+				setTimeout(() => {
+					this.$emit("on-close");
+					this.contentSwipeX = 0;
+				}, 300);
 			}
 		},
 		mounted() {

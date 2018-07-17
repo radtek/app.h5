@@ -82,6 +82,20 @@ export default [
 		]
 	},
 	{
+		// desp: 共享文档至全平台
+		verb: "post",
+		action: "/importdocument/shareDocumentToAll.qa",
+		outKey: "shareDocToPlatform",
+		reqParams: ["documentId"]
+	},
+	{
+		// desp: 共享文档至全平台
+		verb: "post",
+		action: "/importdocument/shareDocumentToFriend.qa",
+		outKey: "shareDocToFriend",
+		reqParams: ["documentId"]
+	},
+	{
 		// desp:"获取链接码"
 		verb: "post",
 		outKey: "getLinkCode",

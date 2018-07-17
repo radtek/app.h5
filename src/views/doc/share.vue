@@ -1,21 +1,34 @@
+<style lang="sass">
+@import "../../assets/modules/doc/wc-skeleton_of_item.scss"
+</style>
 <template>
-	<section rs-view="my-share">
-		<rx-pull v-if="total>0"
-		         ref="pull"
-		         :can-pull="!isChooseMode"
-		         :bottom-offset="isChooseMode?50:0"
-		         :up="up"
-		         :down="down"
-		         @uping="handleUp"
-		         @downing="handleDown"
-		         @scroll-end="handleScrollEnd"
-		         :list="list"
-		         :total="total">
-			<rx-pull-down slot="down"></rx-pull-down>
-			<rx-pull-up slot="up"></rx-pull-up>
-			<div class="pane-list">
-				<rx-skeleton-simple-cell v-if="isPrerender"></rx-skeleton-simple-cell>
-				<template v-else>
+	<section rs-view="my-share"
+	         :style="viewStyles">
+		<template v-if="isPrerender">
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+		</template>
+		<template v-else>
+			<rx-pull v-if="total>0"
+			         ref="pull"
+			         :can-pull="!isChooseMode"
+			         :bottom-offset="isChooseMode?50:0"
+			         :up="up"
+			         :down="down"
+			         @uping="handleUp"
+			         @downing="handleDown"
+			         @scroll-end="handleScrollEnd"
+			         :list="list"
+			         :total="total">
+				<rx-pull-down slot="down"></rx-pull-down>
+				<rx-pull-up slot="up"></rx-pull-up>
+				<div class="pane-list">
 					<rx-swipeout>
 						<doc-item v-for="(doc,index) in list"
 						          :key="index"
@@ -24,21 +37,21 @@
 						          :time="doc.createTime"
 						          :item="doc"></doc-item>
 					</rx-swipeout>
-				</template>
+				</div>
+			</rx-pull>
+			<status v-if="isChooseMode && total>0"
+			        category="share"
+			        @on-removed="__fetch"
+			        @on-collected="__fetch"></status>
+			<div class="empty"
+			     v-if="!isPrerender && total<=0"
+			     @click.stop="goto('党建文库','/index')">
+				<img :src="getLocalMduImg('doc','empty-share')" />
+				<p>好友没有任何分享哦
+					<span class="strong">去看看~</span>
+				</p>
 			</div>
-		</rx-pull>
-		<status v-if="isChooseMode && total>0"
-		        category="share"
-		        @on-removed="__fetch"
-		        @on-collected="__fetch"></status>
-		<div class="empty"
-		     v-if="total<=0"
-		     @click.stop="goto('党建文库','/index')">
-			<img :src="getLocalMduImg('doc','empty-share')" />
-			<p>好友没有任何分享哦
-				<span class="strong">去看看~</span>
-			</p>
-		</div>
+		</template>
 	</section>
 </template>
 
@@ -59,12 +72,16 @@
 				)
 		},
 		mixins: [Pull, Doc],
+		provide() {
+			return {
+				page: this
+			};
+		},
 		data() {
 			return {
 				list: [],
 				total: 0,
-				page: 1,
-				isPrerender: true
+				page: 1
 			};
 		},
 		methods: {
@@ -77,7 +94,9 @@
 					});
 					this.list = list;
 					this.total = resp.result.total;
-					this.isPrerender = false;
+					setTimeout(() => {
+						this.isPrerender = false;
+					}, 300);
 				});
 			},
 			__append() {

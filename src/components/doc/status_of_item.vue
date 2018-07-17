@@ -112,7 +112,7 @@
 				this.$http.doc
 					.downloadDoc({ documentIds: this.choosedDocIds, type: 0 })
 					.then(() => {
-						this.$emit("on-downloaded");
+						// this.$emit("on-downloaded");
 						this.isDownloading = false;
 						// 获取已经选择的文档的信息
 						if (!this.$isDev) {
@@ -132,7 +132,7 @@
 						type: 0
 					})
 					.then(() => {
-						this.$emit("on-collected");
+						// this.$emit("on-collected");
 						this.isCollecting = false;
 					})
 					.catch(() => {

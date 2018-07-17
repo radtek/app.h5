@@ -5,15 +5,20 @@ export default {
 		tag: { type: String, default: "section" },
 		header: String,
 		border: Boolean,
-		padding: Boolean
+		padding: { type: [Boolean, String], default: true }
 	},
 	computed: {
 		classes() {
+			const isStr = typeof this.padding === "string";
+
 			return [
 				"rx-card",
 				{
 					[`border`]: this.border,
-					[`padding`]: this.padding
+					[`pd`]: this.padding === true,
+					[`hpd`]: isStr && ~this.padding.indexOf("h"),
+					[`bpd`]: isStr && ~this.padding.indexOf("b"),
+					[`fpd`]: isStr && ~this.padding.indexOf("f")
 				}
 			];
 		}

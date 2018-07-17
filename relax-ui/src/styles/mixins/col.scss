@@ -1,17 +1,17 @@
-@mixin col-span-flex() {
+@mixin col-span-flex($max: 24) {
 	@for $i from 1 to 13 {
 		&-#{$i} {
-			flex: 0 0 percentage($i / 12);
+			flex: 0 0 percentage($i / $max);
 			height: 100%;
 		}
 	}
 }
 
-@mixin col-span() {
+@mixin col-span($max: 24) {
 	@for $i from 1 to 13 {
 		&-#{$i} {
 			float: left;
-			width: percentage($i / 12);
+			width: percentage($i / $max);
 			height: 100%;
 		}
 	}

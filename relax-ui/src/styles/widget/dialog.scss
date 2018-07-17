@@ -1,0 +1,76 @@
+@mixin abs-center($position: fixed) {
+	position: $position;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+}
+
+.rx-mask {
+	width: 100%;
+	height: 100%;
+	background: rgba(41, 41, 41, 0.47);
+	z-index: 1001;
+
+	@include abs-center();
+}
+
+.rx-dialog {
+	display: table;
+	width: 80%;
+	max-width: 400px;
+	border-radius: 3px;
+	background-color: #fff;
+	overflow: hidden;
+	text-align: center;
+	z-index: 5000;
+
+	@include abs-center();
+}
+
+.rx-dialog {
+	&_header {
+		position: relative;
+		padding: 1.3em 1.6em;
+		background: #fff;
+	}
+
+	&_body {
+		min-height: 40px;
+		padding: 0 1.6em 0.8em;
+		font-size: 26px;
+		line-height: 1.3;
+		word-wrap: break-word;
+		word-break: break-all;
+	}
+
+	&_footer {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0.5em 0.6em;
+		font-size: 18px;
+		line-height: 48px;
+
+		&:after {
+			position: absolute;
+			top: 0;
+			right: 0;
+			left: 0;
+			width: 200%;
+			height: 1px;
+			border-top: 1px solid #d5d5d5;
+			color: #d5d5d5;
+			transform: scale(0.5);
+			transform-origin: 0 0;
+			content: "";
+		}
+
+		.rx-btn {
+			display: block;
+			flex: 1;
+		}
+	}
+}

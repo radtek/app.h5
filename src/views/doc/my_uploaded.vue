@@ -1,26 +1,37 @@
+<style lang="sass">
+@import "../../assets/modules/doc/wc-skeleton_of_item.scss"
+</style>
 <template>
-	<section rs-view="my-uploaded">
-		<rx-pull ref="pull"
-		         :can-pull="!isChooseMode"
-		         :bottom-offset="50"
-		         :up="up"
-		         :down="down"
-		         @uping="handleUp"
-		         @downing="handleDown"
-		         @scroll-end="handleScrollEnd"
-		         :list="list"
-		         :total="total">
-			<rx-pull-down slot="down"></rx-pull-down>
-			<rx-pull-up slot="up"></rx-pull-up>
-			<div class="pane-list"
-			     v-if="total>0">
-				<rx-skeleton-simple-cell v-if="isPrerender"></rx-skeleton-simple-cell>
-				<template v-else>
+	<section rs-view="my-uploaded"
+	         :style="viewStyles">
+		<template v-if="isPrerender">
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+			<rx-skeleton-cell-avatar></rx-skeleton-cell-avatar>
+		</template>
+		<template v-else>
+			<rx-pull v-if="total>0"
+			         ref="pull"
+			         :bottom-offset="50"
+			         :up="up"
+			         :down="down"
+			         @uping="handleUp"
+			         @downing="handleDown"
+			         @scroll-end="handleScrollEnd"
+			         :list="list"
+			         :total="total">
+				<rx-pull-down slot="down"></rx-pull-down>
+				<rx-pull-up slot="up"></rx-pull-up>
+				<div class="pane-list">
 					<rx-swipeout>
 						<doc-item v-for="(doc,index) in list"
 						          :key="index"
 						          category="upload"
-						          :is-edit="isChooseMode"
 						          :can-collect="false"
 						          :can-download="false"
 						          can-share
@@ -28,25 +39,24 @@
 						          :time="doc.createTime"
 						          :item="doc"></doc-item>
 					</rx-swipeout>
-				</template>
+				</div>
+			</rx-pull>
+			<div class="empty"
+			     v-if="!isPrerender && total<=0"
+			     @click.stop="goto('党建文库','/index')">
+				<img :src="getLocalMduImg('doc','empty-upload')" />
+				<p>您还没有导入哦，
+					<span class="strong">去看看~</span>
+				</p>
 			</div>
-		</rx-pull>
+		</template>
 		<status category="upload"></status>
-		<div class="empty"
-		     v-if="total<=0"
-		     @click.stop="goto('党建文库','/index')">
-			<img :src="getLocalMduImg('doc','empty-upload')" />
-			<p>您还没有导入哦，
-				<span class="strong">去看看~</span>
-			</p>
-		</div>
 	</section>
 </template>
 
 <script>
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
-	import Doc from "~m/__doc";
 	export default {
 		name: "PageOfMyUploaded",
 		components: {
@@ -59,7 +69,12 @@
 					utils.fixAsyncCmpLifeCycle
 				)
 		},
-		mixins: [Pull, Doc],
+		mixins: [Pull],
+		provide() {
+			return {
+				page: this
+			};
+		},
 		data() {
 			return {
 				list: [],
@@ -67,6 +82,15 @@
 				page: 1,
 				isPrerender: true
 			};
+		},
+		computed: {
+			viewStyles() {
+				const styles = {};
+				if (this.isPrerender) {
+					styles.overflow = "hidden";
+				}
+				return styles;
+			}
 		},
 		methods: {
 			__fetch() {

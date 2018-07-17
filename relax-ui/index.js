@@ -32,6 +32,8 @@ import ImgCrop from "./packages/img-crop/index";
 
 import Toast from "./packages/toast/index";
 import ToastPlugin from "./src/plugin/toast/index";
+import AlertPlugin from "./src/plugin/alert/index";
+import ConfirmPlugin from "./src/plugin/confirm/index";
 
 const components = [
 	Row,
@@ -85,6 +87,8 @@ function install(Vue, options = {}) {
 	Vue.filter("formatDate", utils.formatDate);
 
 	Vue.prototype.$toast = ToastPlugin;
+	Vue.prototype.$alert = AlertPlugin;
+	Vue.prototype.$confirm = ConfirmPlugin;
 }
 
 if (typeof window !== "undefined" && window.Vue) {
@@ -115,7 +119,9 @@ export {
 	ImgCrop,
 	CollapseTransition,
 	Toast,
-	ToastPlugin
+	ToastPlugin,
+	AlertPlugin,
+	ConfirmPlugin
 };
 
 export default install;

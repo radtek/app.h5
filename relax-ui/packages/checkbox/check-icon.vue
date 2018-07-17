@@ -25,6 +25,7 @@
 		methods: {
 			onClick() {
 				this.$emit("input", !this.value);
+				this.$emit("on-click");
 			}
 		}
 	};

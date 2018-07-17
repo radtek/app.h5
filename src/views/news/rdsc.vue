@@ -99,9 +99,9 @@
 			}
 		},
 		created() {
-			if (this.$isProd || this.$isTest) {
+			if (!this.$isDev) {
 				// 由于在App中无法自动播放,需要App端通过主动请求H5来播放
-				JXRSApi.wrap("on.app.news.rdscAudioPlay", () => {
+				JXRSApi.on("app.news.rdscAudioPlay", () => {
 					this.$refs.audio.play();
 				});
 			}

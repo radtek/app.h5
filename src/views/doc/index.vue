@@ -43,8 +43,7 @@
 					        :key="index"
 					        v-if="!isHide || index!==1">
 						<rx-col v-for="(tag,idx) in item"
-						        :key="idx"
-						        :span="3">
+						        :key="idx">
 							<tag-item :item="tag"
 							          @item-click="handleTagItemClick">
 							</tag-item>
@@ -99,6 +98,11 @@
 				)
 		},
 		mixins: [Pull, Msgbox],
+		provide() {
+			return {
+				page: this
+			};
+		},
 		data() {
 			return {
 				tags: [],

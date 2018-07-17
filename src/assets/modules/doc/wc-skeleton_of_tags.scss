@@ -1,14 +1,11 @@
 .skeleton-tags {
 	.wrap {
 		display: flex;
-		justify-content: center;
-		align-items: center;
 		margin-bottom: 2px;
 	}
 
 	.block {
-		float: left;
-		width: 25%;
+		flex: 1;
 		height: 70px;
 		margin-right: 1px;
 		margin-left: 1px;

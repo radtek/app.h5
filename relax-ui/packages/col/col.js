@@ -9,7 +9,7 @@ export default {
 	},
 	props: {
 		tag: { type: String, default: "div" },
-		span: { type: Number, default: 12 },
+		span: { type: Number, default: 24 },
 		flexBasis: Number
 	},
 	computed: {
@@ -27,9 +27,8 @@ export default {
 
 				if (this.span && this.rxRow.flex && !this.rxRow.isAverage) {
 					const perWidth =
-						(window.innerWidth - this.rxRow.gutter) *
-						this.span /
-						12;
+						((window.innerWidth - this.rxRow.gutter) * this.span) /
+						24;
 
 					width = this.getRealSize(perWidth - this.rxRow.gutter);
 

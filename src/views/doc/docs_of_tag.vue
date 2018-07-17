@@ -89,7 +89,7 @@
 			this.getQS("tagid");
 
 			if (!this.$isDev) {
-				JXRSApi.wrap("on.app.doc.fetchDocsOfTag", ({ tagId }) => {
+				JXRSApi.on("app.doc.fetchDocsOfTag", ({ tagId }) => {
 					this.tagid = tagId;
 					this.__fetch();
 				});
