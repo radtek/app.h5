@@ -48,7 +48,9 @@
 			     v-if="!isPrerender && total<=0"
 			     @click.stop="goto('党建文库','/index')">
 				<img :src="getLocalMduImg('doc','empty-collect')" />
-				<p>您还没有收藏哦，去看看</p>
+				<p>您还没有收藏哦，
+					<span class="strong">去逛逛~</span>
+				</p>
 			</div>
 		</template>
 	</section>
