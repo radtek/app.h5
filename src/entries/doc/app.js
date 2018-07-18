@@ -6,9 +6,7 @@ import http from "~a/doc/";
 
 createJSApi(
 	"changeChooseAllStatus",
-	"share",
 	"download",
-	"upload",
 	"audioImport"
 );
 createVue(Vue, { router: createRoutes(Vue), http });
