@@ -16,8 +16,8 @@ export default {
 	methods: {
 		recieveAppNotice(moduleName) {
 			if (this.$isProd || this.$isTest) {
-				JXRSApi.wrap(
-					`on.app.${moduleName}.showTopNotices`,
+				JXRSApi.on(
+					`app.${moduleName}.showTopNotices`,
 					({ img, count, lastId }) => {
 						this.msgboxAvatar = img;
 						this.msgboxCount = count;
