@@ -26,9 +26,12 @@ export default {
 				);
 
 				if (this.span && this.rxRow.flex && !this.rxRow.isAverage) {
+					console.log(this.span);
 					const perWidth =
 						((window.innerWidth - this.rxRow.gutter) * this.span) /
 						24;
+
+					console.log(perWidth);
 
 					width = this.getRealSize(perWidth - this.rxRow.gutter);
 

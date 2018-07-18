@@ -28,9 +28,12 @@ export default {
 	},
 	computed: {
 		isAverage() {
-			const remainNum = 12 % this.colCount;
+			if (this.colCount === 0) return true;
+
+			const remainNum = 24 % this.colCount;
 			if (remainNum) return false;
-			const averageNum = 12 / this.colCount;
+			if (this.flex) return true;
+			const averageNum = 24 / this.colCount;
 			for (let i = 0, l = this.colSpans.length; i < l; i++) {
 				if (this.colSpans[i] !== averageNum) return false;
 			}
