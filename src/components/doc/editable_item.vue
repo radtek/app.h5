@@ -22,30 +22,30 @@
 				<rx-col>
 					<rx-cell-avatar @on-click="onClick">
 						<template slot="img">
-							<rx-icon :name="`doc-${__getMimeType(item.infoDocument.mineType)}`"></rx-icon>
+							<rx-icon :name="`doc-${__getMimeType(docItem.mineType)}`"></rx-icon>
 						</template>
-						<span slot="header">{{item.infoDocument.fileName}}</span>
+						<span slot="header">{{docItem.fileName}}</span>
 						<template slot="footer">
 							<rx-row :flex="false"
 							        align="center">
-								<rx-col :span="category==='upload' || category==='share'?7:12">
-									<span>{{(time||item.infoDocument.createTime) | formatDate('yyyy/MM/dd')}}</span>
-									<span>{{item.infoDocument.readProcess>0 ? `已读${parseFloat(item.infoDocument.readProcess*100).toFixed(0)}%` : '未读'}}</span>
+								<rx-col :span="category==='upload' || category==='share'?14:18">
+									<span>{{(time||docItem.createTime) | formatDate('yyyy/MM/dd')}}</span>
+									<span>{{docItem.readProcess>0 ? `已读${parseFloat(docItem.readProcess*100).toFixed(0)}%` : '未读'}}</span>
 								</rx-col>
 								<rx-col v-if="category=='upload'"
-								        :span="5"
+								        :span="10"
 								        style="text-align:right;">
 									<span :class="statusClass">
 										<rx-icon name="warning"
 										         style="color:#ff3254"
-										         v-if="item.infoDocument.isPublished===2"></rx-icon>{{item.infoDocument.isPublished | auditState(item.infoDocument) }}</span>
+										         v-if="docItem.isPublished===2"></rx-icon>{{docItem.isPublished | auditState(docItem) }}</span>
 								</rx-col>
 								<rx-col v-else-if="category=='share'"
-								        :span="5"
+								        :span="10"
 								        style="text-align:right;">
-									<img :src="item.infoDocument.userImage"
+									<img :src="docItem.userImage"
 									     @error="onImgErr($event)" />
-									<span>>{{item.infoDocument.userName}}</span>
+									<span>{{docItem.userName}}</span>
 								</rx-col>
 							</rx-row>
 						</template>
@@ -62,8 +62,8 @@
 			<rx-swipeout-btn v-if="showCollect"
 			                 :width="70"
 			                 action="collect"
-			                 :text="item.infoDocument.isCollected === 0 ? '收藏' : '已收藏'"
-			                 :bg-color="item.infoDocument.isCollected === 0 ? '#ffac5a':'#ccc'"></rx-swipeout-btn>
+			                 :text="docItem.isCollected === 0 ? '收藏' : '已收藏'"
+			                 :bg-color="docItem.isCollected === 0 ? '#ffac5a':'#ccc'"></rx-swipeout-btn>
 			<rx-swipeout-btn v-if="showRemove"
 			                 :width="70"
 			                 text="删除"
@@ -103,36 +103,37 @@
 			time: [String, Number]
 		},
 		computed: {
+			docItem() {
+				return this.item.infoDocument;
+			},
 			showDownload() {
 				return this.category !== "upload";
 			},
 			showCollect() {
 				return (
 					this.category !== "collect" ||
-					(this.category === "upload" &&
-						this.item.infoDocument.visibleType !== 1)
+					(this.category === "upload" && this.docItem.visibleType !== 1)
 				);
 			},
 			showRemove() {
-				return this.category !== "upload";
+				return (
+					this.category !== "upload" ||
+					(this.category === "upload" &&
+						(this.docItem.visibleType === 2 ||
+							this.docItem.isPublished === 2))
+				);
 			},
 			showShare() {
-				return (
-					this.category === "upload" &&
-					this.item.infoDocument.visibleType === 1
-				);
+				return this.category === "upload" && this.docItem.visibleType === 1;
 			},
 			showUpload() {
-				return (
-					this.category === "upload" &&
-					this.item.infoDocument.visibleType === 1
-				);
+				return this.category === "upload" && this.docItem.visibleType === 1;
 			},
 			type() {
 				return categoryMap[this.category];
 			},
 			statusClass() {
-				const _item = this.item.infoDocument;
+				const _item = this.docItem;
 				const val = _item.isPublished;
 
 				switch (val) {
@@ -171,6 +172,12 @@
 			__getMimeType(val) {
 				return mimeType(val);
 			},
+			__convertSizeUnit(val) {
+				if (val < 1024) {
+					return `${val}K`;
+				}
+				return Math.ceil(val / 1024) + "M";
+			},
 			handleIconClick() {
 				if (!this.item.isChecked) {
 					!this.$isDev &&
@@ -192,7 +199,7 @@
 			onClick() {
 				if (this.isEdit || this.$refs.item.isOpen) return;
 
-				const _item = this.item.infoDocument;
+				const _item = this.docItem;
 				const params = {
 					id: _item.id,
 					fileName: _item.fileName,
@@ -212,7 +219,7 @@
 				}
 			},
 			handleDownload() {
-				const docs = [this.item.infoDocument];
+				const docs = [this.docItem];
 				// 通知App下载此文档
 				if (this.$isDev) {
 					alert("通知APP端下载此文档" + JSON.stringify(docs));
@@ -221,15 +228,15 @@
 				}
 			},
 			handleCollect() {
-				if (this.item.infoDocument.isCollected === 1) return;
-				const documentId = [this.item.infoDocument.id];
+				if (this.docItem.isCollected === 1) return;
+				const documentId = [this.docItem.id];
 				this.$http.doc
 					.collectDoc({ documentId })
 					.then(resp => {
 						// 收藏成功
 						this.$toast.text("收藏成功", "bottom");
 						this.$refs.item.close();
-						this.item.infoDocument.isCollected = 1;
+						this.docItem.isCollected = 1;
 					})
 					.catch(err => {
 						this.$toast.text(
@@ -239,7 +246,7 @@
 					});
 			},
 			handleRemove() {
-				const ids = [this.item.infoDocument.id];
+				const ids = [this.docItem.id];
 				this.$http.doc
 					.removeDoc({ ids, type: this.type })
 					.then(resp => {
@@ -262,23 +269,80 @@
 			handleShare() {
 				this.$http.doc
 					.shareDocToFriend({
-						documentId: this.item.infoDocument.id
+						documentId: this.docItem.id
 					})
 					.then(resp => {
 						this.$toast.text("好友分享成功", "bottom");
+						// 改变状态
+						this.docItem.visibleType = 2;
 						this.$refs.item.close();
 					});
 			},
 			handleUpload() {
 				// 先弹出选择框
-
-				this.$http.doc
-					.shareDocToPlatform({
-						documentId: this.item.infoDocument.id
+				const doc = this.docItem;
+				const iconName = `doc-${this.__getMimeType(doc.mineType)}`;
+				const fileSize = this.__convertSizeUnit(doc.fileSize);
+				this.$confirm({
+					yesText: "上传",
+					loadingText: "上传中...",
+					title: "分享文档,发现价值",
+					content(h) {
+						return h(
+							"rx-cell-avatar",
+							{
+								class: "__dialog_content_cell"
+							},
+							[
+								h("rx-icon", {
+									props: {
+										name: iconName
+									},
+									slot: "img"
+								}),
+								h(
+									"span",
+									{
+										slot: "header"
+									},
+									doc.fileName
+								),
+								h(
+									"p",
+									{
+										slot: "footer"
+									},
+									[
+										h("span", null, "文件大小:"),
+										h(
+											"span",
+											{ style: { marginLeft: "4px" } },
+											fileSize
+										)
+									]
+								)
+							]
+						);
+					}
+				})
+					.then(done => {
+						this.$http.doc
+							.shareDocToPlatform({
+								documentId: doc.id
+							})
+							.then(resp => {
+								// 改变状态
+								this.docItem.visibleType = 3;
+								this.$refs.item.close();
+								done();
+								this.$confirm.close();
+								this.$toast.text("上传文库成功", "bottom");
+							});
 					})
-					.then(resp => {
-						this.$toast.text("上传文库成功", "bottom");
-						this.$refs.item.close();
+					.catch(err => {
+						if (err !== false) {
+							this.$toast.text(err.message);
+						}
 					});
 			}
 		}
