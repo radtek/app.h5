@@ -17,6 +17,14 @@ export default {
 				empty: "no more data!",
 				error: "netword error,click to loading"
 			}
+		},
+		alert: {
+			ok: "ok"
+		},
+		confirm: {
+			yes: "yes",
+			no: "no",
+			loading: "handling..."
 		}
 	}
 };

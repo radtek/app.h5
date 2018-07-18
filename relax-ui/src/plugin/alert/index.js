@@ -20,15 +20,15 @@ const Alert = function(title, content) {
 		options = { title, content };
 	}
 
-	instance = new AlertSub(options);
+	if (!instance) {
+		instance = new AlertSub(options);
+		instance.$vm = instance.$mount();
+		document.body.appendChild(instance.$vm.$el);
+	}
 
-	instance.$vm = instance.$mount();
-	document.body.appendChild(instance.$vm.$el);
 	mergeVmOptions(instance.$vm, options);
 
 	instance.$vm.value = true;
-
-	return instance.$vm;
 };
 
 export default Alert;

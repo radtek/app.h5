@@ -23,7 +23,8 @@ export default {
 		},
 		confirm: {
 			yes: "确定",
-			no: "取消"
+			no: "取消",
+			loading: "处理中..."
 		}
 	}
 };

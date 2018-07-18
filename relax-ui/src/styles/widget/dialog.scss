@@ -34,6 +34,11 @@
 		position: relative;
 		padding: 1.3em 1.6em;
 		background: #fff;
+		font-size: 30px;
+
+		> strong {
+			font-size: 30px;
+		}
 	}
 
 	&_body {
@@ -68,7 +73,7 @@
 			content: "";
 		}
 
-		.rx-btn {
+		p {
 			display: block;
 			flex: 1;
 		}
