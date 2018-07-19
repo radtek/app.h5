@@ -1,24 +1,26 @@
 <template>
 	<div rs-view="comments">
-		<comment-pane :total="total"
-		              :list="list"
-		              @on-empty-click="handleCommentEmptyClick">
-			<rx-pull ref="pull"
-			         :list="list"
-			         :total="total"
-			         :up="up"
-			         :down="down"
-			         @downing="handleDown"
-			         @uping="handleUp"
-			         @scroll-end="handleScrollEnd">
-				<rx-pull-down slot="down"></rx-pull-down>
-				<rx-pull-up slot="up"></rx-pull-up>
+		<rx-pull ref="pull"
+		         :list="list"
+		         :total="total"
+		         :up="up"
+		         :down="down"
+		         @downing="handleDown"
+		         @uping="handleUp"
+		         @scroll-end="handleScrollEnd">
+			<rx-pull-down slot="down"></rx-pull-down>
+			<rx-pull-up slot="up"></rx-pull-up>
+			<comment-pane :total="total"
+			              :list="list"
+			              @on-empty-click="handleCommentEmptyClick">
+
 				<comment-item ref="items"
 				              v-for="(comment,index) in list"
 				              :key="index"
 				              :item="comment"></comment-item>
-			</rx-pull>
-		</comment-pane>
+
+			</comment-pane>
+		</rx-pull>
 	</div>
 </template>
 <script>
