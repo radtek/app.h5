@@ -38,7 +38,7 @@
 				     v-if="recommendNews && recommendNews.length"></div>
 				<rx-card v-if="recommendNews && recommendNews.length"
 				         class="wrap-recommend"
-				         padding>
+				         padding="hb">
 					<template slot="header">
 						<span>相关推荐</span>
 					</template>
@@ -147,17 +147,17 @@
 						if (!this.$isDev) {
 							const content = info.txt
 								? info.txt
-									.replace(
-										/<script[^>]*?>[\s\S]*?<\/script>/g,
-										""
-									)
-									.replace(
-										/<style[^>]*?>[\s\S]*?<\/style>/g,
-										""
-									)
-									.replace(/<[^<>]+>/g, "")
-									.replace(/(^\s*)|(\s*&)/g, "")
-									.replace(/[\r\n]/g, "")
+										.replace(
+											/<script[^>]*?>[\s\S]*?<\/script>/g,
+											""
+										)
+										.replace(
+											/<style[^>]*?>[\s\S]*?<\/style>/g,
+											""
+										)
+										.replace(/<[^<>]+>/g, "")
+										.replace(/(^\s*)|(\s*&)/g, "")
+										.replace(/[\r\n]/g, "")
 								: "";
 
 							JXRSApi.app.news.updateNewsInfoIcon({

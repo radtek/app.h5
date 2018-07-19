@@ -108,6 +108,11 @@ $defaultSize: (
 			.rs-news_item:last-child .rx-cell {
 				border: none;
 			}
+
+			.rx-cell-avatar {
+				padding-right: 0;
+				padding-left: 0;
+			}
 		}
 	}
 

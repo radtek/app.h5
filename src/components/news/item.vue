@@ -20,7 +20,9 @@
 						<status :item="item"></status>
 					</template>
 					<template slot="img">
-						<img :src="imgArr[0]" />
+						<img :data-src="imgArr[0]"
+						     v-lazyimg
+						     @error="onImgErr($event)" />
 					</template>
 				</rx-cell-avatar>
 			</template>
@@ -28,7 +30,7 @@
 				<rx-cell @on-click="goto(item.title,'/info',{contentid:item.id,channelid:channelId,title:item.title})">
 					<span slot="header"
 					      class="item_title">{{item.title}}</span>
-					<template>
+					<template v-if="imgArr && imgArr.length">
 						<rx-row justify="center"
 						        align="center"
 						        :gutter="6">
@@ -37,7 +39,8 @@
 							        :key="index">
 								<img :data-src="img"
 								     class="item_img"
-								     v-lazyimg/>
+								     v-lazyimg
+								     @error="onImgErr($event)" />
 							</rx-col>
 						</rx-row>
 					</template>
