@@ -9,16 +9,22 @@
 				aid:row.id
 			})">{{row.infoQuestion.question}}</div>
 		<template v-if="row.imgPath && row.imgPath.length">
-			<span class="content"
-			      :class="[{img:row.imgPath && row.imgPath.length}]">{{row.answer | overflowContent}}</span>
-			<img ref="img"
-			     v-if="async"
-			     :data-src="row.imgPath[0]"
-			     v-lazyimg
-			     @error="onImgErr($event)" />
-			<img v-else
-			     :src="row.imgPath[0]"
-			     @error="onImgErr($event)" />
+			<rx-row :flex="false">
+				<rx-col :span="16"
+				        v-if="row.answer">
+					<span class="content">{{row.answer | overflowContent}}</span>
+				</rx-col>
+				<rx-col :span="row.answer ?8:24">
+					<img ref="img"
+					     v-if="async"
+					     :data-src="row.imgPath[0]"
+					     v-lazyimg
+					     @error="onImgErr($event)" />
+					<img v-else
+					     :src="row.imgPath[0]"
+					     @error="onImgErr($event)" />
+				</rx-col>
+			</rx-row>
 		</template>
 		<template v-else>
 			<div>

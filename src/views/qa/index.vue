@@ -15,11 +15,12 @@
 			<rx-pull-down slot="down"></rx-pull-down>
 			<rx-pull-up slot="up"></rx-pull-up>
 			<div class="ui-list">
-				<!-- <msg-box class="animated fadeInDown"
-				         v-if="userAvatar"
-				         :avatar="userAvatar"
-				         :msgs="msgIds"
-				         @on-click="onRedirect('msg-latest-list',{msgIds:msgs})"></msg-box> -->
+				<msg-box class="animated fadeInDown"
+				         v-if="msgboxCount"
+				         category="qa"
+				         :count="msgboxCount"
+				         :last-id="msgboxLastId"
+				         :avatar="msgboxAvatar"></msg-box>
 				<rx-skeleton-cell-avatar v-if="isPrerender"></rx-skeleton-cell-avatar>
 				<rx-card v-else
 				         class="card-user"
@@ -49,7 +50,7 @@
 				</rx-card>
 				<div class="separate"></div>
 				<rx-card class="list-card"
-				         padding>
+				         padding="h">
 					<template slot="header">
 						<span class="title">为你推荐</span>
 						<rx-btn type="text"
@@ -93,6 +94,7 @@
 <script>
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
+	import Msgbox from "~m/__msgbox";
 	export default {
 		name: "PageOfIndex",
 		components: {
@@ -104,12 +106,8 @@
 				import(/* webpackChunkName:"wc-im_users" */ "~c/qa/im_users.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				)
-			// ,MsgBox: () =>
-			// 	import(/* webpackChunkName:"cmp-msgbox" */ "~c/msg-box/msg-box.vue").then(
-			// 		utils.fixAsyncCmpLifeCycle
-			// 	)
 		},
-		mixins: [Pull],
+		mixins: [Pull, Msgbox],
 		provide() {
 			return {
 				qaList: this
@@ -162,7 +160,7 @@
 			}
 		},
 		created() {
-			// this.recieveAppNotice("qa");
+			this.recieveAppNotice("qa");
 		},
 		activated() {
 			this.__fetch();

@@ -13,10 +13,6 @@
 				<h2 slot="header">{{userInfo.user.userName}}</h2>
 				<span>回答获得{{userInfo.supportCountSum}}赞</span>
 				<span>&nbsp;&nbsp;{{userInfo.clickCountSum}}人阅读</span>
-				<!-- <rx-btn slot="rightAction"
-				        class="text"
-				        icon="chat"
-				        @on-click="onRedirect('qa-msgcenter')"></rx-btn> -->
 			</rx-cell-avatar>
 		</rx-card>
 		<rx-tab :current.sync="tabIndex">
@@ -77,11 +73,9 @@
 			__loadTabData() {
 				switch (this.tabIndex) {
 					case 1:
-						console.log("1");
 						this.broadcast("ListOfMyQ", "fn.fetch");
 						break;
 					case 2:
-						console.log("2");
 						this.broadcast("ListOfMyA", "fn.fetch");
 						break;
 					case 0:

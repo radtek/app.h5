@@ -38,16 +38,6 @@ export function createRoutes(Vue) {
 				path: "/profile",
 				component: () =>
 					import(/* webpackChunkName: "view-profile" */ `~v/${MODULENAME}/profile.vue`)
-			},
-			{
-				path: "/msg_list",
-				component: () =>
-					import(/* webpackChunkName: "view-msg_list" */ `~v/${MODULENAME}/msg_list.vue`)
-			},
-			{
-				path: "/msg_center",
-				component: () =>
-					import(/* webpackChunkName: "view-msg_center" */ `~v/${MODULENAME}/msg_center.vue`)
 			}
 		]
 	});

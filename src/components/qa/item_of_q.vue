@@ -7,16 +7,23 @@
 		<div slot="header"
 		     @click.stop="goto('问题详情','/detail',{qid: row.id})">{{row.question}}</div>
 		<template v-if="row.imgPath && row.imgPath.length">
-			<span class="content"
-			      :class="[{img:row.imgPath && row.imgPath.length}]">{{row.description | overflowContent}}</span>
-			<img ref="img"
-			     v-if="async"
-			     :data-src="row.imgPath[0]"
-			     v-lazyimg
-			     @error="onImgErr($event)" />
-			<img v-else
-			     :src="row.imgPath[0]"
-			     @error="onImgErr($event)" />
+			<rx-row :flex="false">
+				<rx-col :span="16"
+				        v-if="row.description">
+					<span class="content">{{row.description | overflowContent}}</span>
+				</rx-col>
+				<rx-col :span="row.description?8:24"
+				        align="right">
+					<img ref="img"
+					     v-if="async"
+					     :data-src="row.imgPath[0]"
+					     v-lazyimg
+					     @error="onImgErr($event)" />
+					<img v-else
+					     :src="row.imgPath[0]"
+					     @error="onImgErr($event)" />
+				</rx-col>
+			</rx-row>
 		</template>
 		<template v-else>
 			{{row.description | overflowContent}}

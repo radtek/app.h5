@@ -2,7 +2,7 @@
 	<rx-row justify="center"
 	        align="center"
 	        class="audit">
-		<rx-col style="text-align:left;">
+		<rx-col align="left">
 			<span :class="auditClasses">{{auditStateText}}</span>
 		</rx-col>
 		<rx-col>

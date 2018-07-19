@@ -9,19 +9,30 @@
 		     @click.stop="goto('问题详情','/detail',{qid: row.id})">{{row.question}}</div>
 		<template v-if="row.infoAnswer">
 			<div @click.stop="onAnswerDetailClick">
-				<span class="content"
-				      :class="[{img:row.infoAnswer.imgPath && row.infoAnswer.imgPath.length}]">{{row.infoAnswer.answer | overflowContent}}</span>
 				<template v-if="row.infoAnswer.imgPath && row.infoAnswer.imgPath.length">
-					<!-- <rx-img-crop :src="row.infoAnswer.imgPath[0]"></rx-img-crop> -->
-					<img ref="img"
-					     v-if="async"
-					     :data-src="row.infoAnswer.imgPath[0]"
-					     v-lazyimg
-					     @error="onImgErr($event)" />
-					<img v-else
-					     :src="row.infoAnswer.imgPath[0]"
-					     @error="onImgErr($event)" />
-
+					<rx-row :flex="false">
+						<rx-col :span="16"
+						        v-if="row.infoAnswer.answer">
+							<span class="content">{{row.infoAnswer.answer | overflowContent}}</span>
+						</rx-col>
+						<rx-col :span="row.infoAnswer.answer ?8:24"
+						        align="right">
+							<!-- <rx-img-crop ref="imgCrop"
+							             :src="row.infoAnswer.imgPath[0]"
+							             @on-error="onImgErr"></rx-img-crop> -->
+							<img ref="img"
+							     v-if="async"
+							     :data-src="row.infoAnswer.imgPath[0]"
+							     v-lazyimg
+							     @error="onImgErr($event)" />
+							<img v-else
+							     :src="row.infoAnswer.imgPath[0]"
+							     @error="onImgErr($event)" />
+						</rx-col>
+					</rx-row>
+				</template>
+				<template v-else>
+					{{row.infoAnswer.answer | overflowContent}}
 				</template>
 			</div>
 		</template>

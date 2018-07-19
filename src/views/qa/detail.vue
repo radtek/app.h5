@@ -43,7 +43,52 @@
 			};
 		},
 		methods: {
-			__fetch() {},
+			__fetchQDetail() {
+				return this.$http.qa
+					.getQuesDetail({ questionId: this.qid })
+					.then(resp => {
+						const question = resp.result.question;
+
+						if (question) {
+							question.overStatus = -1;
+							if (
+								question.description &&
+								question.description.length > 50
+							) {
+								question.overStatus = 1;
+								question.simpleContent =
+									question.description.substring(0, 50) + "...";
+							}
+							let userInfo;
+							if (question.isAnonymous === 1) {
+								userInfo = {
+									userName: "匿名",
+									imgPath: this.$DEFAULT_AVATAR,
+									anonymous: 1
+								};
+							} else {
+								userInfo = question.communityUser;
+							}
+							this.isPrerenderUser = false;
+							this.userInfo.user = userInfo;
+
+							if (this.$isProd || this.$isTest) {
+								JXRSApi.app.qa.refreshAppStatusOfQuesCollect({
+									isCollect: resp.result.isCollected,
+									questionId: this.qid,
+									questionTitle: question.question
+								});
+							}
+						}
+						this.question = question;
+						this.isPrerenderQues = false;
+					});
+			},
+
+			__fetch() {
+				// 获取问题详情
+				// 获取回答列表
+			},
 			__append() {}
 		},
 		created() {}
