@@ -2,6 +2,7 @@ export default function isInClientView(el, parentEl, threshold = 20) {
 	const rect = el.getBoundingClientRect();
 	const pRect = (parentEl || window.document.body).getBoundingClientRect();
 
+	/* eslint-disable no-mixed-spaces-and-tabs */
 	const elRect =
 		threshold > 0
 			? {
