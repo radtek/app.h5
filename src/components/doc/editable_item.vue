@@ -111,7 +111,7 @@
 			},
 			showCollect() {
 				return (
-					this.category !== "collect" ||
+					(this.category !== "collect" && this.category !== "upload") ||
 					(this.category === "upload" && this.docItem.visibleType !== 1)
 				);
 			},
@@ -119,7 +119,7 @@
 				return (
 					this.category !== "upload" ||
 					(this.category === "upload" &&
-						(this.docItem.visibleType === 2 ||
+						(this.docItem.visibleType === 1 ||
 							this.docItem.isPublished === 2))
 				);
 			},
@@ -136,6 +136,7 @@
 				const _item = this.docItem;
 				const val = _item.isPublished;
 
+				if (_item.visibleType === 1) return "private";
 				switch (val) {
 					case 0:
 						return "auditing";
@@ -143,16 +144,14 @@
 						return "refuse";
 					case 1:
 					default:
-						return _item.visibleType === 1
-							? "private"
-							: _item.visibleType === 2
-								? "friend"
-								: "platform";
+						return _item.visibleType === 2 ? "friend" : "platform";
 				}
 			}
 		},
 		filters: {
 			auditState(val, _item) {
+				if (_item.visibleType === 1) return "未上传";
+
 				switch (val) {
 					case 0:
 						return "上传审核中";
@@ -160,11 +159,7 @@
 						return "审核未通过";
 					case 1:
 					default:
-						return _item.visibleType === 1
-							? "私有"
-							: _item.visibleType === 2
-								? "好友共享"
-								: "已上传文库";
+						return _item.visibleType === 2 ? "好友共享" : "已上传文库";
 				}
 			}
 		},
@@ -184,7 +179,9 @@
 						JXRSApi.app.doc.changeChooseAllStatus({ isSelect: 0 });
 				} else {
 					let hasUnChecked = false;
-					for (let i = this.page.list.length; i--;) {
+
+					/* eslint-disable space-in-parens */
+					for (let i = this.page.list.length; i--; ) {
 						if (!this.page.list[i].isChecked) {
 							hasUnChecked = true;
 							break;
