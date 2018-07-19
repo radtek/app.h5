@@ -82,13 +82,17 @@
 						return "已连接成功";
 					case 2:
 						return "已上传成功";
+					case 3:
+						return "连接失败";
 					case 0:
 					default:
 						return "等待传输";
 				}
 			},
 			socketUrl() {
-				return this.$isProd ? "" : "";
+				return this.$isProd
+					? "http://121.43.177.173:9093"
+					: "http://whrdd.f3322.net:9093";
 			},
 			url() {
 				return this.$Prod
@@ -116,29 +120,36 @@
 			}
 		},
 		mounted() {
-			this.__fetchCode();
-
 			this.$rxUtils.loadJS(
-				"https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js",
+				"https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.0/socket.io.js",
 				{},
 				() => {
+					const getHeartBeat = () => {
+						socket.emit("upload", {
+							userId: "" + this.authInfo.userId
+						});
+						setTimeout(getHeartBeat, 5000);
+					};
+
 					const socket = io(this.socketUrl);
 					socket.on("connect", () => {
-						socket.on(`${this.authInfo.userId}`, msg => {
-							this.status = 1;
-						});
+						getHeartBeat();
 						socket.on(`down${this.authInfo.userId}`, msg => {
-							// my msg
 							if (typeof msg === "string") {
 								msg = JSON.parse(msg);
 							}
-							if (msg.uploadState === 1) {
+
+							this.status = msg.comLinked ? 1 : 3;
+
+							if (msg.uploadState) {
 								this.status = 2;
 							}
 						});
 					});
 				}
 			);
+
+			this.__fetchCode();
 		}
 	};
 </script>
