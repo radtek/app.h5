@@ -34,7 +34,7 @@
 								</rx-col>
 								<rx-col v-if="category=='upload'"
 								        :span="10"
-								        style="text-align:right;">
+								        align="right">
 									<span :class="statusClass">
 										<rx-icon name="warning"
 										         style="color:#ff3254"
@@ -42,7 +42,7 @@
 								</rx-col>
 								<rx-col v-else-if="category=='share'"
 								        :span="10"
-								        style="text-align:right;">
+								        align="right">
 									<img :src="docItem.userImage"
 									     @error="onImgErr($event)" />
 									<span>{{docItem.userName}}</span>
@@ -184,7 +184,7 @@
 						JXRSApi.app.doc.changeChooseAllStatus({ isSelect: 0 });
 				} else {
 					let hasUnChecked = false;
-					for (let i = this.page.list.length; i--; ) {
+					for (let i = this.page.list.length; i--;) {
 						if (!this.page.list[i].isChecked) {
 							hasUnChecked = true;
 							break;

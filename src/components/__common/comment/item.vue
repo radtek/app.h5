@@ -20,7 +20,7 @@
 				<rx-col>
 					<span class="user-name">{{item.name}}</span>
 				</rx-col>
-				<rx-col style="text-align:right;">
+				<rx-col align="right">
 					<rx-btn icon="zan"
 					        type="text"
 					        :plain="!item.supportNum"

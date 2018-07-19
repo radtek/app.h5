@@ -13,7 +13,7 @@
 					<rx-icon :name="item.mineType | mimeType"></rx-icon>
 					<span>{{item.readCount || 0}}人阅读</span>
 				</rx-col>
-				<rx-col style="text-align:right;">
+				<rx-col align="right">
 					<span>收藏</span>
 					<rx-icon :name="iconName"
 					         :class="[{[`active`]:item.isCollected}]"

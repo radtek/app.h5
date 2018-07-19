@@ -34,7 +34,7 @@
 				<rx-col>
 					<span class="number-text">{{code}}</span>
 				</rx-col>
-				<rx-col style="text-align:right;">
+				<rx-col align="right">
 					<rx-btn type="info"
 					        size="mini"
 					        plain
@@ -123,12 +123,10 @@
 				{},
 				() => {
 					const socket = io(this.socketUrl);
-
 					socket.on("connect", () => {
 						socket.on(`${this.authInfo.userId}`, msg => {
 							this.status = 1;
 						});
-
 						socket.on(`down${this.authInfo.userId}`, msg => {
 							// my msg
 							if (typeof msg === "string") {

@@ -10,6 +10,7 @@ export default {
 	props: {
 		tag: { type: String, default: "div" },
 		span: { type: Number, default: 24 },
+		align: String,
 		flexBasis: Number
 	},
 	computed: {
@@ -26,13 +27,9 @@ export default {
 				);
 
 				if (this.span && this.rxRow.flex && !this.rxRow.isAverage) {
-					console.log(this.span);
 					const perWidth =
 						((window.innerWidth - this.rxRow.gutter) * this.span) /
 						24;
-
-					console.log(perWidth);
-
 					width = this.getRealSize(perWidth - this.rxRow.gutter);
 
 					styles.flex = `0 0 ${width}`;
@@ -45,6 +42,10 @@ export default {
 				styles.flex = `0 0 ${this.getRealSize(this.flexBasis)}`;
 				styles.webkitFlex = styles.flex;
 				styles.webkitBoxFlex = 0;
+			}
+
+			if (this.align) {
+				styles.textAlign = this.align;
 			}
 
 			return styles;

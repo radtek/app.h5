@@ -3,8 +3,8 @@
 </style>
 
 <template>
-	<section data-view="rdsc"
-	         style="overflow:hidden;">
+	<section rs-view="rdsc"
+	         class="hidden">
 		<audio :src="audioSrc"
 		       :loop="isFinished"
 		       autoplay
