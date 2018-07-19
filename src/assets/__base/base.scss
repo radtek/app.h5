@@ -17,7 +17,10 @@ body {
 [rs-view] {
 	position: relative;
 	height: 100%;
-	// overflow: hidden;
+
+	&.hidden {
+		overflow: hidden;
+	}
 }
 
 #app {
