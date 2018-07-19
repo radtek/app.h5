@@ -1,4 +1,4 @@
-import Crop from "./crop.vue";
+import Crop from "./img-crop.vue";
 
 Crop.install = function(Vue) {
 	Vue.component(Crop.name, Crop);
