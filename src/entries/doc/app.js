@@ -4,9 +4,7 @@ import { createRoutes } from "~r/doc/";
 import { createJSApi } from "~j/index";
 import http from "~a/doc/";
 
-createJSApi(
-	"changeChooseAllStatus",
-	"download",
-	"audioImport"
-);
+import "~css/modules/doc/empty.scss";
+
+createJSApi("changeChooseAllStatus", "download", "audioImport");
 createVue(Vue, { router: createRoutes(Vue), http });
