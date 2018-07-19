@@ -17,17 +17,17 @@
 						</rx-col>
 						<rx-col :span="row.infoAnswer.answer ?8:24"
 						        align="right">
-							<!-- <rx-img-crop ref="imgCrop"
-							             :src="row.infoAnswer.imgPath[0]"
-							             @on-error="onImgErr"></rx-img-crop> -->
-							<img ref="img"
+							<rx-img-viewer ref="imgViewer"
+							               :src="row.infoAnswer.imgPath[0]"
+							               @on-error="onImgErr"></rx-img-viewer>
+							<!-- <img ref="img"
 							     v-if="async"
 							     :data-src="row.infoAnswer.imgPath[0]"
 							     v-lazyimg
 							     @error="onImgErr($event)" />
 							<img v-else
 							     :src="row.infoAnswer.imgPath[0]"
-							     @error="onImgErr($event)" />
+							     @error="onImgErr($event)" /> -->
 						</rx-col>
 					</rx-row>
 				</template>
