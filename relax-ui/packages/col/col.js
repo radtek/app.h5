@@ -9,7 +9,7 @@ export default {
 	},
 	props: {
 		tag: { type: String, default: "div" },
-		span: { type: Number, default: 24 },
+		span: Number,
 		align: String,
 		flexBasis: Number
 	},
@@ -17,25 +17,12 @@ export default {
 		styles() {
 			const styles = {};
 
-			let width;
-
 			if (this.rxRow.gutter) {
 				const paddingValue = this.rxRow.gutter / 2;
 
 				styles.paddingRight = styles.paddingLeft = this.getRealSize(
 					paddingValue
 				);
-
-				if (this.span && this.rxRow.flex && !this.rxRow.isAverage) {
-					const perWidth =
-						((window.innerWidth - this.rxRow.gutter) * this.span) /
-						24;
-					width = this.getRealSize(perWidth - this.rxRow.gutter);
-
-					styles.flex = `0 0 ${width}`;
-					styles.webkitFlex = `0 0 ${width}`;
-					styles.webkitBoxFlex = 0;
-				}
 			}
 
 			if (this.rxRow.flex && this.flexBasis > 0) {
@@ -61,7 +48,8 @@ export default {
 				class: [
 					"rx-col",
 					{
-						[`rx-col-${this.span}`]: this.span && !this.rxRow.flex
+						[`rx-col-${this.span}`]:
+							this.span && !this.rxRow.isAverage
 					}
 				],
 				style: this.styles

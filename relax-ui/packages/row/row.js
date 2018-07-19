@@ -31,13 +31,20 @@ export default {
 			if (this.colCount === 0) return true;
 
 			const remainNum = 24 % this.colCount;
-			if (remainNum) return false;
-			if (this.flex) return true;
-			const averageNum = 24 / this.colCount;
-			for (let i = 0, l = this.colSpans.length; i < l; i++) {
-				if (this.colSpans[i] !== averageNum) return false;
+
+			if (!remainNum) {
+				if (this.colSpans.length === 0) {
+					return true;
+				}
+				const averageNum = 24 / this.colCount;
+				if (this.colSpans.length === this.colCount) {
+					for (let i = 0, l = this.colSpans.length; i < l; i++) {
+						if (this.colSpans[i] !== averageNum) return false;
+					}
+					return true;
+				}
 			}
-			return true;
+			return false;
 		},
 		styles() {
 			const styles = {};
@@ -63,7 +70,7 @@ export default {
 	created() {
 		this.$on("fn.col.ready", span => {
 			this.colCount += 1;
-			this.colSpans.push(span);
+			span && this.colSpans.push(span);
 		});
 	},
 	render(h) {
