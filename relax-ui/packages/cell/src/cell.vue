@@ -4,6 +4,7 @@
 
 <template>
 	<div class="rx-cell"
+	     :class="classes"
 	     @click.stop="onClick">
 		<div class="rx-cell-header"
 		     v-if="$slots.header || title">
@@ -49,6 +50,7 @@
 		components: { Row, iCol: Col },
 		props: {
 			title: String,
+			border: { type: [String, Boolean], default: "b" },
 			imgs: {
 				type: Array,
 				default() {
@@ -56,6 +58,20 @@
 				}
 			},
 			imgShowMode: { type: String, default: "flex" }
+		},
+		computed: {
+			classes() {
+				const isStr = typeof this.border === "string";
+				return [
+					{
+						[`b`]: this.border === true,
+						[`b-t`]: isStr && ~this.border.indexOf("t"),
+						[`b-r`]: isStr && ~this.border.indexOf("r"),
+						[`b-b`]: isStr && ~this.border.indexOf("b"),
+						[`b-l`]: isStr && ~this.border.indexOf("l")
+					}
+				];
+			}
 		},
 		methods: {
 			onClick() {
