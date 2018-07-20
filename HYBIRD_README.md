@@ -2,7 +2,7 @@
 
 # 一、问答模块
 
-## 1. 问答首页
+##1. 问答首页
 
 ### App通知H5展示顶部消息提示
 
@@ -57,6 +57,8 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 			"lastId": [String|Int] 最后一条消息的ID
 		}
 
+demo: JXRSApi.invoke("app.doc.showTopNotices","{\"count\":1,\"img\":\"xxxxx.jpg\",\"lastId\":1}")
+
 ```
 
 ### 点击顶部消息栏会跳转到对应模块的消息列表页面
@@ -95,6 +97,7 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 			"tagId": 当前选择的分类ID
 		}
 
+demo: JXRSApi.invoke("app.doc.fetchDocsOfTag","{\"tagId\":1}")
 ```
 
 ## 3.最近阅读、我的收藏、好友共享、我的下载
@@ -111,6 +114,7 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 
 操作参数: 1|0 : 1是0否
 
+demo： JXRSApi.invoke("app.doc.isChangeToChooseMode",1)
 ```
 
 ### App左上角顶部的全选按钮
@@ -125,6 +129,7 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 
 操作参数: 1|0 : 1是0否
 
+demo： JXRSApi.invoke("app.doc.isChoiceAll",1)
 ```
 
 ### H5在全部选中之后会通知App更新左上角顶部的全选按钮的选中状态
@@ -139,8 +144,6 @@ App端接收H5对应的操作
 	{
 		isSelect : 1-切换成选中状态 0-切换成未选中状态
 	}
-
-
 ```
 
 ## 3.最新阅读、我的收藏、好友共享
