@@ -7,6 +7,7 @@
 <script>
 	import { imgPlaceholder } from "../../src/utils/const";
 	import isInClientView from "../../src/utils/dom/isInClientView";
+	import scaleImg from "./algorithm/index";
 	export default {
 		name: "RxImgViewer",
 		props: {
@@ -15,7 +16,7 @@
 				default: imgPlaceholder
 			},
 			src: { type: String, default: "" },
-			scaleType: { type: String, default: "center-crop" }
+			scaleType: { type: String, default: "fitStart" }
 		},
 		data() {
 			return {
@@ -49,38 +50,21 @@
 				this.canvas.width = x;
 				this.canvas.height = y;
 
-				const w = this.img.width;
-				const h = this.img.height;
+				const [sourcePoint, sourceRect, dirtyPoint, dirtyRect] = scaleImg(
+					this.scaleType
+				)({ x, y }, { w: this.img.width, h: this.img.height });
 
-				const scaleOfBox = y / x;
-				const scaleOfImg = h / w;
-
-				const sourcePoint = { x: 0, y: 0 };
-				const sourceRect = { w: 0, h: 0 };
-
-				if (this.scaleType === "center-crop") {
-					if (scaleOfBox >= scaleOfImg) {
-						sourceRect.w = (h * x) / y;
-						sourceRect.h = h;
-						sourcePoint.x = (w - sourceRect.w) / 2;
-					} else {
-						sourceRect.w = w;
-						sourceRect.h = (w * y) / x;
-						sourcePoint.y = (h - sourceRect.h) / 2;
-					}
-
-					this.canvasContext.drawImage(
-						this.img,
-						sourcePoint.x,
-						sourcePoint.y,
-						sourceRect.w,
-						sourceRect.h,
-						0,
-						0,
-						x,
-						y
-					);
-				}
+				this.canvasContext.drawImage(
+					this.img,
+					sourcePoint.x,
+					sourcePoint.y,
+					sourceRect.w,
+					sourceRect.h,
+					dirtyPoint.x,
+					dirtyPoint.y,
+					dirtyRect.w,
+					dirtyRect.h
+				);
 
 				this.dataURL = this.canvas.toDataURL("image/jpeg");
 			},

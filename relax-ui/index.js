@@ -28,7 +28,7 @@ import { lazyImgDirective } from "./packages/lazyload/index";
 
 import Swipeout from "./packages/swipeout/index";
 
-import ImgCrop from "./packages/img-crop/index";
+import ImgViewer from "./packages/img-viewer/index";
 
 import Toast from "./packages/toast/index";
 import ToastPlugin from "./src/plugin/toast/index";
@@ -56,7 +56,7 @@ const components = [
 	Swipeout,
 	Swipeout.Item,
 	Swipeout.Btn,
-	ImgCrop,
+	ImgViewer,
 	CollapseTransition,
 	Toast
 ];
@@ -116,7 +116,7 @@ export {
 	CheckIcon,
 	Backtop,
 	Swipeout,
-	ImgCrop,
+	ImgViewer,
 	CollapseTransition,
 	Toast,
 	ToastPlugin,
