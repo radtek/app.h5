@@ -17,17 +17,11 @@
 						</rx-col>
 						<rx-col :span="row.infoAnswer.answer ?8:24"
 						        align="right">
-							<rx-img-viewer ref="imgViewer"
-							               :src="row.infoAnswer.imgPath[0]"
+							<rx-img-viewer :src="row.infoAnswer.imgPath[0]"
+							               :box-w="180"
+							               :box-h="130"
+							               :range-of-error="0.26"
 							               @on-error="onImgErr"></rx-img-viewer>
-							<!-- <img ref="img"
-							     v-if="async"
-							     :data-src="row.infoAnswer.imgPath[0]"
-							     v-lazyimg
-							     @error="onImgErr($event)" />
-							<img v-else
-							     :src="row.infoAnswer.imgPath[0]"
-							     @error="onImgErr($event)" /> -->
 						</rx-col>
 					</rx-row>
 				</template>
@@ -70,9 +64,6 @@
 					aid: this.row.infoAnswer.id
 				});
 			}
-		},
-		mounted() {
-			// this.broadcast("RxImgCrop", "fn.load");
 		}
 	};
 </script>

@@ -28,22 +28,22 @@ export default {
 
 			this.broadcast("RxImgViewer", "fn.load");
 
-			this.$refs.items.forEach(item => {
-				let imgs = item.$refs.img;
-				if (!imgs) return;
-				if (imgs && !Array.isArray(imgs)) {
-					imgs = [imgs];
-				}
-				imgs.forEach(img => {
-					if (
-						img.hasAttribute("data-src") &&
-						this.$rxUtils.isInClientView(img)
-					) {
-						img.setAttribute("src", img.getAttribute("data-src"));
-						img.removeAttribute("data-src");
-					}
-				});
-			});
+			// this.$refs.items.forEach(item => {
+			// 	let imgs = item.$refs.img;
+			// 	if (!imgs) return;
+			// 	if (imgs && !Array.isArray(imgs)) {
+			// 		imgs = [imgs];
+			// 	}
+			// 	imgs.forEach(img => {
+			// 		if (
+			// 			img.hasAttribute("data-src") &&
+			// 			this.$rxUtils.isInClientView(img)
+			// 		) {
+			// 			img.setAttribute("src", img.getAttribute("data-src"));
+			// 			img.removeAttribute("data-src");
+			// 		}
+			// 	});
+			// });
 		},
 		handleDown() {
 			this.__fetch();
