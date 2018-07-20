@@ -1,3 +1,26 @@
+/**
+ *
+ * 实现类似Android中ImageView的图片显示算法
+ *
+ *  1. center
+ *     (1)当图片大于ImageView的宽高：以图片的中心点和ImageView的中心点为基准，按照图片的原大小居中显示，不缩放，用ImageView的大小截取图片的居中部分。
+ *     (2)当图片小于ImageView的宽高：直接居中显示该图片。
+ *  2. centerCrop
+ *		(1)当图片大于ImageView的宽高：以图片的中心点和ImageView的中心点为基准，按比例缩小图片，直到图片的宽高有一边等于ImageView的宽高，则对于另一边，图片的长度大于或等于ImageView的长度，最后用ImageView的大小居中截取该图片。
+ *		(2)当图片小于ImageView的宽高：以图片的中心店和ImageView的中心点为基准，按比例扩大图片，直到图片的宽高大于或等于ImageView的宽高，并按ImageView的大小居中截取该图片。
+ *  3. centerInside
+ *		(1)当图片大于ImageView的宽高：以图片的中心和ImageView的中心点为基准，按比例缩小图片，使图片宽高等于或者小于ImagevView的宽高，直到将图片的内容完整居中显示
+ * 		(2)当图片小于ImageView的宽高：直接居中显示该图片。
+ *  4. fitCenter
+ *		把图片按比例扩大（缩小）到ImageView的宽度，居中显示
+ *  5. fitStart
+ *		把图片按比例扩大（缩小）到ImageView的宽度，在ImageView的上/左方显示
+ *  6. fitEnd
+ *		把图片按比例扩大（缩小）到ImageView的宽度，在ImageView的下/右方显示
+ *  7. fitXY
+ *		把图片按指定的大小在ImageView中显示，拉伸或收缩图片，不保持原比例，填满ImageView
+ */
+
 const alg = {};
 
 alg.center = function({ x, y }, { w, h }) {
@@ -103,7 +126,10 @@ alg.fitStart = function(point, rect) {
 alg.fitEnd = function(point, rect) {
 	return alg.__fit(point, rect, "end");
 };
-alg.fitXY = function({ x, y }, { w, h }) {};
+alg.fitXY = function({ x, y }, imgRect) {
+	const kv = { x: 0, y: 0 };
+	return [kv, imgRect, kv, { w: x, h: y }];
+};
 
 export default function scaleImg(scaleType = "centerCrop") {
 	return alg[scaleType];
