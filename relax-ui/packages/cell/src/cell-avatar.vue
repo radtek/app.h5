@@ -11,7 +11,7 @@
 				     :class="[{'circle':circle}]"
 				     alt="头像"
 				     @click.stop="onImgClick"
-				     @error="onImgErr($event,true)" />
+				     @error="$emit('on-avatar-err',$event)" />
 			</slot>
 		</div>
 		<div class="rx-cell-content"
@@ -43,7 +43,7 @@
 				     :class="[{'circle':circle}]"
 				     alt="头像"
 				     @click.stop="onImgClick"
-				     @error="onImgErr($event,true)" />
+				     @error="$emit('on-avatar-err',$event)" />
 			</slot>
 		</div>
 	</div>
