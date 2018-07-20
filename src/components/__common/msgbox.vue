@@ -6,9 +6,8 @@
 	<div class="msgbox">
 		<div class="msgbox_content"
 		     @click="gotoNative('消息中心',`${category}LatestMsgs`,{lastId})">
-			<img v-if="avatar"
-			     :src="avatar"
-			     alt="">
+			<img :src="avatar"
+			     @error="onImgErr($event)">
 			<slot>
 				<span>{{count}}条新消息</span>
 			</slot>
