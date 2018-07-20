@@ -41,6 +41,10 @@
 
 				&.refuse {
 					color: #ff3254;
+
+					> .rx-icon {
+						color: #ff3254;
+					}
 				}
 
 				&.platform {

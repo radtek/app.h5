@@ -37,7 +37,6 @@
 								        align="right">
 									<span :class="statusClass">
 										<rx-icon name="warning"
-										         style="color:#ff3254"
 										         v-if="docItem.isPublished===2"></rx-icon>{{docItem.isPublished | auditState(docItem) }}</span>
 								</rx-col>
 								<rx-col v-else-if="category=='share'"
