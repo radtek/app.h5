@@ -1,12 +1,37 @@
 @import "../variable.scss";
 @import "./skeleton.scss";
 
+$cell-border-color: #e6e6e6;
+$cell-border-style: solid;
+$cell-border-width: 1px;
+
+$cell-border: $cell-border-width $cell-border-style $cell-border-color;
+
 .rx-cell {
 	position: relative;
-	border-bottom: 1px solid #e6e6e6;
 	color: $cell-color;
 	line-height: $cell-lineheight;
 	text-align: left;
+
+	&.b {
+		border: $cell-border;
+	}
+
+	&.b-t {
+		border-top: $cell-border;
+	}
+
+	&.b-r {
+		border-right: $cell-border;
+	}
+
+	&.b-b {
+		border-bottom: $cell-border;
+	}
+
+	&.b-l {
+		border-left: $cell-border;
+	}
 
 	&-header {
 		position: relative;
