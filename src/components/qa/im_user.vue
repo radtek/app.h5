@@ -1,5 +1,5 @@
 <template>
-	<div class="im-user-item">
+	<rx-col class="im-user-item">
 		<div class="header">
 			<img :src="row.imgPath"
 			     alt="用户头像"
@@ -19,7 +19,7 @@
 		        @on-click="handleInviteClick"
 		        v-else
 		        :loading="isInviting">{{inviteText}}</rx-btn>
-	</div>
+	</rx-col>
 </template>
 
 <script>

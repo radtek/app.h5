@@ -5,7 +5,19 @@
 <template>
 	<rx-pull :vertical="false"
 	         free-scroll>
-		<div class="im-user-list"
+		<rx-row justify="center"
+		        align="center"
+		        ref="wrap"
+		        :style="styles"
+		        class="im-user-list">
+			<template v-for="(row,index) in users">
+				<im-user ref="item"
+				         :key="index"
+				         :is-add="isAdd"
+				         :row="row"></im-user>
+			</template>
+		</rx-row>
+		<!-- <div class="im-user-list"
 		     :style="styles"
 		     ref="wrap">
 			<template v-for="(row,index) in users">
@@ -14,7 +26,7 @@
 				         :is-add="isAdd"
 				         :row="row"></im-user>
 			</template>
-		</div>
+		</div> -->
 	</rx-pull>
 </template>
 

@@ -6,15 +6,15 @@
 
 	&-item {
 		position: relative;
-		display: inline-block;
+		// display: inline-block;
 		width: 240px;
 		min-height: 361px;
 		border: 1px solid #e6e6e6;
 		border-radius: 4px;
 		margin-left: 30px;
 		color: #333;
+		// text-align: center;
 		vertical-align: top;
-		text-align: center;
 
 		.icon-close {
 			position: absolute;
