@@ -15,7 +15,7 @@ export default {
 	},
 	methods: {
 		recieveAppNotice(moduleName) {
-			if (this.$isProd || this.$isTest) {
+			if (!this.$isDev) {
 				JXRSApi.on(
 					`app.${moduleName}.showTopNotices`,
 					({ img, count, lastId }) => {
@@ -27,13 +27,4 @@ export default {
 			}
 		}
 	}
-	// ,
-	// created() {
-	// 	setTimeout(() => {
-	// 		this.msgboxAvatar =
-	// 			"http://dangjian-limin.oss-cn-hangzhou.aliyuncs.com/avatar_male.png?Expires=43020012813&OSSAccessKeyId=LTAIO6w6CI0rif2M&Signature=zVQ5Y7%2Bickigq1WqW8cYbZ4SsGc%3D";
-	// 		this.msgboxCount = 1;
-	// 		this.msgboxLastId = 1;
-	// 	}, 3000);
-	// }
 };
