@@ -19,26 +19,22 @@ export default {
 		}
 	},
 	methods: {
-		handleFriendAddClick(targetUserId) {
+		handleFriendAddClick(friendId) {
 			if (this.addStatus === 1 || this.isAdding) return;
 			this.isAdding = true;
-			if (this.$isProd || this.$isTest) {
-				JXRSApi.app.qa.addIMFriend({
-					friendId: targetUserId
-				});
+			if (!this.$isDev) {
+				JXRSApi.app.qa.addIMFriend({ friendId });
 			}
 			setTimeout(() => {
 				this.isAdding = false;
 				this.addStatus = 1;
 			}, 500);
 		},
-		handleFriendAddClickInObject(targetUserId, obj) {
+		handleFriendAddClickInObject(friendId, obj) {
 			if (obj.addStatus === 1 || obj.isAdding) return;
 			obj.isAdding = true;
-			if (this.$isProd || this.$isTest) {
-				JXRSApi.app.qa.addIMFriend({
-					friendId: targetUserId
-				});
+			if (!this.$isDev) {
+				JXRSApi.app.qa.addIMFriend({ friendId });
 			}
 			setTimeout(() => {
 				obj.isAdding = false;
