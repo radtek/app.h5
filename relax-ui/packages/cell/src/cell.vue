@@ -23,7 +23,7 @@
 					<row :gutter="6"
 					     :flex="false"
 					     :class="[{[`img-${imgs.length}`]:imgs && imgs.length <=2 && imgs.length >=1}]">
-						<i-col :span="imgs.length === 2?5: imgs.length === 1 ? 24: 8"
+						<i-col :span="imgs.length === 2? 12: imgs.length === 1 ? 24: 8"
 						       v-for="(url,i) in imgs"
 						       :key="i">
 							<img :src="url"
