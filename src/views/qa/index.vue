@@ -15,9 +15,7 @@
 			<rx-pull-down slot="down"></rx-pull-down>
 			<rx-pull-up slot="up"></rx-pull-up>
 			<div class="ui-list">
-				<msg-box class="animated fadeInDown"
-				         v-if="msgboxCount"
-				         category="qa"
+				<msg-box category="qa"
 				         :count="msgboxCount"
 				         :last-id="msgboxLastId"
 				         :avatar="msgboxAvatar"></msg-box>

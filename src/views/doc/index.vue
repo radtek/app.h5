@@ -14,9 +14,7 @@
 		         :total="total">
 			<rx-pull-down slot="down"></rx-pull-down>
 			<rx-pull-up slot="up"></rx-pull-up>
-			<msg-box class="animated fadeInDown"
-			         v-if="msgboxCount"
-			         category="doc"
+			<msg-box category="doc"
 			         :count="msgboxCount"
 			         :last-id="msgboxLastId"
 			         :avatar="msgboxAvatar"></msg-box>

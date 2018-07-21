@@ -3,11 +3,12 @@
 </style>
 
 <template>
-	<div class="msgbox">
+	<div class="msgbox animated fadeInDown"
+	     v-if="show">
 		<div class="msgbox_content"
-		     @click="gotoNative('消息中心',`${category}LatestMsgs`,{lastId})">
+		     @click="onClick">
 			<img :src="avatar"
-			     @error="onImgErr($event)">
+			     @error="onImgErr($event,true)">
 			<slot>
 				<span>{{count}}条新消息</span>
 			</slot>
@@ -23,6 +24,22 @@
 			avatar: String,
 			count: Number,
 			lastId: [String, Number]
+		},
+		data() {
+			return { show: !!this.count };
+		},
+		watch: {
+			count(val) {
+				this.show = !!val;
+			}
+		},
+		methods: {
+			onClick() {
+				this.show = false;
+				this.gotoNative("消息中心", `${this.category}LatestMsgs`, {
+					lastId: this.lastId
+				});
+			}
 		}
 	};
 </script>
