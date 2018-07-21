@@ -26,7 +26,7 @@ export default {
 
 			if (!this.$refs.items || !this.$refs.items.length) return;
 
-			this.broadcast("RxImgViewer", "fn.load");
+			this.broadcast("RxImg", "fn.load");
 
 			// this.$refs.items.forEach(item => {
 			// 	let imgs = item.$refs.img;
