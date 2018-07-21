@@ -9,7 +9,7 @@
 	import isInClientView from "../../src/utils/dom/isInClientView";
 	import scaleImg from "./algorithm/index";
 	export default {
-		name: "RxImgViewer",
+		name: "RxImg",
 		props: {
 			placeholder: { type: String, default: imgPlaceholder },
 			src: { type: String, default: "" },

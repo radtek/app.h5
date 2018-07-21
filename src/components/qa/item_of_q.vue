@@ -14,10 +14,10 @@
 				</rx-col>
 				<rx-col :span="row.description?8:24"
 				        align="right">
-					<rx-img-viewer :src="row.imgPath[0]"
-					               :box-w="180"
-					               :box-h="130"
-					               @on-error="onImgErr"></rx-img-viewer>
+					<rx-img :src="row.imgPath[0]"
+					        :box-w="180"
+					        :box-h="130"
+					        @on-error="onImgErr"></rx-img>
 				</rx-col>
 			</rx-row>
 		</template>
