@@ -23,6 +23,7 @@
 		},
 		data() {
 			return {
+				rect: {},
 				img: {},
 				canvas: {},
 				canvasContext: {},
@@ -33,8 +34,11 @@
 		},
 		methods: {
 			__calc() {
-				const x = this.boxW;
-				const y = this.boxH;
+				// const x = this.boxW;
+				// const y = this.boxH;
+				const x = this.rect.width;
+				const y = this.rect.height;
+
 				const w = this.img.width;
 				const h = this.img.height;
 
@@ -118,6 +122,8 @@
 			});
 		},
 		mounted() {
+			this.rect = this.$el.getBoundingClientRect();
+
 			// 动态创建一个canvas名称为rx-imgcrop-canvas
 			let canvas = document.getElementById("rx-imgcrop-canvas");
 
