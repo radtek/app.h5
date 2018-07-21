@@ -9,15 +9,28 @@
 			<rx-pull-down slot="down"></rx-pull-down>
 			<rx-pull-up slot="up"></rx-pull-up>
 			<div class="pane-ques">
-
+				<user :user-info="userInfo"></user>
+				<q-detail :row="question"></q-detail>
 			</div>
+			<div class="separate"></div>
+			<div class="pane-users">
+				<rx-card header="邀请他人回答问题"
+				         class="card-users"
+				         v-show="isShowUsers && userInfo.anonymous!==1"
+				         padding="h">
+					<im-users :is-add="false"
+					          :question-id="qid"
+					          :unit-id="userInfo.unitId"
+					          @on-empty="isShowUsers=false"
+					          @on-show="isShowUsers=true"></im-users>
+				</rx-card>
+			</div>
+			<div class="separate"></div>
 			<div class="pane-answer">
-				<template v-if="total>0">
-					<item v-for="(answer,index) in list"
-					      :key="index"
-					      :row="answer">
-					</item>
-				</template>
+				<!-- <template v-if="total>0"
+				          v-for="(answer,index) in list"
+				          :key="index">
+				 </template> -->
 			</div>
 		</rx-pull>
 	</section>
@@ -26,24 +39,19 @@
 <script>
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
-	import IM from "~m/__qa-im";
 	export default {
 		name: "PageOfDetail",
 		components: {
-			QStatus: () =>
-				import(/* webpackChunkName:"wc-status_of_q" */ "~c/qa/status_of_q.vue").then(
+			User: () =>
+				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
-			Item: () =>
-				import(/* webpackChunkName:"wc-item_of_a" */ "~c/qa/item_of_a.vue").then(
+			QDetail: () =>
+				import(/* webpackChunkName:"wc-detail_of_q" */ "~c/qa/detail_of_q.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
-			AStatus: () =>
-				import(/* webpackChunkName:"wc-status_of_a" */ "~c/qa/status_of_a.vue").then(
-					utils.fixAsyncCmpLifeCycle
-				),
-			AStatusV2: () =>
-				import(/* webpackChunkName:"wc-status_of_a_v2" */ "~c/qa/status_of_a_v2.vue").then(
+			ADetail: () =>
+				import(/* webpackChunkName:"wc-detail_of_a" */ "~c/qa/detail_of_a.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 			ImUsers: () =>
@@ -51,12 +59,15 @@
 					utils.fixAsyncCmpLifeCycle
 				)
 		},
-		mixins: [Pull, IM],
+		mixins: [Pull],
 		data() {
 			return {
 				list: [],
 				total: 0,
-				page: 1
+				page: 1,
+				question: {},
+				userInfo: {},
+				isShowUsers: true
 			};
 		},
 		methods: {
@@ -80,13 +91,12 @@
 								userInfo = {
 									userName: "匿名",
 									imgPath: this.$DEFAULT_AVATAR,
-									anonymous: 1
+									isAnonymous: 1
 								};
 							} else {
 								userInfo = question.communityUser;
 							}
-							this.isPrerenderUser = false;
-							this.userInfo.user = userInfo;
+							this.userInfo = userInfo;
 							if (!this.$isDev) {
 								JXRSApi.app.qa.refreshAppStatusOfQuesCollect({
 									isCollect: resp.result.isCollected,
@@ -124,7 +134,11 @@
 			__fetch() {
 				// 获取问题详情
 				// 获取回答列表
-				this.__fetchQ();
+				this.__fetchQ().then(() => {
+					setTimeout(() => {
+						this.broadcast("ImUsers", "fn.fetch");
+					}, 300);
+				});
 				this.__fetchAnswers();
 			},
 			__append() {
