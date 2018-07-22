@@ -1,27 +1,18 @@
 <template>
 	<rx-cell ref="items"
 	         :imgs="row.imgPath"
-	         @on-img-click="onRedirect('answer-detail',{qid,aid:row.id})">
+	         @on-img-click="handleGoto">
 		<template slot="header">
 			<user :user-info="userInfo"></user>
 		</template>
-		<div class="multiline-content">
-			<div @click.stop="goto('回答详情','/answer',{qid:qid,aid:row.id})"
-			     :class="[{overflow:row.overStatus === 1}]">
-				{{row.overStatus === 1 ? row.simpleContent:row.answer}}
-			</div>
-			<p class="tool"
-			   v-if="row.overStatus !== -1">
-				<span @click.stop="onRedirect('answer-detail',{qid:qid,aid:row.id})">...全文</span>
-				<!-- <rx-btn @on-click="row.overStatus = row.overStatus === 1 ? 0 : 1"
-								        :icon="row.overStatus === 1 ?'iconfont icon-arrow-down' : 'iconfont icon-arrow-up'"
-								        type="text">{{row.overStatus === 1?'展开':'收起'}}</rx-btn> -->
-			</p>
-		</div>
-
+		<rx-clamp-box :text="row.answer"
+		              :can-expand="false"
+		              hide-tip="...全文"
+		              @on-content-click="handleGoto"
+		              @on-tip-click="handleGoto"></rx-clamp-box>
 		<template slot="footer">
-			<answer-status :row="answer"
-			               :ques-info="question"></answer-status>
+			<!-- <answer-status :row="answer"
+			               :ques-info="question"></answer-status> -->
 			<!-- <answer-status2 :row="answer"
 			                @on-share="handleAnswerShare(answer)"
 			                @on-zan="handleAnswerZan(answer)"
@@ -55,7 +46,8 @@
 				default() {
 					return {};
 				}
-			}
+			},
+			qid: [String, Number]
 		},
 		computed: {
 			userInfo() {
@@ -73,6 +65,14 @@
 					return this.row.communityUser;
 				}
 				return {};
+			}
+		},
+		methods: {
+			handleGoto() {
+				this.goto("回答详情", "/answer", {
+					qid: this.qid,
+					aid: this.row.id
+				});
 			}
 		}
 	};

@@ -77,15 +77,6 @@
 					.then(resp => {
 						const question = resp.result.question;
 						if (question) {
-							question.overStatus = -1;
-							if (
-								question.description &&
-								question.description.length > 50
-							) {
-								question.overStatus = 1;
-								question.simpleContent =
-									question.description.substring(0, 50) + "...";
-							}
 							let userInfo;
 							if (question.isAnonymous === 1) {
 								userInfo = {

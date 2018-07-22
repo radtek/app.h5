@@ -3,17 +3,8 @@
 	         v-show="row.question">
 		<rx-cell :border="false">
 			<p slot="header">{{row.question}}</p>
-			<div class="multiline-content">
-				<div :class="[{overflow:row.overStatus === 1}]">
-					{{row.overStatus===1 ? row.simpleContent:row.description}}
-				</div>
-				<p class="tool"
-				   v-if="row.overStatus !== -1">
-					<rx-btn @on-click="row.overStatus = row.overStatus === 1 ? 0 : 1"
-					        :icon="row.overStatus===1 ?'iconfont icon-arrow-down' : 'iconfont icon-arrow-up'"
-					        type="text">{{row.overStatus===1?'展开':'收起'}}</rx-btn>
-				</p>
-			</div>
+			<rx-clamp-box :text="row.description"
+			              can-expand></rx-clamp-box>
 			<template slot="img">
 				<rx-row :gutter="6"
 				        :class="[{[`img-${qImgs.length}`]:qImgs.length <=2 && qImgs.length >=1}]">
