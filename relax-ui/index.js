@@ -35,6 +35,8 @@ import ToastPlugin from "./src/plugin/toast/index";
 import AlertPlugin from "./src/plugin/alert/index";
 import ConfirmPlugin from "./src/plugin/confirm/index";
 
+import ClampBpx from "./packages/clamp-box/index";
+
 const components = [
 	Row,
 	Col,
@@ -58,7 +60,8 @@ const components = [
 	Swipeout.Btn,
 	Img,
 	CollapseTransition,
-	Toast
+	Toast,
+	ClampBpx
 ];
 
 function install(Vue, options = {}) {
@@ -121,7 +124,8 @@ export {
 	Toast,
 	ToastPlugin,
 	AlertPlugin,
-	ConfirmPlugin
+	ConfirmPlugin,
+	ClampBpx
 };
 
 export default install;
