@@ -1,4 +1,4 @@
-import Img from "./img.vue";
+import Img from "./img";
 
 Img.install = function(Vue) {
 	Vue.component(Img.name, Img);
