@@ -106,7 +106,7 @@
 				return this.item.infoDocument;
 			},
 			showDownload() {
-				return this.category !== "upload";
+				return this.category !== "upload" && this.category !== "download";
 			},
 			showCollect() {
 				return (
