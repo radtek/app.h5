@@ -10,6 +10,9 @@ export default {
 			},
 			ref: "img",
 			on: {
+				click: event => {
+					this.$emit("on-click", event);
+				},
 				error: event => {
 					this.$emit("on-error", event);
 				}
@@ -20,8 +23,6 @@ export default {
 		placeholder: { type: String, default: imgPlaceholder },
 		src: { type: String, default: "" },
 		scaleType: { type: String, default: "centerCrop" },
-		boxW: Number,
-		boxH: Number,
 		// 是否开启智能模式
 		useSmartMode: { type: Boolean, default: true },
 		// 可允许的误差范围
@@ -40,8 +41,6 @@ export default {
 	},
 	methods: {
 		__calc() {
-			// const x = this.boxW;
-			// const y = this.boxH;
 			const x = this.rect.width;
 			const y = this.rect.height;
 
