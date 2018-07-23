@@ -113,6 +113,8 @@ $rx-cell-padding: 30px;
 }
 
 .rx-cell-avatar.rx-skeleton {
+	padding: $rx-cell-padding;
+
 	.rx-cell {
 		&-img {
 			.block {
