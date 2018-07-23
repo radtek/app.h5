@@ -62,7 +62,7 @@ export default {
 			)
 		];
 
-		if (this.text !== this.content) {
+		if (this.text && this.isHide) {
 			childrens.push(
 				h(
 					"span",
