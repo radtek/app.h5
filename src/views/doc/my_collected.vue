@@ -30,11 +30,11 @@
 				<rx-pull-up slot="up"></rx-pull-up>
 				<div class="pane-list">
 					<rx-swipeout>
-						<doc-item v-for="(doc,index) in list"
+						<doc-item ref="docItem"
+						          v-for="(doc,index) in list"
 						          :key="index"
 						          category="collect"
 						          :is-edit="isChooseMode"
-						          :can-collect="false"
 						          :time="doc.createTime"
 						          :item="doc"></doc-item>
 					</rx-swipeout>
@@ -42,8 +42,7 @@
 			</rx-pull>
 			<status v-if="isChooseMode && total>0"
 			        category="collect"
-			        @on-removed="__fetch"
-			        @on-collected="__fetch"></status>
+			        @on-removed="__removeDocs"></status>
 			<div class="empty"
 			     v-if="!isPrerender && total<=0"
 			     @click.stop="goto('党建文库','/index')">
@@ -95,6 +94,11 @@
 					});
 					this.list = list;
 					this.total = resp.result.total;
+					if (!this.$isDev) {
+						if (this.total && list && list.length) {
+							JXRSApi.app.doc.showTopRightAction();
+						}
+					}
 					setTimeout(() => {
 						this.isPrerender = false;
 					}, 300);

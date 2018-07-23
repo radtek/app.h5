@@ -32,10 +32,6 @@
 						<doc-item v-for="(doc,index) in list"
 						          :key="index"
 						          category="upload"
-						          :can-collect="false"
-						          :can-download="false"
-						          can-share
-						          can-upload
 						          :time="doc.createTime"
 						          :item="doc"></doc-item>
 					</rx-swipeout>
