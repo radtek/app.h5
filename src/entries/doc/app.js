@@ -5,6 +5,12 @@ import { createJSApi } from "~j/index";
 import http from "~a/doc/";
 
 import "~css/modules/doc/empty.scss";
+import "~css/modules/doc/relax-ui/toast.scss";
 
-createJSApi("changeChooseAllStatus", "download", "audioImport");
+createJSApi(
+	"changeChooseAllStatus",
+	"download",
+	"audioImport",
+	"showTopRightAction"
+);
 createVue(Vue, { router: createRoutes(Vue), http });

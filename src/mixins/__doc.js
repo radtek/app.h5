@@ -42,17 +42,26 @@ export default {
 	},
 	created() {
 		if (!this.$isDev) {
-			// 是否全选
-			JXRSApi.on("app.doc.isChoiceAll", isChoice => {
+			// 是否切换成编辑模式
+			JXRSApi.on("app.doc.isChangeToChooseMode", isChoose => {
+				this.isChooseMode = isChoose === 1 || isChoose === "1";
+
+				// 让选择模式和左滑互斥
+				if (this.$refs.docItem) {
+					if (Array.isArray(this.$refs.docItem)) {
+						this.$refs.docItem.forEach(item => {
+							item.close();
+						});
+					} else {
+						this.$refs.docItem.close();
+					}
+				}
+			}).on("app.doc.isChoiceAll", isChoice => {
+				// 是否全选
 				const val = isChoice === 1 || isChoice === "1";
 				this.list.forEach(item => {
 					item.isChecked = val;
 				});
-			});
-
-			// 是否切换成编辑模式
-			JXRSApi.on("app.doc.isChangeToChooseMode", isChoose => {
-				this.isChooseMode = isChoose === 1 || isChoose === "1";
 			});
 		}
 	}
