@@ -102,6 +102,18 @@ demo: JXRSApi.invoke("app.doc.fetchDocsOfTag","{\"tagId\":1}")
 
 ## 3.最近阅读、我的收藏、好友共享、我的下载
 
+### H5通知App显示顶部右上角的选择按钮
+
+```js
+
+H5通知App
+
+操作名称: app.doc.showTopRightAction
+
+操作参数: 无
+
+```
+
 ### App点击右上角顶部的选择按钮
 
 > App通知H5切换页面成可编辑模式
