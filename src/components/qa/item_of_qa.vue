@@ -18,8 +18,6 @@
 						<rx-col :span="row.infoAnswer.answer ?8:24"
 						        align="right">
 							<rx-img :src="row.infoAnswer.imgPath[0]"
-							        :box-w="180"
-							        :box-h="130"
 							        :range-of-error="0.26"
 							        @on-error="onImgErr"></rx-img>
 						</rx-col>

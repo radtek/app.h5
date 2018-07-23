@@ -16,8 +16,6 @@
 				</rx-col>
 				<rx-col :span="row.answer ?8:24">
 					<rx-img :src="row.imgPath[0]"
-					        :box-w="180"
-					        :box-h="130"
 					        @on-error="onImgErr"></rx-img>
 				</rx-col>
 			</rx-row>
