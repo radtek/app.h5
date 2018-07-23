@@ -26,19 +26,20 @@
 				</rx-card>
 			</div>
 			<div class="separate"></div>
-			<rx-card class="pane-answer"
+			<rx-card v-if="total>0"
+			         class="pane-answer"
 			         padding="b">
-				<!-- <template v-if="total>0"
-				          v-for="(answer,index) in list"
-				          :key="index">
-				 </template> -->
-				<a-detail v-if="total>0"
-				          v-for="(answer,index) in list"
+				<a-detail v-for="(answer,index) in list"
 				          :key="index"
 				          :question="question"
 				          :row="answer">
 				</a-detail>
 			</rx-card>
+			<div v-else
+			     class="empty"
+			     @click.stop="gotoNative('撰写回答','createAnswer',{questionId:qid,title:question.question})">
+				暂无回答，点击添加靠谱回答
+			</div>
 		</rx-pull>
 	</section>
 </template>
@@ -108,6 +109,7 @@
 					});
 			},
 			__fetchAnswers() {
+				this.page = 1;
 				return this.$http.qa
 					.getAnswers({ questionId: this.qid })
 					.then(resp => {

@@ -1,5 +1,6 @@
 <template>
 	<rx-cell-avatar action-position="top"
+	                :padding="padding"
 	                :avatar="userInfo.imgPath"
 	                @on-img-click="onAvatarClick($event)"
 	                @on-avatar-err="onImgErr($event,true)">
@@ -27,7 +28,8 @@
 				default() {
 					return {};
 				}
-			}
+			},
+			padding: { type: Boolean, default: true }
 		},
 		methods: {
 			onAvatarClick(evt) {
