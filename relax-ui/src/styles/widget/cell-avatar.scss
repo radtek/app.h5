@@ -1,12 +1,33 @@
 @import "../variable.scss";
 @import "./skeleton.scss";
 
+$rx-cell-padding: 30px;
+
 .rx-cell {
 	&-avatar {
 		display: flex;
 		justify-content: center;
 		align-items: flex-start;
-		padding: 30px;
+
+		&.p {
+			padding: $rx-cell-padding;
+		}
+
+		&.p-t {
+			padding-top: $rx-cell-padding;
+		}
+
+		&.p-r {
+			padding-right: $rx-cell-padding;
+		}
+
+		&.p-b {
+			padding-bottom: $rx-cell-padding;
+		}
+
+		&.p-l {
+			padding-left: $rx-cell-padding;
+		}
 
 		&.no-body {
 			align-items: center;
