@@ -88,19 +88,17 @@
 				if (this.isRemoving) return;
 				this.isRemoving = true;
 				const type = categoryMap[this.category];
+				const ids = this.choosedDocIds.slice();
 				this.$http.doc
-					.removeDoc({
-						ids: this.choosedDocIds,
-						type
-					})
+					.removeDoc({ ids, type })
 					.then(() => {
-						this.$emit("on-removed");
+						this.$emit("on-removed", ids);
 						this.isRemoving = false;
-						this.$toast("批量删除成功", "bottom");
+						this.$toast.text("批量删除成功", "bottom");
 					})
 					.catch(err => {
 						this.isRemoving = false;
-						this.$toast(
+						this.$toast.text(
 							this.$isDev ? err.message : "批量删除发生异常",
 							"bottom"
 						);
