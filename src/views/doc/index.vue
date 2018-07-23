@@ -53,8 +53,7 @@
 			<rx-card class="pane-list"
 			         padding>
 				<template slot="header">
-					<rx-icon name="red-heart"
-					         style="color:#ff3254"></rx-icon>
+					<rx-icon name="red-heart"></rx-icon>
 					<span>为你推荐</span>
 				</template>
 				<div class="ui-list">
