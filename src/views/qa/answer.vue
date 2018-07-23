@@ -21,27 +21,29 @@
 				</rx-card>
 			</div>
 			<div class="separate"></div>
-			<div class="pane-answer">
+			<rx-card class="pane-answer"
+			         padding="b">
 				<rx-cell :border="false">
 					<template slot="header">
-						<rx-cell-avatar action-position="top"
-						                :avatar="answer.isAnonymous === 1 ? $DEFAULT_AVATAR : answerUser.imgPath"
-						                @on-avatar-err="onImgErr($event,true)">
-							<h2 slot="header">{{answer.isAnonymous === 1 ? '匿名' : answerUser.userName}}</h2>
-							<span v-if="answer.isAnonymous !== 1 && answerUser.unitName">{{answerUser.unitName}}</span>
-							<rx-btn slot="rightAction"
-							        v-if="answer.isAnonymous!==1 && answerUser.userId !== this.authInfo.userId"
-							        :loading="isAdding"
-							        :type="addStatus === 2 ? 'info': 'primary'"
-							        :plain="addStatus === 1 || addStatus === 2"
-							        :icon="addStatus === 0 ? 'plus' : ''">{{friendText}}</rx-btn>
-						</rx-cell-avatar>
+						<user :user-info="answerUser"
+						      :padding="false"></user>
 					</template>
 					<div v-html="answer.answer"></div>
-					<template slot="footer">
+					<template slot="img">
+						<rx-row :flex="false"
+						        :gutter="8">
+							<template v-if="answer.imgPath && answer.imgPath.length"
+							          v-for="(img,index) in answer.imgPath">
+								<rx-col :span="__getColSpan(answer.imgPath)"
+								        :key="index">
+									<rx-img :src="img"
+									        @on-error="onImgErr"></rx-img>
+								</rx-col>
+							</template>
+						</rx-row>
 					</template>
 				</rx-cell>
-			</div>
+			</rx-card>
 			<div class="separate"></div>
 			<comment-pane :total="total"
 			              :list="list"
@@ -86,6 +88,9 @@
 			};
 		},
 		methods: {
+			__getColSpan(imgArr) {
+				return imgArr && imgArr.length ? 24 / imgArr.length : 24;
+			},
 			__fetchQ() {
 				return this.$http.qa
 					.getQuesDetail({ questionId: this.qid })
@@ -103,17 +108,10 @@
 				return this.$http.qa.getAnswers(params).then(resp => {
 					const answer = resp.result.list[0];
 					if (answer) {
-						answer.overStatus = -1;
-						if (answer.answer && answer.answer.length > 100) {
-							answer.overStatus = 1;
-							answer.simpleContent =
-								answer.answer.substring(0, 100) + "...";
-						}
 						this.commentCount = answer.commentCount;
-						this.isPrerenderAnswer = false;
 						this.answerUser = answer.communityUser || {};
 						this.answer = answer;
-						if (this.$isProd || this.$isTest) {
+						if (!this.$isDev) {
 							JXRSApi.app.qa.refreshAppStatusOfAnswer({
 								questionId: this.qid,
 								answerId: answer.id,
@@ -124,12 +122,11 @@
 
 							if (
 								answer.isAnonymous !== 1 &&
-								answer.communityUser &&
-								answer.communityUser.userId !== this.AuthInfo.userId
+								this.answerUser.userId !== this.authInfo.userId
 							) {
 								// H5通知App主动去获取回答用户与当前登录用户的好友状态
 								JXRSApi.app.qa.refreshH5IMInfo({
-									userIds: [answer.communityUser.userId]
+									userIds: [this.answerUser.userId]
 								});
 							}
 						}
@@ -164,7 +161,6 @@
 							});
 						});
 						this.list = list2;
-
 						this.isPrerender = false;
 					});
 			},
@@ -172,11 +168,70 @@
 				return Promise.all([this.__fetchQ(), this.__fetchA()]).then(() =>
 					this.__fetchComments());
 			},
-			__append() {},
-			handleCommentEmptyClick() {}
+			__append() {
+				this.$http.qa
+					.getAnswerComments({
+						answerId: this.aid,
+						page: ++this.page,
+						pageSize: this.pageSize
+					})
+					.then(resp => {
+						if (
+							resp.result.infoComments &&
+							resp.result.infoComments.length
+						) {
+							this.list = this.list.concat(resp.result.infoComments);
+						}
+					});
+			},
+			handleCommentEmptyClick() {
+				// 通知App唤起评论
+				if (!this.$isDev) {
+				}
+			}
 		},
 		created() {
 			this.getQS("qid", "aid");
+
+			// 注册交互事件
+			if (!this.$isDev) {
+				// APP与H5的交互: APP端点赞或取消点赞成功后通知H5刷新点赞状态栏
+				JXRSApi.on("app.qa.updateZanStatusOfH5", ({ zan }) => {
+					zan = parseInt(zan, 10);
+					if (zan === 1) {
+						this.answer.isSupported = true;
+						this.answer.supportCount += 1;
+					} else {
+						this.answer.isSupported = false;
+						this.answer.supportCount +=
+							this.answer.supportCount > 0 ? -1 : 0;
+					}
+				})
+					.on("app.qa.refreshComment", () => {
+						this.__fetchComments().then(() => {
+							this.commentAnchor = this.$refs.comment.$el.getBoundingClientRect().top;
+						});
+					})
+					.on("app.qa.scrollToComment", () => {
+						this.__scrollToComment();
+					})
+					.on("app.qa.refreshIMStatus", ({ userStatus }) => {
+						if (userStatus || userStatus.length) {
+							userStatus.forEach(info => {
+								for (const key in info) {
+									if (this.answerUser.userId === key) {
+										this.addStatus =
+											info[key] === 1 || info[key] === "1"
+												? 2
+												: 0;
+										this.isAdding = false;
+									}
+								}
+							});
+						}
+					});
+			}
+
 			this.__fetch();
 		}
 	};
