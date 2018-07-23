@@ -30,6 +30,8 @@ export default {
 		isAverage() {
 			if (this.colCount === 0) return true;
 
+			if (!this.flex) return false;
+
 			const remainNum = 24 % this.colCount;
 
 			if (!remainNum) {
