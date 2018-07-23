@@ -1,6 +1,5 @@
 <template>
 	<rx-cell ref="items"
-	         :imgs="row.imgPath"
 	         @on-img-click="handleGoto">
 		<template slot="header">
 			<user :user-info="userInfo"></user>
@@ -18,6 +17,17 @@
 			                @on-zan="handleAnswerZan(answer)"
 			                @on-comment="onRedirect('answer-detail',{qid:qid,aid:row.id})">
 			</answer-status2> -->
+		</template>
+		<template slot="img">
+			<rx-row :flex="false"
+			        :gutter="7">
+				<template v-for="(img,index) in row.imgPath">
+					<rx-col :span="12"
+					        :key="index">
+						<rx-img :src="img"></rx-img>
+					</rx-col>
+				</template>
+			</rx-row>
 		</template>
 	</rx-cell>
 </template>
@@ -47,7 +57,12 @@
 					return {};
 				}
 			},
-			qid: [String, Number]
+			question: {
+				type: Object,
+				default() {
+					return {};
+				}
+			}
 		},
 		computed: {
 			userInfo() {
@@ -70,7 +85,7 @@
 		methods: {
 			handleGoto() {
 				this.goto("回答详情", "/answer", {
-					qid: this.qid,
+					qid: this.question.id,
 					aid: this.row.id
 				});
 			}

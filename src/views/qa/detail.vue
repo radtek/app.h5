@@ -26,12 +26,19 @@
 				</rx-card>
 			</div>
 			<div class="separate"></div>
-			<div class="pane-answer">
+			<rx-card class="pane-answer"
+			         padding="b">
 				<!-- <template v-if="total>0"
 				          v-for="(answer,index) in list"
 				          :key="index">
 				 </template> -->
-			</div>
+				<a-detail v-if="total>0"
+				          v-for="(answer,index) in list"
+				          :key="index"
+				          :question="question"
+				          :row="answer">
+				</a-detail>
+			</rx-card>
 		</rx-pull>
 	</section>
 </template>
@@ -104,22 +111,14 @@
 				return this.$http.qa
 					.getAnswers({ questionId: this.qid })
 					.then(resp => {
-						this.isPrerenderAnswer = false;
 						const answers = resp.result.list;
 						if (answers) {
 							this.total = resp.result.count;
-							answers.forEach(answer => {
-								answer.isAdding = false;
-								answer.addStatus = 0;
-								answer.overStatus = -1;
-								if (answer.answer && answer.answer.length > 100) {
-									answer.overStatus = 1;
-									answer.simpleContent =
-										answer.answer.substring(0, 100) + "...";
-								}
-							});
+							this.list = answers;
+						} else {
+							this.total = 0;
+							this.list = [];
 						}
-						this.list = answers;
 					});
 			},
 			__fetch() {
