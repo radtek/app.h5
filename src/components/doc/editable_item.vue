@@ -192,6 +192,9 @@
 						});
 				}
 			},
+			closeSwipe() {
+				this.$refs.item.close();
+			},
 			onClick() {
 				if (this.isEdit || this.$refs.item.isOpen) return;
 
