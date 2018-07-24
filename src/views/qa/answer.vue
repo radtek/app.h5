@@ -63,6 +63,10 @@
 	export default {
 		name: "PageOfAnswer",
 		components: {
+			User: () =>
+				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
+					utils.fixAsyncCmpLifeCycle
+				),
 			QStatus: () =>
 				import(/* webpackChunkName:"wc-status_of_q_v2" */ "~c/qa/status_of_q_v2.vue").then(
 					utils.fixAsyncCmpLifeCycle
@@ -166,7 +170,8 @@
 			},
 			__fetch() {
 				return Promise.all([this.__fetchQ(), this.__fetchA()]).then(() =>
-					this.__fetchComments());
+					this.__fetchComments()
+				);
 			},
 			__append() {
 				this.$http.qa
