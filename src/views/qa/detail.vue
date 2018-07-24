@@ -1,3 +1,7 @@
+<style lang="sass">
+@import "../../assets/modules/qa/view-question_detail.scss"
+</style>
+
 <template>
 	<section rs-view="detail">
 		<rx-pull ref="pull"
