@@ -2,8 +2,7 @@
 @import "../../../src/styles/widget/cell-avatar.scss"
 </style>
 <template>
-	<div class="rx-cell-avatar"
-	     :class="classes">
+	<div :class="classes">
 		<div class="rx-cell-img"
 		     v-if="imgPosition === 'left'">
 			<slot name="img">
@@ -57,19 +56,20 @@
 			avatar: String,
 			circle: { type: Boolean, default: true },
 			actionPosition: { type: String, default: "center" },
-			padding: { type: Boolean, default: true }
+			padding: { type: [Boolean, String], default: true }
 		},
 		computed: {
 			classes() {
 				const isStr = typeof this.padding === "string";
 				return [
+					"rx-cell-avatar",
 					{
 						[`no-body`]: !this.$slots.default,
 						[`p`]: this.padding === true,
-						[`p-t`]: isStr && this.padding.indexOf("t"),
-						[`p-r`]: isStr && this.padding.indexOf("r"),
-						[`p-b`]: isStr && this.padding.indexOf("b"),
-						[`p-l`]: isStr && this.padding.indexOf("l")
+						[`p-t`]: isStr && ~this.padding.indexOf("t"),
+						[`p-r`]: isStr && ~this.padding.indexOf("r"),
+						[`p-b`]: isStr && ~this.padding.indexOf("b"),
+						[`p-l`]: isStr && ~this.padding.indexOf("l")
 					}
 				];
 			}
