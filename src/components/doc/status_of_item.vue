@@ -89,12 +89,19 @@
 				this.isRemoving = true;
 				const type = categoryMap[this.category];
 				const ids = this.choosedDocIds.slice();
+
+				if (!ids || !ids.length) {
+					this.$toast.text("您还未选择任何文档", "bottom");
+					this.isRemoving = false;
+					return;
+				}
+
 				this.$http.doc
 					.removeDoc({ ids, type })
 					.then(() => {
 						this.$emit("on-removed", ids);
 						this.isRemoving = false;
-						this.$toast.text("批量删除成功", "bottom");
+						this.$toast.text("删除成功", "bottom");
 					})
 					.catch(err => {
 						this.isRemoving = false;
@@ -107,8 +114,17 @@
 			handleBatchDownload() {
 				if (this.isDownloading) return;
 				this.isDownloading = true;
+
+				const documentIds = this.choosedDocIds;
+
+				if (!documentIds || !documentIds.length) {
+					this.$toast.text("您还未选择任何文档", "bottom");
+					this.isDownloading = false;
+					return;
+				}
+
 				this.$http.doc
-					.downloadDoc({ documentIds: this.choosedDocIds, type: 0 })
+					.downloadDoc({ documentIds, type: 0 })
 					.then(() => {
 						// this.$emit("on-downloaded");
 						this.isDownloading = false;
@@ -124,14 +140,21 @@
 			handleBatchCollect() {
 				if (this.isCollecting) return;
 				this.isCollecting = true;
+
+				const documentId = this.choosedDocIds;
+
+				if (!documentId || !documentId.length) {
+					this.$toast.text("您还未选择任何文档", "bottom");
+					this.isCollecting = false;
+					return;
+				}
+
 				this.$http.doc
-					.collectDoc({
-						documentId: this.choosedDocIds,
-						type: 0
-					})
+					.collectDoc({ documentId, type: 0 })
 					.then(() => {
-						// this.$emit("on-collected");
 						this.isCollecting = false;
+						this.$toast.text("删除成功", "bottom");
+						this.$emit("on-collected", documentId);
 					})
 					.catch(() => {
 						this.isCollecting = false;
