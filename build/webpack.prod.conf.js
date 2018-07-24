@@ -28,15 +28,25 @@ const prodConfig = webpackMerge(baseConfig, {
 		chunkFilename: outputFileName,
 		publicPath: `/${api.getAppModule()}/`
 	},
+	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				styles: {
+					name: "styles",
+					test: /\.css$/,
+					chunks: "all",
+					enforce: true
+				}
+			}
+		}
+	},
 	plugins: [
 		new webpack.HashedModuleIdsPlugin(),
 
 		new MiniCSSExtractPlugin({
-			filename: api.resolveAssetsPath(
-				"css",
-				"[name].[contenthash:8].css"
-			),
-			allChunks: true
+			filename: api.resolveAssetsPath("css", "[name].[contenthash:8].css")
+			// ,
+			// allChunks: true
 		}),
 		new OptimizeCssAssetsPlugin({
 			cssProcessorOptions: { safe: true, map: { inline: false } }

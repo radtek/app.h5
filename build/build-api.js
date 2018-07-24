@@ -184,6 +184,7 @@ class Api {
 	resolveCSSLoader(lang) {
 		if (!lang) {
 			return CSSLoader.styleLoaders({
+				extract: process.env.NODE_ENV !== "development",
 				sourceMap: true,
 				usePostCSS: true
 			});
