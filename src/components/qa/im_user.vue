@@ -4,6 +4,7 @@
 			<img :src="row.imgPath"
 			     alt="用户头像"
 			     class="circle"
+				 @click.stop="gotoNative('个人中心','userProfile',{userId:row.userId})"
 			     @error="onImgErr($event,true)">
 		</div>
 		<h3 class="user-name">{{row.userName}}</h3>
