@@ -1,4 +1,4 @@
-[rs-view="qa-ques-detail"] {
+[rs-view="detail"] {
 	overflow: hidden;
 
 	.empty {
@@ -14,38 +14,54 @@
 		* {
 			vertical-align: middle;
 		}
-		// position: absolute;
-		// bottom: 113px * 2;
-		// left: 50%;
-		// z-index: 10;
-		// transform: translateX(-50%);
 	}
 
-	.ques-wrap {
-		background: #fff;
-		z-index: 10;
-	}
-
-	.card-answers {
-		&.noempty {
-			position: relative;
-			height: 100%;
-			max-height: 1000px;
-		}
-
-		.rx-cell-imgs {
-			.img-1 {
-				width: 33.3%;
+	.rx-cell-imgs {
+		.img-1 {
+			img {
+				height: auto;
 			}
 		}
 	}
 
-	.ui-loadmore {
-		padding: 20px 0;
-		text-align: center;
+	.pane-answer {
+		// .rx-cell-imgs {
+		// 	.img-2 {
+		// 		img {
+		// 			height: 180px;
+		// 		}
+		// 	}
+		// }
 
-		.rx-btn {
-			width: 60%;
+		.rx-cell-footer {
+			margin: 0;
+
+			.rx-row:nth-child(2) {
+				margin-top: 40px;
+				margin-bottom: 25px;
+
+				.rx-btn {
+					i,
+					span {
+						font-size: 32px;
+					}
+
+					&.plain {
+						color: #333;
+					}
+				}
+			}
+		}
+	}
+
+	.detail_of_a {
+		.rx-clamp-box {
+			.text {
+				color: #333;
+				font-size: 32px;
+				line-height: 48px;
+				text-indent: 20px;
+			}
 		}
 	}
 }
