@@ -11,6 +11,7 @@ createJSApi(
 	"changeChooseAllStatus",
 	"download",
 	"audioImport",
-	"showTopRightAction"
+	"showTopRightAction",
+	"removeLocalDocs"
 );
 createVue(Vue, { router: createRoutes(Vue), http });
