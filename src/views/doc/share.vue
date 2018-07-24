@@ -90,17 +90,13 @@
 				this.$http.doc.getFriendSharedDocs().then(resp => {
 					const list = resp.result.list;
 					list.forEach(item => {
-						if (item.infoDocument) item.infoDocument.isChecked = false;
+						item.isChecked = false;
 					});
 					this.list = list;
 					this.total = resp.result.total;
-					if (!this.$isDev) {
-						if (this.total && list && list.length) {
-							JXRSApi.app.doc.showTopRightAction();
-						}
-					}
 					setTimeout(() => {
 						this.isPrerender = false;
+						this.__showAppTopRightAction();
 					}, 300);
 				});
 			},
@@ -111,9 +107,7 @@
 						const list = resp.result.list;
 						if (list && list.length) {
 							list.forEach(item => {
-								if (item.infoDocument) {
-									item.infoDocument.isChecked = false;
-								}
+								item.isChecked = false;
 							});
 							this.list = this.list.concat(list);
 						}

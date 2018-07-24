@@ -94,13 +94,9 @@
 					});
 					this.list = list;
 					this.total = resp.result.total;
-					if (!this.$isDev) {
-						if (this.total && list && list.length) {
-							JXRSApi.app.doc.showTopRightAction();
-						}
-					}
 					setTimeout(() => {
 						this.isPrerender = false;
+						this.__showAppTopRightAction();
 					}, 300);
 				});
 			},
