@@ -24,9 +24,9 @@ export default {
 				Math.abs(pos.y) >= this.backTopShowDistance
 			);
 
-			if (!this.$refs.items || !this.$refs.items.length) return;
-
 			this.broadcast("RxImg", "fn.load");
+
+			// if (!this.$refs.items || !this.$refs.items.length) return;
 
 			// this.$refs.items.forEach(item => {
 			// 	let imgs = item.$refs.img;
