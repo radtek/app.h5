@@ -6,6 +6,7 @@
 }
 
 .msgbox_content {
+	position: relative;
 	display: inline-block;
 	width: 280px;
 	height: 60px;
@@ -14,14 +15,14 @@
 	color: #fff;
 	background-color: #666;
 	font-size: 28px;
-	line-height: 54px;
+	line-height: 60px;
 	text-align: left;
 
 	img {
 		width: 52px;
 		height: 52px;
 		border-radius: 50%;
-		margin-left: 2px;
+		margin-left: 1px;
 		vertical-align: middle;
 	}
 
