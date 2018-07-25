@@ -73,41 +73,56 @@ export default {
 				const isShow = this.list && this.list.length ? 1 : 0;
 				JXRSApi.app.doc.showTopRightAction({ isShow });
 			}
-		}
-	},
-	created() {
-		if (!this.$isDev) {
-			// 是否切换成编辑模式
-			JXRSApi.on("app.doc.isChangeToChooseMode", isChoose => {
-				this.isChooseMode = isChoose === 1 || isChoose === "1";
+		},
+		__updateCollectStatus(ids, val) {
+			for (let l = this.list.length; l--;) {
+				const id = "" + this.list[l].infoDocument.id;
 
-				if (this.isChooseMode) {
-					// 让选择模式和左滑互斥
-					if (this.$refs.docItem) {
-						if (Array.isArray(this.$refs.docItem)) {
-							this.$refs.docItem.forEach(item => {
-								item.closeSwipe();
-							});
-						} else {
-							this.$refs.docItem.closeSwipe();
-						}
+				for (let i2 = 0, l2 = ids.length; i2 < l2; i2++) {
+					if (id === "" + ids[l2]) {
+						this.list[l].infoDocument.isCollected = val;
 					}
-				} else {
-					this.list.forEach(item => {
-						item.isChecked = false;
-					});
 				}
-			})
-				.on("app.doc.isChoiceAll", isChoice => {
-					// 是否全选
-					const val = isChoice === 1 || isChoice === "1";
-					this.list.forEach(item => {
-						item.isChecked = val;
-					});
+			}
+		},
+		__initTopAction() {
+			if (!this.$isDev) {
+				// 是否切换成编辑模式
+				JXRSApi.on("app.doc.isChangeToChooseMode", isChoose => {
+					this.isChooseMode = isChoose === 1 || isChoose === "1";
+
+					if (this.isChooseMode) {
+						// 让选择模式和左滑互斥
+						if (this.$refs.docItem) {
+							if (Array.isArray(this.$refs.docItem)) {
+								this.$refs.docItem.forEach(item => {
+									item.closeSwipe();
+								});
+							} else {
+								this.$refs.docItem.closeSwipe();
+							}
+						}
+					} else {
+						this.list.forEach(item => {
+							item.isChecked = false;
+						});
+					}
 				})
-				.on("app.doc.refreshUIDownloaded", ({ id }) => {
-					this.__closeSwipeOfItem("" + id);
-				});
+					.on("app.doc.isChoiceAll", isChoice => {
+						// 是否全选
+						const val = isChoice === 1 || isChoice === "1";
+						this.list.forEach(item => {
+							item.isChecked = val;
+						});
+					})
+					.on("app.doc.refreshUIOfDownloaded", ({ docIds }) => {
+						if (docIds && docIds.length) {
+							docIds.forEach(id => {
+								this.__closeSwipeOfItem("" + id);
+							});
+						}
+					});
+			}
 		}
 	}
 };
