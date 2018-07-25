@@ -127,8 +127,6 @@ export default {
 		});
 	},
 	mounted() {
-		this.rect = this.$el.getBoundingClientRect();
-
 		// 动态创建一个canvas名称为rx-imgcrop-canvas
 		let canvas = document.getElementById("rx-imgcrop-canvas");
 
@@ -146,9 +144,8 @@ export default {
 		if (this.isSupportCanvas) {
 			this.canvasContext = canvas.getContext("2d");
 		}
-
 		this.$nextTick(() => {
-			this.load();
+			this.rect = this.$el.getBoundingClientRect();
 		});
 	}
 };
