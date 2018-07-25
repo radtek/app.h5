@@ -5,7 +5,10 @@ import getScroll from "./dom/getScroll";
 import getScrollBottom from "./dom/getScrollBottom";
 import isInClientView from "./dom/isInClientView";
 import isSupportWebp from "./dom/isSupportWebp";
-import fixAsyncCmpLifeCycle from "./async-cmp-lifecycle.fix";
+import {
+	asyncCmpListenApi,
+	fixAsyncCmpLifeCycle
+} from "./async-cmp-lifecycle.fix";
 import throttle from "./throttle";
 import qs from "./querystring";
 import { assign } from "./object";
@@ -18,7 +21,7 @@ export default {
 	getScrollBottom,
 	isInClientView,
 	isSupportWebp,
-
+	asyncCmpListenApi,
 	fixAsyncCmpLifeCycle,
 	throttle,
 	formatDate,
