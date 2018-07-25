@@ -42,6 +42,32 @@ App端接收H5对应的操作
 
 ## 1. 文库首页:
 
+### 通知H5页面更新"为你推荐"列表中文档的收藏状态
+> 1. 文档预览页面收藏成功之后,回到首页的时候要通知H5
+> 2. 我的收藏页面删除了文档之后,要通知App去将首页状态更新
+
+```js
+
+App调用方式: JXRSApi.invoke("操作名称",操作参数);
+
+操作名称: app.doc
+
+操作参数: 
+		{
+			"action":"refreshItemStatusOfCollect",
+			"data":{
+				"docIds":"[类型:Array<String>]需要批量更改收藏状态的文档ID列表",
+				"status":"[类型:Int]最终的状态值 1:已收藏 0:取消收藏"
+			}
+		}
+demo: 
+	JXRSApi.invoke("app.doc",'{"action":"refreshItemStatusOfCollect","data":{"docIds":["471340142100631552","471611436603953152"],"status":0}}')
+
+```
+
+
+
+
 ### App通知H5展示顶部消息提示
 
 ```js
@@ -225,7 +251,6 @@ docs列表内的参数:
 ```
 
 
-
 ## 6. 文档下载成功之后的通知H5刷新UI
 
 ```js
@@ -245,4 +270,20 @@ docs列表内的参数:
 	
 
 demo: JXRSApi.invoke('app.doc.refreshUIOfDownloaded','{"docIds":["1","2]}');
+```
+
+## 7. 添加收藏、删除收藏操作
+> 需要通知首页去更新"为你推荐"列表中的对应文档的收藏状态
+
+```js 
+App端接收H5的通知
+
+操作名称: app.doc.refreshIndexPageItemStatusOfCollected
+
+操作参数: 
+	{
+		"docIds":"待更新收藏状态的文档ID列表",
+		"status": 1:已收藏 0:已取消
+	}
+
 ```
