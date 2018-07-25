@@ -90,7 +90,7 @@
 				this.$http.doc.getUserReadedDocs().then(resp => {
 					const list = resp.result.list;
 					list.forEach(item => {
-						item.isChecked = false;
+						item.isChecked = item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
 					});
 					this.list = list;
 					this.total = resp.result.total;
@@ -107,12 +107,15 @@
 						const list = resp.result.list;
 						if (list && list.length) {
 							list.forEach(item => {
-								item.isChecked = false;
+								item.isChecked = item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
 							});
 							this.list = this.list.concat(list);
 						}
 					});
 			}
+		},
+		created() {
+			this.__initTopAction();
 		},
 		mounted() {
 			this.__fetch();

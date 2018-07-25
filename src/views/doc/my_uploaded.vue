@@ -53,6 +53,7 @@
 <script>
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
+	import Doc from "~m/__doc";
 	export default {
 		name: "PageOfMyUploaded",
 		components: {
@@ -65,7 +66,7 @@
 					utils.fixAsyncCmpLifeCycle
 				)
 		},
-		mixins: [Pull],
+		mixins: [Pull, Doc],
 		provide() {
 			return {
 				page: this
@@ -94,7 +95,7 @@
 				this.$http.doc.getUserUploadedDocs().then(resp => {
 					const list = resp.result.list;
 					list.forEach(item => {
-						if (item.infoDocument) item.infoDocument.isChecked = false;
+						item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
 					});
 					this.list = list;
 					this.total = resp.result.total;
@@ -108,9 +109,7 @@
 						const list = resp.result.list;
 						if (list && list.length) {
 							list.forEach(item => {
-								if (item.infoDocument) {
-									item.infoDocument.isChecked = false;
-								}
+								item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
 							});
 							this.list = this.list.concat(list);
 						}
