@@ -257,6 +257,12 @@
 						this.$toast.text("收藏成功", "bottom");
 						this.$refs.item.close();
 						this.docItem.isCollected = 1;
+						if (!this.$isDev) {
+							JXRSApi.app.doc.refreshIndexPageItemStatusOfCollected({
+								docIds: documentId,
+								status: 1
+							});
+						}
 					})
 					.catch(err => {
 						this.docItem.isCollecting = false;
