@@ -218,26 +218,48 @@
 				}
 			},
 			handleDownload() {
+				if (this.docItem.isDownloading) return;
+
+				this.docItem.isDownloading = true;
+
 				const docs = [this.docItem];
-				// 通知App下载此文档
-				if (this.$isDev) {
-					alert("通知APP端下载此文档" + JSON.stringify(docs));
-				} else {
-					JXRSApi.app.doc.download({ docs });
-				}
+
+				this.$http.doc
+					.downloadDoc({ documentIds: [this.docItem.id], type: 0 })
+					.then(() => {
+						// this.$emit("on-downloaded");
+						this.docItem.isDownloading = false;
+						// 获取已经选择的文档的信息
+						// 通知App下载此文档
+						if (this.$isDev) {
+							alert("通知APP端下载此文档" + JSON.stringify(docs));
+						} else {
+							JXRSApi.app.doc.download({ docs });
+						}
+					})
+					.catch(() => {
+						this.docItem.isDownloading = false;
+					});
 			},
 			handleCollect() {
-				if (this.docItem.isCollected === 1) return;
+				if (this.docItem.isCollected === 1 || this.docItem.isCollecting) {
+					return;
+				}
+
+				this.docItem.isCollecting = true;
+
 				const documentId = [this.docItem.id];
 				this.$http.doc
 					.collectDoc({ documentId })
 					.then(resp => {
+						this.docItem.isCollecting = false;
 						// 收藏成功
 						this.$toast.text("收藏成功", "bottom");
 						this.$refs.item.close();
 						this.docItem.isCollected = 1;
 					})
 					.catch(err => {
+						this.docItem.isCollecting = false;
 						this.$toast.text(
 							this.$isDev ? err.message : "收藏异常",
 							"bottom"
@@ -245,10 +267,15 @@
 					});
 			},
 			handleRemove() {
+				if (this.docItem.isRemoving) return;
+
+				this.docItem.isRemoving = true;
+
 				const ids = [this.docItem.id];
 				this.$http.doc
 					.removeDoc({ ids, type: this.type })
 					.then(resp => {
+						this.docItem.isRemoving = false;
 						// 删除成功
 						this.$toast.text("删除成功", "bottom");
 
@@ -259,6 +286,7 @@
 						}
 					})
 					.catch(err => {
+						this.docItem.isRemoving = false;
 						this.$toast.text(
 							this.$isDev ? err.message : "删除异常",
 							"bottom"
@@ -266,15 +294,23 @@
 					});
 			},
 			handleShare() {
+				if (this.docItem.isSharing) return;
+
+				this.docItem.isSharing = true;
 				this.$http.doc
 					.shareDocToFriend({
 						documentId: this.docItem.id
 					})
 					.then(resp => {
+						this.docItem.isSharing = false;
 						this.$toast.text("好友分享成功", "bottom");
 						// 改变状态
 						this.docItem.visibleType = 2;
 						this.$refs.item.close();
+					})
+					.catch(() => {
+						this.docItem.isSharing = false;
+						this.$toast.text("好友分享异常", "bottom");
 					});
 			},
 			handleUpload() {
