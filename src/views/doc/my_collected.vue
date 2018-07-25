@@ -42,7 +42,7 @@
 			</rx-pull>
 			<status v-if="isChooseMode && total>0"
 			        category="collect"
-			        @on-removed="__removeDocs"></status>
+			        @on-removed="handleRemoved"></status>
 			<div class="empty"
 			     v-if="!isPrerender && total<=0"
 			     @click.stop="goto('党建文库','/index')">
@@ -112,6 +112,15 @@
 							this.list = this.list.concat(list);
 						}
 					});
+			},
+			handleRemoved(docIds) {
+				if (!this.$isDev) {
+					JXRSApi.app.doc.refreshIndexPageItemStatusOfCollected({
+						docIds,
+						status: 0
+					});
+				}
+				this.__removeDocs(docIds);
 			}
 		},
 		created() {
