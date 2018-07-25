@@ -223,3 +223,26 @@ docs列表内的参数:
 	}
 	
 ```
+
+
+
+## 6. 文档下载成功之后的通知H5刷新UI
+
+```js
+H5端接收App端的通知
+
+操作名称: app.doc.refreshUIOfDownloaded
+
+操作参数: 
+	    {
+			"docIds": [Array<Object>] 已下载成功的文档Id列表
+		}
+
+docs列表内的参数:
+	{
+		"id": 文档ID
+	}
+	
+
+demo: JXRSApi.invoke('app.doc.refreshUIOfDownloaded','{"docIds":["1","2]}');
+```
