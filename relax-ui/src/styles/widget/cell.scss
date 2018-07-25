@@ -39,6 +39,7 @@ $cell-border: $cell-border-width $cell-border-style $cell-border-color;
 		color: inherit;
 		font-weight: 600;
 		font-size: $cell-header-font-size;
+		word-break: break-all;
 	}
 
 	&-body {
