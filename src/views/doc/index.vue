@@ -190,6 +190,22 @@
 		},
 		created() {
 			this.recieveAppNotice("doc");
+			this.$listenJSApi(
+				"refreshItemStatusOfCollect",
+				({ docIds, status }) => {
+					if (this.list && this.list.length) {
+						const list = this.list;
+						for (let l = list.length; l--;) {
+							let l2 = docIds.length;
+							for (; l2--;) {
+								if ("" + docIds[l2] === "" + list[l].id) {
+									list[l].isCollected = status;
+								}
+							}
+						}
+					}
+				}
+			);
 		},
 		mounted() {
 			this.__fetchTags();
