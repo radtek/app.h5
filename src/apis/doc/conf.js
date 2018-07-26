@@ -6,7 +6,7 @@ export default [
 		action: "/library/getUserCollection.qa",
 		reqParams: [
 			{ name: "page", default: 1 },
-			{ name: "pageSize", default: 10 }
+			{ name: "pageSize", default: 50 }
 		]
 	},
 	{
@@ -16,7 +16,7 @@ export default [
 		action: "/library/getDownLoadList.qa",
 		reqParams: [
 			{ name: "page", default: 1 },
-			{ name: "pageSize", default: 10 }
+			{ name: "pageSize", default: 50 }
 		]
 	},
 	{
@@ -25,7 +25,7 @@ export default [
 		action: "/importdocument/getOwnImportDocument.qa",
 		reqParams: [
 			{ name: "page", default: 1 },
-			{ name: "pageSize", default: 10 }
+			{ name: "pageSize", default: 50 }
 		]
 	},
 	{
@@ -34,7 +34,7 @@ export default [
 		action: "/dcmuser/getRecentReadDocument.qa",
 		reqParams: [
 			{ name: "page", default: 1 },
-			{ name: "pageSize", default: 10 }
+			{ name: "pageSize", default: 50 }
 		]
 	},
 	{
@@ -43,7 +43,7 @@ export default [
 		action: "/importdocument/getFriendShareDocument.qa",
 		reqParams: [
 			{ name: "page", default: 1 },
-			{ name: "pageSize", default: 10 }
+			{ name: "pageSize", default: 50 }
 		]
 	},
 	{
