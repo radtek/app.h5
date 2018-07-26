@@ -11,8 +11,11 @@
 		     :mask-transition="maskTransition"
 		     @on-show="$emit('on-show')"
 		     @on-hide="$emit('on-hide')">
-			<div class="rx-dialog_header">
-				<strong>{{title || $t("rx.confirm.title")}}</strong>
+			<div class="rx-dialog_header"
+			     v-if="title || $slots.header">
+				<slot name="header">
+					<strong>{{title || $t("rx.confirm.title")}}</strong>
+				</slot>
 			</div>
 			<div class="rx-dialog_body">
 				<slot>
