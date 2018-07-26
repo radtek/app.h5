@@ -9,11 +9,13 @@
 	     @touchend="end"
 	     @touchcancel="end">
 		<div class="rx-swipeout_left rx-swipeout_btn_box"
-		     :style="leftMenuStyles">
+		     :style="leftMenuStyles"
+		     v-show="contentSwipeX>0">
 			<slot name="leftMenu"></slot>
 		</div>
 		<div class="rx-swipeout_right rx-swipeout_btn_box"
-		     :style="rightMenuStyles">
+		     :style="rightMenuStyles"
+		     v-show="contentSwipeX<0">
 			<slot name="rightMenu"></slot>
 		</div>
 		<div class="rx-swipeout_content"
