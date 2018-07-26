@@ -290,6 +290,8 @@
 
 								done();
 
+								this.$confirm.close();
+
 								this.$refs.item.close();
 
 								if (this.page.__removeDocs) {

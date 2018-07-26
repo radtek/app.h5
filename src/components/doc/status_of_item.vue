@@ -106,6 +106,7 @@
 						this.$http.doc.removeDoc({ ids, type }).then(() => {
 							this.$emit("on-removed", ids);
 							done();
+							this.$confirm.close();
 							this.$toast.text("删除成功", "bottom");
 							if (!this.page.list.length) {
 								// 当前删除的是当前面板的最后一条
