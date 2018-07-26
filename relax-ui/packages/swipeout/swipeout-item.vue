@@ -18,7 +18,8 @@
 		</div>
 		<div class="rx-swipeout_content"
 		     :style="contentStyles"
-		     @touchstart="onContentClick">
+		     @touchstart="onContentClick"
+		     ref="content">
 			<slot name="content"></slot>
 		</div>
 	</div>
@@ -32,8 +33,9 @@
 		props: {
 			// 是否禁用
 			disabled: Boolean,
+			ignoreY: { type: Number, default: 20 },
 			// 菜单显示触发的最小距离
-			showMenuX: { type: Number, default: 15 },
+			showMenuX: { type: Number, default: 40 },
 			// 多少距离之后自动打开菜单或关闭菜单
 			threshold: { type: Number, default: 0.2 },
 			// 菜单点击的时候是否默认关闭
@@ -183,6 +185,10 @@
 				const diffX = touch.pageX - this.pageX;
 				this.contentSwipeY = touch.pageY - this.pageY;
 
+				if (Math.abs(this.contentSwipeY) >= this.ignoreY) {
+					return;
+				}
+
 				this.position = diffX > 0 ? "left" : diffX < 0 ? "right" : "";
 
 				if ((diffX > 0 && !this.hasLeft) || (diffX < 0 && !this.hasRight)) {
@@ -251,6 +257,27 @@
 			},
 			close() {
 				setTimeout(() => {
+					const target = this.$refs.content;
+
+					if (target) {
+						target &&
+							target.classList.add("rx-swipeout_content-animated");
+						const cb = (function(cmp, target) {
+							return function() {
+								target.classList.remove(
+									"rx-swipeout_content-animated"
+								);
+								target.removeEventListener(
+									"webkitTransitionEnd",
+									cb
+								);
+								target.removeEventListener("transitionend", cb);
+							};
+						})(this, target);
+						target.addEventListener("webkitTransitionEnd", cb);
+						target.addEventListener("transitionend", cb);
+					}
+
 					this.$emit("on-close");
 					this.contentSwipeX = 0;
 				}, 300);
