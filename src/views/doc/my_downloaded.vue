@@ -43,7 +43,7 @@
 			</rx-pull>
 			<status v-if="isChooseMode && total>0"
 			        category="download"
-			        @on-removed="__removeDocs"></status>
+			        @on-removed="handleRemoved"></status>
 			<div class="empty"
 			     v-if="!isPrerender && total<=0"
 			     @click.stop="goto('党建文库','/index')">
@@ -86,12 +86,15 @@
 			};
 		},
 		methods: {
+			handleRemoved(ids) {
+				this.__removeDocs(ids, true);
+			},
 			__fetch() {
 				this.page = 1;
-				this.$http.doc.getUserDownloadedDocs().then(resp => {
+				return this.$http.doc.getUserDownloadedDocs().then(resp => {
 					const list = resp.result.list;
 					list.forEach(item => {
-						item.isChecked = item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
+						item.isChecked = item.isCollecting = false;
 					});
 					this.list = list;
 					this.total = resp.result.total;
@@ -102,13 +105,13 @@
 				});
 			},
 			__append() {
-				this.$http.doc
+				return this.$http.doc
 					.getUserDownloadedDocs({ page: ++this.page })
 					.then(resp => {
 						const list = resp.result.list;
 						if (list && list.length) {
 							list.forEach(item => {
-								item.isChecked = item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
+								item.isChecked = item.isCollecting = false;
 							});
 							this.list = this.list.concat(list);
 						}

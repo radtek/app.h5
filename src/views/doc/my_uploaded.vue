@@ -92,10 +92,10 @@
 		methods: {
 			__fetch() {
 				this.page = 1;
-				this.$http.doc.getUserUploadedDocs().then(resp => {
+				return this.$http.doc.getUserUploadedDocs().then(resp => {
 					const list = resp.result.list;
 					list.forEach(item => {
-						item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
+						item.isDownloading = item.isCollecting = false;
 					});
 					this.list = list;
 					this.total = resp.result.total;
@@ -103,13 +103,13 @@
 				});
 			},
 			__append() {
-				this.$http.doc
+				return this.$http.doc
 					.getUserUploadedDocs({ page: ++this.page })
 					.then(resp => {
 						const list = resp.result.list;
 						if (list && list.length) {
 							list.forEach(item => {
-								item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
+								item.isDownloading = item.isCollecting = false;
 							});
 							this.list = this.list.concat(list);
 						}

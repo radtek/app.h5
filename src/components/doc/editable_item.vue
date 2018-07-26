@@ -118,7 +118,7 @@
 				return (
 					this.category !== "upload" ||
 					(this.category === "upload" &&
-						(this.docItem.visibleType === 1 ||
+						(this.docItem.visibleType !== 3 ||
 							this.docItem.isPublished === 2))
 				);
 			},
@@ -168,9 +168,9 @@
 			},
 			__convertSizeUnit(val) {
 				if (val < 1024) {
-					return `${val}K`;
+					return `${parseFloat(val).toFixed(2)}K`;
 				}
-				return Math.ceil(val / 1024) + "M";
+				return parseFloat(Math.ceil(val / 1024)).toFixed(2) + "M";
 			},
 			handleIconClick() {
 				if (!this.item.isChecked) {
@@ -273,50 +273,117 @@
 					});
 			},
 			handleRemove() {
-				if (this.docItem.isRemoving) return;
+				this.$confirm({
+					yesText: "删除",
+					loadingText: "删除中...",
+					title: "",
+					content: "是否确认删除?"
+				})
+					.then(done => {
+						const ids = [this.docItem.id];
 
-				this.docItem.isRemoving = true;
+						this.$http.doc
+							.removeDoc({ ids, type: this.type })
+							.then(resp => {
+								// 删除成功
+								this.$toast.text("删除成功", "bottom");
 
-				const ids = [this.docItem.id];
-				this.$http.doc
-					.removeDoc({ ids, type: this.type })
-					.then(resp => {
-						this.docItem.isRemoving = false;
-						// 删除成功
-						this.$toast.text("删除成功", "bottom");
+								done();
 
-						this.$refs.item.close();
+								this.$refs.item.close();
 
-						if (this.page.__removeDocs) {
-							this.page.__removeDocs(ids);
-						}
+								if (this.page.__removeDocs) {
+									this.page.__removeDocs(ids);
+								}
+
+								if (this.page.list) {
+									if (!this.page.list.length) {
+										// 当前删除的是当前面板的最后一条
+										setTimeout(() => {
+											this.page.__fetch &&
+												this.page.__fetch();
+										}, 300);
+									}
+								}
+							});
 					})
 					.catch(err => {
-						this.docItem.isRemoving = false;
-						this.$toast.text(
-							this.$isDev ? err.message : "删除异常",
-							"bottom"
-						);
+						if (err !== false) {
+							this.$toast.text(
+								this.$isDev ? err.message : "删除失败",
+								"bottom"
+							);
+						}
 					});
 			},
 			handleShare() {
-				if (this.docItem.isSharing) return;
+				const doc = this.docItem;
 
-				this.docItem.isSharing = true;
-				this.$http.doc
-					.shareDocToFriend({
-						documentId: this.docItem.id
+				const iconName = `doc-${this.__getMimeType(doc.mineType)}`;
+				const fileSize = this.__convertSizeUnit(doc.fileSize);
+
+				this.$confirm({
+					yesText: "上传",
+					loadingText: "上传中...",
+					title: "文档共享，好友可见",
+					content(h) {
+						return h(
+							"rx-cell-avatar",
+							{
+								class: "__dialog_content_cell"
+							},
+							[
+								h("rx-icon", {
+									props: {
+										name: iconName
+									},
+									slot: "img"
+								}),
+								h(
+									"span",
+									{
+										slot: "header"
+									},
+									doc.fileName
+								),
+								h(
+									"p",
+									{
+										slot: "footer"
+									},
+									[
+										h("span", null, "文件大小:"),
+										h(
+											"span",
+											{ style: { marginLeft: "4px" } },
+											fileSize
+										)
+									]
+								)
+							]
+						);
+					}
+				})
+					.then(done => {
+						this.$http.doc
+							.shareDocToFriend({
+								documentId: doc.id
+							})
+							.then(resp => {
+								// 改变状态
+								doc.visibleType = 2;
+								this.$refs.item.close();
+								done();
+								this.$confirm.close();
+								this.$toast.text("好友分享成功", "bottom");
+							});
 					})
-					.then(resp => {
-						this.docItem.isSharing = false;
-						this.$toast.text("好友分享成功", "bottom");
-						// 改变状态
-						this.docItem.visibleType = 2;
-						this.$refs.item.close();
-					})
-					.catch(() => {
-						this.docItem.isSharing = false;
-						this.$toast.text("好友分享异常", "bottom");
+					.catch(err => {
+						if (err !== false) {
+							this.$toast.text(
+								this.$isDev ? err.message : "好友分享失败"
+							);
+						}
 					});
 			},
 			handleUpload() {

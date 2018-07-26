@@ -60,6 +60,9 @@
 		props: {
 			category: String
 		},
+		inject: {
+			page: { default: {} }
+		},
 		data() {
 			return {
 				isRemoving: false,
@@ -85,30 +88,53 @@
 		},
 		methods: {
 			handleBatchRemove() {
-				if (this.isRemoving) return;
-				this.isRemoving = true;
-				const type = categoryMap[this.category];
 				const ids = this.choosedDocIds.slice();
 
 				if (!ids || !ids.length) {
 					this.$toast.text("您还未选择任何文档", "bottom");
-					this.isRemoving = false;
 					return;
 				}
 
-				this.$http.doc
-					.removeDoc({ ids, type })
-					.then(() => {
-						this.$emit("on-removed", ids);
-						this.isRemoving = false;
-						this.$toast.text("删除成功", "bottom");
+				this.$confirm({
+					yesText: "删除",
+					loadingText: "删除中...",
+					title: "",
+					content: "是否确认删除?"
+				})
+					.then(done => {
+						const type = categoryMap[this.category];
+						this.$http.doc.removeDoc({ ids, type }).then(() => {
+							this.$emit("on-removed", ids);
+							done();
+							this.$toast.text("删除成功", "bottom");
+							if (!this.page.list.length) {
+								// 当前删除的是当前面板的最后一条
+								setTimeout(() => {
+									this.page.__fetch &&
+										this.page.__fetch().then(() => {
+											// 判断当前是否是选中状态
+											if (
+												this.page.isChooseMode === 1 &&
+												this.page.isChooseAll
+											) {
+												JXRSApi.invoke(
+													"app.doc.isChoiceAll",
+													1
+												);
+											}
+										});
+								}, 300);
+							}
+						});
 					})
+
 					.catch(err => {
-						this.isRemoving = false;
-						this.$toast.text(
-							this.$isDev ? err.message : "批量删除发生异常",
-							"bottom"
-						);
+						if (err !== false) {
+							this.$toast.text(
+								this.$isDev ? err.message : "批量删除发生异常",
+								"bottom"
+							);
+						}
 					});
 			},
 			handleBatchDownload() {
@@ -153,11 +179,18 @@
 					.collectDoc({ documentId, type: 0 })
 					.then(() => {
 						this.isCollecting = false;
-						this.$toast.text("删除成功", "bottom");
+						this.$toast.text("收藏成功", "bottom");
 						this.$emit("on-collected", documentId);
+						if (!this.$isDev) {
+							JXRSApi.app.doc.refreshIndexPageItemStatusOfCollected({
+								docIds: documentId,
+								status: 1
+							});
+						}
 					})
 					.catch(() => {
 						this.isCollecting = false;
+						this.$toast.text("收藏异常", "bottom");
 					});
 			},
 			handleAudioUpload() {

@@ -38,30 +38,38 @@ export default {
 				for (let l = this.list.length; l--;) {
 					let l2 = ids.length;
 					for (; l2--;) {
-						if (ids[l2] === this.list[l].infoDocument.id) {
+						if (
+							"" + ids[l2] ===
+							"" + this.list[l].infoDocument.id
+						) {
 							this.list[l].infoDocument.isCollected = true;
 						}
 					}
 				}
 			}
 		},
-		__removeDocs(ids) {
+		__removeDocs(ids, removeLocal) {
 			const removedDocs = [];
 			if (this.list && this.list.length) {
 				for (let l = this.list.length; l--;) {
 					let l2 = ids.length;
 					for (; l2--;) {
-						if (ids[l2] === this.list[l].infoDocument.id) {
-							removedDocs.push({
-								fileName: this.list[l].infoDocument.fileName
-							});
+						if (
+							"" + ids[l2] ===
+							"" + this.list[l].infoDocument.id
+						) {
+							removeLocal &&
+								removedDocs.push({
+									fileName: this.list[l].infoDocument.fileName
+								});
 							this.list.splice(l, 1);
 							this.total -= 1;
+							break;
 						}
 					}
 				}
 			}
-			if (!this.$isDev) {
+			if (!this.$isDev && removeLocal) {
 				if (removedDocs.length) {
 					JXRSApi.app.doc.removeLocalDocs({ docs: removedDocs });
 				}
@@ -110,7 +118,8 @@ export default {
 				})
 					.on("app.doc.isChoiceAll", isChoice => {
 						// 是否全选
-						const val = isChoice === 1 || isChoice === "1";
+						const val = (this.isChooseAll =
+							isChoice === 1 || isChoice === "1");
 						this.list.forEach(item => {
 							item.isChecked = val;
 						});

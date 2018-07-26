@@ -87,10 +87,10 @@
 		methods: {
 			__fetch() {
 				this.page = 1;
-				this.$http.doc.getFriendSharedDocs().then(resp => {
+				return this.$http.doc.getFriendSharedDocs().then(resp => {
 					const list = resp.result.list;
 					list.forEach(item => {
-						item.isChecked = item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
+						item.isChecked = item.isDownloading = item.isCollecting = false;
 					});
 					this.list = list;
 					this.total = resp.result.total;
@@ -101,13 +101,13 @@
 				});
 			},
 			__append() {
-				this.$http.doc
+				return this.$http.doc
 					.getFriendSharedDocs({ page: ++this.page })
 					.then(resp => {
 						const list = resp.result.list;
 						if (list && list.length) {
 							list.forEach(item => {
-								item.isChecked = item.isDownloading = item.isRemoving = item.isCollecting = item.isSharing = false;
+								item.isChecked = item.isDownloading = item.isCollecting = false;
 							});
 							this.list = this.list.concat(list);
 						}
