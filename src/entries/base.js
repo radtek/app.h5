@@ -56,7 +56,7 @@ export function createVue(Vue, { router, http }, jsApiActions) {
 	// 关于Hybird App交互API的操作逻辑
 
 	if (!Vue.prototype.$isDev) {
-		createJSApi(jsApiActions);
+		jsApiActions && jsApiActions.length && createJSApi(...jsApiActions);
 
 		JXRSApi.on(`app.${process.env.JXRS_APP_MODULE}`, ({ action, data }) => {
 			callH5Action(action, data);
