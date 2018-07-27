@@ -159,8 +159,12 @@
 		},
 		created() {
 			this.recieveAppNotice("qa");
+
+			this.$rxUtils.asyncCmpListenApi.on("ItemOfQA.afterMounted", cmp => {
+				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
+			});
 		},
-		activated() {
+		mounted() {
 			this.__fetch();
 		}
 	};

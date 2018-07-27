@@ -16,7 +16,8 @@
 				</rx-col>
 				<rx-col :span="row.answer ?8:24">
 					<rx-img :src="row.imgPath[0]"
-					        @on-error="onImgErr"></rx-img>
+					        @on-error="onImgErr"
+					        ref="rxImg"></rx-img>
 				</rx-col>
 			</rx-row>
 		</template>
@@ -58,7 +59,6 @@
 					return {};
 				}
 			},
-			async: Boolean,
 			canEdit: { type: Boolean, default: true }
 		}
 	};

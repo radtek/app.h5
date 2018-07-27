@@ -15,7 +15,8 @@
 				<rx-col :span="row.description?8:24"
 				        align="right">
 					<rx-img :src="row.imgPath[0]"
-					        @on-error="onImgErr"></rx-img>
+					        @on-error="onImgErr"
+					        ref="rxImg"></rx-img>
 				</rx-col>
 			</rx-row>
 		</template>
@@ -54,9 +55,6 @@
 				}
 			},
 			canAnswer: { type: Boolean, default: true }
-		},
-		data() {
-			return {};
 		}
 	};
 </script>

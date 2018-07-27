@@ -85,13 +85,19 @@
 				}
 			}
 		},
+		created() {
+			this.$rxUtils.asyncCmpListenApi.on(
+				"ListOfMyCollected.afterMounted",
+				cmp => {
+					this.broadcast("ListOfMyCollected", "fn.fetch");
+				}
+			);
+		},
 		mounted() {
 			this.$http.user.getUserInfo().then(resp => {
 				this.userInfo = resp.result;
 				this.isPrerender = false;
 			});
-
-			this.broadcast("ListOfMyCollected", "fn.fetch");
 		}
 	};
 </script>

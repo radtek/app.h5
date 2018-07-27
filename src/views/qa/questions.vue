@@ -52,6 +52,11 @@
 						break;
 				}
 			}
+		},
+		created() {
+			this.$rxUtils.asyncCmpListenApi.on("ListOfLatest.afterMounted", cmp => {
+				this.broadcast("ListOfLatest", "fn.fetch");
+			});
 		}
 	};
 </script>

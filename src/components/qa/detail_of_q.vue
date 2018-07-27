@@ -12,6 +12,7 @@
 					        :key="i">
 						<rx-img :src="url"
 						        :alt="url"
+						        :lazy="false"
 						        @on-error="onImgErr($event)" />
 					</rx-col>
 				</rx-row>

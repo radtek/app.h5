@@ -72,6 +72,9 @@
 					this.__fetch();
 				}
 			});
+			this.$rxUtils.asyncCmpListenApi.on("ItemOfQA.afterMounted", cmp => {
+				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
+			});
 		}
 	};
 </script>

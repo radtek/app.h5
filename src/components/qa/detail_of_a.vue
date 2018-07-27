@@ -1,8 +1,9 @@
 <template>
-	<rx-cell @on-img-click="handleGoto">
+	<rx-cell @on-img-click="handleGoto"
+	         class="detail_of_a">
 		<template slot="header">
 			<user :user-info="userInfo"
-			      :padding="false"></user>
+			      padding="t"></user>
 		</template>
 		<rx-clamp-box :text="row.answer"
 		              :can-expand="false"
@@ -18,9 +19,11 @@
 			             @on-comment="handleGoto">
 			</a-status-v2>
 		</template>
-		<template slot="img">
+		<template slot="img"
+		          v-if="row.imgPath && row.imgPath.length">
 			<rx-row :flex="false"
-			        :gutter="8">
+			        :gutter="8"
+			        :class="__getImgPaneClasses(row.imgPath)">
 				<template v-if="row.imgPath && row.imgPath.length"
 				          v-for="(img,index) in row.imgPath">
 					<rx-col :span="__getColSpan(row.imgPath)"
@@ -86,8 +89,11 @@
 			}
 		},
 		methods: {
+			__getImgPaneClasses(imgArr) {
+				return imgArr && imgArr.length === 1 ? ["img-1"] : "";
+			},
 			__getColSpan(imgArr) {
-				return imgArr && imgArr.length ? 24 / imgArr.length : 24;
+				return imgArr && imgArr.length ? 8 : 24;
 			},
 			handleGoto() {
 				this.goto("回答详情", "/answer", {

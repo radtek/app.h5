@@ -29,7 +29,7 @@
 					return {};
 				}
 			},
-			padding: { type: Boolean, default: true }
+			padding: { type: [Boolean, String], default: true }
 		},
 		methods: {
 			onAvatarClick(evt) {

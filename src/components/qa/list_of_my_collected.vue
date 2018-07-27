@@ -65,6 +65,7 @@
 					this.$emit("update:currentTotal", this.total);
 					this.isPrerender = false;
 					this.loading = false;
+					this.broadcast("RxImg", "fn.load");
 				});
 			},
 			__append() {
@@ -77,18 +78,19 @@
 						if (list && list.length) {
 							this.list = this.list.concat(list);
 						}
+						this.broadcast("RxImg", "fn.load");
 					});
 			}
 		},
 		created() {
-			this.$on("fn-fetch", () => {
+			this.$on("fn.fetch", () => {
 				if (!this.list || !this.list.length) {
 					this.__fetch();
 				}
 			});
-		},
-		mounted() {
-			this.__fetch();
+			this.$rxUtils.asyncCmpListenApi.on("ItemOfQA.afterMounted", cmp => {
+				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
+			});
 		}
 	};
 </script>

@@ -63,6 +63,7 @@
 					this.total = resp.result.sumCount;
 					this.$emit("update:currentTotal", this.total);
 					this.loading = false;
+					this.broadcast("RxImg", "fn.load");
 				});
 			},
 			__append() {
@@ -75,6 +76,7 @@
 						if (list && list.length) {
 							this.list = this.list.concat(list);
 						}
+						this.broadcast("RxImg", "fn.load");
 					});
 			}
 		},
@@ -83,6 +85,11 @@
 				if (!this.list || !this.list.length) {
 					this.__fetch();
 				}
+			});
+
+			this.$rxUtils.asyncCmpListenApi.on("ItemOfA.afterMounted", cmp => {
+				console.log("ItemOfA.afterMounted");
+				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
 			});
 		}
 	};

@@ -19,7 +19,8 @@
 						        align="right">
 							<rx-img :src="row.infoAnswer.imgPath[0]"
 							        :range-of-error="0.26"
-							        @on-error="onImgErr"></rx-img>
+							        @on-error="onImgErr"
+							        ref="rxImg"></rx-img>
 						</rx-col>
 					</rx-row>
 				</template>

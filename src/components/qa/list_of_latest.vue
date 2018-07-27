@@ -43,14 +43,14 @@
 		},
 		methods: {
 			__fetch() {
-				this.$http.qa.getLatestQuestions().then(resp => {
+				return this.$http.qa.getLatestQuestions().then(resp => {
 					this.total = resp.result.total;
 					this.list = resp.result.list;
 					this.isPrerender = false;
 				});
 			},
 			__append() {
-				this.$http.qa
+				return this.$http.qa
 					.getLatestQuestions({
 						id:
 							this.list.length > 0
@@ -72,9 +72,9 @@
 					this.__fetch();
 				}
 			});
-		},
-		mounted() {
-			this.__fetch();
+			this.$rxUtils.asyncCmpListenApi.on("ItemOfQA.afterMounted", cmp => {
+				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
+			});
 		}
 	};
 </script>

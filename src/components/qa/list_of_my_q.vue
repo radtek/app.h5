@@ -56,7 +56,7 @@
 		},
 		methods: {
 			__fetch() {
-				this.$http.qa.getUserCreatedQ().then(resp => {
+				return this.$http.qa.getUserCreatedQ().then(resp => {
 					this.list = resp.result.infoQuestions;
 					this.total = resp.result.sumCount;
 					this.$emit("update:currentTotal", this.total);
@@ -73,12 +73,13 @@
 						if (list && list.length) {
 							this.list = this.list.concat(list);
 						}
+						this.broadcast("RxImg", "fn.load");
 					});
 			},
 			handleRedirect(item) {
 				switch (item.isPublish) {
 					case 1:
-						this.onRedirect("question-detail", { qid: item.id });
+						this.goto("问题详情", "/detail", { qid: item.id });
 						break;
 					case 2:
 						if (this.$isProd || this.$isTest) {
@@ -87,7 +88,7 @@
 						break;
 					case 0:
 					default:
-						this.onRedirect("question-audit-detail", {
+						this.goto("问题待审核", "/audit-detail", {
 							qid: item.id
 						});
 						break;
@@ -99,6 +100,11 @@
 				if (!this.list || !this.list.length) {
 					this.__fetch();
 				}
+			});
+
+			this.$rxUtils.asyncCmpListenApi.on("ItemOfQ.afterMounted", cmp => {
+				console.log("ItemOfQ:", cmp);
+				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
 			});
 		}
 	};
