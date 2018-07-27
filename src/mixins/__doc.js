@@ -26,6 +26,28 @@ export default {
 		}
 	},
 	methods: {
+		__validDownloadStatusFromApp(data) {
+			if (!data || !data.length) return;
+
+			if (!this.$isDev) {
+				const waitingValidDocs = data.map(item => ({
+					fileName: item.infoDocument.fileName,
+					mineType: item.infoDocument.mineType
+				}));
+				waitingValidDocs.length &&
+					JXRSApi.app.doc.validDownloadStatus(
+						{ docs: waitingValidDocs },
+						(err, rslt) => {
+							if (!err) {
+								rslt.forEach(
+									(item, index) =>
+										(data[index].isDownloaded = item)
+								);
+							}
+						}
+					);
+			}
+		},
 		__closeSwipeOfItem(id) {
 			for (let l = this.list.length; l--;) {
 				if ("" + this.list[l].infoDocument.id === id) {
@@ -35,37 +57,37 @@ export default {
 		},
 		__collectDocs(ids) {
 			if (this.list && this.list.length) {
-				for (let l = this.list.length; l--;) {
-					let l2 = ids.length;
-					for (; l2--;) {
-						if (
-							"" + ids[l2] ===
-							"" + this.list[l].infoDocument.id
-						) {
-							this.list[l].infoDocument.isCollected = true;
-						}
-					}
-				}
+				this.list
+					.filter(item => ~ids.indexOf(item.infoDocument.id))
+					.forEach(item => (item.infoDocument.isCollected = true));
+
+				// for (let l = this.list.length; l--;) {
+				// 	let l2 = ids.length;
+				// 	for (; l2--;) {
+				// 		if (
+				// 			"" + ids[l2] ===
+				// 			"" + this.list[l].infoDocument.id
+				// 		) {
+				// 			this.list[l].infoDocument.isCollected = true;
+				// 		}
+				// 	}
+				// }
 			}
 		},
 		__removeDocs(ids, removeLocal) {
+			if (!this.list || !this.list.length) return;
 			const removedDocs = [];
-			if (this.list && this.list.length) {
-				for (let l = this.list.length; l--;) {
-					let l2 = ids.length;
-					for (; l2--;) {
-						if (
-							"" + ids[l2] ===
-							"" + this.list[l].infoDocument.id
-						) {
-							removeLocal &&
-								removedDocs.push({
-									fileName: this.list[l].infoDocument.fileName
-								});
-							this.list.splice(l, 1);
-							this.total -= 1;
-							break;
-						}
+			for (let l = this.list.length; l--;) {
+				let l2 = ids.length;
+				for (; l2--;) {
+					if ("" + ids[l2] === "" + this.list[l].infoDocument.id) {
+						removeLocal &&
+							removedDocs.push({
+								fileName: this.list[l].infoDocument.fileName
+							});
+						this.list.splice(l, 1);
+						this.total -= 1;
+						break;
 					}
 				}
 			}
@@ -83,15 +105,21 @@ export default {
 			}
 		},
 		__updateCollectStatus(ids, val) {
-			for (let l = this.list.length; l--;) {
-				const id = "" + this.list[l].infoDocument.id;
+			if (!this.list || !this.list.length) return;
 
-				for (let i2 = 0, l2 = ids.length; i2 < l2; i2++) {
-					if (id === "" + ids[l2]) {
-						this.list[l].infoDocument.isCollected = val;
-					}
-				}
-			}
+			this.list
+				.filter(doc => ~ids.indexOf(doc.infoDocument.id))
+				.forEach(it => (it.infoDocument.isCollected = val));
+
+			// for (let l = this.list.length; l--;) {
+			// 	const id = "" + this.list[l].infoDocument.id;
+
+			// 	for (let i2 = 0, l2 = ids.length; i2 < l2; i2++) {
+			// 		if (id === "" + ids[l2]) {
+			// 			this.list[l].infoDocument.isCollected = val;
+			// 		}
+			// 	}
+			// }
 		},
 		__initTopAction() {
 			if (!this.$isDev) {

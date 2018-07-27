@@ -87,18 +87,23 @@
 		methods: {
 			__fetch() {
 				this.page = 1;
-				return this.$http.doc.getFriendSharedDocs().then(resp => {
-					const list = resp.result.list;
-					list.forEach(item => {
-						item.isChecked = item.isDownloading = item.isCollecting = false;
+				return this.$http.doc
+					.getFriendSharedDocs()
+					.then(resp => {
+						const list = resp.result.list;
+						list.forEach(item => {
+							item.isChecked = item.isDownloaded = item.isDownloading = item.isCollecting = false;
+						});
+						this.list = list;
+						this.total = resp.result.total;
+						setTimeout(() => {
+							this.isPrerender = false;
+							this.__showAppTopRightAction();
+						}, 300);
+					})
+					.then(() => {
+						this.__validDownloadStatusFromApp(this.list);
 					});
-					this.list = list;
-					this.total = resp.result.total;
-					setTimeout(() => {
-						this.isPrerender = false;
-						this.__showAppTopRightAction();
-					}, 300);
-				});
 			},
 			__append() {
 				return this.$http.doc
@@ -107,10 +112,14 @@
 						const list = resp.result.list;
 						if (list && list.length) {
 							list.forEach(item => {
-								item.isChecked = item.isDownloading = item.isCollecting = false;
+								item.isChecked = item.isDownloaded = item.isDownloading = item.isCollecting = false;
 							});
 							this.list = this.list.concat(list);
 						}
+						return list;
+					})
+					.then(data => {
+						this.__validDownloadStatusFromApp(data);
 					});
 			}
 		},

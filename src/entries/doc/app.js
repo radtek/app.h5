@@ -12,5 +12,6 @@ createVue(Vue, { router: createRoutes(Vue), http }, [
 	"audioImport",
 	"showTopRightAction",
 	"removeLocalDocs",
-	"refreshIndexPageItemStatusOfCollected"
+	"refreshIndexPageItemStatusOfCollected",
+	"validDownloadStatus"
 ]);

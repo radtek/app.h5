@@ -54,16 +54,21 @@ export function createVue(Vue, { router, http }, jsApiActions) {
 	Object.keys(filters).forEach(item => Vue.filter(item, filters[item]));
 
 	// 关于Hybird App交互API的操作逻辑
-
 	if (!Vue.prototype.$isDev) {
 		jsApiActions && jsApiActions.length && createJSApi(...jsApiActions);
-
 		JXRSApi.on(`app.${process.env.JXRS_APP_MODULE}`, ({ action, data }) => {
 			callH5Action(action, data);
 		});
 	}
 	Vue.prototype.$listenJSApi = listenJSApi;
-
+	if (Vue.prototype.$isDev) {
+		/* eslint-disable prefer-rest-params */
+		window.JXRSBridge = {
+			invoke() {
+				console.log("invokeArgs:", arguments);
+			}
+		};
+	}
 	/* eslint-disable no-new */
 	new Vue({
 		el: "#app",

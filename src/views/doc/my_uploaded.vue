@@ -95,7 +95,7 @@
 				return this.$http.doc.getUserUploadedDocs().then(resp => {
 					const list = resp.result.list;
 					list.forEach(item => {
-						item.isDownloading = item.isCollecting = false;
+						item.isDownloaded = item.isDownloading = item.isCollecting = false;
 					});
 					this.list = list;
 					this.total = resp.result.total;
@@ -109,10 +109,11 @@
 						const list = resp.result.list;
 						if (list && list.length) {
 							list.forEach(item => {
-								item.isDownloading = item.isCollecting = false;
+								item.isDownloaded = item.isDownloading = item.isCollecting = false;
 							});
 							this.list = this.list.concat(list);
 						}
+						return list;
 					});
 			}
 		},

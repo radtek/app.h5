@@ -55,9 +55,9 @@
 		<template slot="rightMenu">
 			<rx-swipeout-btn v-if="showDownload"
 			                 :width="70"
-			                 text="下载"
 			                 action="download"
-			                 bg-color="#0097EE"></rx-swipeout-btn>
+			                 :text="item.isDownloaded ? '已下载' : '下载'"
+			                 :bg-color="item.isDownloaded ? '#ccc':'#0097EE'"></rx-swipeout-btn>
 			<rx-swipeout-btn v-if="showCollect"
 			                 :width="70"
 			                 action="collect"
@@ -218,7 +218,7 @@
 				}
 			},
 			handleDownload() {
-				if (this.docItem.isDownloading) return;
+				if (this.item.isDownloaded || this.docItem.isDownloading) return;
 
 				this.docItem.isDownloading = true;
 
