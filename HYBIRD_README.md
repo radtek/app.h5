@@ -287,3 +287,26 @@ App端接收H5的通知
 	}
 
 ```
+
+
+## 8.首页、点击分类进入的列表页
+
+>   H5接收App端的通知去更新阅读数
+
+
+
+```js
+App调用方式: JXRSApi.invoke("操作名称",操作参数);
+
+操作名称: app.doc
+
+操作参数: 
+		{
+			"action":"refreshItemStatusOfReadCount",
+			"data":{
+				"docId":"[类型:String]需要更新阅读数的文档ID"
+			}
+		}
+demo: JXRSApi.invoke("app.doc",'{"action":"refreshItemStatusOfReadCount","data":{"docId":"471611436603953152"}}')
+```
+

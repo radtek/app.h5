@@ -195,9 +195,9 @@
 				({ docIds, status }) => {
 					if (this.list && this.list.length) {
 						const list = this.list;
-						for (let l = list.length; l--;) {
+						for (let l = list.length; l--; ) {
 							let l2 = docIds.length;
-							for (; l2--;) {
+							for (; l2--; ) {
 								if ("" + docIds[l2] === "" + list[l].id) {
 									list[l].isCollected = status;
 								}
@@ -206,6 +206,18 @@
 					}
 				}
 			);
+
+			this.$listenJSApi("refreshItemStatusOfReadCount", ({ docId }) => {
+				if (this.list && this.list.length) {
+					const list = this.list;
+					for (let l = list.length; l--; ) {
+						if (list[l].id + "" === docId + "") {
+							list[l].readCount += 1;
+							break;
+						}
+					}
+				}
+			});
 		},
 		mounted() {
 			this.__fetchTags();

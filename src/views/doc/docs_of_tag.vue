@@ -93,6 +93,18 @@
 					this.tagid = tagId;
 					this.__fetch();
 				});
+
+				this.$listenJSApi("refreshItemStatusOfReadCount", ({ docId }) => {
+					if (this.list && this.list.length) {
+						const list = this.list;
+						for (let l = list.length; l--; ) {
+							if (list[l].id + "" === docId + "") {
+								list[l].readCount += 1;
+								break;
+							}
+						}
+					}
+				});
 			}
 		},
 		mounted() {
