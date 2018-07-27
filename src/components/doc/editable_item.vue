@@ -207,6 +207,19 @@
 					url: _item.url,
 					mineType: _item.mineType
 				};
+
+				const list = this.page.list;
+				if (list && list.length) {
+					for (let l = list.length; l--; ) {
+						if (list[l].infoDocument.id === _item.id) {
+							const item = list[l];
+							list.splice(l, 1);
+							list.unshift(item);
+							break;
+						}
+					}
+				}
+
 				if (this.$isDev) {
 					alert("app原生端打开:" + JSON.stringify(params));
 				} else {
