@@ -75,11 +75,6 @@
 						});
 				});
 			}
-		},
-		mounted() {
-			this.$nextTick(() => {
-				this.dispatch("PageOfNewsDetail", "fn.commentItem.ready");
-			});
 		}
 	};
 </script>

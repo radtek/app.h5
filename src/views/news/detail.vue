@@ -48,7 +48,8 @@
 					      :item="item"></item>
 				</rx-card>
 				<div class="separate"></div>
-				<comment-pane :total="total"
+				<comment-pane ref="comment"
+				              :total="total"
 				              :list="list"
 				              @on-empty-click="handleCommentEmptyClick">
 					<comment-item ref="items"
@@ -65,6 +66,8 @@
 	import { utils } from "~rx";
 	import ScrollToComment from "~m/scroll-to-comment";
 	import Pull from "~m/pull";
+	const REG_HTML_SCRIPT = /<script[^>]*?>[\s\S]*?<\/script>/g;
+	const REG_HTML_STYLE = /<style[^>]*?>[\s\S]*?<\/style>/g;
 	export default {
 		name: "PageOfNewsDetail",
 		components: {
@@ -147,14 +150,8 @@
 						if (!this.$isDev) {
 							const content = info.txt
 								? info.txt
-										.replace(
-											/<script[^>]*?>[\s\S]*?<\/script>/g,
-											""
-										)
-										.replace(
-											/<style[^>]*?>[\s\S]*?<\/style>/g,
-											""
-										)
+										.replace(REG_HTML_SCRIPT, "")
+										.replace(REG_HTML_STYLE, "")
 										.replace(/<[^<>]+>/g, "")
 										.replace(/(^\s*)|(\s*&)/g, "")
 										.replace(/[\r\n]/g, "")
@@ -223,41 +220,44 @@
 		created() {
 			this.getQS("contentid", "channelid");
 
-			// this.$on("fn.newsItem.ready", () => {
-			// 	this.itemReadyCount += 1;
-			// 	if (this.itemReadyCount === this.recommendNews.length) {
-			// 		this.commentAnchor = this.$refs.comment.$el.getBoundingClientRect().top;
-			// 	}
-			// });
+			this.$rxUtils.asyncCmpListenApi.on("ItemOfNews.afterMounted", cmp => {
+				this.itemReadyCount += 1;
+				if (this.itemReadyCount === this.recommendNews.length) {
+					this.commentAnchor = this.$refs.comment.$el.getBoundingClientRect().top;
+				}
+			});
 
-			// this.$on("fn.commentItem.ready", () => {
-			// 	this.readyCount += 1;
-			// 	if (this.readyCount === this.list.length) {
-			// 		this.commentHeight = this.$refs.comment.$el.getBoundingClientRect().height;
-			// 		if (this.isWaitingForCommentAnchor) {
-			// 			this.__scrollToComment();
-			// 		}
-			// 	}
-			// });
+			this.$rxUtils.asyncCmpListenApi.on(
+				"ItemOfComment.afterMounted",
+				cmp => {
+					this.readyCount += 1;
+					if (this.readyCount === this.list.length) {
+						this.commentHeight = this.$refs.comment.$el.getBoundingClientRect().height;
+						if (this.isWaitingForCommentAnchor) {
+							this.__scrollToComment();
+						}
+					}
+				}
+			);
 
 			if (!this.$isDev) {
 				JXRSApi.on("app.news.refreshComments", () => {
 					this.__fetchComments();
-				});
-				JXRSApi.on("app.news.scrollToComment", () => {
-					this.__scrollToComment();
-				});
-				JXRSApi.on("app.news.changePageFontSize", ({ size }) => {
-					this.size = size;
-				});
-				// 切换夜间模式
-				JXRSApi.on("app.news.changePageModeToNight", ({ isNight }) => {
-					this.isNight = isNight;
-				});
-				// 更新点赞数
-				JXRSApi.on("app.news.changeLikeCount", ({ count }) => {
-					this.info.likeCount = count;
-				});
+				})
+					.on("app.news.scrollToComment", () => {
+						this.__scrollToComment();
+					})
+					.on("app.news.changePageFontSize", ({ size }) => {
+						this.size = size;
+					})
+					.on("app.news.changePageModeToNight", ({ isNight }) => {
+						// 切换夜间模式
+						this.isNight = isNight;
+					})
+					.on("app.news.changeLikeCount", ({ count }) => {
+						// 更新点赞数
+						this.info.likeCount = count;
+					});
 			}
 		},
 		activated() {

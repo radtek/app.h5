@@ -20,9 +20,8 @@
 						<status :item="item"></status>
 					</template>
 					<template slot="img">
-						<img :data-src="imgArr[0]"
-						     v-lazyimg
-						     @error="onImgErr($event)" />
+						<rx-img :src="imgArr[0]"
+						        @on-error="onImgErr"></rx-img>
 					</template>
 				</rx-cell-avatar>
 			</template>
@@ -34,13 +33,12 @@
 						<rx-row justify="center"
 						        align="center"
 						        :gutter="6">
-							<rx-col :span="4"
+							<rx-col :span="8"
 							        v-for="(img,index) in imgArr"
 							        :key="index">
-								<img :data-src="img"
-								     class="item_img"
-								     v-lazyimg
-								     @error="onImgErr($event)" />
+								<rx-img :src="img"
+								        class="item_img"
+								        @on-error="onImgErr" />
 							</rx-col>
 						</rx-row>
 					</template>
@@ -86,9 +84,6 @@
 			isSingleImage() {
 				return !this.item.video && this.imgArr.length === 1;
 			}
-		},
-		mounted() {
-			this.dispatch("PageOfNewsDetail", "fn.newsItem.ready");
 		}
 	};
 </script>
