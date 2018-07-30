@@ -250,8 +250,16 @@
 							JXRSApi.app.doc.download({ docs });
 						}
 					})
-					.catch(() => {
+					.catch(err => {
 						this.docItem.isDownloading = false;
+						if (err.msg === "Network Error") {
+							this.$toast.text("网络异常", "bottom");
+						} else {
+							this.$toast.text(
+								this.$isDev ? err.message : "下载发生异常",
+								"bottom"
+							);
+						}
 					});
 			},
 			handleCollect() {
@@ -279,15 +287,20 @@
 					})
 					.catch(err => {
 						this.docItem.isCollecting = false;
-						this.$toast.text(
-							this.$isDev ? err.message : "收藏异常",
-							"bottom"
-						);
+
+						if (err.msg === "Network Error") {
+							this.$toast.text("网络异常", "bottom");
+						} else {
+							this.$toast.text(
+								this.$isDev ? err.message : "收藏发生异常",
+								"bottom"
+							);
+						}
 					});
 			},
 			handleRemove() {
 				this.$confirm({
-					yesText: "删除中...",
+					yesText: "删除",
 					loadingText: "删除中...",
 					title: "",
 					content: "是否确认删除?"
@@ -295,7 +308,7 @@
 					.then(done => {
 						const ids = [this.docItem.id];
 
-						this.$http.doc
+						return this.$http.doc
 							.removeDoc({ ids, type: this.type })
 							.then(resp => {
 								// 删除成功
@@ -319,6 +332,19 @@
 												this.page.__fetch();
 										}, 300);
 									}
+								}
+							})
+							.catch(err => {
+								done();
+								this.$confirm.close();
+
+								if (err.msg === "Network Error") {
+									this.$toast.text("网络异常", "bottom");
+								} else {
+									this.$toast.text(
+										this.$isDev ? err.msg : "删除异常",
+										"bottom"
+									);
 								}
 							});
 					})
@@ -380,7 +406,7 @@
 					}
 				})
 					.then(done => {
-						this.$http.doc
+						return this.$http.doc
 							.shareDocToFriend({
 								documentId: doc.id
 							})
@@ -391,6 +417,19 @@
 								done();
 								this.$confirm.close();
 								this.$toast.text("好友分享成功", "bottom");
+							})
+							.catch(err => {
+								done();
+								this.$confirm.close();
+
+								if (err.msg === "Network Error") {
+									this.$toast.text("网络异常", "bottom");
+								} else {
+									this.$toast.text(
+										this.$isDev ? err.msg : "好友分享发生异常",
+										"bottom"
+									);
+								}
 							});
 					})
 					.catch(err => {
@@ -449,7 +488,7 @@
 					}
 				})
 					.then(done => {
-						this.$http.doc
+						return this.$http.doc
 							.shareDocToPlatform({
 								documentId: doc.id
 							})
@@ -460,6 +499,19 @@
 								done();
 								this.$confirm.close();
 								this.$toast.text("上传文库成功", "bottom");
+							})
+							.catch(err => {
+								done();
+								this.$confirm.close();
+
+								if (err.msg === "Network Error") {
+									this.$toast.text("网络异常", "bottom");
+								} else {
+									this.$toast.text(
+										this.$isDev ? err.msg : "上传文库发生异常",
+										"bottom"
+									);
+								}
 							});
 					})
 					.catch(err => {

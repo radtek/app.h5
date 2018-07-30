@@ -103,30 +103,46 @@
 				})
 					.then(done => {
 						const type = categoryMap[this.category];
-						this.$http.doc.removeDoc({ ids, type }).then(() => {
-							this.$emit("on-removed", ids);
-							done();
-							this.$confirm.close();
-							this.$toast.text("删除成功", "bottom");
-							if (!this.page.list.length) {
-								// 当前删除的是当前面板的最后一条
-								setTimeout(() => {
-									this.page.__fetch &&
-										this.page.__fetch().then(() => {
-											// 判断当前是否是选中状态
-											if (
-												this.page.isChooseMode === 1 &&
-												this.page.isChooseAll
-											) {
-												JXRSApi.invoke(
-													"app.doc.isChoiceAll",
-													1
-												);
-											}
-										});
-								}, 300);
-							}
-						});
+						return this.$http.doc
+							.removeDoc({ ids, type })
+							.then(() => {
+								this.$emit("on-removed", ids);
+								done();
+								this.$confirm.close();
+								this.$toast.text("删除成功", "bottom");
+								if (!this.page.list.length) {
+									// 当前删除的是当前面板的最后一条
+									setTimeout(() => {
+										this.page.__fetch &&
+											this.page.__fetch().then(() => {
+												// 判断当前是否是选中状态
+												if (
+													this.page.isChooseMode === 1 &&
+													this.page.isChooseAll
+												) {
+													JXRSApi.invoke(
+														"app.doc.isChoiceAll",
+														1
+													);
+												}
+											});
+									}, 300);
+								}
+							})
+							.catch(err => {
+								done();
+								this.$confirm.close();
+								if (err.msg === "Network Error") {
+									this.$toast.text("网络异常", "bottom");
+								} else {
+									this.$toast.text(
+										this.$isDev
+											? err.message || err.msg
+											: "删除发生异常",
+										"bottom"
+									);
+								}
+							});
 					})
 
 					.catch(err => {
@@ -160,8 +176,18 @@
 							JXRSApi.app.doc.download({ docs: this.choosedDocs });
 						}
 					})
-					.catch(() => {
+					.catch(err => {
 						this.isDownloading = false;
+						if (err.msg === "Network Error") {
+							this.$toast.text("网络异常", "bottom");
+						} else {
+							this.$toast.text(
+								this.$isDev
+									? err.message || err.msg
+									: "下载发生异常",
+								"bottom"
+							);
+						}
 					});
 			},
 			handleBatchCollect() {
@@ -189,9 +215,18 @@
 							});
 						}
 					})
-					.catch(() => {
+					.catch(err => {
 						this.isCollecting = false;
-						this.$toast.text("收藏异常", "bottom");
+						if (err.msg === "Network Error") {
+							this.$toast.text("网络异常", "bottom");
+						} else {
+							this.$toast.text(
+								this.$isDev
+									? err.message || err.msg
+									: "收藏发生异常",
+								"bottom"
+							);
+						}
 					});
 			},
 			handleAudioUpload() {
@@ -205,7 +240,7 @@
 				const qsStr = this.$rxUtils.qs.stringify(this.authInfo);
 				if (this.$isProd || this.$isTest) {
 					JXRSApi.view.goto({
-						title: "电脑导入",
+						title: "电脑导入文档",
 						url: `${location.origin}/doc/import_of_pc${qsStr}`,
 						query: this.authInfo
 					});
@@ -220,7 +255,7 @@
 				const qsStr = this.$rxUtils.qs.stringify(this.authInfo);
 				if (this.$isProd || this.$isTest) {
 					JXRSApi.view.goto({
-						title: "手机导入",
+						title: "手机导入文档",
 						url: `${location.origin}/doc/import_of_mobile${qsStr}`,
 						query: this.authInfo
 					});
