@@ -158,7 +158,7 @@
 						return "审核未通过";
 					case 1:
 					default:
-						return _item.visibleType === 2 ? "好友共享" : "已上传文库";
+						return _item.visibleType === 2 ? "好友共享" : "已上传";
 				}
 			}
 		},
@@ -287,7 +287,7 @@
 			},
 			handleRemove() {
 				this.$confirm({
-					yesText: "删除",
+					yesText: "删除中...",
 					loadingText: "删除中...",
 					title: "",
 					content: "是否确认删除?"
