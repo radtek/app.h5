@@ -102,7 +102,8 @@
 				upConf: {
 					status: "prepare"
 				},
-				pullUpDirty: false
+				pullUpDirty: false,
+				wrapRect: {}
 			};
 		},
 		computed: {
@@ -115,25 +116,22 @@
 			wrapStyles() {
 				const styles = {};
 
-				if (this.height) {
-					styles.height = `${this.getRealSize(
-						this.height -
-							// (this.showUp ? this.upTipHeight : 0) -
-							this.topOffset -
-							this.bottomOffset
-					)}`;
-					// if (this.showUp && this.upTipHeight) {
-					// 	styles.marginBottom = `${this.realUpTipHeight}`;
-					// }
+				if (!this.height) {
+					this.height =
+						window.innerHeight - this.wrapRect.top - this.bottomOffset;
 				}
+
+				styles.height = `${this.getRealSize(this.height)}`;
 
 				return styles;
 			},
 			contentStyles() {
 				const styles = {};
 
-				if (this.showUp && this.upTipHeight) {
+				if (this.canPull && this.showUp && this.upTipHeight) {
 					styles.paddingBottom = `${this.realUpTipHeight}`;
+				} else {
+					styles.paddingBottom = 0;
 				}
 
 				return styles;
@@ -143,7 +141,7 @@
 
 				if (this.showUp && this.upTipHeight) {
 					styles.height = `${this.realUpTipHeight}`;
-					styles.bottom = 0; // `-${this.realUpTipHeight}`;
+					styles.bottom = 0;
 				}
 
 				return styles;
@@ -155,9 +153,7 @@
 					this.__forceUpdate(true);
 
 					this.$nextTick(() => {
-						this.height =
-							window.innerHeight -
-							this.$refs.wrapper.getBoundingClientRect().top;
+						this.height = window.innerHeight - this.wrapRect.top;
 					});
 				}, this.refreshDelay);
 			},
@@ -171,11 +167,16 @@
 						this.scroller.closePullUp();
 					}
 				}
+			},
+			bottomOffset(val) {
+				this.height = window.innerHeight - this.wrapRect.top - val;
 			}
 		},
 		methods: {
 			__initScoll() {
 				if (!this.$refs.wrapper) return;
+
+				this.wrapRect = this.$refs.wrapper.getBoundingClientRect();
 
 				const options = {
 					probeType: this.probeType,
