@@ -12,7 +12,6 @@
 		</div>
 		<rx-pull v-if="total>0"
 		         ref="pull"
-		         :top-offset="background ? 140:0"
 		         :list="list"
 		         :total="total"
 		         :up="up"

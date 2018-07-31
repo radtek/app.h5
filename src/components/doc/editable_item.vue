@@ -75,7 +75,7 @@
 			                 bg-color="#ffac5a"></rx-swipeout-btn>
 			<rx-swipeout-btn v-if="showUpload"
 			                 :width="70"
-			                 text="上传<br/>文库"
+			                 text="上传"
 			                 action="upload"
 			                 bg-color="#52CE67"></rx-swipeout-btn>
 		</template>
@@ -498,7 +498,7 @@
 								this.$refs.item.close();
 								done();
 								this.$confirm.close();
-								this.$toast.text("上传文库成功", "bottom");
+								this.$toast.text("上传成功", "bottom");
 							})
 							.catch(err => {
 								done();
@@ -508,7 +508,7 @@
 									this.$toast.text("网络异常", "bottom");
 								} else {
 									this.$toast.text(
-										this.$isDev ? err.msg : "上传文库发生异常",
+										this.$isDev ? err.msg : "上传发生异常",
 										"bottom"
 									);
 								}
