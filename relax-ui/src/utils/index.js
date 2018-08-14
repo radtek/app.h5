@@ -12,6 +12,7 @@ import {
 import throttle from "./throttle";
 import qs from "./querystring";
 import { assign } from "./object";
+import { includes } from "./array";
 
 export default {
 	loadJS,
@@ -26,5 +27,6 @@ export default {
 	throttle,
 	formatDate,
 	assign,
-	qs
+	qs,
+	includes
 };

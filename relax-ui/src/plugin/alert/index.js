@@ -17,7 +17,7 @@ const Alert = function(title, content) {
 	if (typeof title === "object") {
 		options = title;
 	} else {
-		options = { title, content };
+		options = { title, content, value: true };
 	}
 
 	if (!instance) {
@@ -25,10 +25,9 @@ const Alert = function(title, content) {
 		instance.$vm = instance.$mount();
 		document.body.appendChild(instance.$vm.$el);
 	}
-
 	mergeVmOptions(instance.$vm, options);
 
-	instance.$vm.value = true;
+	instance.$vm.show = true;
 };
 
 export default Alert;

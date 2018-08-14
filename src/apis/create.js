@@ -23,6 +23,14 @@ const axiosInstance = axios.create({
 	baseURL: apiRoot,
 	transformRequest: [
 		function(data) {
+			if (
+				~axiosInstance.defaults.headers.post["Content-Type"].indexOf(
+					"json"
+				)
+			) {
+				return data ? JSON.stringify(data) : "";
+			}
+
 			return data ? stringify(data) : data;
 		}
 	]
@@ -53,6 +61,21 @@ export function createApis(...apiMapData) {
 		mapItem.configs.forEach(conf => {
 			kv[conf.outKey] = (function(item) {
 				return function(clientParams) {
+					if (item.needPassport) {
+						axiosInstance.defaults.headers.common.passport =
+							clientParams.passport;
+						axiosInstance.defaults.headers.common["reqClient"] =
+							"dj-android";
+					}
+
+					if (item.contentType === "json") {
+						axiosInstance.defaults.headers.post["Content-Type"] =
+							"application/json;charset=UTF-8";
+					} else {
+						axiosInstance.defaults.headers.post["Content-Type"] =
+							"application/x-www-form-urlencoded;charset=UTF-8";
+					}
+
 					const params = {};
 					const missingParams = [];
 

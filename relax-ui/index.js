@@ -13,6 +13,7 @@ import Icon from "./packages/icon/index";
 import Button from "./packages/button/index";
 
 import { CheckIcon } from "./packages/checkbox/index";
+import { RadioGroup, Radio } from "./packages/radio/index";
 
 import Row from "./packages/row/index";
 import Col from "./packages/col/index";
@@ -54,6 +55,8 @@ const components = [
 	Pull.down,
 	Pull.up,
 	CheckIcon,
+	RadioGroup,
+	Radio,
 	Backtop,
 	Swipeout,
 	Swipeout.Item,
@@ -117,6 +120,8 @@ export {
 	Pull,
 	lazyImgDirective,
 	CheckIcon,
+	RadioGroup,
+	Radio,
 	Backtop,
 	Swipeout,
 	Img,

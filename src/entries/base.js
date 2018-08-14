@@ -46,7 +46,8 @@ export function createVue(Vue, { router, http }, jsApiActions) {
 		(Vue.prototype.authInfo = {
 			userId: qs.userId || qs.userid,
 			uuid: qs.uuid,
-			userPhonenumber: qs.phone || qs.userPhonenumber
+			userPhonenumber: qs.phone || qs.userPhonenumber,
+			passport: qs.passport ? decodeURIComponent(qs.passport) : ""
 		})
 	);
 

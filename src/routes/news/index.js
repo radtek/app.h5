@@ -6,7 +6,7 @@ export function createRoutes(Vue) {
 	const MODULENAME = process.env.JXRS_APP_MODULE;
 
 	return new VueRouter({
-		mode: process.env.NODE_ENV === "development" ? "hash" : "history",
+		mode: "history",
 		base: `/${MODULENAME}/`,
 		routes: [
 			{

@@ -8,17 +8,20 @@
   "private": true,
   "scripts": {
     "dev.news": "cross-env NODE_ENV=development JXRS_APP_MODULE=news webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
-    "build.news.test": "cross-env NODE_ENV=test JXRS_APP_MODULE=news node ./build/build.js",
-    "build.news": "cross-env NODE_ENV=production JXRS_APP_MODULE=news node ./build/build.js",
+    "test.news": "cross-env NODE_ENV=test JXRS_APP_MODULE=news node ./build/build.js",
+    "prod.news": "cross-env NODE_ENV=production JXRS_APP_MODULE=news node ./build/build.js",
     "dev.score": "cross-env NODE_ENV=development JXRS_APP_MODULE=score webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
-    "build.score.test": "cross-env NODE_ENV=test JXRS_APP_MODULE=score node ./build/build.js",
-    "build.score": "cross-env NODE_ENV=production JXRS_APP_MODULE=score node ./build/build.js",
+    "test.score": "cross-env NODE_ENV=test JXRS_APP_MODULE=score node ./build/build.js",
+    "prod.score": "cross-env NODE_ENV=production JXRS_APP_MODULE=score node ./build/build.js",
 	"dev.qa": "cross-env NODE_ENV=development JXRS_APP_MODULE=qa webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
-	"build.qa.test": "cross-env NODE_ENV=test JXRS_APP_MODULE=qa node ./build/build.js",
-    "build.qa": "cross-env NODE_ENV=production JXRS_APP_MODULE=qa node ./build/build.js",
+	"test.qa": "cross-env NODE_ENV=test JXRS_APP_MODULE=qa node ./build/build.js",
+    "prod.qa": "cross-env NODE_ENV=production JXRS_APP_MODULE=qa node ./build/build.js",
 	"dev.doc": "cross-env NODE_ENV=development JXRS_APP_MODULE=doc webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
-	"build.doc.test": "cross-env NODE_ENV=test JXRS_APP_MODULE=doc node ./build/build.js",
-    "build.doc": "cross-env NODE_ENV=production JXRS_APP_MODULE=doc node ./build/build.js"
+	"test.doc": "cross-env NODE_ENV=test JXRS_APP_MODULE=doc node ./build/build.js",
+	"prod.doc": "cross-env NODE_ENV=production JXRS_APP_MODULE=doc node ./build/build.js",
+	"dev.h5": "cross-env NODE_ENV=development JXRS_APP_MODULE=h5 webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
+	"test.h5": "cross-env NODE_ENV=test JXRS_APP_MODULE=h5 node ./build/build.js",
+    "prod.h5": "cross-env NODE_ENV=production JXRS_APP_MODULE=h5 node ./build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",

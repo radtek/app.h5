@@ -11,6 +11,7 @@
 			     @click.stop="onNavClick(tab)">
 				{{tab.label}}
 			</div>
+			<slot name="tips"></slot>
 		</div>
 		<div class="rx-tab-content"
 		     :style="contentStyles"

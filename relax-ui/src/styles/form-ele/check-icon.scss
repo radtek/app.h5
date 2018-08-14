@@ -2,14 +2,18 @@
 	position: relative;
 	display: inline-block;
 
+	&.vertical {
+		display: block;
+	}
+
 	> .rx-icon {
 		vertical-align: middle;
-		font-size: 23px;
+		font-size: 30px;
 	}
 
 	> span {
 		color: #222;
 		vertical-align: middle;
-		line-height: 23px;
+		line-height: 30px;
 	}
 }

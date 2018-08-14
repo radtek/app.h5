@@ -19,6 +19,8 @@ function getPort() {
 			return 8082;
 		case "score":
 			return 8083;
+		case "h5":
+			return 8084;
 		case "news":
 		default:
 			return 8080;
@@ -104,6 +106,8 @@ module.exports = {
 					"/import_of_pc",
 					"/import_of_mobile"
 				];
+			case "h5":
+				return ["/vote", "/notice-info"];
 			default:
 				break;
 		}

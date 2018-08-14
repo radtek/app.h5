@@ -368,41 +368,48 @@
 					loadingText: "上传中...",
 					title: "文档共享，好友可见",
 					content(h) {
-						return h(
-							"rx-cell-avatar",
-							{
-								class: "__dialog_content_cell"
-							},
-							[
-								h("rx-icon", {
-									props: {
-										name: iconName
-									},
-									slot: "img"
-								}),
-								h(
-									"span",
-									{
-										slot: "header"
-									},
-									doc.fileName
-								),
-								h(
-									"p",
-									{
-										slot: "footer"
-									},
-									[
-										h("span", null, "文件大小:"),
-										h(
-											"span",
-											{ style: { marginLeft: "4px" } },
-											fileSize
-										)
-									]
-								)
-							]
-						);
+						return h("div", null, [
+							h(
+								"rx-cell-avatar",
+								{
+									class: "__dialog_content_cell"
+								},
+								[
+									h("rx-icon", {
+										props: {
+											name: iconName
+										},
+										slot: "img"
+									}),
+									h(
+										"span",
+										{
+											slot: "header"
+										},
+										doc.fileName
+									),
+									h(
+										"p",
+										{
+											slot: "footer"
+										},
+										[
+											h("span", null, "文件大小:"),
+											h(
+												"span",
+												{ style: { marginLeft: "4px" } },
+												fileSize
+											)
+										]
+									)
+								]
+							),
+							h(
+								"p",
+								{ style: "padding:1.5em 0;" },
+								"是否将文档共享给好友,大家一起进步哟~"
+							)
+						]);
 					}
 				})
 					.then(done => {
@@ -450,41 +457,48 @@
 					loadingText: "上传中...",
 					title: "分享文档,发现价值",
 					content(h) {
-						return h(
-							"rx-cell-avatar",
-							{
-								class: "__dialog_content_cell"
-							},
-							[
-								h("rx-icon", {
-									props: {
-										name: iconName
-									},
-									slot: "img"
-								}),
-								h(
-									"span",
-									{
-										slot: "header"
-									},
-									doc.fileName
-								),
-								h(
-									"p",
-									{
-										slot: "footer"
-									},
-									[
-										h("span", null, "文件大小:"),
-										h(
-											"span",
-											{ style: { marginLeft: "4px" } },
-											fileSize
-										)
-									]
-								)
-							]
-						);
+						return h("div", null, [
+							h(
+								"rx-cell-avatar",
+								{
+									class: "__dialog_content_cell"
+								},
+								[
+									h("rx-icon", {
+										props: {
+											name: iconName
+										},
+										slot: "img"
+									}),
+									h(
+										"span",
+										{
+											slot: "header"
+										},
+										doc.fileName
+									),
+									h(
+										"p",
+										{
+											slot: "footer"
+										},
+										[
+											h("span", null, "文件大小:"),
+											h(
+												"span",
+												{ style: { marginLeft: "4px" } },
+												fileSize
+											)
+										]
+									)
+								]
+							),
+							h(
+								"p",
+								{ style: "padding:1.5em 0;" },
+								"是否上传文档至资料库,感谢您的贡献~"
+							)
+						]);
 					}
 				})
 					.then(done => {
