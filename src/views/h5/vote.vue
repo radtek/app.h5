@@ -4,22 +4,34 @@
 
 <template>
 	<section rs-view="vote">
-		<rx-tab :current.sync="tabIndex">
-			<rx-tab-pane label="投票选项"
-			             :index="0">
-				<div class="vote_items">
-					<vote-items :aid="activityId"
-					            :status.sync="voteStatus"
-					            ref="voteItems"></vote-items>
-				</div>
-			</rx-tab-pane>
-			<rx-tab-pane label="统计结果"
-			             :index="1">
-				<vote-statistics :aid="activityId"></vote-statistics>
-			</rx-tab-pane>
-		</rx-tab>
+		<template v-if="showVoteItems">
+
+			<rx-tab :current.sync="tabIndex">
+				<rx-tab-pane label="投票选项"
+				             :index="0">
+					<div class="vote_items">
+						<vote-items :aid="activityId"
+						            :status.sync="voteStatus"
+						            ref="voteItems"></vote-items>
+					</div>
+				</rx-tab-pane>
+				<rx-tab-pane label="统计结果"
+				             :index="1">
+					<vote-statistics :aid="activityId"></vote-statistics>
+				</rx-tab-pane>
+			</rx-tab>
+		</template>
+		<template v-else>
+			<rx-tab :current.sync="tabIndex"
+			        class="single">
+				<rx-tab-pane label="统计结果"
+				             :index="0">
+					<vote-statistics :aid="activityId"></vote-statistics>
+				</rx-tab-pane>
+			</rx-tab>
+		</template>
 		<div class="fixed-bottom"
-		     v-if="tabIndex === 0">
+		     v-if="tabIndex === 0 && showVoteItems">
 			<rx-btn :type="!voteStatus?'primary':'info'"
 			        :disabled="voteStatus"
 			        :loading.sync="isSubmiting"
@@ -47,7 +59,8 @@
 				voteStatus: false,
 				isSubmiting: false,
 				tabIndex: 0,
-				selected: {}
+				selected: {},
+				showVoteItems: false
 			};
 		},
 		watch: {
@@ -85,6 +98,19 @@
 			this.$rxUtils.asyncCmpListenApi.on("VoteItems.afterMounted", cmp => {
 				this.broadcast("VoteItems", "fn.fetch");
 			});
+		},
+		mounted() {
+			this.$http.vote
+				.validVoteAccess({
+					activityId: this.activityId,
+					passport: this.authInfo.passport
+				})
+				.then(() => {
+					this.showVoteItems = true;
+				})
+				.catch(() => {
+					this.showVoteItems = false;
+				});
 		}
 	};
 </script>

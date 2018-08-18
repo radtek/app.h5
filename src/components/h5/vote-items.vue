@@ -33,6 +33,7 @@
 											       type="text"
 											       :disabled="status"
 											       placeholder="请输入"
+											       v-model="option.text"
 											       v-if="option.voteOptionType===2">
 										</rx-radio>
 									</template>
@@ -49,6 +50,7 @@
 										       type="text"
 										       :disabled="status"
 										       placeholder="请输入"
+										       v-model="option.text"
 										       v-if="option.voteOptionType===2">
 									</rx-chk-icon>
 								</template>
@@ -150,16 +152,16 @@
 																	reply === null
 																		? false
 																		: this.$rxUtils.includes(
-																				reply,
-																				option.voteOptionMes
+																			reply,
+																			option.voteOptionMes
 																		  );
 															} else {
 																option.status =
 																	reply === null
 																		? false
 																		: this.$rxUtils.includes(
-																				reply,
-																				result.voteMes
+																			reply,
+																			result.voteMes
 																		  );
 																if (option.status) {
 																	option.text =
@@ -216,49 +218,75 @@
 						const theme = vote.infoVoteThemeList[i2];
 
 						if (theme.voteType === 1) {
-							if (!theme.reply) {
+							let hasSelect = false;
+							theme.infoVoteOptionsList.forEach(option => {
+								if (option.voteOptionType === 1) {
+									if (option.voteOptionMes === theme.reply) {
+										hasSelect = true;
+										voteResultList.push({
+											voteOptionId: option.voteOptionId,
+											voteMes: option.voteOptionMes
+										});
+									}
+								} else if (option.text) {
+									hasSelect = true;
+									voteResultList.push({
+										voteOptionId: option.voteOptionId,
+										voteMes: option.text
+									});
+								}
+							});
+							if (!hasSelect) {
 								return Promise.reject(
 									new Error("你还有未投票内容")
 								);
 							}
-							theme.infoVoteOptionsList.forEach(option => {
-								if (option.voteOptionMes === theme.reply) {
-									voteResultList.push({
-										voteOptionId: option.voteOptionId,
-										voteMes: option.voteOptionMes
-									});
-								}
-							});
 							// 通过reply去查找选中的项
 						} else if (theme.voteType === 2) {
 							// 多选的情况下
-							let hasChecked = false;
+							let checkedLen = 0;
 							theme.infoVoteOptionsList.forEach(option => {
 								if (option.status) {
-									hasChecked = true;
-									voteResultList.push({
-										voteOptionId: option.voteOptionId,
-										voteMes: option.voteOptionMes
-									});
+									checkedLen += 1;
+									if (option.voteOptionType === 1) {
+										voteResultList.push({
+											voteOptionId: option.voteOptionId,
+											voteMes: option.voteOptionMes
+										});
+									} else if (option.text) {
+										checkedLen += 1;
+										voteResultList.push({
+											voteOptionId: option.voteOptionId,
+											voteMes: option.text
+										});
+									}
 								}
 							});
 
-							if (!hasChecked) {
+							if (checkedLen !== theme.infoVoteOptionsList.length) {
 								return Promise.reject(
 									new Error("你还有未投票内容")
 								);
 							}
 						} else if (theme.voteType === 3) {
+							let checkedLen = 0;
 							theme.infoVoteOptionsList.forEach(option => {
-								voteResultList.push({
-									voteOptionId: option.voteOptionId,
-									voteMes: option.voteOptionMes
-								});
+								if (option.voteOptionMes) {
+									checkedLen += 1;
+									voteResultList.push({
+										voteOptionId: option.voteOptionId,
+										voteMes: option.voteOptionMes
+									});
+								}
 							});
+							if (checkedLen !== theme.infoVoteOptionsList.length) {
+								return Promise.reject(
+									new Error("你还有未投票内容")
+								);
+							}
 						}
 					}
 				}
-
 				return this.$http.vote.submit({
 					activityId: this.aid,
 					voteResultList,

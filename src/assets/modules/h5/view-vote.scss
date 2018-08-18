@@ -31,6 +31,13 @@
 		}
 	}
 
+	.single .rx-tab-nav {
+		&:nth-child(1) {
+			border-radius: 35px;
+			border-right: 2px solid #0097ee;
+		}
+	}
+
 	.fixed-bottom {
 		position: fixed;
 		bottom: 0;

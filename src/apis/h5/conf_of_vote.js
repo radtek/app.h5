@@ -20,5 +20,12 @@ export default [
 		needPassport: true,
 		contentType: "json",
 		reqParams: ["activityId", "voteIds", "voteResultList"]
+	},
+	{
+		// desp:"判断是否可以投票",
+		outKey: "validVoteAccess",
+		action: "/mobile/v1/checkCanVote.life",
+		needPassport: true,
+		reqParams: ["activityId"]
 	}
 ];
