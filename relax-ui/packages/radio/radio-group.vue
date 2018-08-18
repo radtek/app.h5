@@ -9,7 +9,7 @@
 	</div>
 </template>
 <script>
-	import { findChildrenComponent } from "../../src/utils/vdom/find";
+	import { eachChilds } from "../../src/utils/vdom/find";
 	import Emitter from "../../src/mixins/emitter";
 	const prefixCls = "rx-radio-group";
 	let seed = 0;
@@ -20,7 +20,7 @@
 		mixins: [Emitter],
 		provide() {
 			return {
-				group: this
+				parentGroup: this
 			};
 		},
 		props: {
@@ -58,13 +58,22 @@
 		},
 		methods: {
 			updateValue() {
-				this.childrens = findChildrenComponent(this, "RxRadio");
-				if (this.childrens) {
-					this.childrens.forEach(child => {
-						child.currentValue = this.currentValue === child.label;
-						child.group = true;
-					});
-				}
+				eachChilds(this, "RxRadio", child => {
+					child.currentValue = this.currentValue === child.label;
+					child.group = true;
+				});
+				// this.childrens = findChildrenComponent(this, "RxRadio");
+
+				// if (this.childrens && Array.isArray(this.childrens)) {
+				// 	this.childrens.forEach(child => {
+				// 		child.currentValue = this.currentValue === child.label;
+				// 		child.group = true;
+				// 	});
+				// } else {
+				// 	this.childrens.currentValue =
+				// 		this.currentValue === this.childrens.label;
+				// 	this.childrens.group = true;
+				// }
 			},
 			change(data) {
 				this.currentValue = data.value;

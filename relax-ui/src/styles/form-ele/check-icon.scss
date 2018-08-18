@@ -11,6 +11,14 @@
 		font-size: 30px;
 	}
 
+	&.disabled {
+		color: #ccc;
+
+		> .rx-icon {
+			color: #ccc !important;
+		}
+	}
+
 	> span {
 		color: #222;
 		vertical-align: middle;

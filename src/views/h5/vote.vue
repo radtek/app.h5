@@ -23,7 +23,7 @@
 			<rx-btn :type="!voteStatus?'primary':'info'"
 			        :disabled="voteStatus"
 			        :loading.sync="isSubmiting"
-			        @on-click="handleVoteSubmit">{{voteStatus?'你已投票':'确定投票'}}</rx-btn>
+			        @on-click="handleVoteSubmit">{{voteStatus?'你已投票': isSubmiting ? '投票中...':'确定投票'}}</rx-btn>
 		</div>
 	</section>
 </template>

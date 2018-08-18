@@ -2,6 +2,8 @@
 	[rs-view="notice_info"] {
 		.content {
 			padding: 20px;
+			color: #333;
+			font-size: 34px;
 			line-height: 50px;
 		}
 	}

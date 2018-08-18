@@ -20,7 +20,6 @@
 </template>
 
 <script>
-	import { findChildrenComponent } from "../../src/utils/vdom/find";
 	import Emitter from "../../src/mixins/emitter";
 	const prefixCls = "rx-radio";
 	export default {
@@ -50,12 +49,14 @@
 				type: String
 			}
 		},
+		inject: {
+			parentGroup: { default: {} }
+		},
 		data() {
 			return {
 				currentValue: this.value,
 				group: false,
 				groupName: this.name,
-				parent: findChildrenComponent(this, "RadioGroup"),
 				focusWrapper: false,
 				focusInner: false
 			};
@@ -94,9 +95,9 @@
 			}
 		},
 		mounted() {
-			if (this.parent) {
+			if (this.parentGroup) {
 				this.group = true;
-				if (this.name && this.name !== this.parent.name) {
+				if (this.name && this.name !== this.parentGroup.name) {
 					/* eslint-disable no-console */
 					if (console.warn) {
 						console.warn(
@@ -105,11 +106,11 @@
 					}
 					/* eslint-enable no-console */
 				} else {
-					this.groupName = this.parent.name;
+					this.groupName = this.parentGroup.name;
 				}
 			}
 			if (this.group) {
-				this.parent.updateValue();
+				this.parentGroup.updateValue();
 			} else {
 				this.updateValue();
 			}
@@ -125,7 +126,7 @@
 				this.$emit("input", value);
 				if (this.group) {
 					if (this.label !== undefined) {
-						this.parent.change({
+						this.parentGroup.change({
 							value: this.label,
 							checked: this.value
 						});
@@ -143,7 +144,7 @@
 				this.focusInner = false;
 			},
 			onFocus() {
-				if (this.group && this.parent.type === "button") {
+				if (this.group && this.parentGroup.type === "button") {
 					this.focusWrapper = true;
 				} else {
 					this.focusInner = true;

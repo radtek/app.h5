@@ -23,14 +23,15 @@
 							<template v-if="theme.voteType===1">
 								<!--单选-->
 								<rx-radio-group vertical
-								                v-model="theme.reply"
-								                @on-change="handleVoteChange(vote,theme)">
+								                v-model="theme.reply">
 									<template v-for="option in theme.infoVoteOptionsList">
 										<rx-radio :key="option.voteOptionId"
+										          :disabled="status"
 										          :label="option.voteOptionMes">
 											<span>{{option.voteOptionMes}}</span>
 											<input class="text"
 											       type="text"
+											       :disabled="status"
 											       placeholder="请输入"
 											       v-if="option.voteOptionType===2">
 										</rx-radio>
@@ -40,11 +41,13 @@
 							<template v-else-if="theme.voteType === 2">
 								<template v-for="option in theme.infoVoteOptionsList">
 									<rx-chk-icon vertical
+									             :disabled="status"
 									             :key="option.voteOptionId"
 									             v-model="option.status">
 										<span>{{option.voteOptionMes}}</span>
 										<input class="text"
 										       type="text"
+										       :disabled="status"
 										       placeholder="请输入"
 										       v-if="option.voteOptionType===2">
 									</rx-chk-icon>
@@ -98,7 +101,9 @@
 									let reply = theme.reply;
 
 									if (theme.voteType === 2) {
-										reply = theme.reply.split(",");
+										reply = theme.reply
+											? theme.reply.split(",")
+											: null;
 									}
 
 									theme.infoVoteOptionsList &&
@@ -141,15 +146,21 @@
 																option.voteOptionType ===
 																1
 															) {
-																option.status = this.$rxUtils.includes(
-																	reply,
-																	option.voteOptionMes
-																);
+																option.status =
+																	reply === null
+																		? false
+																		: this.$rxUtils.includes(
+																				reply,
+																				option.voteOptionMes
+																		  );
 															} else {
-																option.status = this.$rxUtils.includes(
-																	reply,
-																	result.voteMes
-																);
+																option.status =
+																	reply === null
+																		? false
+																		: this.$rxUtils.includes(
+																				reply,
+																				result.voteMes
+																		  );
 																if (option.status) {
 																	option.text =
 																		result.voteMes;
@@ -158,8 +169,10 @@
 															break;
 														case 3:
 															option.status =
-																reply ===
-																result.voteMes;
+																reply === null
+																	? false
+																	: reply ===
+																	  result.voteMes;
 
 															if (option.status) {
 																option.text = reply;
@@ -195,7 +208,6 @@
 					const vote = this.list[i];
 
 					voteIds.push(vote.voteId);
-
 					for (
 						let i2 = 0, l2 = vote.infoVoteThemeList.length;
 						i2 < l2;
@@ -209,6 +221,14 @@
 									new Error("你还有未投票内容")
 								);
 							}
+							theme.infoVoteOptionsList.forEach(option => {
+								if (option.voteOptionMes === theme.reply) {
+									voteResultList.push({
+										voteOptionId: option.voteOptionId,
+										voteMes: option.voteOptionMes
+									});
+								}
+							});
 							// 通过reply去查找选中的项
 						} else if (theme.voteType === 2) {
 							// 多选的情况下
