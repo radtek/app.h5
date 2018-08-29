@@ -1,0 +1,76 @@
+@import "../mixins/input.scss";
+
+.rx-form-item {
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	margin-top: 32px;
+	margin-bottom: 32px;
+	line-height: 96px;
+
+	&:after,
+	&:before {
+		display: table;
+		content: "";
+	}
+
+	input[type="text"],
+	input[type="tel"],
+	input[type="number"],
+	input[type="email"],
+	input[type="date"],
+	textarea {
+		display: inline-block;
+		width: 100%;
+		padding: 0 15px;
+		border: none;
+		border-radius: 8px;
+		outline: none;
+		color: #333;
+		background-image: none;
+		background-color: #fff;
+		font-size: inherit;
+		transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+		-webkit-appearance: none;
+
+		@include placeholder-color();
+	}
+
+	input[type="text"] {
+		height: 96px;
+		line-height: 96px;
+	}
+}
+
+.rx-form-item {
+	&__label {
+		float: left;
+		box-sizing: border-box;
+		padding: 0 12px 0 16px;
+		color: #666;
+		vertical-align: middle;
+		font-size: 28px;
+		line-height: 96px;
+
+		.__flag {
+			color: #ff3766;
+		}
+	}
+
+	&__content {
+		position: relative;
+		color: #333;
+		font-size: 32px;
+		line-height: 96px;
+
+		&:after,
+		&:before {
+			display: table;
+			content: "";
+		}
+	}
+}
+
+.rs-form-item {
+	&.is-warn {
+	}
+}

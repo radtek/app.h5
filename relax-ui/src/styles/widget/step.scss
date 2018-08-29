@@ -1,0 +1,97 @@
+$stepBlue: #1f9cfc;
+
+.rx-step {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.rx-step {
+	&-item {
+		position: relative;
+		display: inline-block;
+		flex: 1;
+		overflow: hidden;
+	}
+
+	&-item__header {
+		position: relative;
+		display: inline-block;
+		margin-right: -4px;
+	}
+
+	&-item__circle {
+		float: left;
+		width: 44px;
+		height: 44px;
+		border-radius: 198px;
+		background-color: #ddd;
+	}
+
+	&-item__tail {
+		position: absolute;
+		top: 20px;
+		right: 0;
+		left: 0;
+		height: 2px;
+		padding: 0 0;
+		background: #ddd none repeat scroll 0 0;
+		transition: all 0.4s ease 0s;
+
+		&.prev {
+			right: 50%;
+		}
+
+		&.next {
+			left: 50%;
+		}
+	}
+
+	&-item__main {
+		position: relative;
+		padding-left: 5px;
+		margin-top: 24px;
+		color: #ccc;
+		vertical-align: top;
+		font-weight: 400;
+		font-size: 28px;
+	}
+
+	&-item {
+		&.__active &__circle {
+			border: 6px solid $stepBlue;
+			color: $stepBlue;
+			background-color: #fff;
+		}
+
+		&.__success &__circle {
+			background-color: #fff;
+
+			i {
+				margin-top: -11px;
+				margin-left: -6px;
+				color: $stepBlue;
+				font-size: 60px;
+			}
+		}
+
+		&.__active &__main,
+		&.__success &__main {
+			color: $stepBlue;
+		}
+
+		&.__active &__tail {
+			&.prev {
+				background-color: $stepBlue;
+			}
+		}
+
+		&.__success &__tail {
+			&.prev,
+			&.next {
+				background-color: $stepBlue;
+			}
+		}
+	}
+}

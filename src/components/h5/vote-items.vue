@@ -100,14 +100,6 @@
 						list.forEach(vote => {
 							vote.infoVoteThemeList &&
 								vote.infoVoteThemeList.forEach(theme => {
-									let reply = theme.reply;
-
-									if (theme.voteType === 2) {
-										reply = theme.reply
-											? theme.reply.split(",")
-											: null;
-									}
-
 									theme.infoVoteOptionsList &&
 										theme.infoVoteOptionsList.forEach(
 											option => {
@@ -121,10 +113,11 @@
 														resultList &&
 														resultList.length
 															? resultList[0]
-															: [];
+															: {};
 
 													switch (theme.voteType) {
 														case 1:
+															console.log("单选情况");
 															// 单选情况下
 															if (
 																option.voteOptionType ===
@@ -132,14 +125,21 @@
 															) {
 																// 非文本选项
 																option.status =
-																	reply ===
+																	result.voteMes ===
 																	option.voteOptionMes;
-															} else {
-																option.status =
-																	reply ===
-																	result.voteMes;
+
 																if (option.status) {
-																	option.text = reply;
+																	theme.reply =
+																		result.voteMes;
+																}
+															} else {
+																option.status = !!result.voteMes;
+																if (option.status) {
+																	option.text =
+																		result.voteMes;
+
+																	theme.reply =
+																		result.voteMes;
 																}
 															}
 															break;
@@ -149,20 +149,10 @@
 																1
 															) {
 																option.status =
-																	reply === null
-																		? false
-																		: this.$rxUtils.includes(
-																			reply,
-																			option.voteOptionMes
-																		  );
+																	result.voteMes ===
+																	option.voteOptionMes;
 															} else {
-																option.status =
-																	reply === null
-																		? false
-																		: this.$rxUtils.includes(
-																			reply,
-																			result.voteMes
-																		  );
+																option.status = !!result.voteMes;
 																if (option.status) {
 																	option.text =
 																		result.voteMes;
@@ -170,14 +160,11 @@
 															}
 															break;
 														case 3:
-															option.status =
-																reply === null
-																	? false
-																	: reply ===
-																	  result.voteMes;
+															option.status = !!result.voteMes;
 
 															if (option.status) {
-																option.text = reply;
+																option.text =
+																	result.voteMes;
 															}
 															break;
 														default:
@@ -245,10 +232,11 @@
 						} else if (theme.voteType === 2) {
 							// 多选的情况下
 							let checkedLen = 0;
+							let hasOtherNoText = false;
 							theme.infoVoteOptionsList.forEach(option => {
 								if (option.status) {
-									checkedLen += 1;
 									if (option.voteOptionType === 1) {
+										checkedLen += 1;
 										voteResultList.push({
 											voteOptionId: option.voteOptionId,
 											voteMes: option.voteOptionMes
@@ -259,11 +247,13 @@
 											voteOptionId: option.voteOptionId,
 											voteMes: option.text
 										});
+									} else {
+										hasOtherNoText = true;
 									}
 								}
 							});
 
-							if (checkedLen !== theme.infoVoteOptionsList.length) {
+							if (checkedLen === 0 || hasOtherNoText) {
 								return Promise.reject(
 									new Error("你还有未投票内容")
 								);

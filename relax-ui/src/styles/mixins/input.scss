@@ -1,0 +1,11 @@
+@mixin placeholder-color($color: #ccc) {
+	&::-webkit-input-placeholder {
+		color: $color;
+	} /* 使用webkit内核的浏览器 */
+	&:-moz-placeholder {
+		color: $color;
+	} /* Firefox版本4-18 */
+	&::-moz-placeholder {
+		color: $color;
+	} /* Firefox版本19+ */
+}

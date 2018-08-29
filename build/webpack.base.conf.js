@@ -4,8 +4,9 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 const api = require("./build-api");
 const outputDir = api.resolve(`${api.getDistDirName()}/${api.getAppModule()}`);
+// const vuxLoader = require("vux-loader");
 
-module.exports = {
+const baseConfig = {
 	entry: {
 		app: api.resolve(`src/entries/${api.getAppModule()}/app.js`)
 	},
@@ -117,3 +118,6 @@ module.exports = {
 		])
 	]
 };
+
+module.exports = baseConfig
+;

@@ -21,6 +21,8 @@ function getPort() {
 			return 8083;
 		case "h5":
 			return 8084;
+		case "lgbj":
+			return 8085;
 		case "news":
 		default:
 			return 8080;

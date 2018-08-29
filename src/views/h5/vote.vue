@@ -4,10 +4,12 @@
 
 <template>
 	<section rs-view="vote">
-		<template v-if="showVoteItems">
-
-			<rx-tab :current.sync="tabIndex">
-				<rx-tab-pane label="投票选项"
+		<rx-tab :current.sync="tabIndex"
+		        ref="tab"
+		        :class="[{[`single`]:!showVoteItems}]">
+			<template v-if="showVoteItems">
+				<rx-tab-pane ref="pane"
+				             label="投票选项"
 				             :index="0">
 					<div class="vote_items">
 						<vote-items :aid="activityId"
@@ -15,21 +17,20 @@
 						            ref="voteItems"></vote-items>
 					</div>
 				</rx-tab-pane>
-				<rx-tab-pane label="统计结果"
+				<rx-tab-pane ref="pane"
+				             label="统计结果"
 				             :index="1">
 					<vote-statistics :aid="activityId"></vote-statistics>
 				</rx-tab-pane>
-			</rx-tab>
-		</template>
-		<template v-else>
-			<rx-tab :current.sync="tabIndex"
-			        class="single">
-				<rx-tab-pane label="统计结果"
+			</template>
+			<template v-else>
+				<rx-tab-pane ref="pane"
+				             label="统计结果"
 				             :index="0">
 					<vote-statistics :aid="activityId"></vote-statistics>
 				</rx-tab-pane>
-			</rx-tab>
-		</template>
+			</template>
+		</rx-tab>
 		<div class="fixed-bottom"
 		     v-if="tabIndex === 0 && showVoteItems">
 			<rx-btn :type="!voteStatus?'primary':'info'"
@@ -65,11 +66,20 @@
 		},
 		watch: {
 			tabIndex(val) {
-				if (this.tabIndex === 0) {
-					this.broadcast("VoteItems", "fn.fetch");
+				if (this.showVoteItems) {
+					if (this.tabIndex === 0) {
+						this.broadcast("VoteItems", "fn.fetch");
+					} else {
+						this.broadcast("VoteStatistics", "fn.fetch");
+					}
 				} else {
 					this.broadcast("VoteStatistics", "fn.fetch");
 				}
+			},
+			showVoteItems(val) {
+				this.$nextTick(() => {
+					this.$refs.tab.resetTabs();
+				});
 			}
 		},
 		methods: {
@@ -86,6 +96,8 @@
 						this.isSubmiting = false;
 						this.voteStatus = true;
 						this.$toast.text("投票成功", "bottom");
+
+						this.broadcast("VoteStatistics", "fn.fetch", true);
 					})
 					.catch(err => {
 						this.isSubmiting = false;
@@ -97,6 +109,7 @@
 			this.getQS("activityId");
 			this.$rxUtils.asyncCmpListenApi.on("VoteItems.afterMounted", cmp => {
 				this.broadcast("VoteItems", "fn.fetch");
+				this.broadcast("VoteStatistics", "fn.fetch");
 			});
 		},
 		mounted() {
@@ -107,9 +120,16 @@
 				})
 				.then(() => {
 					this.showVoteItems = true;
+					setTimeout(() => {
+						this.broadcast("VoteItems", "fn.fetch");
+						this.broadcast("VoteStatistics", "fn.fetch");
+					}, 800);
 				})
 				.catch(() => {
 					this.showVoteItems = false;
+					setTimeout(() => {
+						this.broadcast("VoteStatistics", "fn.fetch");
+					}, 800);
 				});
 		}
 	};

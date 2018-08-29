@@ -36,7 +36,22 @@ import ToastPlugin from "./src/plugin/toast/index";
 import AlertPlugin from "./src/plugin/alert/index";
 import ConfirmPlugin from "./src/plugin/confirm/index";
 
-import ClampBpx from "./packages/clamp-box/index";
+import ClampBox from "./packages/clamp-box/index";
+
+import Step from "./packages/step/index";
+import Form from "./packages/form/index";
+
+import VArea from "./packages/v-chart/v-area.vue";
+import VAxis from "./packages/v-chart/v-axis.vue";
+import VBar from "./packages/v-chart/v-bar.vue";
+import VChart from "./packages/v-chart/v-chart.vue";
+import VGuide from "./packages/v-chart/v-guide.vue";
+import VLegend from "./packages/v-chart/v-legend.vue";
+import VLine from "./packages/v-chart/v-line.vue";
+import VPie from "./packages/v-chart/v-pie.vue";
+import VPoint from "./packages/v-chart/v-point.vue";
+import VScale from "./packages/v-chart/v-scale.vue";
+import VTooltip from "./packages/v-chart/v-tooltip.vue";
 
 const components = [
 	Row,
@@ -64,7 +79,22 @@ const components = [
 	Img,
 	CollapseTransition,
 	Toast,
-	ClampBpx
+	ClampBox,
+	Step,
+	Step.Item,
+	Form,
+	Form.Item,
+	VArea,
+	VAxis,
+	VBar,
+	VChart,
+	VGuide,
+	VLegend,
+	VLine,
+	VPie,
+	VPoint,
+	VScale,
+	VTooltip
 ];
 
 function install(Vue, options = {}) {
@@ -130,7 +160,20 @@ export {
 	ToastPlugin,
 	AlertPlugin,
 	ConfirmPlugin,
-	ClampBpx
+	ClampBox,
+	Step,
+	Form,
+	VArea,
+	VAxis,
+	VBar,
+	VChart,
+	VGuide,
+	VLegend,
+	VLine,
+	VPie,
+	VPoint,
+	VScale,
+	VTooltip
 };
 
 export default install;

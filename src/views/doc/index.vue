@@ -28,7 +28,7 @@
 				</rx-row>
 			</div>
 			<div class="pane-ad">
-				<img :src="getLocalMduImg('doc', 'banner','jpg')"
+				<img :src="getLocalMduImg('doc', 'banner','png')"
 				     alt="banner" />
 			</div>
 			<div class="pane-tags">

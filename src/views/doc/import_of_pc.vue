@@ -90,12 +90,13 @@
 				}
 			},
 			socketUrl() {
+				// ? "http://121.43.177.173:9092"
 				return this.$isProd
-					? "http://121.43.177.173:9093"
+					? "socket.jxdangjian.com"
 					: "http://whrdd.f3322.net:9093";
 			},
 			url() {
-				return this.$Prod
+				return this.$isProd
 					? "http://manage.jxdangjian.com/page/docImport/docImportLogin.html"
 					: "http://whrdd.f3322.net:8889/page/docImport/docImportLogin.html";
 			}

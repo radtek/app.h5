@@ -29,12 +29,33 @@
 									</tr>
 								</thead>
 								<tbody>
-									<template v-for="option in theme.infoVoteOptionsList">
-										<tr :key="option.voteOptionId">
-											<td>{{option.voteOptionMes}}</td>
-											<td>{{option.attrMap.voteResultCount}}</td>
-											<td>{{option.attrMap.resultPercentage}}</td>
-										</tr>
+									<template v-for="(option,index) in theme.infoVoteOptionsList">
+										<template v-if="option.infoVoteResultList && option.infoVoteResultList.length && option.infoVoteResultList[0].voteMes">
+											<template v-if="option.voteOptionType === 1">
+												<tr :key="index+'-'+idx">
+													<td>{{option.infoVoteResultList[0].voteMes}}</td>
+													<td>{{option.attrMap.voteResultCount}}</td>
+													<td>{{option.attrMap.resultPercentage}}</td>
+												</tr>
+											</template>
+											<template v-else
+											          v-for="(result,idx) in option.infoVoteResultList">
+												<tr :key="index+'-'+idx">
+													<td>{{result.voteMes}}</td>
+													<template v-if="idx===0">
+														<td :rowspan="option.infoVoteResultList.length">{{option.attrMap.voteResultCount}}</td>
+														<td :rowspan="option.infoVoteResultList.length">{{option.attrMap.resultPercentage}}</td>
+													</template>
+												</tr>
+											</template>
+										</template>
+										<template v-else>
+											<tr :key="index">
+												<td>{{option.voteOptionMes}}</td>
+												<td>{{option.attrMap.voteResultCount}}</td>
+												<td>{{option.attrMap.resultPercentage}}</td>
+											</tr>
+										</template>
 									</template>
 									<tr>
 										<td>本题填写人次</td>
@@ -67,9 +88,21 @@
 		methods: {
 			__calcVoteResultTotal(options) {
 				let total = 0;
-				options.forEach(
-					option => (total += option.attrMap.voteResultCount)
-				);
+				const kv = {};
+				options.forEach(option => {
+					const results = option.infoVoteResultList;
+					results.forEach(r => {
+						if (!r.userId) {
+							return;
+						}
+						kv[r.userId] = true;
+					});
+				});
+
+				for (const key in kv) {
+					total += 1;
+				}
+
 				return total;
 			},
 			__fetch() {
@@ -85,11 +118,15 @@
 			}
 		},
 		created() {
-			this.$on("fn.fetch", () => {
-				if (this.isLoaded) return;
-				this.__fetch().then(() => {
-					this.isLoaded = true;
-				});
+			this.$on("fn.fetch", isMustRefresh => {
+				if (isMustRefresh) {
+					this.__fetch();
+				} else {
+					if (this.isLoaded) return;
+					this.__fetch().then(() => {
+						this.isLoaded = true;
+					});
+				}
 			});
 		}
 	};

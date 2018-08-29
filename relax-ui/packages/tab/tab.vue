@@ -24,11 +24,6 @@
 <script>
 	export default {
 		name: "RxTab",
-		provide() {
-			return {
-				tabs: this.tabs
-			};
-		},
 		props: {
 			current: {
 				type: Number,
@@ -69,7 +64,21 @@
 		methods: {
 			onNavClick(tab) {
 				this.currentIndex = tab.index;
+			},
+			resetTabs() {
+				this.tabs = [];
+				this.$children.forEach(child => {
+					if (child.$options._componentTag === "rx-tab-pane") {
+						this.tabs.push({
+							label: child.label,
+							index: child.index
+						});
+					}
+				});
 			}
+		},
+		mounted() {
+			this.resetTabs();
 		}
 	};
 </script>
