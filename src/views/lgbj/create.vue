@@ -64,11 +64,16 @@
 			z-index: 200;
 		}
 
+		.picker-item {
+			font-size: 28px;
+		}
+
 		.mint-actionsheet-listitem,
 		.mint-actionsheet-button {
 			height: 80px;
 			line-height: 80px;
 			color: #666;
+			font-size: 28px;
 		}
 		.rx-btn.plain.primary {
 			color: #1f9cfc;
@@ -271,6 +276,9 @@
 					this.currentStep += 1;
 					window.scrollTo(0, 0);
 				} else {
+					if (this.userId) {
+						this.formData.oldUserId = this.userId;
+					}
 					this.$http.lgbj
 						.register(this.formData)
 						.then(data => {
@@ -288,6 +296,18 @@
 							);
 						});
 				}
+			}
+		},
+		activated() {
+			this.getQS("userId");
+			if (this.userId) {
+				this.$http.lgbj
+					.getUserInfo({
+						userId: this.userId
+					})
+					.then(data => {
+						this.formData = data.result.userDetails;
+					});
 			}
 		}
 	};

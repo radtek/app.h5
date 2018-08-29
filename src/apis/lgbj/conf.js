@@ -34,6 +34,30 @@ export default [
 		action: "/weixinGZH/shanghai/getSexPieChart.lm"
 	},
 	{
+		outKey: "getStatisticsOfAge",
+		action: "/weixinGZH/shanghai/getAgeBarChart.lm"
+	},
+	{
+		outKey: "getStatisticsOfEducation",
+		action: "/weixinGZH/shanghai/getEducationBarChart.lm"
+	},
+	{
+		outKey: "getStatisticsOfHealth",
+		action: "/weixinGZH/shanghai/getHealthPieChart.lm"
+	},
+	{
+		outKey: "getStatisticsOfRetire",
+		action: "/weixinGZH/shanghai/getRetireBarChart.lm"
+	},
+	{
+		outKey: "getStatisticsOfHobby",
+		action: "/weixinGZH/shanghai/getHobbyList.lm"
+	},
+	{
+		outKey: "getStatisticsOfSpecial",
+		action: "/weixinGZH/shanghai/getSpecilityList.lm"
+	},
+	{
 		outKey: "getUserInfo",
 		action: "/weixinGZH/shanghai/getUserDetailsByUserIdGZH.uu",
 		reqParams: ["userId"]
@@ -71,5 +95,4 @@ export default [
 			"hobbyAndSpeciality"
 		]
 	}
-]
-;
+];

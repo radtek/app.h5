@@ -19,6 +19,46 @@
 				}
 			}
 		}
+
+		.rx-card {
+			&_header {
+				color: #999;
+				font-size: 32px;
+				border-bottom: none;
+				margin-top: 24px;
+			}
+
+			&_body {
+				border-bottom: 1px solid #ccc;
+			}
+		}
+
+		[rs-mdu] {
+			.top-title {
+				color: #333;
+				font-size: 40px;
+				margin-top: 20px;
+				margin-bottom: 34px;
+			}
+			label {
+				color: #999;
+				font-size: 24px;
+
+				~ span {
+					color: #333;
+					font-size: 28px;
+				}
+			}
+
+			li.info-item {
+				padding-top: 16px;
+				padding-bottom: 16px;
+
+				p {
+					margin-top: 16px;
+				}
+			}
+		}
 	}
 </style>
 
@@ -42,109 +82,119 @@
 		</div>
 		<div rs-mdu="basic">
 			<rx-card header="个人情况">
-				<div>
+				<div class="top-title">
 					{{details.userName}}
 				</div>
-				<rx-row>
-					<rx-col>
-						<label>性別：</label>
-						<span>{{details.sex}}</span>
-					</rx-col>
-					<rx-col>
-						<label>出生年月：</label>
-						<span>{{details.birthday}}</span>
-					</rx-col>
-				</rx-row>
-				<rx-row>
-					<rx-col>
-						<label>政治面貌：</label>
-						<span>{{details.political}}</span>
-					</rx-col>
-					<rx-col>
-						<label>入党时间：</label>
-						<span>{{details.joinTime}}</span>
-					</rx-col>
-				</rx-row>
-				<rx-row>
-					<rx-col>
-						<label>身体状况：</label>
-						<span>{{details.health}}</span>
-					</rx-col>
-					<rx-col>
-						<label>文化程度：</label>
-						<span>{{details.education}}</span>
-					</rx-col>
-				</rx-row>
-				<rx-row>
-					<rx-col>
-						<label>离（退）休情况：</label>
-						<span>{{details.retire==="1"?"离休":"退休"}}</span>
-					</rx-col>
-					<rx-col>
-						<label>离（退）休时间：</label>
-						<span>{{details.retireTime}}</span>
-					</rx-col>
-				</rx-row>
-				<div>
-					<label>联系电话：</label>
-					<span>{{details.mobileNumber}}</span>
-				</div>
-				<div>
-					<label>家庭联系人电话：</label>
-					<span>{{details.familyPhone}}</span>
-				</div>
-				<div>
-					<label>身份证号：</label>
-					<span>{{details.userIdCard}}</span>
-				</div>
-				<div>
-					<p>专业特长：</p>
-					<p>{{details.speciality}}</p>
-				</div>
-				<div>
-					<p>兴趣爱好：</p>
-					<p>{{details.hobby}}</p>
-				</div>
-				<div>
-					<p>希望得到的关心活动：</p>
-					<p>{{details.service}}</p>
-				</div>
+				<ul>
+					<li class="info-item">
+						<rx-row>
+							<rx-col>
+								<label>性別：</label>
+								<span>{{details.sex}}</span>
+							</rx-col>
+							<rx-col>
+								<label>出生年月：</label>
+								<span>{{$rxUtils.formatDate(details.birthday,'yyyy-MM')}}</span>
+							</rx-col>
+						</rx-row>
+					</li>
+					<li class="info-item">
+						<rx-row>
+							<rx-col>
+								<label>政治面貌：</label>
+								<span>{{details.political}}</span>
+							</rx-col>
+							<rx-col>
+								<label>入党时间：</label>
+								<span>{{$rxUtils.formatDate(details.joinTime,"yyyy-MM-dd")}}</span>
+							</rx-col>
+						</rx-row>
+					</li>
+					<li class="info-item">
+						<rx-row>
+							<rx-col>
+								<label>身体状况：</label>
+								<span>{{details.health}}</span>
+							</rx-col>
+							<rx-col>
+								<label>文化程度：</label>
+								<span>{{details.education}}</span>
+							</rx-col>
+						</rx-row>
+					</li>
+					<li class="info-item">
+						<rx-row>
+							<rx-col>
+								<label>离（退）休情况：</label>
+								<span>{{details.retire==="1"?"离休":"退休"}}</span>
+							</rx-col>
+							<rx-col>
+								<label>离（退）休时间：</label>
+								<span>{{$rxUtils.formatDate(details.retireTime,"yyyy-MM-dd")}}</span>
+							</rx-col>
+						</rx-row>
+					</li>
+					<li class="info-item">
+						<label>联系电话：</label>
+						<span>{{details.mobileNumber}}</span>
+					</li>
+					<li class="info-item">
+						<label>家庭联系人电话：</label>
+						<span>{{details.familyPhone}}</span>
+					</li>
+					<li class="info-item">
+						<label>专业特长：</label>
+						<p>{{details.speciality}}</p>
+					</li>
+					<li class="info-item">
+						<label>兴趣爱好：</label>
+						<p>{{details.hobby}}</p>
+					</li>
+					<li class="info-item">
+						<label>希望得到的关心活动：</label>
+						<p>{{details.service}}</p>
+					</li>
+				</ul>
 			</rx-card>
 			<rx-card header="社会关系">
-				<rx-row>
-					<rx-col>
-						<label>职称：</label>
-						<span>{{details.title}}</span>
-					</rx-col>
-					<rx-col>
-						<label>原职务：</label>
-						<span>{{details.position}}</span>
-					</rx-col>
-				</rx-row>
-				<div>
-					<p>原工作单位：</p>
-					<p>{{details.workUnit}}</p>
-				</div>
-				<div>
-					<p>党组织关系所在支部：</p>
-					<p>{{details.unitNameReal}}</p>
-				</div>
-				<div>
-					<p>党组织关系所在地：</p>
-					<p>{{details.unitNameAddress}}</p>
-				</div>
-				<div>
-					<p>家庭住址：</p>
-					<p>{{details.street + '' + details.community}}</p>
-				</div>
-				<div>
-					<p>参加常规型党支部名称：</p>
-					<p>{{details.unitName}}</p>
-				</div>
-				<div>
-					<p>愿意参加的志愿活动：</p>
-					<p>{{details.activityIntention}}</p>
-				</div>
+				<ul>
+					<li class="info-item">
+						<rx-row>
+							<rx-col>
+								<label>职称：</label>
+								<span>{{details.title}}</span>
+							</rx-col>
+							<rx-col>
+								<label>原职务：</label>
+								<span>{{details.position}}</span>
+							</rx-col>
+						</rx-row>
+					</li>
+					<li class="info-item">
+						<label>原工作单位：</label>
+						<p>{{details.workUnit}}</p>
+					</li>
+					<li class="info-item">
+						<label>党组织关系所在支部：</label>
+						<p>{{details.unitNameReal}}</p>
+					</li>
+					<li class="info-item">
+						<label>党组织关系所在地：</label>
+						<p>{{details.unitNameAddress}}</p>
+					</li>
+					<li class="info-item">
+						<label>家庭住址：</label>
+						<p>{{details.street + '' + details.community}}</p>
+					</li>
+					<li class="info-item">
+						<label>参加常规型党支部名称：</label>
+						<p>{{details.unitName}}</p>
+					</li>
+					<li class="info-item">
+						<label>愿意参加的志愿活动：</label>
+						<p>{{details.activityIntention}}</p>
+					</li>
+				</ul>
 			</rx-card>
 		</div>
 	</section>
