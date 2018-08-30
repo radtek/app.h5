@@ -3,7 +3,7 @@
 </style>
 
 <template>
-	<rx-form :label-width="140"
+	<rx-form :label-width="120"
 	         label-suffix="">
 		<rx-form-item label="姓名"
 		              :errmsg="err.username"
@@ -48,6 +48,7 @@
 			</div>
 		</rx-form-item>
 		<rx-form-item label="家庭联系人电话"
+		              :label-width="140"
 		              :errmsg="err.phone"
 		              :err-show-in-placeholder="err.phone==='ERR_REQUIRED'">
 			<div class="rs-input">
@@ -156,9 +157,7 @@
 		},
 		methods: {
 			handleUserNameChange() {
-				if (!this.info.userName) {
-					this.err.username = "ERR_REQUIRED";
-				}
+				this.err.username = this.info.userName ? "" : "ERR_REQUIRED";
 			},
 			handleMobileChange() {
 				if (this.info.mobileNumber) {

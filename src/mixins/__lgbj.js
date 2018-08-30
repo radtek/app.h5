@@ -24,5 +24,4 @@ export default {
 			return this.info[propName];
 		}
 	}
-}
-;
+};

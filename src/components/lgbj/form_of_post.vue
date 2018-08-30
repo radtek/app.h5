@@ -1,21 +1,29 @@
 <template>
 	<rx-form :label-width="140"
 	         label-suffix="">
-		<rx-form-item label="原工作单位">
+		<rx-form-item label="原工作单位"
+		              :errmsg="err.workunit"
+		              :err-show-in-placeholder="err.workunit==='ERR_REQUIRED'">
 			<div class="rs-input">
 				<input type="text"
 				       placeholder="请输入原工作单位"
-				       v-model="info.workUnit" />
+				       v-model="info.workUnit"
+				       @change="handleWorkUnitChange" />
 			</div>
 		</rx-form-item>
-		<rx-form-item label="原职务">
+		<rx-form-item label="原职务"
+		              :errmsg="err.position"
+		              :err-show-in-placeholder="err.position==='ERR_REQUIRED'">
 			<div class="rs-input">
 				<input type="text"
 				       placeholder="请输入原职务"
-				       v-model="info.position" />
+				       v-model="info.position"
+				       @change="handlePostChange" />
 			</div>
 		</rx-form-item>
-		<rx-form-item label="职称">
+		<rx-form-item label="职称"
+		              :errmsg="err.title"
+		              :err-show-in-placeholder="err.title==='ERR_REQUIRED'">
 			<div class="rs-select"
 			     @click="titleActionIsVisible=true">
 				<input type="text"
@@ -63,16 +71,19 @@
 		</rx-form-item>
 		<rx-form-item label="党组织关系所在支部"
 		              block
-		              :required="false">
+		              :required="info.political === '中共党员'"
+		              :errmsg="err.unitName"
+		              :err-show-in-placeholder="err.unitName==='ERR_REQUIRED'">
 			<div class="rs-input">
 				<input type="text"
 				       placeholder="请输入党组织关系所在支部"
-				       v-model="info.unitNameReal" />
+				       v-model="info.unitNameReal"
+				       @change="handleUnitNameChange" />
 			</div>
 		</rx-form-item>
 		<rx-form-item label="党组织关系所在地"
 		              block
-		              :required="false">
+		              :required="info.political === '中共党员'">
 			<div class="rs-select"
 			     @click="unitNameAddressActionIsVisible=true">
 				<input type="text"
@@ -218,6 +229,24 @@
 			};
 		},
 		methods: {
+			handleWorkUnitChange() {
+				this.err.workunit = this.info.workunit ? "" : "ERR_REQUIRED";
+			},
+			handlePostChange() {
+				this.err.position = this.info.position ? "" : "ERR_REQUIRED";
+			},
+			handleTitleChange() {
+				this.err.title = this.info.title ? "" : "ERR_REQUIRED";
+			},
+			handleUnitNameChange() {
+				if (this.info.political === "中共党员") {
+					this.err.unitName = this.info.unitNameReal
+						? ""
+						: "ERR_REQUIRED";
+				} else {
+					this.err.unitName = "";
+				}
+			},
 			onAddressChange(picker, values) {
 				this.info.street = values[0];
 				if (!values[1] && values[0]) {
@@ -280,6 +309,10 @@
 			}
 		},
 		created() {
+			this.$on("fn.updateUnitSlots", () => {
+				this.handleAddressSure();
+			});
+
 			this.$http.lgbj.getPoliticalList().then(data => {
 				if (data.result && data.result.length) {
 					this.politicalActions = data.result.map(it => {

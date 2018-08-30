@@ -2,13 +2,15 @@
 	<rx-form :label-width="140"
 	         label-suffix="">
 		<rx-form-item label="专业特长"
-		              block>
+		              block
+		              :errmsg="err.special"
+		              :err-show-in-placeholder="err.special==='ERR_REQUIRED'">
 			<div class="rs-select"
 			     @click="specialityPopupVisible=true">
 				<input type="text"
 				       readonly
 				       placeholder="请输入专业特长"
-				       :value="info.specialStr" />
+				       :value="__removeComma(info.specialStr)" />
 				<i class="rs-select-icon"></i>
 			</div>
 			<mt-popup v-model="specialityPopupVisible"
@@ -49,13 +51,15 @@
 			</mt-popup>
 		</rx-form-item>
 		<rx-form-item label="兴趣爱好"
-		              block>
+		              block
+		              :errmsg="err.hobby"
+		              :err-show-in-placeholder="err.hobby==='ERR_REQUIRED'">
 			<div class="rs-select"
 			     @click="hobbyPopupVisible=true">
 				<input type="text"
 				       readonly
 				       placeholder="请输入兴趣爱好"
-				       :value="info.hobbyStr" />
+				       :value="__removeComma(info.hobbyStr)" />
 				<i class="rs-select-icon"></i>
 			</div>
 			<mt-popup v-model="hobbyPopupVisible"
@@ -143,6 +147,9 @@
 			};
 		},
 		methods: {
+			__removeComma(str) {
+				return str ? str.replace(/(^,)|(,$)/, "") : "";
+			},
 			handlePopupItemClick(moduleName, item) {
 				item.active = !item.active;
 
@@ -152,23 +159,18 @@
 				const str = this.info[propName];
 
 				if (item.active) {
-					if (str[str.length - 1] === ",") {
-						this.info[propName] += item.name + ",";
-					} else {
-						this.info[propName] += "," + item.name + ",";
-					}
+					this.info[propName] += item.name + ",";
 				} else {
-					this.info[propName] = this.info[propName].replace(
-						item.name + ",",
-						""
-					);
+					this.info[propName] = str.replace(item.name + ",", "");
 				}
 			},
 			handlePopupSure(moduleName) {
 				if (moduleName === "hobbies") {
 					this.hobbyPopupVisible = false;
+					this.err.hobby = this.info.hobbyStr ? "" : "ERR_REQUIRED";
 				} else {
 					this.specialityPopupVisible = false;
+					this.err.special = this.info.specialStr ? "" : "ERR_REQUIRED";
 				}
 
 				if (this.info.specialStr && this.info.hobbyStr) {

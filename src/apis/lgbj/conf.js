@@ -66,12 +66,12 @@ export default [
 		outKey: "searchUsers",
 		action: "/weixinGZH/shanghai/getUserListByUnitId.uu",
 		reqParams: [
-			{name: "unitId", default: ""},
-			{name: "userName", default: null},
-			{name: "education", default: null},
-			{name: "health", default: null},
-			{name: "retire", default: null},
-			{name: "ageType", default: null}
+			{ name: "unitId", default: "" },
+			{ name: "userName", default: null },
+			{ name: "education", default: null },
+			{ name: "health", default: null },
+			{ name: "retire", default: null },
+			{ name: "ageType", default: null }
 		]
 	},
 	{
@@ -91,6 +91,7 @@ export default [
 		action: "/weixinGZH/shanghai/insertSHWeiXinUser.uu",
 		contentType: "json",
 		reqParams: [
+			{ name: "oldUserId", default: "" },
 			"userIdCard",
 			"userName",
 			"sex",
@@ -106,14 +107,14 @@ export default [
 			"title",
 			"political",
 			"unitId",
-			"joinTime",
+			{ name: "joinTime", default: "" },
 			"unitNameReal",
 			"unitNameAddress",
 			"street",
 			"community",
-			"honor",
-			"activityIntention",
-			"service",
+			{ name: "honor", default: "" },
+			{ name: "activityIntention", default: "" },
+			{ name: "service", default: "" },
 			"hobbyAndSpeciality"
 		]
 	}

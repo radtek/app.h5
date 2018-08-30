@@ -114,7 +114,7 @@
 			ul > li {
 				display: inline-block;
 				border-radius: 20px;
-				border: 2px solid #ccc;
+				border: 1px solid #ccc;
 				line-height: 96px;
 				color: #666;
 				text-align: center;
@@ -176,6 +176,7 @@
 			        plain
 			        @on-click="handlePrevStepClick">上一步</rx-btn>
 			<rx-btn :disabled="btnIsDisabled"
+			        :loading="loading"
 			        :type="currentStep === 3 ? 'success':'primary'"
 			        @on-click="handleClick">{{buttonText}}</rx-btn>
 		</div>
@@ -195,6 +196,7 @@
 		},
 		data() {
 			return {
+				loading: false,
 				currentStep: 1,
 				formData: {
 					userName: "",
@@ -220,7 +222,13 @@
 					username: "",
 					mobile: "",
 					phone: "",
-					idcard: ""
+					idcard: "",
+					workunit: "",
+					position: "",
+					title: "",
+					unitName: "",
+					hobby: "",
+					special: ""
 				},
 				keys: [
 					[
@@ -253,7 +261,11 @@
 				if (!this.__validIsFinished()) {
 					return "部分信息未填写";
 				}
-				return this.currentStep === 3 ? "填写完成并提交" : "下一步";
+				return this.currentStep === 3
+					? this.loading
+						? "信息提交中..."
+						: "填写完成并提交"
+					: "下一步";
 			},
 			btnIsDisabled() {
 				return !this.__validIsFinished();
@@ -267,6 +279,10 @@
 							this.formData.specialStr,
 							this.formData.hobbyStr
 						]);
+					});
+				} else if (val === 2) {
+					this.$nextTick(() => {
+						this.broadcast("FormOfPost", "fn.updateUnitSlots");
 					});
 				}
 			}
@@ -296,6 +312,15 @@
 						}
 					}
 				}
+
+				if (!hasErr) {
+					if (this.formData.political === "中共党员") {
+						hasErr =
+							!this.formData.unitNameReal ||
+							!this.formData.unitNameAddress;
+					}
+				}
+
 				return hasErr ? false : isFinished;
 			},
 			handlePrevStepClick() {
@@ -310,9 +335,11 @@
 					if (this.userId) {
 						this.formData.oldUserId = this.userId;
 					}
+					this.loading = true;
 					this.$http.lgbj
 						.register(this.formData)
 						.then(data => {
+							this.loading = false;
 							this.$router.push({
 								path: "/user-info",
 								query: {
@@ -323,7 +350,12 @@
 							});
 						})
 						.catch(err => {
-							this.$toast.text(this.$isProd ? "注册失败" : err.msg);
+							this.loading = false;
+							this.$toast.text(
+								this.$isProd
+									? "提交失败"
+									: err.msg || err.message || "提交失败"
+							);
 						});
 				}
 			}
@@ -356,8 +388,8 @@
 
 						this.formData.joinTimeVal = this.formData.joinTime;
 
-						this.formData.hobbyStr = this.formData.hobby;
-						this.formData.specialStr = this.formData.speciality;
+						this.formData.hobbyStr = this.formData.hobby + ",";
+						this.formData.specialStr = this.formData.speciality + ",";
 					});
 			}
 		}
