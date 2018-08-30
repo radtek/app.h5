@@ -3,7 +3,8 @@
 </style>
 
 <template>
-	<div class="rx-form-item">
+	<div class="rx-form-item"
+	     :class="classes">
 		<label class="rx-form-item__label"
 		       :style="labelStyles">
 			<span class="__flag"
@@ -13,9 +14,10 @@
 		<div class="rx-form-item__content"
 		     :style="contentStyles">
 			<slot></slot>
-			<!-- <div class="rx-form-item__err">
-				{{errmsg}}
-			</div> -->
+			<div class="rx-form-item__err"
+			     v-show="!!errmsg && !errShowInPlaceholder">
+				{{isWarn ? errmsg.replace("WARN__",""):errmsg}}
+			</div>
 		</div>
 	</div>
 </template>
@@ -33,12 +35,25 @@
 		inject: ["rxForm"],
 		props: {
 			labelWidth: Number,
+			errShowInPlaceholder: Boolean,
 			errmsg: String,
 			label: String,
 			required: { type: Boolean, default: true },
 			block: Boolean
 		},
 		computed: {
+			isWarn() {
+				return this.errmsg ? !!~this.errmsg.indexOf("WARN__") : false;
+			},
+			classes() {
+				return [
+					{
+						[`is-err`]: !!this.errmsg && !this.isWarn,
+						[`is-warn`]: this.isWarn,
+						[`err-in-plh`]: this.errShowInPlaceholder
+					}
+				];
+			},
 			labelStyles() {
 				const styles = {};
 

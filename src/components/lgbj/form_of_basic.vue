@@ -3,13 +3,16 @@
 </style>
 
 <template>
-	<rx-form :label-width="123"
+	<rx-form :label-width="140"
 	         label-suffix="">
-		<rx-form-item label="姓名">
+		<rx-form-item label="姓名"
+		              :errmsg="err.username"
+		              :err-show-in-placeholder="err.username==='ERR_REQUIRED'">
 			<div class="rs-input">
 				<input type="text"
 				       placeholder="请输入姓名"
-				       v-model="info.userName" />
+				       v-model="info.userName"
+				       @change="handleUserNameChange" />
 			</div>
 		</rx-form-item>
 		<rx-form-item label="性别">
@@ -34,25 +37,34 @@
 			                    v-model="info.birth">
 			</mt-datetime-picker>
 		</rx-form-item>
-		<rx-form-item label="手机号">
+		<rx-form-item label="手机号"
+		              :errmsg="err.mobile"
+		              :err-show-in-placeholder="err.mobile==='ERR_REQUIRED'">
 			<div class="rs-input">
 				<input type="tel"
 				       placeholder="请输入手机号"
-				       v-model="info.mobileNumber" />
+				       v-model="info.mobileNumber"
+				       @change="handleMobileChange" />
 			</div>
 		</rx-form-item>
-		<rx-form-item label="家庭联系人电话">
+		<rx-form-item label="家庭联系人电话"
+		              :errmsg="err.phone"
+		              :err-show-in-placeholder="err.phone==='ERR_REQUIRED'">
 			<div class="rs-input">
 				<input type="tel"
 				       placeholder="请输入家庭联系人电话"
-				       v-model="info.familyPhone" />
+				       v-model="info.familyPhone"
+				       @change="handlePhoneChange" />
 			</div>
 		</rx-form-item>
-		<rx-form-item label="身份证号">
+		<rx-form-item label="身份证号"
+		              :errmsg="err.idcard"
+		              :err-show-in-placeholder="err.idcard==='ERR_REQUIRED'">
 			<div class="rs-input">
 				<input type="text"
 				       placeholder="请输入身份证号"
-				       v-model="info.userIdCard" />
+				       v-model="info.userIdCard"
+				       @change="handleIdCardChange" />
 			</div>
 		</rx-form-item>
 		<rx-form-item label="学历">
@@ -141,6 +153,61 @@
 				],
 				healthActionIsVisible: false
 			};
+		},
+		methods: {
+			handleUserNameChange() {
+				if (!this.info.userName) {
+					this.err.username = "ERR_REQUIRED";
+				}
+			},
+			handleMobileChange() {
+				if (this.info.mobileNumber) {
+					if (!/^[1][0-9]{10}$/.test(this.info.mobileNumber)) {
+						this.err.mobile = "手机号格式不正确";
+					} else {
+						this.err.mobile = "";
+					}
+				} else {
+					this.err.mobile = "ERR_REQUIRED";
+				}
+			},
+			handlePhoneChange() {
+				if (this.info.familyPhone) {
+					if (!/^[1][0-9]{10}$/.test(this.info.familyPhone)) {
+						this.err.phone = "联系人电话格式不正确";
+					} else {
+						this.err.phone = "";
+					}
+				} else {
+					this.err.phone = "ERR_REQUIRED";
+				}
+			},
+			handleIdCardChange() {
+				if (this.info.userIdCard) {
+					if (
+						!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(
+							this.info.userIdCard
+						)
+					) {
+						this.err.idcard = "身份证格式不正确";
+					} else {
+						this.$http.lgbj
+							.validUserIdCard({
+								userIdCard: this.info.userIdCard
+							})
+							.then(data => {
+								if (data.result.exist) {
+									this.err.idcard =
+										"WARN__您已录入此份问卷，后续信息可不用在填写";
+								} else {
+									this.err.idcard = "";
+								}
+							});
+					}
+				} else {
+					this.err.idcard = "ERR_REQUIRED";
+				}
+			}
 		},
 		created() {
 			this.$http.lgbj.getEducationList().then(data => {

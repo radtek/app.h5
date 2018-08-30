@@ -1,0 +1,54 @@
+[rs-view] {
+	.mint-indexlist-nav {
+		right: 31px;
+		width: 56px;
+		max-height: 95%;
+		border-radius: 28px;
+		color: #fff;
+		background: rgba(51, 51, 51, 1);
+		opacity: 0.24;
+	}
+
+	.mint-indexlist-navitem {
+		margin-bottom: 10px;
+		font-size: 23px;
+	}
+
+	.mint-indexlist-content {
+		margin-right: 0 !important;
+	}
+
+	.mint-indexsection-index {
+		padding-left: 30px;
+		background-color: #f5f5f5;
+		line-height: 60px;
+	}
+
+	.mint-cell-title {
+		padding-left: 18px;
+		margin-left: 30px;
+		line-height: 96px;
+
+		&:nth-child(odd) {
+			border-top: 1px solid #e6e6e6;
+		}
+	}
+
+	.mint-cell {
+		&:first-child {
+			.mint-cell-title {
+				border-top: none;
+			}
+		}
+	}
+
+	.ui-detail_addr {
+		margin: 0 0 32px 48px;
+		color: #999;
+		font-size: 24px;
+
+		span {
+			color: #333;
+		}
+	}
+}

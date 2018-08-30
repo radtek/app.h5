@@ -13,6 +13,7 @@ import throttle from "./throttle";
 import qs from "./querystring";
 import { assign } from "./object";
 import { includes } from "./array";
+import { formatThousandth } from "./number";
 
 export default {
 	loadJS,
@@ -26,6 +27,7 @@ export default {
 	fixAsyncCmpLifeCycle,
 	throttle,
 	formatDate,
+	formatThousandth,
 	assign,
 	qs,
 	includes

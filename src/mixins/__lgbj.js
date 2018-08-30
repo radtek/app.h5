@@ -5,7 +5,8 @@ export default {
 			default() {
 				return {};
 			}
-		}
+		},
+		err: Object
 	},
 	methods: {
 		handleTimeClick(moduleName) {

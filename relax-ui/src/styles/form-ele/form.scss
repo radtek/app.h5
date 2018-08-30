@@ -39,6 +39,25 @@
 		height: 96px;
 		line-height: 96px;
 	}
+
+	&.is-err {
+		border-color: #ff3766;
+	}
+
+	&.is-warn {
+		border-color: #fc911f;
+	}
+
+	&.is-err.err-in-plh {
+		input[type="text"],
+		input[type="tel"],
+		input[type="number"],
+		input[type="email"],
+		input[type="date"],
+		textarea {
+			@include placeholder-color(#ff3766);
+		}
+	}
 }
 
 .rx-form-item {
@@ -68,9 +87,25 @@
 			content: "";
 		}
 	}
+
+	&__err {
+		position: absolute;
+		top: 98px;
+		left: 5px;
+		color: #ff3766;
+		font-size: 20px;
+		line-height: 1;
+	}
 }
 
-.rs-form-item {
-	&.is-warn {
+.rx-form-item {
+	&.is-warn &__err {
+		color: #fc911f;
+	}
+
+	&.is-warn &__label {
+		.__flag {
+			color: #fc911f;
+		}
 	}
 }

@@ -58,9 +58,31 @@ export default [
 		action: "/weixinGZH/shanghai/getSpecilityList.lm"
 	},
 	{
+		outKey: "getUnitsByStreet",
+		action: "/weixinGZH/shanghai/getTrUnitByStreet.uu",
+		reqParams: ["street"]
+	},
+	{
+		outKey: "searchUsers",
+		action: "/weixinGZH/shanghai/getUserListByUnitId.uu",
+		reqParams: [
+			{name: "unitId", default: ""},
+			{name: "userName", default: null},
+			{name: "education", default: null},
+			{name: "health", default: null},
+			{name: "retire", default: null},
+			{name: "ageType", default: null}
+		]
+	},
+	{
 		outKey: "getUserInfo",
 		action: "/weixinGZH/shanghai/getUserDetailsByUserIdGZH.uu",
 		reqParams: ["userId"]
+	},
+	{
+		outKey: "validUserIdCard",
+		action: "/weixinGZH/shanghai/checkUserIdCard.uu",
+		reqParams: ["userIdCard"]
 	},
 	{
 		desp: "注册",

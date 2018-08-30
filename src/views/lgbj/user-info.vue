@@ -29,7 +29,14 @@
 			}
 
 			&_body {
-				border-bottom: 1px solid #ccc;
+				padding: 0 0 30px 0 !important;
+				margin-left: 48px;
+				margin-right: 48px;
+				border-bottom: 1px solid #ddd;
+			}
+
+			&:last-child &__body {
+				border: none;
 			}
 		}
 
@@ -44,9 +51,10 @@
 				color: #999;
 				font-size: 24px;
 
-				~ span {
+				~ span,
+				~ p {
 					color: #333;
-					font-size: 28px;
+					font-size: 26px;
 				}
 			}
 
@@ -56,6 +64,20 @@
 
 				p {
 					margin-top: 16px;
+				}
+			}
+
+			.wrap-btn {
+				margin-top: 30px;
+				margin-bottom: 30px;
+				padding: 0 48px;
+
+				.rx-btn {
+					width: 100%;
+					padding: 32px 0;
+					span {
+						font-size: 32px;
+					}
 				}
 			}
 		}
@@ -196,6 +218,12 @@
 					</li>
 				</ul>
 			</rx-card>
+			<div class="wrap-btn"
+			     v-if="edit==='1'">
+				<rx-btn type="primary"
+				        plain
+				        @on-click="handleEdit">编辑修改</rx-btn>
+			</div>
 		</div>
 	</section>
 </template>
@@ -206,11 +234,22 @@
 		data() {
 			return {
 				success: false,
+				userId: "",
 				details: {}
 			};
 		},
+		methods: {
+			handleEdit() {
+				this.$router.push({
+					path: "/create",
+					query: {
+						userId: this.userId
+					}
+				});
+			}
+		},
 		created() {
-			this.getQS("success", "userId");
+			this.getQS("success", "userId", "edit");
 		},
 		mounted() {
 			return this.$http.lgbj

@@ -95,7 +95,10 @@ $icons: (
 	audio: "\e629",
 	pc: "\e62a",
 	mobile: "\e62b",
-	warning: "\e641"
+	warning: "\e641",
+	male: "\e7d7",
+	female: "\e681",
+	search: "\e726"
 );
 
 @include each-icons($icons);

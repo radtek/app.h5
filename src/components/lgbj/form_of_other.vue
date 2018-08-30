@@ -8,7 +8,7 @@
 				<input type="text"
 				       readonly
 				       placeholder="请输入专业特长"
-				       :value="specialStr" />
+				       :value="info.specialStr" />
 				<i class="rs-select-icon"></i>
 			</div>
 			<mt-popup v-model="specialityPopupVisible"
@@ -55,7 +55,7 @@
 				<input type="text"
 				       readonly
 				       placeholder="请输入兴趣爱好"
-				       :value="hobbyStr" />
+				       :value="info.hobbyStr" />
 				<i class="rs-select-icon"></i>
 			</div>
 			<mt-popup v-model="hobbyPopupVisible"
@@ -136,8 +136,6 @@
 		mixins: [lgbjMixin],
 		data() {
 			return {
-				hobbyStr: "",
-				specialStr: "",
 				specialityPopupVisible: false,
 				hobbyPopupVisible: false,
 				hobbies: [],
@@ -151,30 +149,64 @@
 				const propName =
 					moduleName === "hobbies" ? "hobbyStr" : "specialStr";
 
+				const str = this.info[propName];
+
 				if (item.active) {
-					this[propName] += item.name + ",";
+					if (str[str.length - 1] === ",") {
+						this.info[propName] += item.name + ",";
+					} else {
+						this.info[propName] += "," + item.name + ",";
+					}
 				} else {
-					this[propName] = this[propName].replace(item.name + ",", "");
+					this.info[propName] = this.info[propName].replace(
+						item.name + ",",
+						""
+					);
 				}
 			},
 			handlePopupSure(moduleName) {
-				console.log(moduleName);
 				if (moduleName === "hobbies") {
 					this.hobbyPopupVisible = false;
 				} else {
 					this.specialityPopupVisible = false;
 				}
 
-				if (this.specialStr && this.hobbyStr) {
+				if (this.info.specialStr && this.info.hobbyStr) {
 					this.info.hobbyAndSpeciality = (
-						this.specialStr.substring(0, this.specialStr.length - 1) +
+						this.info.specialStr.substring(
+							0,
+							this.info.specialStr.length - 1
+						) +
 						"," +
-						this.hobbyStr.substring(0, this.hobbyStr.length - 1)
+						this.info.hobbyStr.substring(
+							0,
+							this.info.hobbyStr.length - 1
+						)
 					).split(",");
 				}
 			}
 		},
 		created() {
+			this.$on("fn.updateHobbyAndSpecial", (specialStr, hobbyStr) => {
+				const arrs = specialStr.split(",");
+				this.specials.forEach(it => {
+					it.childs.forEach(item => {
+						if (arrs.includes(item.name)) {
+							item.active = true;
+						}
+					});
+				});
+
+				const arrs2 = hobbyStr.split(",");
+				this.hobbies.forEach(it => {
+					it.childs.forEach(item => {
+						if (arrs2.includes(item.name)) {
+							item.active = true;
+						}
+					});
+				});
+			});
+
 			this.$http.lgbj.getSpecialList().then(data => {
 				const kv = {};
 				if (data && data.result) {

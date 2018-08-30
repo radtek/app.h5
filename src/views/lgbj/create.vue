@@ -161,10 +161,13 @@
 		</div>
 		<div class="wrap-form">
 			<basic-form :info="formData"
+			            :err="err"
 			            v-show="currentStep === 1"></basic-form>
 			<post-form :info="formData"
+			           :err="err"
 			           v-show="currentStep === 2"></post-form>
 			<other-form :info="formData"
+			            :err="err"
 			            v-show="currentStep === 3"></other-form>
 		</div>
 		<div class="fixed-btns">
@@ -213,6 +216,12 @@
 					unitId: "",
 					hobbyAndSpeciality: null
 				},
+				err: {
+					username: "",
+					mobile: "",
+					phone: "",
+					idcard: ""
+				},
 				keys: [
 					[
 						"userName",
@@ -250,22 +259,44 @@
 				return !this.__validIsFinished();
 			}
 		},
+		watch: {
+			currentStep(val) {
+				if (val === 3) {
+					this.$nextTick(() => {
+						this.broadcast("FormOfOther", "fn.updateHobbyAndSpecial", [
+							this.formData.specialStr,
+							this.formData.hobbyStr
+						]);
+					});
+				}
+			}
+		},
 		methods: {
 			__validIsFinished() {
 				const data = this.formData;
 				let isFinished = true;
-				for (const key in data) {
-					if (
-						this.keys[this.currentStep - 1].includes(key) &&
-						(data[key] === "" ||
-							data[key] === null ||
-							data[key] === undefined)
-					) {
-						isFinished = false;
+				let hasErr = false;
+				for (const prop in this.err) {
+					if (this.err[prop]) {
+						hasErr = true;
 						break;
 					}
 				}
-				return isFinished;
+
+				if (!hasErr) {
+					for (const key in data) {
+						if (
+							this.keys[this.currentStep - 1].includes(key) &&
+							(data[key] === "" ||
+								data[key] === null ||
+								data[key] === undefined)
+						) {
+							isFinished = false;
+							break;
+						}
+					}
+				}
+				return hasErr ? false : isFinished;
 			},
 			handlePrevStepClick() {
 				this.currentStep -= 1;
@@ -283,17 +314,16 @@
 						.register(this.formData)
 						.then(data => {
 							this.$router.push({
-								path: "/detail",
+								path: "/user-info",
 								query: {
 									userId: data.result.userId,
-									success: 1
+									success: 1,
+									edit: 1
 								}
 							});
 						})
 						.catch(err => {
-							this.$toast.text(
-								this.$isProd ? "注册失败" : err.message
-							);
+							this.$toast.text(this.$isProd ? "注册失败" : err.msg);
 						});
 				}
 			}
@@ -307,6 +337,27 @@
 					})
 					.then(data => {
 						this.formData = data.result.userDetails;
+
+						if (
+							this.formData.retire === "1" ||
+							this.formData.retire === "离休"
+						) {
+							this.formData.retire = 1;
+						} else if (
+							this.formData.retire === "2" ||
+							this.formData.retire === "退休"
+						) {
+							this.formData.retire = 2;
+						}
+
+						this.formData.birth = this.formData.birthday;
+						this.formData.retireTimeVal = this.formData.retireTime;
+						this.formData.educationName = this.formData.education;
+
+						this.formData.joinTimeVal = this.formData.joinTime;
+
+						this.formData.hobbyStr = this.formData.hobby;
+						this.formData.specialStr = this.formData.speciality;
 					});
 			}
 		}
