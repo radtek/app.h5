@@ -110,6 +110,19 @@ module.exports = {
 				];
 			case "h5":
 				return ["/vote", "/notice-info"];
+			case "lgbj":
+				return [
+					"/create",
+					"/statistics",
+					"/detail_of_statistics",
+					"/user-info",
+					"/search",
+					"/search_of_units",
+					"/search_of_users",
+					"/search-result",
+					"/list_of_hobby",
+					"/list_of_special"
+				];
 			default:
 				break;
 		}
