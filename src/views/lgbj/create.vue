@@ -273,17 +273,20 @@
 		},
 		watch: {
 			currentStep(val) {
-				if (val === 3) {
-					this.$nextTick(() => {
-						this.broadcast("FormOfOther", "fn.updateHobbyAndSpecial", [
-							this.formData.specialStr,
-							this.formData.hobbyStr
-						]);
-					});
-				} else if (val === 2) {
-					this.$nextTick(() => {
-						this.broadcast("FormOfPost", "fn.updateUnitSlots");
-					});
+				if (this.userId) {
+					if (val === 3) {
+						this.$nextTick(() => {
+							this.broadcast(
+								"FormOfOther",
+								"fn.updateHobbyAndSpecial",
+								[this.formData.specialStr, this.formData.hobbyStr]
+							);
+						});
+					} else if (val === 2) {
+						this.$nextTick(() => {
+							this.broadcast("FormOfPost", "fn.updateUnitSlots");
+						});
+					}
 				}
 			}
 		},
@@ -384,12 +387,17 @@
 
 						this.formData.birth = this.formData.birthday;
 						this.formData.retireTimeVal = this.formData.retireTime;
-						this.formData.educationName = this.formData.education;
 
 						this.formData.joinTimeVal = this.formData.joinTime;
 
 						this.formData.hobbyStr = this.formData.hobby + ",";
 						this.formData.specialStr = this.formData.speciality + ",";
+
+						this.formData.hobbyAndSpeciality = (
+							this.formData.hobby +
+							"," +
+							this.formData.speciality
+						).split(",");
 					});
 			}
 		}

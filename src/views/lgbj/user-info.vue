@@ -112,7 +112,7 @@
 						<rx-row>
 							<rx-col>
 								<label>性別：</label>
-								<span>{{details.sex}}</span>
+								<span>{{details.sex===0?'男':'女'}}</span>
 							</rx-col>
 							<rx-col>
 								<label>出生年月：</label>
@@ -140,17 +140,17 @@
 							</rx-col>
 							<rx-col>
 								<label>文化程度：</label>
-								<span>{{details.education}}</span>
+								<span>{{details.educationName}}</span>
 							</rx-col>
 						</rx-row>
 					</li>
 					<li class="info-item">
 						<rx-row>
-							<rx-col>
+							<rx-col :span="10">
 								<label>离（退）休情况：</label>
 								<span>{{details.retire==="1"?"离休":"退休"}}</span>
 							</rx-col>
-							<rx-col>
+							<rx-col :span="14">
 								<label>离（退）休时间：</label>
 								<span>{{$rxUtils.formatDate(details.retireTime,"yyyy-MM-dd")}}</span>
 							</rx-col>
@@ -248,10 +248,9 @@
 				});
 			}
 		},
-		created() {
+		activated() {
 			this.getQS("success", "userId", "edit");
-		},
-		mounted() {
+			window.scrollTo(0, 0);
 			return this.$http.lgbj
 				.getUserInfo({
 					userId: this.userId

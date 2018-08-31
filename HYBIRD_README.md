@@ -310,3 +310,43 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 demo: JXRSApi.invoke("app.doc",'{"action":"refreshItemStatusOfReadCount","data":{"docId":"471611436603953152"}}')
 ```
 
+# 三、学习教育
+
+## 1. 学习教育详情页面
+
+>    更改字体大小 （接口同新闻资讯详情类似）
+
+```js
+App调用方式: JXRSApi.invoke("操作名称",操作参数);
+
+操作名称: app.education.changePageFontSize
+
+操作参数: 
+		{
+			"size":"文字大小", // 文字大小的可选值: small | default | big | bigest
+		}
+参数说明：
+   small:小号
+   default: 默认
+   big: 大号
+   bigest:特大号
+
+demo: JXRSApi.invoke("app.education.changePageFontSize",'{"size:":"small"}')
+```
+
+
+
+>   切换夜间模式（接口同新闻资讯详情类似）
+
+```js
+App调用方式: JXRSApi.invoke("操作名称",操作参数);
+
+操作名称: app.education.changePageModeToNight
+
+操作参数: 
+		{
+           "isNight": true | false
+         }
+
+demo: JXRSApi.invoke("app.education.changePageModeToNight",'{"isNight:":true}')
+```

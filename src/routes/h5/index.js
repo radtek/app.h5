@@ -18,6 +18,11 @@ export function createRoutes(Vue) {
 				path: "/vote",
 				component: () =>
 					import(/* webpackChunkName: "view-vote" */ `~v/${MODULENAME}/vote.vue`)
+			},
+			{
+				path: "/education-detail",
+				component: () =>
+					import(/* webpackChunkName: "view-education-detail" */ `~v/${MODULENAME}/education-detail.vue`)
 			}
 		]
 	});

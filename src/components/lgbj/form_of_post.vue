@@ -230,7 +230,7 @@
 		},
 		methods: {
 			handleWorkUnitChange() {
-				this.err.workunit = this.info.workunit ? "" : "ERR_REQUIRED";
+				this.err.workunit = this.info.workUnit ? "" : "ERR_REQUIRED";
 			},
 			handlePostChange() {
 				this.err.position = this.info.position ? "" : "ERR_REQUIRED";
@@ -249,7 +249,7 @@
 			},
 			onAddressChange(picker, values) {
 				this.info.street = values[0];
-				if (!values[1] && values[0]) {
+				if (values[0]) {
 					this.$http.lgbj
 						.getCommunityByStreet({
 							street: values[0]
@@ -258,8 +258,7 @@
 							picker.setSlotValues(1, data.result);
 							this.info.community = data.result[1];
 						});
-				} else {
-					this.info.community = values[1];
+					this.info.unitName = "";
 				}
 			},
 			onUnitChange(picker, values) {

@@ -156,7 +156,7 @@
 				const propName =
 					moduleName === "hobbies" ? "hobbyStr" : "specialStr";
 
-				const str = this.info[propName];
+				const str = this.info[propName] || (this.info[propName] = "");
 
 				if (item.active) {
 					this.info[propName] += item.name + ",";

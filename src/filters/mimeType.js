@@ -29,6 +29,18 @@ export default function mimeType(val) {
 		case "text/plain":
 			result = "txt";
 			break;
+		case "png":
+		case "jpg":
+		case "jpeg":
+		case "gif":
+		case "webp":
+		case "image/png":
+		case "image/jpg":
+		case "image/jpeg":
+		case "image/gif":
+		case "image/webp":
+			result = "img";
+			break;
 		default:
 			result = "unknown";
 			break;

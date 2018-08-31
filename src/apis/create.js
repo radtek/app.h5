@@ -65,7 +65,7 @@ export function createApis(...apiMapData) {
 						axiosInstance.defaults.headers.common.passport =
 							clientParams.passport;
 						axiosInstance.defaults.headers.common["reqClient"] =
-							"dj-android";
+							"dj-mobileH5";
 					}
 
 					if (item.contentType === "json") {
