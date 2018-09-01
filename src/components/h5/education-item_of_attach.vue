@@ -21,6 +21,15 @@
 			}
 		}
 	}
+	.isnight {
+		.rs-edu-attach-item {
+			.rx-cell-avatar {
+				.header {
+					color: #707070;
+				}
+			}
+		}
+	}
 </style>
 
 
