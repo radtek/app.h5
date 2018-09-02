@@ -314,6 +314,19 @@ demo: JXRSApi.invoke("app.doc",'{"action":"refreshItemStatusOfReadCount","data":
 
 ## 1. 学习教育详情页面
 
+>	 通知App设置语音播报的文本
+
+```js
+App端接收H5的通知
+
+操作名称: app.education.setAudioText
+
+操作参数: 
+	{
+		"content":"语音文本"
+	}
+```
+
 >    更改字体大小 （接口同新闻资讯详情类似）
 
 ```js
