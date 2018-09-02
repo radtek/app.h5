@@ -51,6 +51,8 @@
 <script>
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
+	const REG_HTML_SCRIPT = /<script[^>]*?>[\s\S]*?<\/script>/g;
+	const REG_HTML_STYLE = /<style[^>]*?>[\s\S]*?<\/style>/g;
 	export default {
 		name: "PageOfEducationDetail",
 		components: {
@@ -106,14 +108,29 @@
 				this.__loadLazyImgs();
 			},
 			__fetch() {
-				this.$http.education
+				return this.$http.education
 					.getDetail({
 						contentId: this.contentid,
 						passport: this.authInfo.passport
 					})
 					.then(data => {
-						console.log(data);
 						this.info = data.result.content;
+
+						if (this.info) {
+							const content = this.info.txt
+								? this.info.txt
+									.replace(REG_HTML_SCRIPT, "")
+									.replace(REG_HTML_STYLE, "")
+									.replace(/<[^<>]+>/g, "")
+									.replace(/(^\s*)|(\s*&)/g, "")
+									.replace(/[\r\n]/g, "")
+								: "";
+
+							if (this.$isDev) {
+								JXRSApi.app.education.setAudioText({ content });
+							}
+						}
+
 						if (data.result.files && data.result.files.length) {
 							this.attachments = data.result.files.map(it => {
 								return {
@@ -133,7 +150,8 @@
 		created() {
 			this.getQS("contentid");
 
-			if (!this.$isDev) {
+			if (this.$isDev) {
+				JXRSApi.wrap("app.education.setAudioText");
 				JXRSApi.on("app.education.changePageFontSize", ({ size }) => {
 					this.size = size;
 				}).on("app.education.changePageModeToNight", ({ isNight }) => {
