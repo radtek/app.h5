@@ -150,7 +150,7 @@
 		created() {
 			this.getQS("contentid");
 
-			if (this.$isDev) {
+			if (!this.$isDev) {
 				JXRSApi.wrap("app.education.setAudioText");
 				JXRSApi.on("app.education.changePageFontSize", ({ size }) => {
 					this.size = size;
