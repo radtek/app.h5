@@ -12,11 +12,11 @@ export default {
 		handleTimeClick(moduleName) {
 			this.$refs[`${moduleName}Picker`].open();
 		},
-		__convertDate(sourceName, propName) {
+		__convertDate(sourceName, propName, formatStr = "yyyy-MM-dd") {
 			if (this.info[sourceName]) {
 				this.info[propName] = this.$rxUtils.formatDate(
 					this.info[sourceName],
-					"yyyy-MM-dd"
+					formatStr
 				);
 			} else {
 				this.info[propName] = "";

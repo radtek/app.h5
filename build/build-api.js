@@ -268,7 +268,7 @@ class Api {
 	 */
 	resolveHtmlTemplate(isProd) {
 		const option = {
-			template: this.getAppModule() === "lgbj" ? this.resolve(`src/template/index_with_pinyin.html`) :this.resolve(`src/template/index.html`),
+			template: this.getAppModule() === "lgbj" ? this.resolve(`src/template/index_with_pinyin.html`) : this.resolve(`src/template/index.html`),
 			filename: this.resolve(
 				`${this.getDistDirName()}/${this.getAppModule()}/index.html`
 			),
@@ -287,6 +287,7 @@ class Api {
 				"x5-page-mode": "default",
 				"screen-orientation": "portrait",
 				"full-screen": "yes",
+				"format-detection": "telephone=no",
 				browsermode: "application",
 				layoutmode: "fitscreen",
 				nightmode: "disable",

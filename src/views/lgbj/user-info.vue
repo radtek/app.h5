@@ -235,6 +235,7 @@
 			return {
 				success: false,
 				userId: "",
+				edit: "",
 				details: {}
 			};
 		},

@@ -253,7 +253,7 @@
 		<rx-card>
 			<template slot="header">
 				<span>兴趣爱好</span>
-				<router-link :to="{path:'/list_of_hobby'}">详情></router-link>
+				<!-- <router-link :to="{path:'/list_of_hobby'}">详情></router-link> -->
 			</template>
 			<table>
 				<thead>
@@ -287,7 +287,7 @@
 		<rx-card>
 			<template slot="header">
 				<span>专业特长</span>
-				<router-link :to="{path:'/list_of_special'}">详情></router-link>
+				<!-- <router-link :to="{path:'/list_of_special'}">详情></router-link> -->
 			</template>
 			<table>
 				<thead>
@@ -448,9 +448,7 @@
 					);
 
 					const name =
-						it.length > 2
-							? it.substring(0, 2) + "/n" + it.substring(2)
-							: it;
+						it.length > 2 ? it.substring(0, 2) + it.substring(2) : it;
 
 					if (percent > 0) {
 						this.educationHtmlOptions.push({

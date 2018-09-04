@@ -21,9 +21,7 @@
 				       @change="handlePostChange" />
 			</div>
 		</rx-form-item>
-		<rx-form-item label="职称"
-		              :errmsg="err.title"
-		              :err-show-in-placeholder="err.title==='ERR_REQUIRED'">
+		<rx-form-item label="职称">
 			<div class="rs-select"
 			     @click="titleActionIsVisible=true">
 				<input type="text"
@@ -56,13 +54,14 @@
 			<div class="rs-select"
 			     @click="handleTimeClick('joinTime')">
 				<input type="text"
-				       placeholder="请输入入党时间"
+				       placeholder="未入党可不填"
 				       readonly
 				       :value="__convertDate('joinTimeVal','joinTime')" />
 				<i class="rs-select-icon"></i>
 			</div>
 			<mt-datetime-picker ref="joinTimePicker"
 			                    type="date"
+			                    :start-date="new Date('1921-01-01')"
 			                    year-format="{value} 年"
 			                    month-format="{value} 月"
 			                    date-format="{value} 日"
@@ -130,12 +129,15 @@
 		<rx-form-item label="参加常规型党支部名称"
 		              block>
 			<div class="rs-select"
-			     @click="unitPickerIsVisible=true">
+			     @click="handleUnitShow">
 				<input type="text"
 				       readonly
-				       placeholder="请选择参加常规型党支部名称"
+				       :placeholder="unitPlaceholder"
 				       :value="info.unitName" />
-				<i class="rs-select-icon"></i>
+				<i class="rx-icon icon-loading rx-looping"
+				   v-if="unitLoading"></i>
+				<i class="rs-select-icon"
+				   v-else></i>
 			</div>
 			<mt-picker class="address-picker"
 			           :slots="unitSlots"
@@ -171,6 +173,8 @@
 		mixins: [lgbjMixin],
 		data() {
 			return {
+				unitPlaceholder: "请先选择家庭住址",
+				unitLoading: false,
 				currentUnits: [],
 				unitPickerIsVisible: false,
 				unitSlots: [],
@@ -229,14 +233,16 @@
 			};
 		},
 		methods: {
+			handleUnitShow() {
+				if (this.unitSlots && this.unitSlots.length) {
+					this.unitPickerIsVisible = true;
+				}
+			},
 			handleWorkUnitChange() {
 				this.err.workunit = this.info.workUnit ? "" : "ERR_REQUIRED";
 			},
 			handlePostChange() {
 				this.err.position = this.info.position ? "" : "ERR_REQUIRED";
-			},
-			handleTitleChange() {
-				this.err.title = this.info.title ? "" : "ERR_REQUIRED";
 			},
 			handleUnitNameChange() {
 				if (this.info.political === "中共党员") {
@@ -287,12 +293,15 @@
 					this.info.community = this.addressSlots[2].values[0];
 				}
 
+				this.unitLoading = true;
+
 				this.$http.lgbj
 					.getUnitsByCommunity({
 						community: this.info.community
 					})
 					.then(data => {
 						this.currentUnits = data.result.units;
+						this.unitLoading = false;
 						this.unitSlots = [
 							{
 								className: "slot1",
@@ -302,8 +311,15 @@
 								values: data.result.units.map(it => it.unitName)
 							}
 						];
-
 						this.addressPickerIsVisible = false;
+					})
+					.catch(err => {
+						this.unitLoading = false;
+						this.$toast(
+							this.$isDev
+								? err.msg || err.message
+								: "获取该社区组织信息失败"
+						);
 					});
 			}
 		},

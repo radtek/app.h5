@@ -30,7 +30,7 @@
 			</div>
 			<mt-datetime-picker ref="birthPicker"
 			                    type="date"
-			                    :start-date="new Date('1940-01-01')"
+			                    :start-date="new Date('1910-01-01')"
 			                    year-format="{value} 年"
 			                    month-format="{value} 月"
 			                    date-format="{value} 日"
@@ -197,7 +197,7 @@
 							.then(data => {
 								if (data.result.exist) {
 									this.err.idcard =
-										"WARN__您已录入此份问卷，后续信息可不用在填写";
+										"WARN__您已录入此份问卷，后续信息可不用再填写";
 								} else {
 									this.err.idcard = "";
 								}

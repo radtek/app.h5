@@ -18,6 +18,7 @@
 			margin-top: 186px;
 			padding: 30px;
 			margin-bottom: 60px;
+			padding-bottom: 90px;
 		}
 
 		.fixed-btns {
@@ -246,7 +247,6 @@
 					[
 						"workUnit",
 						"position",
-						"title",
 						"political",
 						"street",
 						"community",
@@ -316,7 +316,7 @@
 					}
 				}
 
-				if (!hasErr) {
+				if (!hasErr && this.currentStep === 2) {
 					if (this.formData.political === "中共党员") {
 						hasErr =
 							!this.formData.unitNameReal ||
@@ -353,6 +353,7 @@
 							});
 						})
 						.catch(err => {
+							console.log && console.log(err);
 							this.loading = false;
 							this.$toast.text(
 								this.$isProd
@@ -365,6 +366,8 @@
 		},
 		activated() {
 			this.getQS("userId");
+			this.currentStep = 1;
+			window.scrollTo(0, 0);
 			if (this.userId) {
 				this.$http.lgbj
 					.getUserInfo({
