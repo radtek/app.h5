@@ -16,7 +16,7 @@
 				<user :user-info="userInfo"></user>
 				<q-detail :row="question"></q-detail>
 			</div>
-			<div class="separate"></div>
+			<!-- <div class="separate"></div>
 			<div class="pane-users">
 				<rx-card header="邀请他人回答问题"
 				         class="card-users"
@@ -28,7 +28,7 @@
 					          @on-empty="isShowUsers=false"
 					          @on-show="isShowUsers=true"></im-users>
 				</rx-card>
-			</div>
+			</div> -->
 			<div class="separate"></div>
 			<rx-card v-if="total>0"
 			         class="pane-answer"
@@ -65,11 +65,12 @@
 			ADetail: () =>
 				import(/* webpackChunkName:"wc-detail_of_a" */ "~c/qa/detail_of_a.vue").then(
 					utils.fixAsyncCmpLifeCycle
-				),
-			ImUsers: () =>
-				import(/* webpackChunkName:"wc-im_users" */ "~c/qa/im_users.vue").then(
-					utils.fixAsyncCmpLifeCycle
 				)
+			// 	,
+			// ImUsers: () =>
+			// 	import(/* webpackChunkName:"wc-im_users" */ "~c/qa/im_users.vue").then(
+			// 		utils.fixAsyncCmpLifeCycle
+			// 	)
 		},
 		mixins: [Pull],
 		data() {

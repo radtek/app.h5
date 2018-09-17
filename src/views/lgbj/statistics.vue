@@ -192,7 +192,7 @@
 			         v-if="educationData.length"
 			         :data="educationData">
 				<v-bar />
-				<v-tooltip />
+				<v-tooltip disabled/>
 				<v-scale y
 				         field="percent"
 				         :alias="educationYOptions.alias"
@@ -415,7 +415,9 @@
 						this.$refs.sex.rerender();
 					});
 				})
-				.catch(() => {});
+				.catch(err => {
+					console.log && console.log(err);
+				});
 
 			this.$http.lgbj
 				.getStatisticsOfAge()
@@ -434,45 +436,54 @@
 						};
 					});
 				})
-				.catch(() => {});
-
-			this.$http.lgbj.getStatisticsOfEducation().then(data => {
-				let total = 0;
-				data.result.yLocation.forEach(it => {
-					total += it;
+				.catch(err => {
+					console.log && console.log(err);
 				});
 
-				this.educationData = data.result.xLocation.map((it, index) => {
-					const percent = Math.floor(
-						(data.result.yLocation[index] * 100) / total
-					);
+			this.$http.lgbj
+				.getStatisticsOfEducation()
+				.then(data => {
+					let total = 0;
+					data.result.yLocation.forEach(it => {
+						total += it;
+					});
 
-					const name =
-						it.length > 2 ? it.substring(0, 2) + it.substring(2) : it;
+					this.educationData = data.result.xLocation.map((it, index) => {
+						const percent = Math.floor(
+							(data.result.yLocation[index] * 100) / total
+						);
 
-					if (percent > 0) {
-						this.educationHtmlOptions.push({
-							position: [name, percent],
-							html:
-								'<div style="background: #1890ff;font-size: 10px;color: #fff;padding: 2px;text-align: center;border-radius: 2px;">' +
-								percent +
-								"%</div>",
-							alignX: "center",
-							alignY: "bottom",
-							offsetY: -8
-						});
-					}
+						const name =
+							it.length > 3
+								? it.substring(0, 3) + "\n" + it.substring(3)
+								: it;
 
-					return {
-						name,
-						percent
-					};
+						if (percent > 0) {
+							this.educationHtmlOptions.push({
+								position: [name, percent],
+								html:
+									'<div style="background: #1890ff;font-size: 10px;color: #fff;padding: 2px;text-align: center;border-radius: 2px;z-index:1">' +
+									percent +
+									"%</div>",
+								alignX: "center",
+								alignY: "bottom",
+								offsetY: -8
+							});
+						}
+
+						return {
+							name,
+							percent
+						};
+					});
+
+					this.$nextTick(() => {
+						this.$refs.education.rerender();
+					});
+				})
+				.catch(err => {
+					console.log && console.log(err);
 				});
-
-				this.$nextTick(() => {
-					this.$refs.education.rerender();
-				});
-			});
 
 			this.$http.lgbj
 				.getStatisticsOfHealth()
@@ -497,51 +508,64 @@
 						this.$refs.health.rerender();
 					});
 				})
-				.catch(() => {});
+				.catch(err => {
+					console.log && console.log(err);
+				});
 
 			this.$http.lgbj
 				.getStatisticsOfRetire()
 				.then(data => {
 					let total = 0;
 					data.result.forEach(it => {
-						if (it.retire === "退休" || it.retire === "离休") {
+						if (
+							it.retire === "退休" ||
+							it.retire === "2" ||
+							it.retire === "1" ||
+							it.retire === "离休"
+						) {
 							total += it.num;
 						}
 					});
 					const arr = [];
 					data.result.map(it => {
-						if (it.retire === "退休") {
+						const name = it.retire;
+						if (name === "退休") {
 							arr[0] = {
-								name: it.retire,
+								name,
 								num: it.num,
 								percent: Math.floor((it.num * 100) / total) + "%"
 							};
-						} else if (it.retire === "离休") {
+						} else if (name === "离休") {
 							arr[1] = {
-								name: it.retire,
+								name,
 								num: it.num,
 								percent: Math.floor((it.num * 100) / total) + "%"
 							};
 						}
 					});
-
 					this.retireData = arr;
 				})
-				.catch(() => {});
+				.catch(err => {
+					console.log && console.log(err);
+				});
 
 			this.$http.lgbj
 				.getStatisticsOfHobby()
 				.then(data => {
 					this.hobbyData = data.result;
 				})
-				.catch(() => {});
+				.catch(err => {
+					console.log && console.log(err);
+				});
 
 			this.$http.lgbj
 				.getStatisticsOfSpecial()
 				.then(data => {
 					this.specialData = data.result;
 				})
-				.catch(() => {});
+				.catch(err => {
+					console.log && console.log(err);
+				});
 		}
 	};
 </script>

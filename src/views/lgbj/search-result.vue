@@ -35,7 +35,7 @@
 			</template>
 			<template v-else>
 				<div class="empty">
-					快点击上方搜索吧~
+					{{emptyText}}
 				</div>
 			</template>
 		</rx-pull>
@@ -58,11 +58,13 @@
 		data() {
 			return {
 				keywords: "",
-				list: []
+				list: [],
+				emptyText: "快点击上方搜索吧~"
 			};
 		},
 		methods: {
 			handleSearch() {
+				if (!this.keywords) return false;
 				this.$http.lgbj
 					.searchUsers({
 						userName: this.keywords
@@ -71,6 +73,9 @@
 						this.list = [];
 						this.$nextTick(() => {
 							this.list = data.result.userList;
+							if (!this.list.length) {
+								this.emptyText = "暂无任何数据";
+							}
 							this.$nextTick(() => {
 								this.broadcast("RxPull", "fn-init");
 							});
@@ -79,7 +84,11 @@
 			},
 			handleClear() {
 				this.list = [];
+				this.emptyText = "快点击上方搜索吧~";
 			}
+		},
+		activated() {
+			this.emptyText = "快点击上方搜索吧~";
 		}
 	};
 </script>

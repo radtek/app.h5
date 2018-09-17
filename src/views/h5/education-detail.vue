@@ -119,14 +119,14 @@
 						if (this.info) {
 							const content = this.info.txt
 								? this.info.txt
-									.replace(REG_HTML_SCRIPT, "")
-									.replace(REG_HTML_STYLE, "")
-									.replace(/<[^<>]+>/g, "")
-									.replace(/(^\s*)|(\s*&)/g, "")
-									.replace(/[\r\n]/g, "")
+										.replace(REG_HTML_SCRIPT, "")
+										.replace(REG_HTML_STYLE, "")
+										.replace(/<[^<>]+>/g, "")
+										.replace(/(^\s*)|(\s*&)/g, "")
+										.replace(/[\r\n]/g, "")
 								: "";
 
-							if (this.$isDev) {
+							if (!this.$isDev) {
 								JXRSApi.app.education.setAudioText({ content });
 							}
 						}

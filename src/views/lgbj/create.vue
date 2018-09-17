@@ -10,15 +10,16 @@
 			width: 100%;
 			background: #f9f9f9;
 			z-index: 100;
-			padding-bottom: 70px;
+			padding-bottom: 30px;
 		}
 
 		.wrap-form {
 			background-color: #fff;
-			margin-top: 186px;
+			margin-top: 146px;
 			padding: 30px;
 			margin-bottom: 60px;
 			padding-bottom: 90px;
+			padding-top: 15px;
 		}
 
 		.fixed-btns {
@@ -202,14 +203,16 @@
 				formData: {
 					userName: "",
 					sex: 0,
-					birthday: "",
+					birth: new Date("1950-01-01"),
+					birthday: "1950-01",
 					mobileNumber: "",
 					familyPhone: "",
 					userIdCard: "",
 					educationName: "",
 					health: "",
 					retire: 1,
-					retireTime: "",
+					retireTime: "2000-01-01",
+					retireTimeVal: new Date("2000-01-01"),
 					workUnit: "",
 					position: "",
 					title: "",
@@ -217,6 +220,8 @@
 					street: "",
 					community: "",
 					unitId: "",
+					joinTime: "1970-01-01",
+					joinTimeVal: new Date("1970-01-01"),
 					hobbyAndSpeciality: null
 				},
 				err: {
@@ -335,6 +340,7 @@
 					this.currentStep += 1;
 					window.scrollTo(0, 0);
 				} else {
+					this.formData.birthday = this.formData.birth;
 					if (this.userId) {
 						this.formData.oldUserId = this.userId;
 					}

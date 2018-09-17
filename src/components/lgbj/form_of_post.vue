@@ -21,7 +21,8 @@
 				       @change="handlePostChange" />
 			</div>
 		</rx-form-item>
-		<rx-form-item label="职称">
+		<rx-form-item label="职称"
+		              :required="false">
 			<div class="rs-select"
 			     @click="titleActionIsVisible=true">
 				<input type="text"

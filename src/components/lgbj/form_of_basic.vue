@@ -25,7 +25,7 @@
 				<input type="text"
 				       placeholder="请输入出生年月"
 				       readonly
-				       :value="__convertDate('birth','birthday')" />
+				       :value="__convertDate('birth','birthStr','yyyy-MM')" />
 				<i class="rs-select-icon"></i>
 			</div>
 			<mt-datetime-picker ref="birthPicker"
@@ -34,7 +34,8 @@
 			                    year-format="{value} 年"
 			                    month-format="{value} 月"
 			                    date-format="{value} 日"
-			                    v-model="info.birth">
+			                    v-model="info.birth"
+			                    @confirm="handleBirthConfirm">
 			</mt-datetime-picker>
 		</rx-form-item>
 		<rx-form-item label="手机号"
@@ -105,11 +106,13 @@
 			     @click="handleTimeClick('retireTime')">
 				<input type="text"
 				       placeholder="请选择离(退)休时间"
+				       readonly
 				       :value="__convertDate('retireTimeVal','retireTime')" />
 				<i class="rs-select-icon"></i>
 			</div>
 			<mt-datetime-picker ref="retireTimePicker"
 			                    type="date"
+			                    :start-date="new Date('1970-01-01')"
 			                    year-format="{value} 年"
 			                    month-format="{value} 月"
 			                    date-format="{value} 日"
@@ -156,12 +159,15 @@
 			};
 		},
 		methods: {
+			handleBirthConfirm(value) {
+				this.info.birthday = this.$rxUtils.formatDate(value, "yyyy-MM-dd");
+			},
 			handleUserNameChange() {
 				this.err.username = this.info.userName ? "" : "ERR_REQUIRED";
 			},
 			handleMobileChange() {
 				if (this.info.mobileNumber) {
-					if (!/^[1][0-9]{10}$/.test(this.info.mobileNumber)) {
+					if (!/^[0-9]{11}$/.test(this.info.mobileNumber)) {
 						this.err.mobile = "手机号格式不正确";
 					} else {
 						this.err.mobile = "";
@@ -172,7 +178,7 @@
 			},
 			handlePhoneChange() {
 				if (this.info.familyPhone) {
-					if (!/^[1][0-9]{10}$/.test(this.info.familyPhone)) {
+					if (!/^[0-9]{11}$/.test(this.info.familyPhone)) {
 						this.err.phone = "联系人电话格式不正确";
 					} else {
 						this.err.phone = "";

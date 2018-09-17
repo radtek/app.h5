@@ -103,6 +103,7 @@
 		activated() {
 			this.list = [];
 			this.getQS("street");
+			this.currentUnit = "";
 			this.street = decodeURIComponent(this.street);
 			this.__fetch();
 		}
