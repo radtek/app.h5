@@ -18,14 +18,15 @@
 			margin-top: 146px;
 			padding: 30px;
 			margin-bottom: 60px;
-			padding-bottom: 90px;
+			padding-bottom: 30px;
 			padding-top: 15px;
 		}
 
 		.fixed-btns {
-			position: fixed;
-			left: 0;
-			bottom: 0;
+			// position: ;
+			// left: 0;
+			// bottom: 0;
+			position: relative;
 			width: 100%;
 			height: 96px;
 			line-height: 96px;

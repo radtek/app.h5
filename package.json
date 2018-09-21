@@ -24,7 +24,11 @@
     "prod.h5": "cross-env NODE_ENV=production JXRS_APP_MODULE=h5 node ./build/build.js",
     "dev.lgbj": "cross-env NODE_ENV=development JXRS_APP_MODULE=lgbj webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
     "test.lgbj": "cross-env NODE_ENV=test JXRS_APP_MODULE=lgbj node ./build/build.js",
-    "prod.lgbj": "cross-env NODE_ENV=production JXRS_APP_MODULE=lgbj node ./build/build.js"
+	"prod.lgbj": "cross-env NODE_ENV=production JXRS_APP_MODULE=lgbj node ./build/build.js",
+
+	"dev.card": "cross-env NODE_ENV=development JXRS_APP_MODULE=card webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
+    "test.card": "cross-env NODE_ENV=test JXRS_APP_MODULE=card node ./build/build.js",
+    "prod.card": "cross-env NODE_ENV=production JXRS_APP_MODULE=card node ./build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",

@@ -23,6 +23,8 @@ function getPort() {
 			return 8084;
 		case "lgbj":
 			return 8085;
+		case "card":
+			return 8086;
 		case "news":
 		default:
 			return 8080;
@@ -123,6 +125,8 @@ module.exports = {
 					"/list_of_hobby",
 					"/list_of_special"
 				];
+			case "card":
+				return ["/birth"];
 			default:
 				break;
 		}

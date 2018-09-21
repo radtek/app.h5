@@ -13,7 +13,7 @@ FastClick.attach(document.body);
 
 const isDebugMode = process.env.NODE_ENV !== "production";
 
-export function createVue(Vue, { router, http }, jsApiActions) {
+export function createVue(Vue, datas, jsApiActions) {
 	Vue.use(RelaxUI, {
 		onImgErrSrcGetter(isAvatar) {
 			if (utils.isSupportWebp()) {
@@ -42,14 +42,16 @@ export function createVue(Vue, { router, http }, jsApiActions) {
 
 	const qs = utils.qs.parse();
 
-	Vue.prototype.$http = http.auth(
-		(Vue.prototype.authInfo = {
-			userId: qs.userId || qs.userid,
-			uuid: qs.uuid,
-			userPhonenumber: qs.phone || qs.userPhonenumber,
-			passport: qs.passport ? decodeURIComponent(qs.passport) : ""
-		})
-	);
+	if (datas.http) {
+		Vue.prototype.$http = datas.http.auth(
+			(Vue.prototype.authInfo = {
+				userId: qs.userId || qs.userid,
+				uuid: qs.uuid,
+				userPhonenumber: qs.phone || qs.userPhonenumber,
+				passport: qs.passport ? decodeURIComponent(qs.passport) : ""
+			})
+		);
+	}
 
 	mixins.forEach(item => Vue.mixin(item));
 	Object.keys(filters).forEach(item => Vue.filter(item, filters[item]));
@@ -73,7 +75,7 @@ export function createVue(Vue, { router, http }, jsApiActions) {
 	/* eslint-disable no-new */
 	new Vue({
 		el: "#app",
-		router,
+		router: datas.router,
 		template: "<App/>",
 		render: h => h(App)
 	});
