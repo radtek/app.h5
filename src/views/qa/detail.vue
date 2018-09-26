@@ -1,5 +1,17 @@
-<style lang="sass">
-@import "../../assets/modules/qa/view-question_detail.scss"
+<style lang="scss">
+	@import "../../assets/modules/qa/view-question_detail.scss";
+	[rs-view="detail"] {
+		.rx-cell-avatar.p {
+			padding: 15px 30px 0 30px;
+		}
+		.rx-cell-header {
+			padding-bottom: 0;
+			padding-top: 5px;
+		}
+		.rx-cell-imgs {
+			margin-top: 10px;
+		}
+	}
 </style>
 
 <template>
@@ -47,7 +59,7 @@
 		components: {
 			User: () =>
 				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					utils.asyncCmp.solution
 				),
 			QDetail: () =>
 				import(/* webpackChunkName:"wc-detail_of_q" */ "~c/qa/detail_of_q.vue").then(
@@ -55,7 +67,7 @@
 				),
 			ADetail: () =>
 				import(/* webpackChunkName:"wc-detail_of_a" */ "~c/qa/detail_of_a.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					cmp => utils.asyncCmp.solution(cmp, "PageOfDetail")
 				)
 		},
 		mixins: [Pull],
@@ -115,11 +127,11 @@
 					});
 			},
 			__fetch() {
-				// 获取问题详情
-				// 获取回答列表
 				this.__fetchQ().then(() => {
 					this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfQ");
-					this.__fetchAnswers();
+					return this.__fetchAnswers().then(() => {
+						this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfA");
+					});
 				});
 			},
 			__append() {
@@ -134,6 +146,12 @@
 							this.list = this.answers.concat(list);
 						}
 					});
+			},
+			__asyncReadyCallback(cmp) {
+				this.$nextTick(() => {
+					cmp.broadcast("RxImg", "fn.load");
+					cmp.broadcast("RxReadMore", "fn.showOrHide");
+				});
 			}
 		},
 		created() {
@@ -159,7 +177,7 @@
 						default:
 							break;
 					}
-					for (let l = list.length; l--; ) {
+					for (let l = list.length; l--;) {
 						if (list[l].id === id) {
 							list[l][prop] += 1;
 						}
@@ -167,20 +185,9 @@
 				}
 			});
 
-			// this.$rxUtils.asyncCmpListenApi
-			// 	.on("DetailOfQ.afterMounted", cmp => {
-			// 		this.readyObjCount += 1;
-			// 	})
-			// 	.on("DetailOfA.afterMounted", cmp => {
-			// 		this.$nextTick(() => {
-			// 			cmp.broadcast("RxImg", "fn.load");
-			// 			cmp.broadcast("RxReadMore", "fn.showOrHide");
-			// 		});
-			// 	});
-
-			this.$rxUtils.asyncCmp.ready.call(this, "DetailOfQ", cmp => {
-				console.log(cmp);
-			});
+			this.$rxUtils.asyncCmp
+				.ready(this, "DetailOfQ", this.__asyncReadyCallback)
+				.ready(this, "DetailOfA", this.__asyncReadyCallback);
 
 			return this.__fetch();
 		}

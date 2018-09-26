@@ -1,5 +1,5 @@
-<style lang="sass">
-@import "../../assets/modules/qa/view-index.scss"
+<style lang="scss">
+	@import "../../assets/modules/qa/view-index.scss";
 </style>
 
 <template>

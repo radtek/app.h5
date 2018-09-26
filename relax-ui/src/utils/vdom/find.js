@@ -5,14 +5,17 @@
  * @param {Vue VirtualDOM} context 当前的组件上下文
  * @param {String} componentName 待查找的组件名称
  */
-function findChildrenComponent(context, componentName) {
+function findChildrenComponent(context, componentName, key) {
 	let child;
 	const $children = context.$children;
 	let name;
 	for (let l = $children.length; l--;) {
 		name = $children[l].$options.name;
 
-		if (name === componentName) {
+		if (
+			name === componentName &&
+			(!key || key === $children[l].$vnode.key)
+		) {
 			child = $children[l];
 			break;
 		}

@@ -1,37 +1,54 @@
+import { findChildrenComponent } from "./vdom/find";
+
 const events = {};
 
 const status = {};
 
 const asyncCmp = {
 	uiReady(cmp, parentCmpName) {
-		const name = parentCmpName || this.$options.name;
-		const curCmpName = typeof cmp === "string" ? cmp : cmp.$options.name;
+		const name = parentCmpName;
+		const curCmpName = cmp.$options.name;
 		const kv = status[name];
 		if (kv[curCmpName].data) {
-			asyncCmp.pub(`${curCmpName}.ready`);
+			asyncCmp.pub(`${name}.${curCmpName}.ready`, cmp);
 		} else {
-			kv[curCmpName].ui = true;
+			kv[curCmpName].ui = cmp.$vnode.key
+				? `${curCmpName}.${cmp.$vnode.key}`
+				: curCmpName;
 		}
+
+		return asyncCmp;
 	},
-	dataReady(cmp, parentCmpName) {
-		const name = parentCmpName || this.$options.name;
+	dataReady(cmp) {
+		const name = this.$options.name;
 		const curCmpName = typeof cmp === "string" ? cmp : cmp.$options.name;
 		const kv = status[name];
 		if (kv[curCmpName].ui) {
-			asyncCmp.pub(`${name}.${curCmpName}.ready`);
+			// 从ui中获取制定的组件key
+			const arr = kv[curCmpName].ui.split(".");
+			const component = findChildrenComponent(
+				this,
+				curCmpName,
+				arr.length === 2 ? arr[1] : undefined
+			);
+			asyncCmp.pub(`${name}.${curCmpName}.ready`, component);
 		} else {
 			kv[curCmpName].data = true;
 		}
+
+		return asyncCmp;
 	},
-	ready(cmpName, fn) {
-		const name = this.$options.name;
+	ready(currentParent, cmpName, fn) {
+		const name = currentParent.$options.name;
 		const kv = events[name] || (events[name] = {});
 		kv[cmpName + ".ready"] = fn;
+		return asyncCmp;
 	},
-	pub(topic) {
+	pub(topic, data) {
 		const arr = topic.split(".");
-		const name = arr[0];
-		events[name][arr.slice(1, arr.length - 1).join(".")]();
+		const fn = events[arr.shift()][arr.join(".")];
+		fn && fn(data);
+		return asyncCmp;
 	},
 	solution(component, parentCmpName) {
 		const dft = component.default;

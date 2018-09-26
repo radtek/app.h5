@@ -6,6 +6,7 @@
 			      padding="t"></user>
 		</template>
 		<rx-read-more v-if="row.answer"
+		              :max-height="170"
 		              click-on-expand
 		              @on-expand="handleGoto">
 			<div v-html="row.answer"
