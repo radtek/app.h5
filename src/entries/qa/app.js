@@ -8,5 +8,6 @@ createVue(Vue, { router: createRoutes(Vue), http }, [
 	"refreshAppStatusOfAnswer",
 	"refreshH5IMInfo",
 	"share",
-	"addIMFriend"
+	"addIMFriend",
+	"openImgViewer"
 ]);

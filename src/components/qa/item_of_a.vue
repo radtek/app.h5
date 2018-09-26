@@ -12,17 +12,19 @@
 			<rx-row :flex="false">
 				<rx-col :span="16"
 				        v-if="row.answer">
-					<span class="content">{{row.answer | overflowContent}}</span>
+					<span class="content"
+					      @click.stop="handleGoto">{{row.answer | overflowContent}}</span>
 				</rx-col>
 				<rx-col :span="row.answer ?8:24">
 					<rx-img :src="row.imgPath[0]"
 					        @on-error="onImgErr"
+					        @on-click="handleGoto"
 					        ref="rxImg"></rx-img>
 				</rx-col>
 			</rx-row>
 		</template>
 		<template v-else>
-			<div>
+			<div @click.stop="handleGoto">
 				{{row.answer | overflowContent}}
 			</div>
 		</template>
@@ -60,6 +62,14 @@
 				}
 			},
 			canEdit: { type: Boolean, default: true }
+		},
+		methods: {
+			handleGoto() {
+				this.goto("回答详情", "/answer", {
+					qid: this.row.infoQuestion.id,
+					aid: this.row.id
+				});
+			}
 		}
 	};
 </script>

@@ -3,8 +3,9 @@
 	         v-show="row.question">
 		<rx-cell :border="false">
 			<p slot="header">{{row.question}}</p>
-			<rx-clamp-box :text="row.description"
-			              can-expand></rx-clamp-box>
+			<rx-read-more v-if="row.description">
+				<div v-html="row.description"></div>
+			</rx-read-more>
 			<template slot="img">
 				<rx-row :gutter="6"
 				        :class="[{[`img-${qImgs.length}`]:qImgs.length <=2 && qImgs.length >=1}]">
@@ -12,7 +13,7 @@
 					        :key="i">
 						<rx-img :src="url"
 						        :alt="url"
-						        :lazy="false"
+						        @on-click="onImgClick(url,i,qImgs)"
 						        @on-error="onImgErr($event)" />
 					</rx-col>
 				</rx-row>
@@ -47,6 +48,21 @@
 					return this.row.imgPath;
 				}
 				return [];
+			}
+		},
+		methods: {
+			onImgClick(currentImgUrl, currentIndex, imgs) {
+				const params = {
+					currentImgUrl,
+					currentIndex,
+					imgs,
+					aid: ""
+				};
+				if (this.$isDev) {
+					alert("点击图片放大预览:" + JSON.stringify(params));
+				} else {
+					JXRSApi.app.qa.openImgViewer(params);
+				}
 			}
 		}
 	};

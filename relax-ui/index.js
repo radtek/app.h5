@@ -37,6 +37,7 @@ import AlertPlugin from "./src/plugin/alert/index";
 import ConfirmPlugin from "./src/plugin/confirm/index";
 
 import ClampBox from "./packages/clamp-box/index";
+import ReadMore from "./packages/read-more/index";
 
 import Step from "./packages/step/index";
 import Form from "./packages/form/index";
@@ -80,6 +81,7 @@ const components = [
 	CollapseTransition,
 	Toast,
 	ClampBox,
+	ReadMore,
 	Step,
 	Step.Item,
 	Form,
@@ -161,6 +163,7 @@ export {
 	AlertPlugin,
 	ConfirmPlugin,
 	ClampBox,
+	ReadMore,
 	Step,
 	Form,
 	VArea,

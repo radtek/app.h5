@@ -5,11 +5,12 @@
 			<user :user-info="userInfo"
 			      padding="t"></user>
 		</template>
-		<rx-clamp-box :text="row.answer"
-		              :can-expand="false"
-		              hide-tip="...全文"
-		              @on-content-click="handleGoto"
-		              @on-tip-click="handleGoto"></rx-clamp-box>
+		<rx-read-more v-if="row.answer"
+		              click-on-expand
+		              @on-expand="handleGoto">
+			<div v-html="row.answer"
+			     @click.stop="handleGoto"></div>
+		</rx-read-more>
 		<template slot="footer">
 			<a-status :row="row"
 			          :ques-info="question"></a-status>
@@ -23,14 +24,15 @@
 		          v-if="row.imgPath && row.imgPath.length">
 			<rx-row :flex="false"
 			        :gutter="8"
-			        :class="__getImgPaneClasses(row.imgPath)">
-				<template v-if="row.imgPath && row.imgPath.length"
-				          v-for="(img,index) in row.imgPath">
-					<rx-col :span="__getColSpan(row.imgPath)"
+			        :class="__getImgPaneClasses(row.imgPath)"
+			        v-for="(group,idx) in imgArr"
+			        :key="idx">
+				<template v-for="(img,index) in group">
+					<rx-col :span="__getColSpan(group)"
 					        :key="index">
 						<rx-img :src="img"
-						        @on-error="onImgErr"
-						        @on-click="handleGoto"></rx-img>
+						        @on-click="onImgClick(img,(idx*3)+index,row.imgPath)"
+						        @on-error="onImgErr"></rx-img>
 					</rx-col>
 				</template>
 			</rx-row>
@@ -40,13 +42,10 @@
 
 <script>
 	import { utils } from "~rx";
+	import DetailOfAMixin from "~m/__qa-detail_of_a";
 	export default {
 		name: "DetailOfA",
 		components: {
-			User: () =>
-				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
-					utils.fixAsyncCmpLifeCycle
-				),
 			AStatus: () =>
 				import(/* webpackChunkName:"wc-status_of_a" */ "~c/qa/status_of_a.vue").then(
 					utils.fixAsyncCmpLifeCycle
@@ -56,13 +55,8 @@
 					utils.fixAsyncCmpLifeCycle
 				)
 		},
+		mixins: [DetailOfAMixin],
 		props: {
-			row: {
-				type: Object,
-				default() {
-					return {};
-				}
-			},
 			question: {
 				type: Object,
 				default() {
@@ -70,31 +64,7 @@
 				}
 			}
 		},
-		computed: {
-			userInfo() {
-				if (this.row) {
-					if (this.row.isAnonymous === 1) {
-						return {
-							userName: "匿名",
-							imgPath:
-								this.row.communityUser.sex === 1
-									? this.$DEFAULT_AVATAR
-									: this.$DEFAULT_AVATAR_FEMALE,
-							isAnonymous: 1
-						};
-					}
-					return this.row.communityUser;
-				}
-				return {};
-			}
-		},
 		methods: {
-			__getImgPaneClasses(imgArr) {
-				return imgArr && imgArr.length === 1 ? ["img-1"] : "";
-			},
-			__getColSpan(imgArr) {
-				return imgArr && imgArr.length ? 8 : 24;
-			},
 			handleGoto() {
 				this.goto("回答详情", "/answer", {
 					qid: this.question.id,

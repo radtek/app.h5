@@ -63,7 +63,6 @@
 					this.total = resp.result.sumCount;
 					this.$emit("update:currentTotal", this.total);
 					this.loading = false;
-					this.broadcast("RxImg", "fn.load");
 				});
 			},
 			__append() {
@@ -88,7 +87,6 @@
 			});
 
 			this.$rxUtils.asyncCmpListenApi.on("ItemOfA.afterMounted", cmp => {
-				console.log("ItemOfA.afterMounted");
 				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
 			});
 		}

@@ -5,6 +5,8 @@
 <template>
 	<section rs-view="answer">
 		<rx-pull ref="pull"
+		         :list="list"
+		         :total="total"
 		         :down="down"
 		         :up="up"
 		         @uping="handleUp"
@@ -23,26 +25,8 @@
 			<div class="separate"></div>
 			<rx-card class="pane-answer"
 			         padding="b">
-				<rx-cell :border="false">
-					<template slot="header">
-						<user :user-info="answerUser"
-						      :padding="false"></user>
-					</template>
-					<div v-html="answer.answer"></div>
-					<template slot="img">
-						<rx-row :flex="false"
-						        :gutter="8">
-							<template v-if="answer.imgPath && answer.imgPath.length"
-							          v-for="(img,index) in answer.imgPath">
-								<rx-col :span="__getColSpan(answer.imgPath)"
-								        :key="index">
-									<rx-img :src="img"
-									        @on-error="onImgErr"></rx-img>
-								</rx-col>
-							</template>
-						</rx-row>
-					</template>
-				</rx-cell>
+				<a-detail-v2 :row="answer"
+				             ref="readyCmp"></a-detail-v2>
 			</rx-card>
 			<div class="separate"></div>
 			<comment-pane :total="total"
@@ -63,8 +47,8 @@
 	export default {
 		name: "PageOfAnswer",
 		components: {
-			User: () =>
-				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
+			ADetailV2: () =>
+				import(/* webpackChunkName:"wc-detail_of_a_v2" */ "~c/qa/detail_of_a_v2.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 			QStatus: () =>
@@ -87,8 +71,7 @@
 				total: 0,
 				page: 1,
 				ques: {},
-				answer: {},
-				answerUser: {}
+				answer: {}
 			};
 		},
 		methods: {
@@ -105,15 +88,13 @@
 			__fetchA() {
 				const params = {
 					questionId: this.qid,
-					answerId: this.aid,
-					type: 2
+					answerId: this.aid
 				};
-
-				return this.$http.qa.getAnswers(params).then(resp => {
+				return this.$http.qa.getAnswerDetail(params).then(resp => {
 					const answer = resp.result.list[0];
 					if (answer) {
 						this.commentCount = answer.commentCount;
-						this.answerUser = answer.communityUser || {};
+						const answerUser = answer.communityUser || {};
 						this.answer = answer;
 						if (!this.$isDev) {
 							JXRSApi.app.qa.refreshAppStatusOfAnswer({
@@ -123,14 +104,13 @@
 								supportCount: answer.supportCount,
 								isSupported: answer.isSupported ? 1 : 0
 							});
-
 							if (
 								answer.isAnonymous !== 1 &&
-								this.answerUser.userId !== this.authInfo.userId
+								answerUser.userId !== this.authInfo.userId
 							) {
 								// H5通知App主动去获取回答用户与当前登录用户的好友状态
 								JXRSApi.app.qa.refreshH5IMInfo({
-									userIds: [this.answerUser.userId]
+									userIds: [answerUser.userId]
 								});
 							}
 						}
@@ -169,9 +149,11 @@
 					});
 			},
 			__fetch() {
-				return Promise.all([this.__fetchQ(), this.__fetchA()]).then(() =>
-					this.__fetchComments()
-				);
+				return Promise.all([this.__fetchQ(), this.__fetchA()])
+					.then(() => {
+						this.readyObjCount += 1;
+					})
+					.then(this.__fetchComments);
 			},
 			__append() {
 				this.$http.qa
@@ -189,14 +171,16 @@
 						}
 					});
 			},
-			handleCommentEmptyClick() {
-				// 通知App唤起评论
-				if (!this.$isDev) {
-				}
-			}
+			handleCommentEmptyClick() {}
 		},
 		created() {
 			this.getQS("qid", "aid");
+
+			this.__fetch();
+
+			this.$rxUtils.asyncCmpListenApi.on("DetailOfAV2.afterMounted", cmp => {
+				this.readyObjCount += 1;
+			});
 
 			// 注册交互事件
 			if (!this.$isDev) {
@@ -236,8 +220,6 @@
 						}
 					});
 			}
-
-			this.__fetch();
 		}
 	};
 </script>

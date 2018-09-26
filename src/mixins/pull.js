@@ -23,27 +23,7 @@ export default {
 				"fn.show",
 				Math.abs(pos.y) >= this.backTopShowDistance
 			);
-
 			this.broadcast("RxImg", "fn.load");
-
-			// if (!this.$refs.items || !this.$refs.items.length) return;
-
-			// this.$refs.items.forEach(item => {
-			// 	let imgs = item.$refs.img;
-			// 	if (!imgs) return;
-			// 	if (imgs && !Array.isArray(imgs)) {
-			// 		imgs = [imgs];
-			// 	}
-			// 	imgs.forEach(img => {
-			// 		if (
-			// 			img.hasAttribute("data-src") &&
-			// 			this.$rxUtils.isInClientView(img)
-			// 		) {
-			// 			img.setAttribute("src", img.getAttribute("data-src"));
-			// 			img.removeAttribute("data-src");
-			// 		}
-			// 	});
-			// });
 		},
 		handleDown() {
 			this.__fetch();

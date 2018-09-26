@@ -15,6 +15,8 @@ import { assign } from "./object";
 import { includes } from "./array";
 import { formatThousandth } from "./number";
 
+import asyncCmp from "./async-cmp-solution";
+
 export default {
 	loadJS,
 	on,
@@ -23,6 +25,7 @@ export default {
 	getScrollBottom,
 	isInClientView,
 	isSupportWebp,
+	asyncCmp,
 	asyncCmpListenApi,
 	fixAsyncCmpLifeCycle,
 	throttle,

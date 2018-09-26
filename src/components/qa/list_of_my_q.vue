@@ -103,7 +103,6 @@
 			});
 
 			this.$rxUtils.asyncCmpListenApi.on("ItemOfQ.afterMounted", cmp => {
-				console.log("ItemOfQ:", cmp);
 				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
 			});
 		}

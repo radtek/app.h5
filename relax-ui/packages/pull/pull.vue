@@ -116,12 +116,16 @@
 			wrapStyles() {
 				const styles = {};
 
-				if (!this.height) {
-					this.height =
-						window.innerHeight - this.wrapRect.top - this.bottomOffset;
-				}
+				if (this.vertical) {
+					if (!this.height) {
+						this.height =
+							window.innerHeight -
+							this.wrapRect.top -
+							this.bottomOffset;
+					}
 
-				styles.height = `${this.getRealSize(this.height)}`;
+					styles.height = `${this.getRealSize(this.height)}`;
+				}
 
 				return styles;
 			},

@@ -5,6 +5,8 @@
 <template>
 	<section rs-view="detail">
 		<rx-pull ref="pull"
+		         :list="list"
+		         :total="total"
 		         :down="down"
 		         :up="up"
 		         @uping="handleUp"
@@ -14,7 +16,8 @@
 			<rx-pull-up slot="up"></rx-pull-up>
 			<div class="pane-ques">
 				<user :user-info="userInfo"></user>
-				<q-detail :row="question"></q-detail>
+				<q-detail :row="question"
+				          ref="readyCmp"></q-detail>
 			</div>
 			<div class="separate"></div>
 			<rx-card v-if="total>0"
@@ -40,6 +43,7 @@
 	import Pull from "~m/pull";
 	export default {
 		name: "PageOfDetail",
+		asyncListenCmps: "DetailOfQ,DetailOfA",
 		components: {
 			User: () =>
 				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
@@ -47,7 +51,7 @@
 				),
 			QDetail: () =>
 				import(/* webpackChunkName:"wc-detail_of_q" */ "~c/qa/detail_of_q.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					cmp => utils.asyncCmp.solution(cmp, "PageOfDetail")
 				),
 			ADetail: () =>
 				import(/* webpackChunkName:"wc-detail_of_a" */ "~c/qa/detail_of_a.vue").then(
@@ -114,17 +118,15 @@
 				// 获取问题详情
 				// 获取回答列表
 				this.__fetchQ().then(() => {
-					setTimeout(() => {
-						this.broadcast("ImUsers", "fn.fetch");
-					}, 300);
+					this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfQ");
+					this.__fetchAnswers();
 				});
-				this.__fetchAnswers();
 			},
 			__append() {
 				return this.$http.qa
 					.getAnswers({
 						questionId: this.qid,
-						page: this.page + 1
+						page: ++this.page
 					})
 					.then(resp => {
 						const list = resp.result.list;
@@ -136,7 +138,51 @@
 		},
 		created() {
 			this.getQS("qid");
-			this.__fetch();
+
+			// App原生通知H5更新回答的相关状态的数目
+			this.$listenJSApi("refreshAnswerStatusCount", ({ id, action }) => {
+				if (this.list && this.list.length) {
+					const list = this.list;
+
+					let prop = "";
+
+					switch (action) {
+						case "click":
+							prop = "clickCount";
+							break;
+						case "comment":
+							prop = "commentCount";
+							break;
+						case "support":
+							prop = "supportCount";
+							break;
+						default:
+							break;
+					}
+					for (let l = list.length; l--; ) {
+						if (list[l].id === id) {
+							list[l][prop] += 1;
+						}
+					}
+				}
+			});
+
+			// this.$rxUtils.asyncCmpListenApi
+			// 	.on("DetailOfQ.afterMounted", cmp => {
+			// 		this.readyObjCount += 1;
+			// 	})
+			// 	.on("DetailOfA.afterMounted", cmp => {
+			// 		this.$nextTick(() => {
+			// 			cmp.broadcast("RxImg", "fn.load");
+			// 			cmp.broadcast("RxReadMore", "fn.showOrHide");
+			// 		});
+			// 	});
+
+			this.$rxUtils.asyncCmp.ready.call(this, "DetailOfQ", cmp => {
+				console.log(cmp);
+			});
+
+			return this.__fetch();
 		}
 	};
 </script>

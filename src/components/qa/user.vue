@@ -1,7 +1,40 @@
+<style lang="scss">
+	.top-im-user {
+		.rx-cell-img {
+			flex: 0 0 70px;
+			img {
+				width: 60px;
+				height: 60px;
+				vertical-align: middle;
+				margin-top: 5px;
+			}
+		}
+		.rx-cell-content {
+			line-height: 32px;
+			.header {
+				margin: 2.5px 0;
+				font-size: 26px;
+			}
+			.body {
+				font-size: 18px;
+			}
+
+			.rx-btn {
+				i,
+				span {
+					font-size: 22px;
+				}
+			}
+		}
+	}
+</style>
+
+
 <template>
-	<rx-cell-avatar action-position="top"
+	<rx-cell-avatar class="top-im-user"
+	                action-position="top"
 	                :padding="padding"
-	                :avatar="userInfo.imgPath"
+	                :avatar="userInfo.imgPath || $DEFAULT_AVATAR"
 	                @on-img-click="onAvatarClick($event)"
 	                @on-avatar-err="onImgErr($event,true)">
 		<h2 slot="header">{{userInfo.userName}}</h2>

@@ -2,7 +2,7 @@ import Radio from "./radio.vue";
 import RadioGroup from "./radio-group.vue";
 
 RadioGroup.install = function(Vue) {
-	Vue.component(RadioGroup.name, Radio);
+	Vue.component(RadioGroup.name, RadioGroup);
 };
 
 Radio.install = function(Vue) {

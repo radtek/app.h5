@@ -94,9 +94,7 @@ module.exports = {
 					"/detail",
 					"/audit-detail",
 					"/answer",
-					"/profile",
-					"/msg_list",
-					"/msg_center"
+					"/profile"
 				];
 			case "doc":
 				return [

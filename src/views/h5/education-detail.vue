@@ -1,5 +1,12 @@
-<style lang="sass">
-@import "../../assets/modules/news/view-detail.scss"
+<style lang="scss">
+	@import "../../assets/modules/news/view-detail.scss";
+	[rs-view="detail"] {
+		.content {
+			img {
+				width: 90%;
+			}
+		}
+	}
 </style>
 
 <template>

@@ -1,5 +1,5 @@
 import VueRouter from "vue-router";
-
+import { utils } from "~rx";
 export function createRoutes(Vue) {
 	Vue.use(VueRouter);
 
@@ -22,7 +22,9 @@ export function createRoutes(Vue) {
 			{
 				path: "/detail",
 				component: () =>
-					import(/* webpackChunkName: "view-detail" */ `~v/${MODULENAME}/detail.vue`)
+					import(/* webpackChunkName: "view-detail" */ `~v/${MODULENAME}/detail.vue`).then(
+						utils.asyncCmp.solution
+					)
 			},
 			{
 				path: "/audit-detail",
@@ -32,7 +34,9 @@ export function createRoutes(Vue) {
 			{
 				path: "/answer",
 				component: () =>
-					import(/* webpackChunkName: "view-answer" */ `~v/${MODULENAME}/answer.vue`)
+					import(/* webpackChunkName: "view-answer" */ `~v/${MODULENAME}/answer.vue`).then(
+						utils.fixAsyncCmpLifeCycle
+					)
 			},
 			{
 				path: "/profile",

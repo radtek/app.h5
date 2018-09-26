@@ -97,8 +97,8 @@
 			},
 			url() {
 				return this.$isProd
-					? "http://manage.jxdangjian.com/page/docImport/docImportLogin.html"
-					: "http://whrdd.f3322.net:8889/page/docImport/docImportLogin.html";
+					? "http://manage.jxdangjian.com/daoru.html"
+					: "http://whrdd.f3322.net:8889/daoru.html";
 			}
 		},
 		methods: {

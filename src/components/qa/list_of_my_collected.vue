@@ -65,7 +65,6 @@
 					this.$emit("update:currentTotal", this.total);
 					this.isPrerender = false;
 					this.loading = false;
-					this.broadcast("RxImg", "fn.load");
 				});
 			},
 			__append() {
