@@ -4,7 +4,10 @@
 			<user :user-info="userInfo"
 			      :padding="false"></user>
 		</template>
-		<div v-html="row.answer"></div>
+		<rx-read-more v-if="row.answer"
+		              mode="line">
+			<div v-html="row.answer"></div>
+		</rx-read-more>
 		<template slot="img"
 		          v-if="row.imgPath && row.imgPath.length">
 			<rx-row :flex="false"

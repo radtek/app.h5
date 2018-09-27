@@ -170,7 +170,9 @@
 
 			this.$rxUtils.asyncCmp
 				.ready(this, "ItemOfQA", cmp => {
-					cmp.broadcast("RxImg", "fn.load");
+					this.$nextTick(() => {
+						cmp.broadcast("RxImg", "fn.load");
+					});
 				})
 				.ready(this, "ImUsers", cmp => {
 					cmp.$emit("fn.fetch");

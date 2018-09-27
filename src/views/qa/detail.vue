@@ -45,8 +45,7 @@
 			<div class="pane-ques">
 				<user :user-info="userInfo"
 				      ref="user"></user>
-				<q-detail :row="question"
-				          ref="readyCmp"></q-detail>
+				<q-detail :row="question"></q-detail>
 			</div>
 			<div class="separate"></div>
 			<rx-card v-if="total>0"
@@ -290,7 +289,7 @@
 								default:
 									break;
 							}
-							for (let l = list.length; l--; ) {
+							for (let l = list.length; l--;) {
 								if (list[l].id === id) {
 									list[l][prop] =
 										(list[l][prop] || 0) + (count || 1);

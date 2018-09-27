@@ -6,7 +6,7 @@
 			      padding="t"></user>
 		</template>
 		<rx-read-more v-if="row.answer"
-		              :max-height="165"
+		              mode="line"
 		              click-on-expand
 		              @on-expand="handleGoto">
 			<div v-html="row.answer"
@@ -77,6 +77,12 @@
 		},
 		methods: {
 			handleGoto() {
+				this.row.clickCount = (this.row.clickCount || 0) + 1;
+				this.$http.qa
+					.recordAnswerScanCount({ answerId: this.row.id })
+					.catch(err => {
+						console.log && console.log(err);
+					});
 				this.goto("回答详情", "/answer", {
 					qid: this.question.id,
 					aid: this.row.id
