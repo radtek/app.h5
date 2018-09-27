@@ -20,8 +20,13 @@ export default {
 		});
 	},
 	props: {
+		// 占位图片地址
 		placeholder: { type: String, default: imgPlaceholder },
+		// 图片的地址
 		src: { type: String, default: "" },
+		// 图片质量
+		quality: { type: Number, default: 0.6 },
+		// 图片缩放类型 --- 主要是计算算法
 		scaleType: { type: String, default: "centerCrop" },
 		// 是否开启智能模式
 		useSmartMode: { type: Boolean, default: true },
@@ -40,7 +45,24 @@ export default {
 		};
 	},
 	methods: {
+		__getExt(url) {
+			url = url.toLowerCase();
+			const startIndex = url.lastIndexOf(".");
+			const index = url.lastIndexOf("?");
+			return ~index
+				? url.substring(startIndex + 1, index)
+				: url.substring(startIndex + 1);
+		},
 		__calc() {
+			const ext = this.__getExt(this.img.src);
+
+			if (ext === "gif") {
+				this.$refs.img.src = this.img.src;
+				return;
+			}
+
+			const mimeType = ext === "jpg" ? "image/jpeg" : `image/${ext}`;
+
 			const x = this.rect.width;
 			const y = this.rect.height;
 
@@ -84,7 +106,7 @@ export default {
 				dirtyRect.h
 			);
 
-			this.$refs.img.src = this.canvas.toDataURL("image/jpeg");
+			this.$refs.img.src = this.canvas.toDataURL(mimeType, this.quality);
 
 			this.canvasContext.clearRect(
 				0,
