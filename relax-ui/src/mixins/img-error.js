@@ -5,6 +5,11 @@ export default function getWhenImgError(errorImgPathHandler) {
 	return {
 		methods: {
 			onImgErr(evt, params) {
+				try {
+					console.log(JSON.stringify(evt));
+				} catch (ex) {
+					console.log(evt);
+				}
 				const img = evt.target;
 				img.onerror = null;
 				img.src = errorImgPathHandler

@@ -23,7 +23,8 @@
 		<template v-else>
 			{{row.description | overflowContent}}
 		</template>
-		<template slot="footer">
+		<template slot="footer"
+		          v-if="hasStatus">
 			<status v-if="row.isPublish === 1"
 			        :row="row"
 			        :can-answer="canAnswer && row.isPublish === 1"></status>
@@ -54,6 +55,7 @@
 					return {};
 				}
 			},
+			hasStatus: { type: Boolean, default: true },
 			canAnswer: { type: Boolean, default: true }
 		}
 	};

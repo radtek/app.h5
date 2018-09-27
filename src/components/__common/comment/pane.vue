@@ -1,5 +1,5 @@
-<style lang="sass">
-@import "../../../assets/__base/pane_of_comment.scss"
+<style lang="scss">
+	@import "../../../assets/__base/pane_of_comment.scss";
 </style>
 <template>
 	<rx-card ref="comment"
@@ -7,13 +7,14 @@
 	         :padding="padding">
 		<template slot="header">
 			<span>全部评论{{total>0?`(${total})`:''}}</span>
+			<span class="zan">{{zan||0}}赞</span>
 		</template>
 		<template v-if="list && list.length">
 			<slot></slot>
 		</template>
 		<template v-else>
 			<slot name="empty">
-				<div class="empty"
+				<div class="empty-wrap"
 				     @click.stop="onEmptyClick">
 					<rx-icon name="comment"></rx-icon>
 					<p>暂无评论,快来抢占首屏吧</p>
@@ -29,7 +30,8 @@
 		props: {
 			total: { type: Number, default: 0 },
 			list: Array,
-			padding: Boolean
+			padding: Boolean,
+			zan: Number
 		},
 		methods: {
 			onEmptyClick(event) {

@@ -22,15 +22,44 @@
 				</template>
 			</rx-row>
 		</template>
+		<template slot="footer">
+			<a-status-v3 :row="row"></a-status-v3>
+		</template>
 	</rx-cell>
 </template>
 
 <script>
 	import DetailOfAMixin from "~m/__qa-detail_of_a";
+	import { utils } from "~rx";
 	export default {
 		name: "DetailOfAV2",
-		fetchInCreated: true,
-		mixins: [DetailOfAMixin]
+		asyncListenCmps: "User",
+		components: {
+			User: () =>
+				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
+					cmp => utils.asyncCmp.solution(cmp, "DetailOfAV2")
+				),
+			AStatusV3: () =>
+				import(/* webpackChunkName:"wc-status_of_a_v3" */ "~c/qa/status_of_a_v3.vue").then(
+					utils.asyncCmp.solution
+				)
+		},
+		mixins: [DetailOfAMixin],
+		created() {
+			this.$rxUtils.asyncCmp.dataReady
+				.call(this, "User")
+				.ready(this, "User", cmp => {
+					if (this.status) {
+						cmp.$emit("fn.refresh", this.userInfo.userId, this.status);
+					}
+				});
+			this.$on("fn.refreshUserIMStatus", status => {
+				this.broadcast("User", "fn.refresh", [
+					this.userInfo.userId,
+					(this.status = status)
+				]);
+			});
+		}
 	};
 </script>
 

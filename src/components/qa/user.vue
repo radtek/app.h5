@@ -26,6 +26,10 @@
 				}
 			}
 		}
+
+		.unit-name {
+			max-width: 470px;
+		}
 	}
 </style>
 
@@ -38,7 +42,8 @@
 	                @on-img-click="onAvatarClick($event)"
 	                @on-avatar-err="onImgErr($event,true)">
 		<h2 slot="header">{{userInfo.userName}}</h2>
-		<span v-if="userInfo.unitName">{{userInfo.unitName}}</span>
+		<p class="unit-name"
+		   v-if="userInfo.unitName">{{userInfo.unitName}}</p>
 		<rx-btn v-if="userInfo.isAnonymous !== 1 && userInfo.userId !== authInfo.userId"
 		        slot="rightAction"
 		        @on-click="handleFriendAddClick(userInfo.userId)"
@@ -65,6 +70,12 @@
 			padding: { type: [Boolean, String], default: true }
 		},
 		methods: {
+			refreshStatus(userId, status) {
+				if (this.userInfo.userId === userId) {
+					this.addStatus = status === 1 || status === "1" ? 2 : 0;
+					this.isAdding = false;
+				}
+			},
 			onAvatarClick(evt) {
 				if (this.userInfo.isAnonymous === 1) return;
 				this.gotoNative("个人中心", "userProfile", {
@@ -72,6 +83,9 @@
 				});
 				this.$emit("on-avatar-click", evt);
 			}
+		},
+		created() {
+			this.$on("fn.refresh", this.refreshStatus);
 		}
 	};
 </script>

@@ -95,14 +95,15 @@
 	import Msgbox from "~m/__msgbox";
 	export default {
 		name: "PageOfIndex",
+		asyncListenCmps: "ItemOfQA,ImUsers",
 		components: {
 			Item: () =>
 				import(/* webpackChunkName:"wc-item_of_qa" */ "~c/qa/item_of_qa.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					cmp => utils.asyncCmp.solution(cmp, "PageOfIndex")
 				),
 			ImUsers: () =>
 				import(/* webpackChunkName:"wc-im_users" */ "~c/qa/im_users.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					cmp => utils.asyncCmp.solution(cmp, "PageOfIndex")
 				)
 		},
 		mixins: [Pull, Msgbox],
@@ -129,22 +130,29 @@
 			}
 		},
 		methods: {
-			__fetch() {
-				this.$http.user.getUserInfo().then(resp => {
+			__fetchUserInfo() {
+				return this.$http.user.getUserInfo().then(resp => {
 					this.userInfo = resp.result;
 					this.isPrerender = false;
-					setTimeout(() => {
-						this.broadcast("ImUsers", "fn.fetch");
-					}, 300);
+					this.$rxUtils.asyncCmp.dataReady.call(this, "ImUsers");
 				});
-				this.$http.qa.getRecommendQ().then(resp => {
+			},
+			__fetchRecommendQ() {
+				return this.$http.qa.getRecommendQ().then(resp => {
 					const list = resp.result;
 					if (list && list.length > 2) {
 						this.listPart1 = list.slice(0, 2);
 						this.listPart2 = list.slice(2);
 					}
 					this.isPrerender2 = false;
+					this.$rxUtils.asyncCmp.dataReady.call(this, "ItemOfQA");
 				});
+			},
+			__fetch() {
+				return Promise.all([
+					this.__fetchUserInfo(),
+					this.__fetchRecommendQ()
+				]);
 			},
 			__append() {
 				this.$http.qa
@@ -160,12 +168,15 @@
 		created() {
 			this.recieveAppNotice("qa");
 
-			this.$rxUtils.asyncCmpListenApi.on("ItemOfQA.afterMounted", cmp => {
-				cmp.$refs.rxImg && cmp.$refs.rxImg.load();
-			});
-		},
-		mounted() {
-			this.__fetch();
+			this.$rxUtils.asyncCmp
+				.ready(this, "ItemOfQA", cmp => {
+					cmp.broadcast("RxImg", "fn.load");
+				})
+				.ready(this, "ImUsers", cmp => {
+					cmp.$emit("fn.fetch");
+				});
+
+			return this.__fetch();
 		}
 	};
 </script>

@@ -2,13 +2,15 @@
 	<rx-row justify="center"
 	        align="center"
 	        class="audit">
-		<rx-col align="left">
+		<rx-col align="left"
+		        v-if="row.isPublished!==1">
 			<span :class="auditClasses">{{auditStateText}}</span>
 		</rx-col>
-		<rx-col>
+		<rx-col align="left">
 			创建时间 {{row.createTime | formatDate("yyyy.M.d")}}
 		</rx-col>
-		<rx-col v-if="row.isPublished === 2">
+		<rx-col align="right"
+		        v-if="row.communityUser && row.communityUser.userId === this.authInfo.userId">
 			<rx-btn icon="edit"
 			        type="primary"
 			        size="small"
@@ -42,7 +44,9 @@
 				let msg = "";
 				switch (this.row.isPublished) {
 					case 2:
-						msg = `未通过(${this.row.option})`;
+						msg = `未通过${
+							this.row.option ? "(" + this.row.option + ")" : ""
+						}`;
 						break;
 					case 0:
 					default:

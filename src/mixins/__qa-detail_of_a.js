@@ -1,11 +1,4 @@
-import { utils } from "~rx";
 export default {
-	components: {
-		User: () =>
-			import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
-				utils.fixAsyncCmpLifeCycle
-			)
-	},
 	props: {
 		row: {
 			type: Object,
@@ -13,11 +6,6 @@ export default {
 				return {};
 			}
 		}
-	},
-	data() {
-		return {
-			readyObjCount: 0
-		};
 	},
 	computed: {
 		userInfo() {
@@ -56,25 +44,12 @@ export default {
 					if (i === fullNum) {
 						rslts.push(imgs.slice((i - 1) * 3, len - 1));
 					} else {
-						rslts.push(imgs.slice((i - 1) * 3, (i - 1) * 3 + 2));
+						rslts.push(imgs.slice((i - 1) * 3, (i - 1) * 3 + 3));
 					}
 				}
 				return rslts;
 			}
 			return [];
-		}
-	},
-	watch: {
-		readyObjCount(val) {
-			if (val === 2) {
-				this.$nextTick(() => {
-					this.$refs.readyCmp.broadcast("RxImg", "fn.load");
-					this.$refs.readyCmp.broadcast(
-						"RxReadMore",
-						"fn.showOrHide"
-					);
-				});
-			}
 		}
 	},
 	methods: {

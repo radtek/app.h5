@@ -4,7 +4,12 @@
 		.content {
 			img {
 				width: 90%;
+				margin-left: 5%;
 			}
+		}
+
+		.editable-item > .rx-col:last-child {
+			border: none;
 		}
 	}
 </style>
@@ -20,7 +25,7 @@
 			         :list="list"
 			         :total="total"
 			         :up="false"
-			         :down="down"
+			         :down="false"
 			         @downing="handleDown"
 			         @scroll-end="__handleScrollEnd">
 				<rx-pull-down slot="down"></rx-pull-down>
@@ -33,7 +38,8 @@
 					</div>
 					<div class="content"
 					     ref="content"
-					     v-html="info.txt"></div>
+					     v-html="info.txt"
+					     @click.stop="handleContentClick"></div>
 				</div>
 				<div class="separate"
 				     v-if="attachments && attachments.length"></div>
@@ -92,14 +98,44 @@
 						[`${this.size}`]: this.size !== "default"
 					}
 				];
+			},
+			imgs() {
+				if (this.info && this.info.txt) {
+					const arr = [];
+					let match;
+					while (
+						(match = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim.exec(
+							this.info.txt
+						))
+					) {
+						arr.push(match[2]);
+					}
+					return arr;
+				}
+				return [];
 			}
 		},
 		methods: {
+			handleContentClick(event) {
+				const target = event.target;
+				if (!this.$isDev && target.tagName === "IMG") {
+					const hasDataSrc = target.hasAttribute("data-src");
+					JXRSApi.app.h5.openImgViewer({
+						currentImgUrl: target.getAttribute(
+							hasDataSrc ? "data-src" : "src"
+						),
+						currentIndex: target.getAttribute("data-index") || 0,
+						imgs: this.imgs,
+						aid: ""
+					});
+				}
+			},
 			__loadLazyImgs() {
 				let imgs = document.querySelectorAll("img[data-src]");
 				if (imgs && imgs.length) {
 					imgs = Array.prototype.slice.call(imgs);
-					imgs.forEach(img => {
+					imgs.forEach((img, index) => {
+						img.setAttribute("data-index", index);
 						if (
 							img.hasAttribute("data-src") &&
 							this.$rxUtils.isInClientView(img)

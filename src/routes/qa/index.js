@@ -12,7 +12,9 @@ export function createRoutes(Vue) {
 			{
 				path: "/index",
 				component: () =>
-					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`)
+					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`).then(
+						utils.asyncCmp.solution
+					)
 			},
 			{
 				path: "/questions",
@@ -29,13 +31,15 @@ export function createRoutes(Vue) {
 			{
 				path: "/audit-detail",
 				component: () =>
-					import(/* webpackChunkName: "view-detail_of_audit" */ `~v/${MODULENAME}/detail_of_audit.vue`)
+					import(/* webpackChunkName: "view-detail_of_audit" */ `~v/${MODULENAME}/detail_of_audit.vue`).then(
+						utils.asyncCmp.solution
+					)
 			},
 			{
 				path: "/answer",
 				component: () =>
 					import(/* webpackChunkName: "view-answer" */ `~v/${MODULENAME}/answer.vue`).then(
-						utils.fixAsyncCmpLifeCycle
+						utils.asyncCmp.solution
 					)
 			},
 			{

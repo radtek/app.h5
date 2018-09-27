@@ -1,4 +1,4 @@
-import { findChildrenComponent } from "./vdom/find";
+// import { findChildrenComponent } from "./vdom/find";
 
 const events = {};
 
@@ -12,9 +12,7 @@ const asyncCmp = {
 		if (kv[curCmpName].data) {
 			asyncCmp.pub(`${name}.${curCmpName}.ready`, cmp);
 		} else {
-			kv[curCmpName].ui = cmp.$vnode.key
-				? `${curCmpName}.${cmp.$vnode.key}`
-				: curCmpName;
+			kv[curCmpName].ui.push(cmp);
 		}
 
 		return asyncCmp;
@@ -23,15 +21,14 @@ const asyncCmp = {
 		const name = this.$options.name;
 		const curCmpName = typeof cmp === "string" ? cmp : cmp.$options.name;
 		const kv = status[name];
-		if (kv[curCmpName].ui) {
+		if (kv[curCmpName].ui && kv[curCmpName].ui.length) {
 			// 从ui中获取制定的组件key
-			const arr = kv[curCmpName].ui.split(".");
-			const component = findChildrenComponent(
-				this,
-				curCmpName,
-				arr.length === 2 ? arr[1] : undefined
-			);
-			asyncCmp.pub(`${name}.${curCmpName}.ready`, component);
+			const arr = kv[curCmpName].ui;
+			for (let l = arr.length; l--;) {
+				asyncCmp.pub(`${name}.${curCmpName}.ready`, arr[l]);
+				// TODO:是否需要清除
+				arr.splice(l, 1);
+			}
 		} else {
 			kv[curCmpName].data = true;
 		}
@@ -69,7 +66,7 @@ const asyncCmp = {
 			const asyncListenCmps = dft.asyncListenCmps.split(",");
 			status[cmpName] = status[cmpName] || {};
 			asyncListenCmps.forEach(item => {
-				status[cmpName][item] = { ui: false, data: false };
+				status[cmpName][item] = { ui: [], data: false };
 			});
 		}
 

@@ -1,5 +1,5 @@
 .pane_of_comment {
-	.empty {
+	.empty-wrap {
 		padding: 67px 0 81px 0;
 		color: #666;
 		font-size: 30px;
@@ -17,5 +17,30 @@
 
 	.rx-card_header {
 		padding-left: 30px;
+		font-size: 30px;
+
+		span {
+			position: relative;
+
+			&:first-child {
+				padding-left: 20px;
+
+				&:before {
+					position: absolute;
+					top: 6px;
+					left: 0;
+					width: 4px;
+					height: 30px;
+					background: #4c91ff;
+					content: "";
+				}
+			}
+		}
+
+		.zan {
+			float: right;
+			margin-right: 30px;
+			font-size: 30px;
+		}
 	}
 }

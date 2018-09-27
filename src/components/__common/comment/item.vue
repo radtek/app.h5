@@ -5,35 +5,35 @@
 <template>
 	<rx-cell-avatar class="item_of_comment">
 		<template slot="img">
-			<img :data-src="item.imgPath ||
-					(item.sex === 1
+			<img :data-src="getProp('imgPath') ||
+					(getProp('sex') === 1
 						? $DEFAULT_AVATAR_FEMALE
 						: $DEFAULT_AVATAR)"
 			     alt="avatar"
 			     ref="img"
 			     v-lazyimg
-			     @click.stop="gotoNative('我的','userProfile',{userId:item.userId})"
+			     @click.stop="gotoNative('我的','userProfile',{userId:getProp('userId')})"
 			     @error="onImgErr($event,true)" />
 		</template>
 		<template slot="header">
 			<rx-row>
 				<rx-col>
-					<span class="user-name">{{item.name}}</span>
+					<span class="user-name">{{getProp("name")}}</span>
 				</rx-col>
 				<rx-col align="right">
 					<rx-btn icon="zan"
 					        type="text"
-					        :plain="!item.supportNum"
+					        :plain="!getProp('supportNum')"
 					        size="small"
-					        @on-click="handleZan">{{item.supportNum || 0}}</rx-btn>
+					        @on-click="handleZan">{{getProp('supportNum') || 0}}</rx-btn>
 				</rx-col>
 			</rx-row>
 		</template>
 		<template>
-			{{item.text}}
+			{{getProp("text")}}
 		</template>
 		<template slot="footer">
-			<span>{{item.time | formatDate("MM-dd hh:mm")}}</span>
+			<span>{{getProp('time') | formatDate("MM-dd hh:mm")}}</span>
 			<!-- <rx-btn type="info"
 			        size="small"
 			        round
@@ -52,28 +52,23 @@
 				default() {
 					return {};
 				}
+			},
+			keyMap: {
+				type: Object,
+				default() {
+					return {};
+				}
 			}
 		},
 		methods: {
+			getProp(propName) {
+				if (this.keyMap && this.keyMap.hasOwnProperty(propName)) {
+					return this.item[this.keyMap[propName]];
+				}
+				return this.item[propName];
+			},
 			handleZan() {
-				this.antiRepeatClick(() => {
-					const isSupported = this.item.isSupported;
-					const action = isSupported
-						? "cancelZanToComment"
-						: "addZanToComment";
-					this.$http.news[action]({
-						contentId: this.contentid,
-						commentId: this.item.id
-					})
-						.then(() => {
-							this.item.supportNum += isSupported ? -1 : 1;
-							this.item.isSupported = !isSupported;
-							this.resetRepeatClick();
-						})
-						.catch(() => {
-							this.resetRepeatClick();
-						});
-				});
+				this.$emit("on-zan", this.item);
 			}
 		}
 	};

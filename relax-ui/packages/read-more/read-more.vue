@@ -12,13 +12,23 @@
 			position: absolute;
 			bottom: 0;
 			width: 100%;
-			padding-top: 100px;
-			background-image: linear-gradient(
-				-180deg,
-				rgba(255, 255, 255, 0) 0%,
-				#fff 70%
-			);
+			padding-top: 0;
+			// background-image: linear-gradient(
+			// 	-180deg,
+			// 	rgba(255, 255, 255, 0) 0%,
+			// 	#fff 70%
+			// );
+			background-image: none;
 			color: #409eff;
+
+			.tip-block {
+				width: 92px;
+				background: #fff;
+				float: right;
+				vertical-align: top;
+				line-height: 1;
+				padding-top: 10px;
+			}
 		}
 
 		&.is-expand &__body {
@@ -44,7 +54,8 @@
 		<div class="rx-readmore__hide-box"
 		     v-show="needExpand">
 			<slot name="hideBox">
-				<span @click.stop="onExpand">{{expand?"收起":"...全文"}}</span>
+				<p class="tip-block"
+				   @click.stop="onExpand">{{expand?"收起":"...全文"}}</p>
 			</slot>
 		</div>
 	</div>

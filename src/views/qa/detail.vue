@@ -11,6 +11,22 @@
 		.rx-cell-imgs {
 			margin-top: 10px;
 		}
+
+		.empty-wrap {
+			padding: 61px 0 81px 0;
+			color: #666;
+			font-size: 30px;
+			text-align: center;
+
+			.rx-icon {
+				color: #0091f5;
+				font-size: 46px;
+			}
+
+			p {
+				padding-top: 27px;
+			}
+		}
 	}
 </style>
 
@@ -27,7 +43,8 @@
 			<rx-pull-down slot="down"></rx-pull-down>
 			<rx-pull-up slot="up"></rx-pull-up>
 			<div class="pane-ques">
-				<user :user-info="userInfo"></user>
+				<user :user-info="userInfo"
+				      ref="user"></user>
 				<q-detail :row="question"
 				          ref="readyCmp"></q-detail>
 			</div>
@@ -38,11 +55,12 @@
 				<a-detail v-for="(answer,index) in list"
 				          :key="index"
 				          :question="question"
-				          :row="answer">
+				          :row="answer"
+				          ref="asw">
 				</a-detail>
 			</rx-card>
 			<div v-else
-			     class="empty"
+			     class="empty-wrap"
 			     @click.stop="gotoNative('撰写回答','createAnswer',{questionId:qid,title:question.question})">
 				暂无回答，点击添加靠谱回答
 			</div>
@@ -78,8 +96,18 @@
 				page: 1,
 				question: {},
 				userInfo: {},
-				isShowUsers: true
+				isShowUsers: true,
+				userIds: [],
+				readyACount: 0,
+				userStatus: []
 			};
+		},
+		watch: {
+			readyACount(val) {
+				if (val === this.list.length && this.userStatus.length) {
+					this.__refreshIMStatus();
+				}
+			}
 		},
 		methods: {
 			__fetchQ() {
@@ -127,9 +155,40 @@
 					});
 			},
 			__fetch() {
+				const userIds = [];
 				this.__fetchQ().then(() => {
 					this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfQ");
+
+					if (
+						this.userInfo.anonymous !== 1 &&
+						this.userInfo.userId !== this.authInfo.userId
+					) {
+						userIds.push(this.userInfo.userId);
+					}
+
 					return this.__fetchAnswers().then(() => {
+						this.list &&
+							this.list.length &&
+							this.list.forEach(item => {
+								if (
+									item.isAnonymous === 0 &&
+									item.communityUser &&
+									item.communityUser.userId !==
+										this.authInfo.userId
+								) {
+									userIds.push(item.communityUser.userId);
+								}
+							});
+						this.userIds = userIds;
+						if (!this.$isDev) {
+							JXRSApi.app.qa.refreshH5IMInfo({ userIds });
+						} else {
+							console.log &&
+								console.log(
+									"JXRSApi.app.qa.refreshH5IMInfo:",
+									this.userIds
+								);
+						}
 						this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfA");
 					});
 				});
@@ -143,7 +202,34 @@
 					.then(resp => {
 						const list = resp.result.list;
 						if (list && list.length) {
-							this.list = this.answers.concat(list);
+							this.list = this.list.concat(list);
+
+							const userIds = [];
+							this.list.forEach(item => {
+								if (
+									item.isAnonymous === 0 &&
+									item.communityUser &&
+									item.communityUser.userId !==
+										this.authInfo.userId
+								) {
+									userIds.push(item.communityUser.userId);
+								}
+							});
+							this.userIds = userIds;
+							if (!this.$isDev) {
+								JXRSApi.app.qa.refreshH5IMInfo({ userIds });
+							} else {
+								console.log &&
+									console.log(
+										"JXRSApi.app.qa.refreshH5IMInfo:",
+										this.userIds
+									);
+							}
+
+							this.$rxUtils.asyncCmp.dataReady.call(
+								this,
+								"DetailOfA"
+							);
 						}
 					});
 			},
@@ -152,42 +238,86 @@
 					cmp.broadcast("RxImg", "fn.load");
 					cmp.broadcast("RxReadMore", "fn.showOrHide");
 				});
+			},
+			__refreshIMStatus() {
+				// 先移除问题详情用户的干扰
+
+				let realLen = 0;
+
+				this.userStatus.forEach((item, index) => {
+					for (const userId in item) {
+						if (index === 0) {
+							this.$refs.user.$emit(
+								"fn.refresh",
+								userId,
+								item[userId]
+							);
+							this.userIds.shift();
+							realLen = this.list.length - this.userIds.length;
+							continue;
+						}
+						this.$refs.asw[realLen + index - 1].$emit(
+							"fn.refreshUserIMStatus",
+							item[userId]
+						);
+					}
+				});
 			}
 		},
 		created() {
 			this.getQS("qid");
 
-			// App原生通知H5更新回答的相关状态的数目
-			this.$listenJSApi("refreshAnswerStatusCount", ({ id, action }) => {
-				if (this.list && this.list.length) {
-					const list = this.list;
+			if (!this.$isDev) {
+				// App原生通知H5更新回答的相关状态的数目
+				JXRSApi.on(
+					"app.qa.refreshAnswerStatusCount",
+					({ id, status, count }) => {
+						if (this.list && this.list.length) {
+							const list = this.list;
 
-					let prop = "";
+							let prop = "";
 
-					switch (action) {
-						case "click":
-							prop = "clickCount";
-							break;
-						case "comment":
-							prop = "commentCount";
-							break;
-						case "support":
-							prop = "supportCount";
-							break;
-						default:
-							break;
-					}
-					for (let l = list.length; l--;) {
-						if (list[l].id === id) {
-							list[l][prop] += 1;
+							switch (status) {
+								case "click":
+									prop = "clickCount";
+									break;
+								case "comment":
+									prop = "commentCount";
+									break;
+								case "support":
+									prop = "supportCount";
+									break;
+								default:
+									break;
+							}
+							for (let l = list.length; l--; ) {
+								if (list[l].id === id) {
+									list[l][prop] =
+										(list[l][prop] || 0) + (count || 1);
+								}
+							}
 						}
 					}
-				}
-			});
+				)
+					.on("app.qa.refreshH5QStatusOfCollect", ({ isOK }) => {
+						this.question.collectionCount += isOK ? 1 : -1;
+					})
+					.on("app.qa.refreshIMStatus", ({ userStatus }) => {
+						if (userStatus && userStatus.length) {
+							this.userStatus = userStatus;
+							if (this.readyACount === this.list.length) {
+								this.__refreshIMStatus();
+							}
+						}
+					});
+			}
 
 			this.$rxUtils.asyncCmp
 				.ready(this, "DetailOfQ", this.__asyncReadyCallback)
-				.ready(this, "DetailOfA", this.__asyncReadyCallback);
+				.ready(this, "DetailOfA", cmp => {
+					this.__asyncReadyCallback(cmp);
+					this.readyACount += 1;
+				});
 
 			return this.__fetch();
 		}

@@ -6,7 +6,7 @@
 			      padding="t"></user>
 		</template>
 		<rx-read-more v-if="row.answer"
-		              :max-height="170"
+		              :max-height="165"
 		              click-on-expand
 		              @on-expand="handleGoto">
 			<div v-html="row.answer"
@@ -46,14 +46,19 @@
 	import DetailOfAMixin from "~m/__qa-detail_of_a";
 	export default {
 		name: "DetailOfA",
+		asyncListenCmps: "User",
 		components: {
+			User: () =>
+				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
+					cmp => utils.asyncCmp.solution(cmp, "DetailOfA")
+				),
 			AStatus: () =>
 				import(/* webpackChunkName:"wc-status_of_a" */ "~c/qa/status_of_a.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					utils.asyncCmp.solution
 				),
 			AStatusV2: () =>
 				import(/* webpackChunkName:"wc-status_of_a_v2" */ "~c/qa/status_of_a_v2.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					utils.asyncCmp.solution
 				)
 		},
 		mixins: [DetailOfAMixin],
@@ -64,6 +69,11 @@
 					return {};
 				}
 			}
+		},
+		data() {
+			return {
+				status: ""
+			};
 		},
 		methods: {
 			handleGoto() {
@@ -94,6 +104,21 @@
 					});
 				}
 			}
+		},
+		created() {
+			this.$rxUtils.asyncCmp.dataReady
+				.call(this, "User")
+				.ready(this, "User", cmp => {
+					if (this.status) {
+						cmp.$emit("fn.refresh", this.userInfo.userId, this.status);
+					}
+				});
+			this.$on("fn.refreshUserIMStatus", status => {
+				this.broadcast("User", "fn.refresh", [
+					this.userInfo.userId,
+					(this.status = status)
+				]);
+			});
 		}
 	};
 </script>

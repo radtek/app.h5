@@ -3,9 +3,8 @@
 	         v-show="row.question">
 		<rx-cell :border="false">
 			<p slot="header">{{row.question}}</p>
-			<rx-read-more v-if="row.description">
-				<div v-html="row.description"></div>
-			</rx-read-more>
+			<div v-if="row.description"
+			     v-html="row.description"></div>
 			<template slot="img">
 				<rx-row :gutter="6"
 				        :class="[{[`img-${qImgs.length}`]:qImgs.length <=2 && qImgs.length >=1}]">

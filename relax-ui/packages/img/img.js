@@ -96,6 +96,9 @@ export default {
 		__loadImg() {
 			const img = (this.img = new Image());
 
+			// 利用crossOrigin来解决资源跨域问题
+			img.crossOrigin = "anonymous";
+
 			img.onload = () => {
 				if (!img.complete) return;
 				// 计算缩放比例

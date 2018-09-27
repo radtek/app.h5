@@ -1,5 +1,19 @@
-<style lang="sass">
-@import "../../assets/modules/qa/view-answer_detail.scss"
+<style lang="scss">
+	@import "../../assets/modules/qa/view-answer_detail.scss";
+	[rs-view="answer"] {
+		.rx-cell-avatar.p {
+			padding: 15px 30px 0 30px;
+		}
+		.pane-answer {
+			.rx-cell-header {
+				padding-bottom: 0;
+				padding-top: 5px;
+			}
+			.rx-cell-imgs {
+				margin-top: 10px;
+			}
+		}
+	}
 </style>
 
 <template>
@@ -31,11 +45,13 @@
 			<div class="separate"></div>
 			<comment-pane :total="total"
 			              :list="list"
+			              :zan="answer.supportCount"
 			              @on-empty-click="handleCommentEmptyClick">
 				<comment-item ref="items"
 				              v-for="(comment,index) in list"
 				              :key="index"
-				              :item="comment"></comment-item>
+				              :item="comment"
+				              @on-zan="handleZan"></comment-item>
 			</comment-pane>
 		</rx-pull>
 	</section>
@@ -46,22 +62,23 @@
 	import IM from "~m/__qa-im";
 	export default {
 		name: "PageOfAnswer",
+		asyncListenCmps: "DetailOfAV2,ItemOfComment",
 		components: {
 			ADetailV2: () =>
 				import(/* webpackChunkName:"wc-detail_of_a_v2" */ "~c/qa/detail_of_a_v2.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					cmp => utils.asyncCmp.solution(cmp, "PageOfAnswer")
 				),
 			QStatus: () =>
 				import(/* webpackChunkName:"wc-status_of_q_v2" */ "~c/qa/status_of_q_v2.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					utils.asyncCmp.solution
 				),
 			CommentPane: () =>
 				import(/* webpackChunkName:"wc-pane_of_comment" */ "~c/__common/comment/pane.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					utils.asyncCmp.solution
 				),
 			CommentItem: () =>
 				import(/* webpackChunkName:"wc-item_of_comment" */ "~c/__common/comment/item.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					cmp => utils.asyncCmp.solution(cmp, "PageOfAnswer")
 				)
 		},
 		mixins: [Pull, IM],
@@ -75,9 +92,6 @@
 			};
 		},
 		methods: {
-			__getColSpan(imgArr) {
-				return imgArr && imgArr.length ? 24 / imgArr.length : 24;
-			},
 			__fetchQ() {
 				return this.$http.qa
 					.getQuesDetail({ questionId: this.qid })
@@ -95,6 +109,7 @@
 					if (answer) {
 						this.commentCount = answer.commentCount;
 						const answerUser = answer.communityUser || {};
+						answer.infoQuestion = this.ques;
 						this.answer = answer;
 						if (!this.$isDev) {
 							JXRSApi.app.qa.refreshAppStatusOfAnswer({
@@ -151,9 +166,15 @@
 			__fetch() {
 				return Promise.all([this.__fetchQ(), this.__fetchA()])
 					.then(() => {
-						this.readyObjCount += 1;
+						this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfAV2");
 					})
-					.then(this.__fetchComments);
+					.then(this.__fetchComments)
+					.then(() => {
+						this.$rxUtils.asyncCmp.dataReady.call(
+							this,
+							"ItemOfComment"
+						);
+					});
 			},
 			__append() {
 				this.$http.qa
@@ -171,55 +192,92 @@
 						}
 					});
 			},
-			handleCommentEmptyClick() {}
+			handleCommentEmptyClick() {
+				const params = {
+					qid: this.qid,
+					aid: this.aid
+				};
+				if (this.$isDev) {
+					alert("通知App唤起评论原生面板");
+				} else {
+					JXRSApi.app.qa.doComment(params);
+				}
+			},
+			__bindInteractionOfApp() {
+				// 注册交互事件
+				if (!this.$isDev) {
+					// APP与H5的交互: APP端点赞或取消点赞成功后通知H5刷新点赞状态栏
+					JXRSApi.on("app.qa.updateZanStatusOfH5", ({ zan }) => {
+						zan = parseInt(zan, 10);
+						if (zan === 1) {
+							this.answer.isSupported = true;
+							this.answer.supportCount =
+								(this.answer.supportCount || 0) + 1;
+						} else {
+							this.answer.isSupported = false;
+							this.answer.supportCount +=
+								this.answer.supportCount > 0 ? -1 : 0;
+						}
+					})
+						.on("app.qa.refreshComment", () => {
+							this.__fetchComments().then(() => {
+								this.commentAnchor = this.$refs.comment.$el.getBoundingClientRect().top;
+							});
+						})
+						.on("app.qa.scrollToComment", () => {
+							this.__scrollToComment();
+						})
+						.on("app.qa.refreshIMStatus", ({ userStatus }) => {
+							if (userStatus && userStatus.length) {
+								const kv = userStatus[0];
+								for (const userId in kv) {
+									this.$refs.readyCmp.$emit(
+										"fn.refreshUserIMStatus",
+										kv[userId]
+									);
+								}
+							}
+						});
+				}
+			},
+			handleZan(comment) {
+				const params = { commentId: comment.id };
+				if (comment.isSupported) {
+					// 取消点赞
+					this.$http.qa.cancelZanAnswerComment(params).then(() => {
+						comment.isSupported = false;
+						comment.supportNum += comment.supportNum > 0 ? -1 : 0;
+					});
+				} else {
+					// 点赞评论
+					this.$http.qa.zanAnswerComment(params).then(() => {
+						comment.isSupported = true;
+						comment.supportNum += 1;
+					});
+				}
+			}
 		},
 		created() {
 			this.getQS("qid", "aid");
-
-			this.__fetch();
-
-			this.$rxUtils.asyncCmpListenApi.on("DetailOfAV2.afterMounted", cmp => {
-				this.readyObjCount += 1;
-			});
-
-			// 注册交互事件
-			if (!this.$isDev) {
-				// APP与H5的交互: APP端点赞或取消点赞成功后通知H5刷新点赞状态栏
-				JXRSApi.on("app.qa.updateZanStatusOfH5", ({ zan }) => {
-					zan = parseInt(zan, 10);
-					if (zan === 1) {
-						this.answer.isSupported = true;
-						this.answer.supportCount += 1;
-					} else {
-						this.answer.isSupported = false;
-						this.answer.supportCount +=
-							this.answer.supportCount > 0 ? -1 : 0;
-					}
-				})
-					.on("app.qa.refreshComment", () => {
-						this.__fetchComments().then(() => {
-							this.commentAnchor = this.$refs.comment.$el.getBoundingClientRect().top;
-						});
-					})
-					.on("app.qa.scrollToComment", () => {
-						this.__scrollToComment();
-					})
-					.on("app.qa.refreshIMStatus", ({ userStatus }) => {
-						if (userStatus || userStatus.length) {
-							userStatus.forEach(info => {
-								for (const key in info) {
-									if (this.answerUser.userId === key) {
-										this.addStatus =
-											info[key] === 1 || info[key] === "1"
-												? 2
-												: 0;
-										this.isAdding = false;
-									}
-								}
-							});
-						}
+			this.__bindInteractionOfApp();
+			this.$rxUtils.asyncCmp
+				.ready(this, "DetailOfAV2", cmp => {
+					this.$nextTick(() => {
+						cmp.broadcast("RxImg", "fn.load");
+						cmp.broadcast("RxReadMore", "fn.showOrHide");
 					});
-			}
+				})
+				.ready(this, "ItemOfComment", cmp => {
+					// const img = cmp.$refs.img;
+					// if (
+					// 	img.hasAttribute("data-src") &&
+					// 	this.$rxUtils.isInClientView(img)
+					// ) {
+					// 	img.setAttribute("src", img.getAttribute("data-src"));
+					// 	img.removeAttribute("data-src");
+					// }
+				});
+			return this.__fetch();
 		}
 	};
 </script>

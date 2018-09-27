@@ -3,7 +3,7 @@ export default {
 	components: {
 		MsgBox: () =>
 			import(/* webpackChunkName:"wc-msgbox" */ "~c/__common/msgbox.vue").then(
-				utils.fixAsyncCmpLifeCycle
+				utils.asyncCmp.solution
 			)
 	},
 	data() {
