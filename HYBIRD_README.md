@@ -58,6 +58,26 @@ H5通知App
 
 
 
+### App通知H5更新问题回答数据的状态数值
+
+```js
+App调用方式： JXRSApi.invoke("操作名称","操作参数");
+
+操作名称: app.qa.refreshAnswerStatusCount
+
+操作参数： 
+{
+    "id":"回答id",
+    "status":"状态名称： click-点击  comment-评论 support-点赞",
+    "count": "变化的数量，与status对应，例如：阅读数、点赞数、评论数"
+}
+
+demo: 
+	JXRSApi.invoke("app.qa.refreshAnswerStatusCount",'{"id":"1","status":"click","count":3}')
+```
+
+
+
 
 
 # 二、文库

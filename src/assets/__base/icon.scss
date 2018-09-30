@@ -50,6 +50,14 @@
 	color: #1db847;
 }
 
+.icon-doc-img {
+	color: #48b2c1;
+}
+
+.icon-doc-unknown {
+	color: #666;
+}
+
 $icons: (
 	back-top: "\e60e",
 	share: "\e601",
@@ -81,6 +89,8 @@ $icons: (
 	doc-excel: "\e623",
 	doc-pdf: "\e624",
 	doc-ppt: "\e625",
+	doc-img: "\e61d",
+	doc-unknown: "\e61e",
 	red-heart: "\e61a",
 	user-upload: "\e614",
 	user-collect: "\e616",

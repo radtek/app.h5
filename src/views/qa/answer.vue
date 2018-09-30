@@ -25,7 +25,7 @@
 		         :up="up"
 		         @uping="handleUp"
 		         @downing="handleDown"
-		         @scroll-end="handleScrollEnd">
+		         @scroll-end="__handleScrollEnd">
 			<rx-pull-down slot="down"></rx-pull-down>
 			<rx-pull-up slot="up"></rx-pull-up>
 			<div class="pane-ques">
@@ -143,23 +143,9 @@
 					})
 					.then(resp => {
 						this.total = resp.result.sumCount;
-						const list = resp.result.infoComments;
-						const list2 = [];
-						list.forEach(item => {
-							const user = item.ownUser || {};
-							list2.push({
-								id: item.id,
-								imgPath: user.imgPath,
-								sex: user.sex,
-								userId: user.userId,
-								name: user.userName,
-								isSupported: item.supportCount > 0,
-								supportNum: item.supportCount,
-								text: item.comment,
-								time: item.createTime
-							});
-						});
-						this.list = list2;
+						this.list = this.__convertComments(
+							resp.result.infoComments
+						);
 						this.isPrerender = false;
 					});
 			},
@@ -176,6 +162,24 @@
 						);
 					});
 			},
+			__convertComments(list) {
+				const list2 = [];
+				list.forEach(item => {
+					const user = item.ownUser || {};
+					list2.push({
+						id: item.id,
+						imgPath: user.imgPath,
+						sex: user.sex,
+						userId: user.userId,
+						name: user.userName,
+						isSupported: item.supportCount > 0,
+						supportNum: item.supportCount,
+						text: item.comment,
+						time: item.createTime
+					});
+				});
+				return list2;
+			},
 			__append() {
 				this.$http.qa
 					.getAnswerComments({
@@ -188,7 +192,9 @@
 							resp.result.infoComments &&
 							resp.result.infoComments.length
 						) {
-							this.list = this.list.concat(resp.result.infoComments);
+							this.list = this.list.concat(
+								this.__convertComments(resp.result.infoComments)
+							);
 						}
 					});
 			},
@@ -202,6 +208,28 @@
 				} else {
 					JXRSApi.app.qa.doComment(params);
 				}
+			},
+			__getRealUrlOfImg(img) {
+				if (
+					img.hasAttribute("data-src") &&
+					this.$rxUtils.isInClientView(img)
+				) {
+					img.setAttribute("src", img.getAttribute("data-src"));
+					img.removeAttribute("data-src");
+				}
+			},
+			__loadLazyImgs() {
+				let imgs = document.querySelectorAll("img[data-src]");
+				if (imgs && imgs.length) {
+					imgs = Array.prototype.slice.call(imgs);
+					imgs.forEach((img, index) => {
+						this.__getRealUrlOfImg(img);
+					});
+				}
+			},
+			__handleScrollEnd(pos) {
+				this.handleScrollEnd(pos);
+				this.__loadLazyImgs();
 			},
 			__bindInteractionOfApp() {
 				// 注册交互事件
@@ -220,9 +248,11 @@
 						}
 					})
 						.on("app.qa.refreshComment", () => {
-							this.__fetchComments().then(() => {
-								this.commentAnchor = this.$refs.comment.$el.getBoundingClientRect().top;
-							});
+							setTimeout(() => {
+								this.__fetchComments().then(() => {
+									this.commentAnchor = this.$refs.comment.$el.getBoundingClientRect().top;
+								});
+							}, 450);
 						})
 						.on("app.qa.scrollToComment", () => {
 							this.__scrollToComment();
@@ -268,14 +298,7 @@
 					});
 				})
 				.ready(this, "ItemOfComment", cmp => {
-					// const img = cmp.$refs.img;
-					// if (
-					// 	img.hasAttribute("data-src") &&
-					// 	this.$rxUtils.isInClientView(img)
-					// ) {
-					// 	img.setAttribute("src", img.getAttribute("data-src"));
-					// 	img.removeAttribute("data-src");
-					// }
+					this.__getRealUrlOfImg(cmp.$refs.img);
 				});
 			return this.__fetch();
 		}

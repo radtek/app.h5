@@ -25,7 +25,7 @@ export default {
 		// 图片的地址
 		src: { type: String, default: "" },
 		// 图片质量
-		quality: { type: Number, default: 0.6 },
+		quality: { type: Number, default: 0.8 },
 		// 图片缩放类型 --- 主要是计算算法
 		scaleType: { type: String, default: "centerCrop" },
 		// 是否开启智能模式
@@ -119,7 +119,7 @@ export default {
 			const img = (this.img = new Image());
 
 			// 利用crossOrigin来解决资源跨域问题
-			img.crossOrigin = "anonymous";
+			// img.crossOrigin = "anonymous";
 
 			img.onload = () => {
 				if (!img.complete) return;
@@ -128,6 +128,7 @@ export default {
 			};
 
 			img.onerror = () => {
+				alert("rx-img erros:" + JSON.stringify(arguments));
 				this.$emit("on-error", { target: this.$el });
 			};
 

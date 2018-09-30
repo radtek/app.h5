@@ -2,10 +2,6 @@
 	.rs-edu-attach-item {
 		margin: 0 30px;
 
-		~ li {
-			border-bottom: 1px solid #e6e6e6;
-		}
-
 		.rx-cell-avatar {
 			padding-right: 0;
 			padding-left: 0;

@@ -97,7 +97,7 @@
 			},
 			url() {
 				return this.$isProd
-					? "http://manage.jxdangjian.com/daoru.html"
+					? "http://wenku.jxdangjian.com"
 					: "http://whrdd.f3322.net:8889/daoru.html";
 			}
 		},

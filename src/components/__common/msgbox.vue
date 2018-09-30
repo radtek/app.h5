@@ -7,7 +7,8 @@
 	     v-if="show">
 		<div class="msgbox_content"
 		     @click="onClick">
-			<img :src="avatar"
+			<img v-if="avatar"
+			     :src="avatar"
 			     @error="onImgErr($event,true)">
 			<slot>
 				<span>{{count}}条新消息</span>

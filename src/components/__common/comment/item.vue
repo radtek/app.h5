@@ -11,7 +11,7 @@
 						: $DEFAULT_AVATAR)"
 			     alt="avatar"
 			     ref="img"
-			     v-lazyimg
+			     :src="item.sex === 1 ? $DEFAULT_AVATAR_FEMALE:$DEFAULT_AVATAR"
 			     @click.stop="gotoNative('我的','userProfile',{userId:getProp('userId')})"
 			     @error="onImgErr($event,true)" />
 		</template>

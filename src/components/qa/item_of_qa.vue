@@ -4,9 +4,10 @@
 
 <template>
 	<rx-cell class="item-qa q_a">
-		<div slot="header"
-		     class="title"
-		     @click.stop="goto('问题详情','/detail',{qid: row.id})">{{row.question}}</div>
+		<template slot="header">
+			<div class="title"
+			     @click.stop="goto('问题详情','/detail',{qid: row.id})">{{row.question}}</div>
+		</template>
 		<template v-if="row.infoAnswer">
 			<div @click.stop="onAnswerDetailClick">
 				<template v-if="row.infoAnswer.imgPath && row.infoAnswer.imgPath.length">

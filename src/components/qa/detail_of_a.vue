@@ -1,6 +1,5 @@
 <template>
-	<rx-cell @on-img-click="handleGoto"
-	         class="detail_of_a">
+	<rx-cell class="detail_of_a">
 		<template slot="header">
 			<user :user-info="userInfo"
 			      padding="t"></user>

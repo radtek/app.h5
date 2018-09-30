@@ -5,7 +5,7 @@
 			<rx-btn type="text"
 			        plain
 			        icon="answer"
-			        @on-click.stop="gotoNative('撰写回答','/createAnswer',{questionId:row.id,title:row.question})">写回答</rx-btn>
+			        @on-click.stop="gotoNative('撰写回答','createAnswer',{questionId:row.id,title:row.question})">写回答</rx-btn>
 		</rx-col>
 		<rx-col align="right">
 			<rx-btn type="text"

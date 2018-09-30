@@ -289,10 +289,13 @@
 								default:
 									break;
 							}
-							for (let l = list.length; l--;) {
+							for (let l = list.length; l--; ) {
 								if (list[l].id === id) {
 									list[l][prop] =
 										(list[l][prop] || 0) + (count || 1);
+									if (prop === "supportCount") {
+										list[l].isSupported = count > 0;
+									}
 								}
 							}
 						}
