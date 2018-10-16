@@ -119,7 +119,7 @@ export default {
 			const img = (this.img = new Image());
 
 			// 利用crossOrigin来解决资源跨域问题
-			// img.crossOrigin = "anonymous";
+			img.crossOrigin = "anonymous";
 
 			img.onload = () => {
 				if (!img.complete) return;
@@ -128,7 +128,6 @@ export default {
 			};
 
 			img.onerror = () => {
-				alert("rx-img erros:" + JSON.stringify(arguments));
 				this.$emit("on-error", { target: this.$el });
 			};
 

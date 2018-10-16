@@ -1,22 +1,22 @@
 <style lang="scss">
 	.top-im-user {
 		.rx-cell-img {
-			flex: 0 0 70px;
+			flex: 0 0 84px;
 			img {
-				width: 60px;
-				height: 60px;
+				width: 72px;
+				height: 72px;
 				vertical-align: middle;
-				margin-top: 5px;
+				// margin-top: 5px;
 			}
 		}
 		.rx-cell-content {
 			line-height: 32px;
 			.header {
-				margin: 2.5px 0;
-				font-size: 26px;
+				margin: 2.5px 0 10px 0;
+				font-size: 32px;
 			}
 			.body {
-				font-size: 18px;
+				font-size: 24px;
 			}
 
 			.rx-btn {

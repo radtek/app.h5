@@ -17,7 +17,7 @@ const api = require("./build-api");
 
 const outputFileName = api.resolveAssetsPath(
 	"js",
-	`[name].[chunkhash:${api.options.assets.hashLen}].js`
+	`[name].[contenthash:${api.options.assets.hashLen}].js`
 );
 
 const prodConfig = webpackMerge(baseConfig, {

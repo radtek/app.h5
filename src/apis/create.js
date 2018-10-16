@@ -6,9 +6,7 @@ import { stringify } from "qs";
 
 const isProd = process.env.NODE_ENV === "production";
 
-const domainOrigin = isProd ? "manage.jxdangjian.com" : "whrdd.f3322.net:8889";
-
-const apiRoot = `http://${domainOrigin}/`;
+const apiRoot = `http://${process.env.JXRS_ORIGIN}/`;
 
 // axios 配置
 axios.defaults.timeout = 15000;
