@@ -2,7 +2,7 @@ const path = require("path");
 // const CSSLoaderResolver = require("./rules/cssLoader");
 const CSSLoader = require("./rules/css-loaders");
 
-const prefixRE = /^JXRS_APP_/;
+const prefixRE = /^JXRS_/;
 
 // const defaultCSSOptions = {
 // 	extract: true,
@@ -268,7 +268,10 @@ class Api {
 	 */
 	resolveHtmlTemplate(isProd) {
 		const option = {
-			template: this.getAppModule() === "lgbj" ? this.resolve(`src/template/index_with_pinyin.html`) : this.resolve(`src/template/index.html`),
+			template:
+				this.getAppModule() === "lgbj"
+					? this.resolve(`src/template/index_with_pinyin.html`)
+					: this.resolve(`src/template/index.html`),
 			filename: this.resolve(
 				`${this.getDistDirName()}/${this.getAppModule()}/index.html`
 			),

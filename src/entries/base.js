@@ -7,7 +7,7 @@ import { createJSApi, listenJSApi, callH5Action } from "~j/index";
 import App from "~e/App.vue";
 
 // 引入针对Promise的polyfill
-// require("es6-promise").polyfill();
+require("es6-promise").polyfill();
 // require("hammerjs");
 FastClick.attach(document.body);
 

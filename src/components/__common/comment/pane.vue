@@ -7,7 +7,8 @@
 	         :padding="padding">
 		<template slot="header">
 			<span>全部评论{{total>0?`(${total})`:''}}</span>
-			<span class="zan">{{zan||0}}赞</span>
+			<span class="zan"
+			      v-if="isShowZan">{{zan||0}}赞</span>
 		</template>
 		<template v-if="list && list.length">
 			<slot></slot>
@@ -31,7 +32,8 @@
 			total: { type: Number, default: 0 },
 			list: Array,
 			padding: Boolean,
-			zan: Number
+			zan: Number,
+			isShowZan: { type: Boolean, default: true }
 		},
 		methods: {
 			onEmptyClick(event) {

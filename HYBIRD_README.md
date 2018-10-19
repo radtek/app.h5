@@ -405,3 +405,52 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 
 demo: JXRSApi.invoke("app.education.changePageModeToNight",'{"isNight:":true}')
 ```
+
+
+>   通知App更新详情页底层工作条中的图标状态
+
+```
+App端接收H5的通知
+
+操作名称: app.education.updateStatusInfo
+
+操作参数: 
+	{
+		"contentId":"当前学习教育的内容id",
+		"isCollected":"是否收藏",
+		"isSupported":"是否点赞,
+		"likeCount":"收藏数目",
+		"commentCount":"评论数目",
+		"content":"当前学习教育的内容文本(已剔除html标签的文本)"
+	}
+```
+
+
+
+>   当前页面没有评论，显示空评论面板的时候，点在面板会通知App弹出添加评论的原生UI
+
+```
+App端接收H5的通知
+
+操作名称: app.education.addComment
+
+操作参数: 
+	{
+		"contentId":"当前学习教育的内容id"
+	}
+```
+
+
+
+>   App端添加评论成功之后,通知H5页面刷新评论列表
+
+```
+App调用方式: JXRSApi.invoke("操作名称",操作参数);
+
+操作名称: app.education.refreshComments
+
+操作参数: 无
+
+demo: JXRSApi.invoke("app.education.refreshComments")
+```
+

@@ -8,6 +8,10 @@
 			}
 		}
 
+		.pane_of_comment .rx-card_header span {
+			border-left: none;
+		}
+
 		.editable-item > .rx-col:last-child {
 			border: none;
 		}
@@ -24,17 +28,20 @@
 			<rx-pull ref="pull"
 			         :list="list"
 			         :total="total"
-			         :up="false"
-			         :down="false"
+			         :up="up"
+			         :down="down"
 			         @downing="handleDown"
+			         @uping="handleUp"
 			         @scroll-end="__handleScrollEnd">
 				<rx-pull-down slot="down"></rx-pull-down>
+				<rx-pull-up slot="up"></rx-pull-up>
 				<div class="wrap">
 					<h3 class="title">{{info.title}}</h3>
 					<div class="status">
 						<span>{{info.origin}}</span>
 						<span>{{info.publishTime | formatDate("yyyy-M-d hh:mm")}}</span>
-						<span v-if="info.clickCount">{{info.clickCount || 0}}浏览</span>
+						<span>{{info.clickCount || 0}}浏览</span>
+						<span>{{total || 0}}评论</span>
 					</div>
 					<div class="content"
 					     ref="content"
@@ -56,6 +63,18 @@
 						</item>
 					</ul>
 				</rx-card>
+				<div class="separate"></div>
+				<comment-pane ref="comment"
+				              :total="total"
+				              :list="list"
+				              :is-show-zan="false"
+				              @on-empty-click="handleCommentEmptyClick">
+					<comment-item ref="items"
+					              v-for="(comment,index) in list"
+					              :key="index"
+					              :item="comment"
+					              @on-zan="handleZan"></comment-item>
+				</comment-pane>
 			</rx-pull>
 		</template>
 	</section>
@@ -71,6 +90,14 @@
 		components: {
 			Item: () =>
 				import(/* webpackChunkName:"wc-education-item_of_attach" */ "~c/h5/education-item_of_attach.vue").then(
+					utils.fixAsyncCmpLifeCycle
+				),
+			CommentPane: () =>
+				import(/* webpackChunkName:"wc-pane_of_comment" */ "~c/__common/comment/pane.vue").then(
+					utils.fixAsyncCmpLifeCycle
+				),
+			CommentItem: () =>
+				import(/* webpackChunkName:"wc-item_of_comment" */ "~c/__common/comment/item.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 			Skeleton: () =>
@@ -157,11 +184,11 @@
 						passport: this.authInfo.passport
 					})
 					.then(data => {
-						this.info = data.result.content;
+						const info = data.result.content;
 
-						if (this.info) {
-							const content = this.info.txt
-								? this.info.txt
+						if (info) {
+							const content = info.txt
+								? info.txt
 										.replace(REG_HTML_SCRIPT, "")
 										.replace(REG_HTML_STYLE, "")
 										.replace(/<[^<>]+>/g, "")
@@ -171,7 +198,18 @@
 
 							if (!this.$isDev) {
 								JXRSApi.app.education.setAudioText({ content });
+
+								JXRSApi.app.education.updateStatusInfo({
+									contentId: parseInt(this.contentid, 10),
+									isCollected: !!info.isCollected,
+									isSupported: !!info.isSupported,
+									likeCount: info.likeCount,
+									commentCount: info.commentCount || 0,
+									content
+								});
 							}
+
+							this.info = info;
 						}
 
 						if (data.result.files && data.result.files.length) {
@@ -188,23 +226,58 @@
 							});
 						}
 					});
+			},
+			__fetchComments() {
+				return this.$http.education
+					.getComments({ contentId: this.contentid })
+					.then(data => {
+						this.list = data.list;
+						this.result = data.total;
+					});
+			},
+			handleCommentEmptyClick() {
+				// 通知App去发表评论
+				if (!this.$isDev) {
+					JXRSApi.app.education.addComment({
+						contentId: this.contentid
+					});
+				}
+			},
+			handleZan(item) {
+				const isSupported = item.isSupported;
+				const action = isSupported
+					? "cancelZanToComment"
+					: "addZanToComment";
+				this.$http.education[action]({
+					contentId: this.contentid,
+					commentId: item.id
+				}).then(() => {
+					item.supportNum += isSupported ? -1 : 1;
+					item.isSupported = !isSupported;
+				});
 			}
 		},
 		created() {
 			this.getQS("contentid");
-
 			if (!this.$isDev) {
 				JXRSApi.wrap("app.education.setAudioText");
+				JXRSApi.wrap("app.education.updateStatusInfo");
+				JXRSApi.wrap("app.education.addComment");
 				JXRSApi.on("app.education.changePageFontSize", ({ size }) => {
 					this.size = size;
-				}).on("app.education.changePageModeToNight", ({ isNight }) => {
-					// 切换夜间模式
-					this.isNight = isNight;
-				});
+				})
+					.on("app.education.changePageModeToNight", ({ isNight }) => {
+						// 切换夜间模式
+						this.isNight = isNight;
+					})
+					.on("app.education.refreshComments", () => {
+						this.__fetchComments();
+					});
 			}
 		},
 		activated() {
 			this.__fetch();
+			this.__fetchComments();
 		}
 	};
 </script>
