@@ -25,6 +25,8 @@ function getPort() {
 			return 8085;
 		case "card":
 			return 8086;
+		case "exam":
+			return 8087;
 		case "news":
 		default:
 			return 8080;
@@ -125,6 +127,8 @@ module.exports = {
 				];
 			case "card":
 				return ["/birth"];
+			case "exam":
+				return ["/list"];
 			default:
 				break;
 		}

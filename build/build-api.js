@@ -112,7 +112,7 @@ class Api {
 	 * 获取打包的输出文件夹名称
 	 */
 	getDistDirName() {
-		return "jxrs-h5-depoly";
+		return `jxrs-h5-depoly/${process.env.NODE_ENV}`;
 	}
 
 	/**

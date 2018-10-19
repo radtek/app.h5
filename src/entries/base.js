@@ -31,7 +31,8 @@ export function createVue(Vue, datas, jsApiActions) {
 	Vue.config.debug = Vue.config.devtools = Vue.config.productionTip = isDebugMode;
 
 	Vue.prototype.$isProd = !isDebugMode;
-	Vue.prototype.$isTest = process.env.NODE_ENV === "test";
+	Vue.prototype.$isTest =
+		process.env.NODE_ENV === "test" || process.env.NODE_ENV === "aliyun";
 	Vue.prototype.$isDev = process.env.NODE_ENV === "development";
 
 	Vue.prototype.$DEFAULT_AVATAR =

@@ -63,4 +63,4 @@ yarn.lock
 /build-api/
 /jxrs-h5-depoly/
 *.pdf
-
+/depoly/
