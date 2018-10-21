@@ -127,6 +127,8 @@ module.exports = {
 				];
 			case "card":
 				return ["/birth"];
+			case "edu":
+				return ["/detail", "/comments"];
 			case "exam":
 				return ["/list"];
 			default:

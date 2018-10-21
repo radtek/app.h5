@@ -83,14 +83,15 @@
 <script>
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
+	import ScrollToComment from "~m/scroll-to-comment";
 	const REG_HTML_SCRIPT = /<script[^>]*?>[\s\S]*?<\/script>/g;
 	const REG_HTML_STYLE = /<style[^>]*?>[\s\S]*?<\/style>/g;
 	export default {
-		name: "PageOfEducationDetail",
+		name: "VwEduDetail",
 		components: {
 			Item: () =>
 				import(/* webpackChunkName:"wc-education-item_of_attach" */ "~c/h5/education-item_of_attach.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					cmp => utils.asyncCmp.solution(cmp, "VwEduDetail")
 				),
 			CommentPane: () =>
 				import(/* webpackChunkName:"wc-pane_of_comment" */ "~c/__common/comment/pane.vue").then(
@@ -98,14 +99,12 @@
 				),
 			CommentItem: () =>
 				import(/* webpackChunkName:"wc-item_of_comment" */ "~c/__common/comment/item.vue").then(
-					utils.fixAsyncCmpLifeCycle
+					cmp => utils.asyncCmp.solution(cmp, "VwEduDetail")
 				),
 			Skeleton: () =>
-				import(/* webpackChunkName:"wc-skeleton" */ "~c/news/skeleton.vue").then(
-					utils.fixAsyncCmpLifeCycle
-				)
+				import(/* webpackChunkName:"wc-skeleton" */ "~c/news/skeleton.vue")
 		},
-		mixins: [Pull],
+		mixins: [Pull, ScrollToComment],
 		data() {
 			return {
 				isNight: false,
@@ -114,7 +113,8 @@
 				attachments: [],
 				page: 1,
 				list: [],
-				total: 0
+				total: 0,
+				fileItemReady: 0
 			};
 		},
 		computed: {
@@ -178,7 +178,7 @@
 				this.__loadLazyImgs();
 			},
 			__fetch() {
-				return this.$http.education
+				return this.$http.edu
 					.getDetail({
 						contentId: this.contentid,
 						passport: this.authInfo.passport
@@ -189,16 +189,15 @@
 						if (info) {
 							const content = info.txt
 								? info.txt
-										.replace(REG_HTML_SCRIPT, "")
-										.replace(REG_HTML_STYLE, "")
-										.replace(/<[^<>]+>/g, "")
-										.replace(/(^\s*)|(\s*&)/g, "")
-										.replace(/[\r\n]/g, "")
+									.replace(REG_HTML_SCRIPT, "")
+									.replace(REG_HTML_STYLE, "")
+									.replace(/<[^<>]+>/g, "")
+									.replace(/(^\s*)|(\s*&)/g, "")
+									.replace(/[\r\n]/g, "")
 								: "";
 
 							if (!this.$isDev) {
 								JXRSApi.app.education.setAudioText({ content });
-
 								JXRSApi.app.education.updateStatusInfo({
 									contentId: parseInt(this.contentid, 10),
 									isCollected: !!info.isCollected,
@@ -225,14 +224,41 @@
 								};
 							});
 						}
+						this.$rxUtils.asyncCmp.dataReady.call(
+							this,
+							"RsEduItemOfAttach"
+						);
 					});
 			},
 			__fetchComments() {
-				return this.$http.education
+				return this.$http.edu
 					.getComments({ contentId: this.contentid })
 					.then(data => {
 						this.list = data.list;
 						this.result = data.total;
+						this.$nextTick(() => {
+							this.$rxUtils.asyncCmp.dataReady.call(
+								this,
+								"ItemOfComment"
+							);
+						});
+					});
+			},
+			__append() {
+				return this.$http.edu
+					.getComments({
+						contentId: this.contentid,
+						page: (this.page += 1)
+					})
+					.then(data => {
+						this.list = data.list;
+						this.result = data.total;
+						this.$nextTick(() => {
+							this.$rxUtils.asyncCmp.dataReady.call(
+								this,
+								"ItemOfComment"
+							);
+						});
 					});
 			},
 			handleCommentEmptyClick() {
@@ -248,7 +274,7 @@
 				const action = isSupported
 					? "cancelZanToComment"
 					: "addZanToComment";
-				this.$http.education[action]({
+				this.$http.edu[action]({
 					contentId: this.contentid,
 					commentId: item.id
 				}).then(() => {
@@ -260,9 +286,6 @@
 		created() {
 			this.getQS("contentid");
 			if (!this.$isDev) {
-				JXRSApi.wrap("app.education.setAudioText");
-				JXRSApi.wrap("app.education.updateStatusInfo");
-				JXRSApi.wrap("app.education.addComment");
 				JXRSApi.on("app.education.changePageFontSize", ({ size }) => {
 					this.size = size;
 				})
@@ -272,8 +295,36 @@
 					})
 					.on("app.education.refreshComments", () => {
 						this.__fetchComments();
+					})
+					.on("app.education.scrollToComment", () => {
+						this.__scrollToComment();
 					});
 			}
+
+			this.$rxUtils.asyncCmp
+				.ready(this, "RsEduItemOfAttach", cmp => {
+					this.fileItemReady += 1;
+					if (this.fileItemReady === this.attachments.length) {
+						setTimeout(() => {
+							this.commentAnchor = this.$refs.comment.$el.getBoundingClientRect().top;
+						}, 300);
+					}
+				})
+				.ready(this, "ItemOfComment", cmp => {
+					this.readyACount += 1;
+					if (this.readyACount === this.list.length) {
+						setTimeout(() => {
+							const rect = this.$refs.comment.$el.getBoundingClientRect();
+							if (!this.commentAnchor) {
+								this.commentAnchor = rect.top;
+							}
+							this.commentHeight = rect.height;
+							if (this.isWaitingForCommentAnchor) {
+								this.__scrollToComment();
+							}
+						}, 300);
+					}
+				});
 		},
 		activated() {
 			this.__fetch();

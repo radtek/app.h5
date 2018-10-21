@@ -6,5 +6,5 @@ import configsOfEducation from "~a/h5/conf_of_education";
 export default createApis(
 	{ module: "notice", configs: configsOfNotice },
 	{ module: "vote", configs: configsOfVote },
-	{ module: "education", configs: configsOfEducation }
+	{ module: "edu", configs: configsOfEducation }
 );

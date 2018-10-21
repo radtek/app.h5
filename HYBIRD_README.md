@@ -409,7 +409,7 @@ demo: JXRSApi.invoke("app.education.changePageModeToNight",'{"isNight:":true}')
 
 >   通知App更新详情页底层工作条中的图标状态
 
-```
+```js 
 App端接收H5的通知
 
 操作名称: app.education.updateStatusInfo
@@ -429,7 +429,7 @@ App端接收H5的通知
 
 >   当前页面没有评论，显示空评论面板的时候，点在面板会通知App弹出添加评论的原生UI
 
-```
+```js 
 App端接收H5的通知
 
 操作名称: app.education.addComment
@@ -440,11 +440,9 @@ App端接收H5的通知
 	}
 ```
 
-
-
 >   App端添加评论成功之后,通知H5页面刷新评论列表
 
-```
+```js 
 App调用方式: JXRSApi.invoke("操作名称",操作参数);
 
 操作名称: app.education.refreshComments
@@ -454,3 +452,45 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 demo: JXRSApi.invoke("app.education.refreshComments")
 ```
 
+>   App端点击底部评论图标通知H5定位到评论板块
+
+```js 
+App调用方式: JXRSApi.invoke("操作名称",操作参数);
+
+操作名称: app.education.scrollToComment
+
+操作参数: 无
+
+demo: JXRSApi.invoke("app.education.scrollToComment")
+```
+
+## 2. 学习教育评论页面
+
+页面调用地址: 
+1) 阿里云: `http://manage.guotailimin.com/edu/comments?contentid=学习教育评论ID`
+2) 测试服务器: `http://whrdd.f3322.net:8889/edu/comments?contentid=学习教育评论ID`
+
+>  当前页面没有评论，显示空评论面板的时候，点在面板会通知App弹出添加评论的原生UI
+
+```js 
+App端接收H5的通知
+
+操作名称: app.education.addComment
+
+操作参数: 
+	{
+		"contentId":"当前学习教育的内容id"
+	}
+```
+
+>   App端添加评论成功之后,通知H5页面刷新评论列表
+
+```js 
+App调用方式: JXRSApi.invoke("操作名称",操作参数);
+
+操作名称: app.education.refreshComments
+
+操作参数: 无
+
+demo: JXRSApi.invoke("app.education.refreshComments")
+```
