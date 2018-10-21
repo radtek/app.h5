@@ -101,7 +101,7 @@
 					})
 					.catch(err => {
 						this.isSubmiting = false;
-						this.$alert("", err.message || "投票发生异常");
+						this.$alert(err.message || "投票发生异常", "");
 					});
 			}
 		},

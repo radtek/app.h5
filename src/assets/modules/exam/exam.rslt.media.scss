@@ -1,0 +1,15 @@
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) {
+	[rs-view="exam.result"] {
+		.details {
+			max-height: 360px;
+		}
+
+		.card-wrap {
+			padding-top: 125px;
+
+			p {
+				top: 220px;
+			}
+		}
+	}
+}

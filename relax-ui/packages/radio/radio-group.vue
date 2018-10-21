@@ -79,7 +79,7 @@
 				this.currentValue = data.value;
 				this.updateValue();
 				this.$emit("input", data.value);
-				this.$emit("on-change", data.value);
+				this.$emit("on-change", data);
 				this.dispatch("RxFormItem", "on-form-change", data.value);
 			}
 		},

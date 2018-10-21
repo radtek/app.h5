@@ -54,6 +54,8 @@ import VPoint from "./packages/v-chart/v-point.vue";
 import VScale from "./packages/v-chart/v-scale.vue";
 import VTooltip from "./packages/v-chart/v-tooltip.vue";
 
+import Header from "./packages/header/index";
+
 const components = [
 	Row,
 	Col,
@@ -96,7 +98,8 @@ const components = [
 	VPie,
 	VPoint,
 	VScale,
-	VTooltip
+	VTooltip,
+	Header
 ];
 
 function install(Vue, options = {}) {
@@ -176,7 +179,8 @@ export {
 	VPie,
 	VPoint,
 	VScale,
-	VTooltip
+	VTooltip,
+	Header
 };
 
 export default install;

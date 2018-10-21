@@ -11,11 +11,11 @@ let instance;
  * @param {String|Object} title
  * @param {String|Object} content
  */
-const Alert = function(title, content) {
+const Alert = function(content, title = "提示") {
 	if (Vue.prototype.$isServer) return;
 	let options;
-	if (typeof title === "object") {
-		options = title;
+	if (typeof content === "object") {
+		options = content;
 	} else {
 		options = { title, content, value: true };
 	}

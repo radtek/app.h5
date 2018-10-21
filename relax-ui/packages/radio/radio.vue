@@ -128,7 +128,8 @@
 					if (this.label !== undefined) {
 						this.parentGroup.change({
 							value: this.label,
-							checked: this.value
+							checked,
+							curValue: value
 						});
 					}
 				} else {

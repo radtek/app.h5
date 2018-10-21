@@ -108,7 +108,10 @@ $icons: (
 	warning: "\e641",
 	male: "\e7d7",
 	female: "\e681",
-	search: "\e726"
+	search: "\e726",
+	start: "\e62c",
+	time: "\e62f",
+	finish: "\e630"
 );
 
 @include each-icons($icons);

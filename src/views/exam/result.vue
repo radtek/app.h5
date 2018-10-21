@@ -1,0 +1,182 @@
+<style lang="scss">
+	@import "../../assets/modules/exam/exam.scss";
+	[rs-view="exam.result"] {
+		.card-wrap {
+			text-align: center;
+			padding-top: 235px;
+			img {
+				width: 349px;
+			}
+			p {
+				position: absolute;
+				top: 330px;
+				left: 50%;
+				transform: translateX(-50%);
+				font-size: 60px;
+				font-weight: bold;
+				color: #fff;
+			}
+		}
+		.tips {
+			font-size: 28px;
+			font-weight: 500;
+			color: rgba(255, 255, 255, 1);
+			line-height: 48px;
+			text-align: center;
+			margin-top: 40px;
+			margin-bottom: 63px;
+		}
+
+		.details {
+			overflow-y: hidden;
+			text-align: center;
+		}
+
+		.details-item {
+			display: inline-block;
+			text-align: center;
+			color: #0097ee;
+			font-size: 36px;
+			background-color: #fff;
+			border-radius: 50%;
+			margin: 0 30px 20px 30px;
+			width: 80px;
+			height: 80px;
+			line-height: 80px;
+			&.err {
+				color: #ff3254;
+			}
+
+			&.none {
+				color: #ccc;
+			}
+		}
+	}
+	@import "../../assets/modules/exam/exam.rslt.media.scss";
+</style>
+
+<template>
+	<section rs-view="exam.result"
+	         class="bg">
+		<rx-header @back="handleBack">{{name}}</rx-header>
+		<ques-banner is-finished
+		             :cost-time="info.usedTime"
+		             :end-time="info.endTime"></ques-banner>
+		<div class="card-wrap">
+			<img :src="getLocalMduImg('exam','win-card')" />
+			<p>{{info.score || 0}}</p>
+		</div>
+		<p class="tips">答对{{okCount}}道题，答错{{failCount}}道，未答{{noneCount}}道</p>
+		<div class="details">
+			<rx-row align="center"
+			        :flex="false">
+				<rx-col :span="4"
+				        v-for="(i,index) in info.resultList"
+				        :key="index">
+					<p class="details-item"
+					   :class="[{[`err`]:i===2,[`none`]:i===3}]">{{index+1}}</p>
+				</rx-col>
+			</rx-row>
+		</div>
+		<div class="btns fixed"
+		     v-if="repeat">
+			<rx-btn type="primary">重新答题</rx-btn>
+		</div>
+	</section>
+</template>
+
+<script>
+	export default {
+		name: "ExamResult",
+		components: {
+			QuesBanner: () =>
+				import(/* webpackChunkName:"wc.exam.ques.banner" */ "~c/exam/ques-banner.vue")
+		},
+		data() {
+			return {
+				name: "",
+				repeat: "",
+				testId: "",
+				taskId: "",
+				okCount: 0,
+				failCount: 0,
+				noneCount: 0,
+				info: { resultList: [] }
+			};
+		},
+		methods: {
+			__fetch() {
+				this.$http.exam
+					.finish({
+						taskId: this.taskId,
+						testId: this.testId,
+						userId: this.authInfo.userId
+					})
+					.then(data => {
+						this.info = data;
+						data.resultList.forEach(it => {
+							if (it === 3) {
+								this.noneCount += 1;
+							} else if (it === 2) {
+								this.failCount += 1;
+							} else {
+								this.okCount += 1;
+							}
+						});
+					})
+					.catch(err => {
+						this.$alert(err.msg || err.message);
+
+						const data = {
+							score: 90,
+							usedTime: "31分13秒", // 用时
+							endTime: "2018-10-20 18:07",
+							resultList: [
+								3,
+								3,
+								2,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3,
+								3
+							]
+						};
+
+						this.info = data;
+						data.resultList.forEach(it => {
+							if (it === 3) {
+								this.noneCount += 1;
+							} else if (it === 2) {
+								this.failCount += 1;
+							} else {
+								this.okCount += 1;
+							}
+						});
+					});
+			},
+			handleBack() {
+				this.$router.back();
+			}
+		},
+		activated() {
+			this.getQS("testId", "taskId", "repeat", "name");
+			this.name = this.name ? decodeURIComponent(this.name) : "";
+			this.__fetch();
+		}
+	};
+</script>
