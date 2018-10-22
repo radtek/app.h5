@@ -173,7 +173,10 @@
 			}
 		},
 		created() {
-			if (this.$isDev) {
+			if (!this.$isDev) {
+				try {
+					JXRSApi.app.exam.hideHeader();
+				} catch (e) {}
 				JXRSApi.on("app.exam.back", () => {
 					this.handleBack();
 				});

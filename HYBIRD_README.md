@@ -495,20 +495,9 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 demo: JXRSApi.invoke("app.education.refreshComments")
 ```
 
-
 # 4. 考试H5页面
 
 ## 考试列表页面
-
-> 通知App显示头部
-
-```js 
-App端接收H5的通知
-
-操作名称: app.exam.showHeader
-
-操作参数: 无
-```
 
 > 通知App当前页面是考试首页
 
@@ -521,6 +510,16 @@ App端接收H5的通知
 ```
 
 ## 考试详情页面、考试答题页面、考试结果页面
+
+> 通知App隐藏头部
+
+```js 
+App端接收H5的通知
+
+操作名称: app.exam.hideHeader
+
+操作参数: 无
+```
 
 > App端点击回退,通知H5来调用H5内部的路由回退
 
