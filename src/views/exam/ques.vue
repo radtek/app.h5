@@ -244,15 +244,18 @@
 		},
 		created() {
 			if (!this.$isDev) {
-				try {
-					JXRSApi.app.exam.hideHeader();
-				} catch (e) {}
 				JXRSApi.on("app.exam.back", () => {
 					this.handleBack();
 				});
 			}
 		},
 		activated() {
+			if (!this.$isDev) {
+				try {
+					JXRSApi.app.exam.hideHeader();
+				} catch (e) {}
+			}
+
 			this.getQS(
 				"taskId",
 				"testId",

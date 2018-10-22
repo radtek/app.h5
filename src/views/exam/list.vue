@@ -106,12 +106,10 @@
 					});
 			}
 		},
-		created() {
+		activated() {
 			if (!this.$isDev) {
 				JXRSApi.app.exam.tellNativeIsExamIndex();
 			}
-		},
-		activated() {
 			this.__fetch();
 		}
 	};
