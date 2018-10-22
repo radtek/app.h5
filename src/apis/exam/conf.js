@@ -54,6 +54,12 @@ export default [
 		reqParams: ["userId", "taskId", "titleId"]
 	},
 	{
+		verb: "get",
+		outKey: "getAllSubmitQues",
+		action: "infoTitle/getAnswerSheet.lm",
+		reqParams: ["userId", "taskId"]
+	},
+	{
 		// 提交回答
 		verb: "post",
 		outKey: "submit",

@@ -48,7 +48,7 @@
 
 		.score {
 			position: absolute;
-			bottom: 30px;
+			bottom: 90px;
 			right: 45px;
 			font-size: 32px;
 			z-index: 1;
@@ -102,8 +102,9 @@
 			   v-else>
 				<span :class="[{[`unexam`]:item.state === 3}]"
 				      v-if="item.score === '未答' ">未答</span>
-				<span v-else
-				      class="num">{{parseInt(item.score,10)}}</span>
+				<template v-else>
+					<span class="num">{{parseInt(item.score,10)}}</span>分
+				</template>
 			</p>
 		</template>
 	</li>

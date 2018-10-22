@@ -123,6 +123,8 @@
 						this.$router.push({
 							path: "/ques",
 							query: {
+								ltype: 1,
+								atype: this.info.answerType,
 								name: this.info.name,
 								testId: data.result.testId,
 								taskId: this.taskId,
@@ -144,28 +146,40 @@
 						this.$router.push({
 							path: "/result",
 							query: {
+								ltype: 1,
+								atype: this.info.answerType,
 								name: this.info.name,
 								testId: data.result.testId,
 								taskId: this.taskId,
-								userId: this.authInfo.userId,
-								repeat: this.info.answerType === 2 ? "1" : ""
+								userId: this.authInfo.userId
 							}
 						});
 					})
-					.catch(() => {
-						this.$toast.text("获取结果失败", "bottom");
+					.catch(err => {
 						this.loading = false;
-						this.$router.push({
-							path: "/result",
-							query: {
-								name: this.info.name,
-								testId: "",
-								taskId: this.taskId,
-								userId: this.authInfo.userId,
-								repeat: this.info.answerType === 2 ? "1" : ""
-							}
-						});
+						if (err.msg === "已完成答题") {
+							this.$router.push({
+								path: "/result",
+								query: {
+									ltype: 1,
+									atype: this.info.answerType,
+									name: this.info.name,
+									testId: err.result.testId,
+									taskId: this.taskId,
+									userId: this.authInfo.userId
+								}
+							});
+						} else {
+							this.$toast.text("获取结果失败", "bottom");
+						}
 					});
+			}
+		},
+		created() {
+			if (this.$isDev) {
+				JXRSApi.on("app.exam.back", () => {
+					this.handleBack();
+				});
 			}
 		},
 		activated() {

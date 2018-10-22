@@ -16,7 +16,8 @@
 		<rx-header @back="handleBack">{{name}}</rx-header>
 		<ques-banner :current="current"
 		             :total="titles.length"
-		             :test-time="restTime"></ques-banner>
+		             :test-time="restTime"
+		             @time-end="handleTimeEnd"></ques-banner>
 		<div class="container">
 			<ques-item :item="currentInfo"
 			           :index="current"></ques-item>
@@ -28,11 +29,11 @@
 			<rx-btn type="primary"
 			        @on-click="handleGotoNext"
 			        v-if="current<titles.length"
-			        :loading="loading">{{loading?"此题答案提交中...":"下一题"}}</rx-btn>
+			        :loading="loading">{{loading?"提交中...":"下一题"}}</rx-btn>
 			<rx-btn type="primary"
 			        @on-click="handleSubmit"
 			        v-if="current === titles.length"
-			        :loading="loading">{{loading?"答案提交中...":"提交答卷"}}</rx-btn>
+			        :loading="loading">{{loading?"答卷提交中...":"提交答卷"}}</rx-btn>
 		</div>
 	</section>
 </template>
@@ -49,35 +50,15 @@
 		data() {
 			return {
 				current: 1,
-				currentInfo: {},
+				currentInfo: { selected: [] },
 				restTime: "",
-				titles: [
-					"502876502560747553",
-					"502876502560747523",
-					"502876502552358940",
-					"502876502556553254",
-					"502876502548164613",
-					"502876502552358915",
-					"502876502560747538",
-					"502876502560747558",
-					"502876502564941833",
-					"502876502552358935",
-					"502876502564941843",
-					"502876502556553229",
-					"502876502560747528",
-					"502876502556553249",
-					"502876502552358920",
-					"502876502556553239",
-					"502876502548164608",
-					"502876502560747563",
-					"502876502552358930",
-					"502876502556553259",
-					"502876502560747543",
-					"502876502556553244"
-				],
+				titles: [],
 				taskId: "",
 				testId: "",
 				name: "",
+				ltype: "",
+				atype: "",
+				type: "",
 				loading: false
 			};
 		},
@@ -91,7 +72,10 @@
 					.then(data => {
 						this.restTime = data.restTime;
 						this.titles = data.titleList
-							? data.titleList.map(it => ({ id: it }))
+							? data.titleList.map(it => ({
+									id: it,
+									submited: false
+							  }))
 							: [];
 						return this.__fetchQues(
 							this.titles[0].id,
@@ -104,6 +88,21 @@
 							this.titles[0],
 							(this.current = 1) - 1
 						);
+					});
+			},
+			__fetchAllSubmitedQues() {
+				return this.$http.exam
+					.getAllSubmitQues({
+						userId: this.userId,
+						taskId: this.taskId
+					})
+					.then(data => {
+						if (!data.data || !data.data.length) return;
+						this.titles.forEach(it => {
+							data.data.forEach(item => {
+								it.submited = item === it.id;
+							});
+						});
 					});
 			},
 			__fetchQues(titleId, titleIndex) {
@@ -120,13 +119,25 @@
 							type: data.infoTitle.titleType,
 							score: data.infoTitle.titleScore,
 							state: 0,
-							selected: [],
+							selected: data.selectList
+								? data.selectList.map(it => it.answerId)
+								: [],
 							ans: data.anList
 						};
 					})
 					.catch(() => {
 						this.$toast.text("问题详情获取失败", "top");
 					});
+			},
+			__doSubmit() {
+				const index = this.current - 1;
+				return this.$http.exam.submit({
+					userId: this.userId,
+					taskId: this.taskId,
+					testId: this.testId,
+					titleId: this.titles[index].id,
+					answerIds: this.titles[index].selected.join("#")
+				});
 			},
 			handleBack() {
 				const noneArrs = this.titles.filter(
@@ -155,7 +166,7 @@
 					// 代表是已经获取过详情的
 					this.currentInfo = quesInfo;
 				} else {
-					return this.__fetchQues(this.titles[this.current]);
+					return this.__fetchQues(quesInfo.id, this.current - 1);
 				}
 			},
 			handleGotoNext() {
@@ -168,46 +179,38 @@
 				if (this.loading) return;
 				this.loading = true;
 
-				this.$http.exam
-					.submit({
-						userId: this.userId,
-						taskId: this.taskId,
-						testId: this.testId,
-						titleId: this.titles[this.current - 1].id,
-						answerIds: selected.join("#")
-					})
+				this.__doSubmit()
 					.then(() => {
 						this.loading = false;
 						this.__toNext();
 					})
 					.catch(() => {
 						this.loading = false;
-						this.$toast.text("提交答案失败", "bottom");
+						this.$alert("提交当前问题答案失败");
 					});
 			},
 			handleSubmit() {
-				const selected = this.titles[this.current - 1].selected;
 				this.$confirm({
 					title: "提交确认",
 					content: "是否确认提交此答卷?",
-					yesText: "提交中..."
+					yesText: "提交",
+					loadingText: "提交中..."
 				}).then(done => {
-					return this.$http.exam
-						.submit({
-							userId: this.userId,
-							taskId: this.taskId,
-							testId: this.testId,
-							titleId: this.titles[this.current - 1].id,
-							answerIds: selected.join("#")
-						})
+					return this.__doSubmit()
 						.then(() => {
 							done();
 							this.$confirm.close();
 							this.$router.push({
-								name: this.name,
-								userId: this.userId,
-								taskId: this.taskId,
-								testId: this.testId
+								path: "/result",
+								query: {
+									ltype: this.ltype,
+									atype: this.atype,
+									type: this.type,
+									name: this.name,
+									userId: this.userId,
+									taskId: this.taskId,
+									testId: this.testId
+								}
 							});
 						})
 						.catch(() => {
@@ -216,12 +219,48 @@
 							this.$toast.text("提交失败", "bottom");
 						});
 				});
+			},
+			handleTimeEnd() {
+				// 提交当前题目的答案
+				return this.__doSubmit()
+					.then(() => {
+						return this.$router.push({
+							path: "/result",
+							query: {
+								ltype: this.ltype,
+								atype: this.atype,
+								type: this.type,
+								name: this.name,
+								userId: this.userId,
+								taskId: this.taskId,
+								testId: this.testId
+							}
+						});
+					})
+					.catch(() => {
+						this.$alert("提交答卷失败");
+					});
+			}
+		},
+		created() {
+			if (this.$isDev) {
+				JXRSApi.on("app.exam.back", () => {
+					this.handleBack();
+				});
 			}
 		},
 		activated() {
-			this.getQS("taskId", "testId", "userId", "name");
+			this.getQS(
+				"taskId",
+				"testId",
+				"userId",
+				"name",
+				"ltype",
+				"atype",
+				"type"
+			);
 			this.name = this.name ? decodeURIComponent(this.name) : "";
-			this.__fetchAllQues();
+			this.__fetchAllQues().then(this.__fetchAllSubmitedQues);
 		}
 	};
 </script>

@@ -135,6 +135,7 @@ export function createApis(...apiMapData) {
 						})
 						.catch(err => {
 							const error = {
+								result: err.result,
 								action: item.action,
 								code: err.errorCode || 500,
 								msg: err.message || err.msg || err.INFO

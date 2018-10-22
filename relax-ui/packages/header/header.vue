@@ -37,7 +37,8 @@
 	        justify="center">
 		<rx-col :span="4">
 			<div class="rx-header_back"
-			     @click="onBackClick">
+			     @click="onBackClick"
+			     v-if="showBack">
 				<slot name="back">
 					<i class="rx-icon icon-arrow-left"></i>
 				</slot>
@@ -65,7 +66,8 @@
 		props: {
 			fixed: { type: Boolean, default: true },
 			title: String,
-			showRight: Boolean
+			showRight: Boolean,
+			showBack: { type: Boolean, default: true }
 		},
 		methods: {
 			onBackClick() {

@@ -24,7 +24,7 @@
 				</rx-col>
 				<rx-col>
 					<i class="rx-icon icon-time"></i>
-					<span>剩{{remainTime}}</span>
+					<span>剩{{time}}</span>
 				</rx-col>
 				<rx-col>
 					<span>答题卡</span>
@@ -56,19 +56,35 @@
 		},
 		data() {
 			return {
-				time: this.testTime
+				time: "",
+				numberTime: this.testTime
 			};
 		},
 		watch: {
 			testTime(val) {
-				this.time = val;
+				this.numberTime = val;
+				this.__calc();
 			}
 		},
-		computed: {
-			remainTime() {
-				if (this.time) {
-					return this.time + "分";
+		methods: {
+			__calc() {
+				this.numberTime -= 1000;
+
+				if (this.numberTime <= 0) {
+					this.time = "0分0秒";
+					this.$emit("time-end");
+					return;
 				}
+
+				this.time =
+					parseInt(this.numberTime / 1000 / 60, 10) +
+					"分" +
+					parseInt((this.numberTime % (1000 * 60)) / 1000, 10) +
+					"秒";
+
+				setTimeout(() => {
+					this.__calc();
+				}, 1000);
 			}
 		}
 	};

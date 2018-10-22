@@ -28,8 +28,10 @@
 		}
 
 		.details {
-			overflow-y: hidden;
 			text-align: center;
+			padding: 0 30px;
+			overflow-y: auto;
+			max-height: 450px;
 		}
 
 		.details-item {
@@ -58,7 +60,8 @@
 <template>
 	<section rs-view="exam.result"
 	         class="bg">
-		<rx-header @back="handleBack">{{name}}</rx-header>
+		<rx-header @back="handleBack"
+		           :show-back="ltype==='1'">{{name}}</rx-header>
 		<ques-banner is-finished
 		             :cost-time="info.usedTime"
 		             :end-time="info.endTime"></ques-banner>
@@ -79,8 +82,9 @@
 			</rx-row>
 		</div>
 		<div class="btns fixed"
-		     v-if="repeat">
-			<rx-btn type="primary">重新答题</rx-btn>
+		     v-if="atype === '2'">
+			<rx-btn type="primary"
+			        @on-click="handleRepeatTest">重新答题</rx-btn>
 		</div>
 	</section>
 </template>
@@ -94,8 +98,11 @@
 		},
 		data() {
 			return {
+				loading: false,
+				ltype: "",
+				type: "",
+				atype: "",
 				name: "",
-				repeat: "",
 				testId: "",
 				taskId: "",
 				okCount: 0,
@@ -126,56 +133,58 @@
 					})
 					.catch(err => {
 						this.$alert(err.msg || err.message);
-
-						const data = {
-							score: 90,
-							usedTime: "31分13秒", // 用时
-							endTime: "2018-10-20 18:07",
-							resultList: [
-								3,
-								3,
-								2,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3,
-								3
-							]
-						};
-
-						this.info = data;
-						data.resultList.forEach(it => {
-							if (it === 3) {
-								this.noneCount += 1;
-							} else if (it === 2) {
-								this.failCount += 1;
-							} else {
-								this.okCount += 1;
-							}
-						});
 					});
 			},
 			handleBack() {
-				this.$router.back();
+				this.$router.replace({
+					path: "/list",
+					query: {
+						userId: this.authInfo.userId
+					}
+				});
+			},
+			handleRepeatTest() {
+				if (this.loading) return;
+
+				this.loading = true;
+
+				const option = {
+					titleTaskId: this.taskId,
+					userId: this.authInfo.userId,
+					loginType: this.ltype,
+					type: this.ltype === "1" ? 1 : this.type,
+					answerType: this.atype
+				};
+
+				this.$http.exam.login(option).then(data => {
+					this.$router.replace({
+						path: "/ques",
+						query: {
+							ltype: this.ltype,
+							atype: this.atype,
+							type: this.type,
+							name: this.name,
+							testId: data.result.testId,
+							taskId: this.taskId,
+							userId: this.authInfo.userId
+						}
+					});
+				});
+			}
+		},
+		created() {
+			if (this.$isDev) {
+				JXRSApi.on("app.exam.back", () => {
+					this.handleBack();
+				});
 			}
 		},
 		activated() {
-			this.getQS("testId", "taskId", "repeat", "name");
+			this.getQS("testId", "taskId", "name", "ltype", "type", "atype");
 			this.name = this.name ? decodeURIComponent(this.name) : "";
+			this.okCount = 0;
+			this.failCount = 0;
+			this.noneCount = 0;
 			this.__fetch();
 		}
 	};

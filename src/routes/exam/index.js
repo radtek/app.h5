@@ -11,9 +11,9 @@ export function createRoutes(Vue) {
 		routes: [
 			{
 				// 提供给外部所有人的公开链接
-				path: "/index",
+				path: "/login",
 				component: () =>
-					import(/* webpackChunkName: "p.exam.index" */ `~v/${MODULENAME}/index.vue`)
+					import(/* webpackChunkName: "p.exam.login" */ `~v/${MODULENAME}/index.vue`)
 			},
 			{
 				path: "/list",

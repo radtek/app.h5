@@ -199,6 +199,9 @@
 						this.$router.replace({
 							path: "/ques",
 							query: {
+								ltype: 2, // 考试登录类型
+								type: this.loginMode === "dj" ? 1 : 2, // 登录用户的身份类型
+								atype: this.info.answerType, // 考试次数
 								name: this.info.name,
 								taskId: this.taskId,
 								userId: data.result.userId,

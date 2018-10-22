@@ -72,6 +72,26 @@
 				currentSelected: ""
 			};
 		},
+		watch: {
+			item: {
+				deep: true,
+				handler() {
+					if (this.item.selected && this.item.selected.length) {
+						const selected = this.item.ans.filter(
+							it => it.id === this.item.selected[0]
+						);
+						if (selected && selected.length) {
+							this.currentSelected =
+								selected[0].answerTag +
+								"." +
+								selected[0].answerContent;
+						}
+					} else {
+						this.currentSelected = "";
+					}
+				}
+			}
+		},
 		methods: {
 			onChange({ checked, curValue }) {
 				if (checked) {
