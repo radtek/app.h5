@@ -26,6 +26,7 @@
 
 		&_right {
 			text-align: right;
+			padding-right: 30px;
 		}
 	}
 </style>
@@ -51,7 +52,7 @@
 			</div>
 		</rx-col>
 		<rx-col :span="4">
-			<div class="rx-header_next"
+			<div class="rx-header_right"
 			     @click="onRightClick"
 			     v-if="showRight">
 				<slot name="right"></slot>

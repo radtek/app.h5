@@ -1,5 +1,5 @@
 <style lang="scss">
-	@import "../../assets/modules/news/view-detail.scss";
+	@import "../../assets/modules/edu/view-detail.scss";
 	[rs-view="detail"] {
 		.content {
 			img {

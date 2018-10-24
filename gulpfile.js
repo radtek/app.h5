@@ -12,6 +12,8 @@ const zipDestDir = path.join(__dirname, `./depoly/`);
 const targetDir = path.join(__dirname, `./jxrs-h5-depoly/${env}/${appName}`);
 const prevDepolyDir = path.join(__dirname, `./depoly/${env}/${appName}`);
 
+const jxrsConf = require("./build/jxrs.h5.conf");
+
 function getFileRealName(rootDir, file) {
 	const obj = path.parse(file);
 	if (~file.indexOf(`${path.sep}static${path.sep}`)) {
@@ -25,7 +27,12 @@ function getFileRealName(rootDir, file) {
 		} else {
 			realExt = arr[arr.length - 1];
 			hash = arr[arr.length - 2];
-			arr.splice(arr.length - 2, 2);
+			if (hash === jxrsConf.assets.hashLen) {
+				arr.splice(arr.length - 2, 2);
+			} else {
+				hash = "";
+				arr.splice(arr.length - 1, 1);
+			}
 		}
 		return [arr.join(".") + "." + realExt, hash];
 	}

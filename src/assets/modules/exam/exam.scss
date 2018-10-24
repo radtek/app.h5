@@ -1,7 +1,17 @@
 [rs-view^="exam"] {
 	&.bg {
+		position: relative;
+		min-width: 2 * 320px;
+		max-width: 2 * 414px;
+		margin: auto;
 		background: url("./imgs/bg.png") no-repeat;
 		background-size: cover;
+
+		.rx-header {
+			position: absolute;
+			min-width: 2 * 320px;
+			max-width: 2 * 414px;
+		}
 	}
 
 	.pane-box {

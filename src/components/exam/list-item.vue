@@ -30,7 +30,7 @@
 				font-weight: 500;
 				color: #999;
 				top: 5px;
-				right: 15px;
+				right: 10px;
 			}
 		}
 		.content {
@@ -48,8 +48,8 @@
 
 		.score {
 			position: absolute;
-			bottom: 90px;
-			right: 45px;
+			bottom: 30px;
+			right: 30px;
 			font-size: 32px;
 			z-index: 1;
 			line-height: 1;
@@ -64,7 +64,7 @@
 				color: #ff3254;
 			}
 			.num {
-				font-size: 60px;
+				font-size: 45px;
 			}
 		}
 	}

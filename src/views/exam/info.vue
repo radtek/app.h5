@@ -35,7 +35,12 @@
 <template>
 	<section rs-view="exam.info"
 	         class="bg">
-		<rx-header @back="handleBack"></rx-header>
+		<rx-header @back="handleBack"
+		           show-right>
+			<i class="rx-icon icon-share"
+			   slot="right"
+			   @click.stop="handleShare"></i>
+		</rx-header>
 		<div class="container">
 			<div class="title">
 				{{info.name}}
@@ -173,6 +178,16 @@
 							this.$toast.text("获取结果失败", "bottom");
 						}
 					});
+			},
+			handleShare() {
+				const url = `${window.location.origin}/exam/login?taskId=${
+					this.taskId
+				}`;
+				if (!this.$isDev) {
+					JXRSApi.app.exam.share(url);
+				} else {
+					alert(url);
+				}
 			}
 		},
 		created() {

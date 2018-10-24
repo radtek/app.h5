@@ -1,6 +1,11 @@
 
-<style lang="sass">
-@import "../../assets/modules/news/view-detail.scss"
+<style lang="scss">
+	@import "../../assets/modules/news/view-detail.scss";
+	[rs-view="detail"] {
+		.pane_of_comment .rx-card_header span {
+			border-left: none;
+		}
+	}
 </style>
 
 <template>
@@ -51,6 +56,7 @@
 				<comment-pane ref="comment"
 				              :total="total"
 				              :list="list"
+				              :is-show-zan="false"
 				              @on-empty-click="handleCommentEmptyClick">
 					<comment-item ref="items"
 					              v-for="(comment,index) in list"

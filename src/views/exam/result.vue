@@ -117,7 +117,7 @@
 					.finish({
 						taskId: this.taskId,
 						testId: this.testId,
-						userId: this.authInfo.userId
+						userId: this.userId
 					})
 					.then(data => {
 						this.info = data;
@@ -139,34 +139,46 @@
 				this.$router.replace({
 					path: "/list",
 					query: {
-						userId: this.authInfo.userId
+						userId: this.userId
 					}
 				});
 			},
 			handleRepeatTest() {
 				if (this.loading) return;
-
 				this.loading = true;
 
 				const option = {
 					titleTaskId: this.taskId,
-					userId: this.authInfo.userId,
+					userId: this.userId,
 					loginType: this.ltype,
 					type: this.ltype === "1" ? 1 : this.type,
-					answerType: this.atype
+					answerType: this.atype,
+					answerAagin: 1
 				};
+
+				if (this.ltype === "2") {
+					if (this.type === "2") {
+						option.userName = this.act;
+						option.identityId = this.pwd;
+					} else {
+						option.userPhonenumber = this.act;
+						option.passwd = this.pwd;
+					}
+				}
 
 				this.$http.exam.login(option).then(data => {
 					this.$router.replace({
 						path: "/ques",
 						query: {
+							act: this.act,
+							pwd: this.pwd,
 							ltype: this.ltype,
 							atype: this.atype,
 							type: this.type,
 							name: this.name,
 							testId: data.result.testId,
 							taskId: this.taskId,
-							userId: this.authInfo.userId
+							userId: this.userId
 						}
 					});
 				});
@@ -185,8 +197,20 @@
 					JXRSApi.app.exam.hideHeader();
 				} catch (e) {}
 			}
-			this.getQS("testId", "taskId", "name", "ltype", "type", "atype");
+			this.getQS(
+				"userId",
+				"testId",
+				"taskId",
+				"name",
+				"ltype",
+				"type",
+				"atype",
+				"pwd",
+				"act"
+			);
 			this.name = this.name ? decodeURIComponent(this.name) : "";
+			this.act = this.act ? decodeURIComponent(this.act) : "";
+			this.info = { resultList: [] };
 			this.okCount = 0;
 			this.failCount = 0;
 			this.noneCount = 0;

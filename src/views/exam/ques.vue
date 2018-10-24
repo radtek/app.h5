@@ -59,6 +59,8 @@
 				ltype: "",
 				atype: "",
 				type: "",
+				act: "",
+				pwd: "",
 				loading: false
 			};
 		},
@@ -203,6 +205,8 @@
 							this.$router.push({
 								path: "/result",
 								query: {
+									pwd: this.pwd,
+									act: this.act,
 									ltype: this.ltype,
 									atype: this.atype,
 									type: this.type,
@@ -227,6 +231,8 @@
 						return this.$router.push({
 							path: "/result",
 							query: {
+								pwd: this.pwd,
+								act: this.act,
 								ltype: this.ltype,
 								atype: this.atype,
 								type: this.type,
@@ -263,9 +269,12 @@
 				"name",
 				"ltype",
 				"atype",
-				"type"
+				"type",
+				"act",
+				"pwd"
 			);
 			this.name = this.name ? decodeURIComponent(this.name) : "";
+			this.act = this.act ? decodeURIComponent(this.act) : "";
 			this.__fetchAllQues().then(this.__fetchAllSubmitedQues);
 		}
 	};

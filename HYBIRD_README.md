@@ -532,3 +532,19 @@ App调用方式: JXRSApi.invoke("操作名称",操作参数);
 
 demo: JXRSApi.invoke("app.exam.back")
 ```
+
+
+## 考试详情页面
+
+> 通知App唤起分享
+
+```js 
+App端接收H5的通知
+
+操作名称: app.exam.share
+
+操作参数: 
+	{
+		url: 分享出去的H5链接地址
+	}
+```

@@ -12,7 +12,8 @@ export default [
 			{ name: "userName", default: "" },
 			{ name: "identityId", default: "" },
 			{ name: "userId", default: "" },
-			{ name: "answerType", default: 1 }
+			{ name: "answerType", default: 1 },
+			{ name: "answerAgain", default: 0 }
 		]
 	},
 	{

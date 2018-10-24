@@ -48,7 +48,7 @@
 <template>
 	<section rs-view="exam.index"
 	         class="bg">
-		<rx-header v-show="loginMode"
+		<rx-header v-show="needBack && loginMode"
 		           @back="handleBack"></rx-header>
 		<div class="container">
 			<div class="title">
@@ -112,6 +112,7 @@
 			return {
 				taskId: "",
 				loginMode: "",
+				needBack: true,
 				info: {},
 				loading: false,
 				formData: {
@@ -145,6 +146,10 @@
 					})
 					.then(data => {
 						this.info = data.introduction;
+						if (this.info.titleRange === 1) {
+							this.needBack = false;
+							this.loginMode = "dj";
+						}
 					});
 			},
 			handleClick() {
@@ -196,18 +201,29 @@
 					.login(option)
 					.then(data => {
 						this.loading = false;
-						this.$router.replace({
-							path: "/ques",
-							query: {
-								ltype: 2, // 考试登录类型
-								type: this.loginMode === "dj" ? 1 : 2, // 登录用户的身份类型
-								atype: this.info.answerType, // 考试次数
-								name: this.info.name,
-								taskId: this.taskId,
-								userId: data.result.userId,
-								testId: data.result.testId
-							}
-						});
+						const query = {
+							type: this.loginMode === "dj" ? 1 : 2, // 登录用户的身份类型
+							atype: this.info.answerType, // 考试次数
+							ltype: 2, // 考试登录类型 1.手机免登录 2.链接
+							name: this.info.name,
+							taskId: this.taskId,
+							userId: data.result.userId,
+							testId: data.result.testId
+						};
+
+						if (this.loginMode === "dj") {
+							query.act = option.userPhonenumber;
+							query.pwd = option.passwd;
+						} else {
+							query.act = option.userName;
+							query.pwd = option.identityId;
+						}
+
+						if (data.result.hasAnswer) {
+							this.$router.replace({ path: "/result", query });
+						} else {
+							this.$router.replace({ path: "/ques", query });
+						}
 					})
 					.catch(err => {
 						this.loading = false;
