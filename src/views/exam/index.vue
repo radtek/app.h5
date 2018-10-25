@@ -9,13 +9,13 @@
 			.title {
 				color: #fff;
 				font-size: 48px;
-				padding-top: 139px;
+				padding-top: 119px;
 				line-height: 1;
 				text-align: center;
 			}
 
 			.exam-rule {
-				margin: 156px 72px 44px 72px;
+				margin: 126px 72px 44px 72px;
 			}
 		}
 
@@ -227,7 +227,12 @@
 					})
 					.catch(err => {
 						this.loading = false;
-						this.$alert(err.msg || err.message);
+						this.$alert(err.msg || err.message).then(() => {
+							if (err.code === "63") {
+								this.formData.mobile = this.formData.psw = "";
+								this.loginMode = "other";
+							}
+						});
 					});
 			},
 			handleBack() {

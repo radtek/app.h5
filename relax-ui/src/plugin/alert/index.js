@@ -25,9 +25,23 @@ const Alert = function(content, title = "提示") {
 		instance.$vm = instance.$mount();
 		document.body.appendChild(instance.$vm.$el);
 	}
+
+	let pready;
+
+	instance.$off("ok");
+
+	instance.$on("ok", () => {
+		instance.$vm.show = false;
+		pready();
+	});
+
 	mergeVmOptions(instance.$vm, options);
 
 	instance.$vm.show = true;
+
+	return new Promise((resolve, reject) => {
+		pready = resolve;
+	});
 };
 
 export default Alert;

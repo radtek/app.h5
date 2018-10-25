@@ -30,8 +30,8 @@ function getFileRealName(rootDir, file) {
 			if (hash === jxrsConf.assets.hashLen) {
 				arr.splice(arr.length - 2, 2);
 			} else {
-				hash = "";
 				arr.splice(arr.length - 1, 1);
+				hash = arr.join(".");
 			}
 		}
 		return [arr.join(".") + "." + realExt, hash];

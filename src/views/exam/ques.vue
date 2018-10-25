@@ -73,12 +73,11 @@
 					})
 					.then(data => {
 						this.restTime = data.restTime;
-						this.titles = data.titleList
-							? data.titleList.map(it => ({
-									id: it,
-									submited: false
-							  }))
-							: [];
+						this.titles = data.titleList || [];
+						this.titles = this.titles.map(it => ({
+							id: it,
+							submited: false
+						}));
 						return this.__fetchQues(
 							this.titles[0].id,
 							(this.current = 1) - 1
@@ -96,10 +95,18 @@
 				return this.$http.exam
 					.getAllSubmitQues({
 						userId: this.userId,
-						taskId: this.taskId
+						taskId: this.taskId,
+						testId: this.testId
 					})
 					.then(data => {
-						if (!data.data || !data.data.length) return;
+						if (!data.data || !data.data.length) {
+							// 清空上次的答案内容
+							this.titles.forEach(it => {
+								it.selected = [];
+							});
+
+							return;
+						}
 						this.titles.forEach(it => {
 							data.data.forEach(item => {
 								it.submited = item === it.id;
@@ -112,7 +119,8 @@
 					.getQuesDetail({
 						userId: this.userId,
 						taskId: this.taskId,
-						titleId
+						titleId,
+						testId: this.testId
 					})
 					.then(data => {
 						this.titles[titleIndex] = this.currentInfo = {
@@ -148,13 +156,40 @@
 				if (noneArrs && noneArrs.length) {
 					this.$confirm(
 						"考试未完成提醒",
-						"您的答题还未全部填写完, 是否确认离开?"
-					).then(done => {
-						// 更新当前答题
-						done();
-						this.$confirm.close();
-						this.$router.back();
-					});
+						"您的答题还未全部填写完, 会自动认为您提交答卷, 是否确认离开?"
+					)
+						.then(done => {
+							// 提交问卷
+							return this.__doSubmit()
+								.then(() => {
+									done();
+									this.$confirm.close();
+									this.$router.push({
+										path: "/result",
+										query: {
+											pwd: this.pwd,
+											act: this.act,
+											ltype: this.ltype,
+											atype: this.atype,
+											type: this.type,
+											name: this.name,
+											userId: this.userId,
+											taskId: this.taskId,
+											testId: this.testId
+										}
+									});
+								})
+								.catch(() => {
+									done();
+									this.$confirm.close();
+									this.$toast.text("提交失败", "bottom");
+								});
+						})
+						.catch(err => {
+							if (err !== false) {
+								return false;
+							}
+						});
 				}
 			},
 			handleGotoPrev() {
@@ -224,28 +259,38 @@
 						});
 				});
 			},
+			__gotoResult() {
+				this.$router.push({
+					path: "/result",
+					query: {
+						pwd: this.pwd,
+						act: this.act,
+						ltype: this.ltype,
+						atype: this.atype,
+						type: this.type,
+						name: this.name,
+						userId: this.userId,
+						taskId: this.taskId,
+						testId: this.testId
+					}
+				});
+			},
 			handleTimeEnd() {
-				// 提交当前题目的答案
-				return this.__doSubmit()
-					.then(() => {
-						return this.$router.push({
-							path: "/result",
-							query: {
-								pwd: this.pwd,
-								act: this.act,
-								ltype: this.ltype,
-								atype: this.atype,
-								type: this.type,
-								name: this.name,
-								userId: this.userId,
-								taskId: this.taskId,
-								testId: this.testId
-							}
-						});
-					})
-					.catch(() => {
-						this.$alert("提交答卷失败");
-					});
+				if (this.$route.path !== "/ques") return;
+				this.$alert("考试截止时间已到，稍后系统会自动计算分数。").then(
+					() => {
+						// // 提交当前题目的答案
+						return this.__doSubmit()
+							.then(() => {
+								this.__gotoResult();
+							})
+							.catch(err => {
+								if (err.code === "70") {
+									this.__gotoResult();
+								}
+							});
+					}
+				);
 			}
 		},
 		created() {

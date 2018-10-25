@@ -137,7 +137,7 @@ export function createApis(...apiMapData) {
 							const error = {
 								result: err.result,
 								action: item.action,
-								code: err.errorCode || 500,
+								code: "" + err.INFO || err.errorCode || 500,
 								msg: err.message || err.msg || err.INFO
 							};
 							if (err.passErr !== false) {

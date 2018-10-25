@@ -58,7 +58,7 @@
 					        type="primary"
 					        class="finished"
 					        :loading="loading"
-					        @on-click="handleInFinshedTask">{{loading?"获取结果中...":"答题完毕"}}</rx-btn>
+					        @on-click="handleInFinshedTask">{{loading?"获取结果中...":"点击查看结果"}}</rx-btn>
 					<rx-btn v-else
 					        type="primary"
 					        :loading="loading"
@@ -148,21 +148,24 @@
 				this.__doLogin()
 					.then(data => {
 						this.loading = false;
+
+						const query = {
+							ltype: 1,
+							atype: this.info.answerType,
+							name: this.info.name,
+							testId: data.result.testId,
+							taskId: this.taskId,
+							userId: this.userId
+						};
+
 						this.$router.push({
-							path: "/result",
-							query: {
-								ltype: 1,
-								atype: this.info.answerType,
-								name: this.info.name,
-								testId: data.result.testId,
-								taskId: this.taskId,
-								userId: this.authInfo.userId
-							}
+							path: data.result.hasAnswer ? "/result" : "/ques",
+							query
 						});
 					})
 					.catch(err => {
 						this.loading = false;
-						if (err.msg === "已完成答题") {
+						if (err.code === "64" || err.msg === "已完成答题") {
 							this.$router.push({
 								path: "/result",
 								query: {
@@ -171,7 +174,7 @@
 									name: this.info.name,
 									testId: err.result.testId,
 									taskId: this.taskId,
-									userId: this.authInfo.userId
+									userId: this.userId
 								}
 							});
 						} else {
@@ -184,7 +187,7 @@
 					this.taskId
 				}`;
 				if (!this.$isDev) {
-					JXRSApi.app.exam.share(url);
+					JXRSApi.app.exam.share({ url });
 				} else {
 					alert(url);
 				}
@@ -204,7 +207,7 @@
 				} catch (e) {}
 			}
 
-			this.getQS("taskId", "isin");
+			this.getQS("taskId", "userId", "isin");
 			this.__fetch();
 		}
 	};

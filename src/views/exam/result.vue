@@ -31,7 +31,7 @@
 			text-align: center;
 			padding: 0 30px;
 			overflow-y: auto;
-			max-height: 450px;
+			max-height: 420px;
 		}
 
 		.details-item {
@@ -52,6 +52,10 @@
 			&.none {
 				color: #ccc;
 			}
+		}
+
+		.btns.fixed {
+			bottom: 20px;
 		}
 	}
 	@import "../../assets/modules/exam/exam.rslt.media.scss";
@@ -153,7 +157,7 @@
 					loginType: this.ltype,
 					type: this.ltype === "1" ? 1 : this.type,
 					answerType: this.atype,
-					answerAagin: 1
+					answerAgain: 1
 				};
 
 				if (this.ltype === "2") {
@@ -166,22 +170,28 @@
 					}
 				}
 
-				this.$http.exam.login(option).then(data => {
-					this.$router.replace({
-						path: "/ques",
-						query: {
-							act: this.act,
-							pwd: this.pwd,
-							ltype: this.ltype,
-							atype: this.atype,
-							type: this.type,
-							name: this.name,
-							testId: data.result.testId,
-							taskId: this.taskId,
-							userId: this.userId
-						}
+				this.$http.exam
+					.login(option)
+					.then(data => {
+						this.loading = false;
+						this.$router.replace({
+							path: "/ques",
+							query: {
+								act: this.act,
+								pwd: this.pwd,
+								ltype: this.ltype,
+								atype: this.atype,
+								type: this.type,
+								name: this.name,
+								testId: data.result.testId,
+								taskId: this.taskId,
+								userId: this.userId
+							}
+						});
+					})
+					.catch(() => {
+						this.loading = false;
 					});
-				});
 			}
 		},
 		created() {

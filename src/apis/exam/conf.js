@@ -52,13 +52,13 @@ export default [
 		verb: "get",
 		outKey: "getQuesDetail",
 		action: "infoTitle/getTitleContent.lm",
-		reqParams: ["userId", "taskId", "titleId"]
+		reqParams: ["userId", "taskId", "titleId", "testId"]
 	},
 	{
 		verb: "get",
 		outKey: "getAllSubmitQues",
 		action: "infoTitle/getAnswerSheet.lm",
-		reqParams: ["userId", "taskId"]
+		reqParams: ["userId", "taskId", "testId"]
 	},
 	{
 		// 提交回答

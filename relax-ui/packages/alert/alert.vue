@@ -24,7 +24,7 @@
 				<rx-btn type="primary"
 				        plain
 				        style="width:100%;"
-				        @on-click="show = false;">{{okText || $t("rx.alert.ok")}}</rx-btn>
+				        @on-click="handleClick">{{okText || $t("rx.alert.ok")}}</rx-btn>
 			</div>
 		</dlg>
 	</div>
@@ -56,6 +56,12 @@
 			},
 			show(val) {
 				this.$emit("input", val);
+			}
+		},
+		methods: {
+			handleClick() {
+				this.show = false;
+				this.$emit("ok");
 			}
 		},
 		created() {
