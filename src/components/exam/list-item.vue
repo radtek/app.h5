@@ -129,7 +129,7 @@
 						return "进行中";
 					case 2:
 					default:
-						return "待开始";
+						return "未开始";
 				}
 			},
 			stateStyle() {

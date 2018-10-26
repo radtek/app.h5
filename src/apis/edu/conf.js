@@ -10,6 +10,7 @@ export default [
 	{
 		// 获取学习教育详情的相关评论列表
 		outKey: "getComments",
+		needPassport: true,
 		action: "mobile/v1/studyCustomController/getContentCommentList.lm",
 		reqParams: [
 			"contentId",

@@ -75,21 +75,29 @@
 			},
 			__fetch() {
 				return this.$http.edu
-					.getComments({ contentId: this.contentid })
+					.getComments({
+						contentId: this.contentid,
+						passport: this.passport
+					})
 					.then(data => {
-						this.list = data.list;
-						this.result = data.total;
+						this.list = data.result.list;
+						this.result = data.result.total;
+
+						setTimeout(() => {
+							this.__loadLazyImgs();
+						}, 300);
 					});
 			},
 			__append() {
 				return this.$http.edu
 					.getComments({
 						contentId: this.contentid,
+						passport: this.passport,
 						page: (this.page += 1)
 					})
 					.then(data => {
-						if (data && data.list && data.list.length) {
-							this.list = this.list.concat(data.list);
+						if (data && data.result.list && data.result.list.length) {
+							this.list = this.list.concat(data.result.list);
 						}
 					});
 			},
@@ -108,7 +116,8 @@
 			}
 		},
 		created() {
-			this.getQS("contentid");
+			this.getQS("contentid", "passport");
+			this.passport = decodeURIComponent(this.passport);
 			if (!this.$isDev) {
 				JXRSApi.on("app.education.refreshComments", () => {
 					this.__fetch();
