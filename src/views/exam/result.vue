@@ -74,7 +74,9 @@
 			<p>{{info.score || 0}}</p>
 		</div>
 		<p class="tips">答对{{okCount}}道题，答错{{failCount}}道，未答{{noneCount}}道</p>
-		<div class="details">
+		<div class="details"
+		     ref="answers"
+		     :style="answersStyles">
 			<rx-row align="center"
 			        :flex="false">
 				<rx-col :span="4"
@@ -86,7 +88,8 @@
 			</rx-row>
 		</div>
 		<div class="btns fixed"
-		     v-if="atype === '2'">
+		     v-if="atype === '2'"
+		     ref="btns">
 			<rx-btn type="primary"
 			        @on-click="handleRepeatTest">重新答题</rx-btn>
 		</div>
@@ -102,6 +105,7 @@
 		},
 		data() {
 			return {
+				answersHeight: 0,
 				loading: false,
 				ltype: "",
 				type: "",
@@ -112,8 +116,52 @@
 				okCount: 0,
 				failCount: 0,
 				noneCount: 0,
-				info: { resultList: [] }
+				info: {
+					resultList: [
+						2,
+						3,
+						1,
+						2,
+						3,
+						2,
+						1,
+						3,
+						2,
+						3,
+						1,
+						2,
+						3,
+						2,
+						1,
+						3,
+						2,
+						3,
+						1,
+						2,
+						3,
+						2,
+						1,
+						3,
+						2,
+						3,
+						1,
+						2,
+						3,
+						2,
+						1,
+						3
+					]
+				}
 			};
+		},
+		computed: {
+			answersStyles() {
+				const styles = {};
+				if (this.answersHeight) {
+					styles.maxHeight = this.getRealSize(this.answersHeight);
+				}
+				return styles;
+			}
 		},
 		methods: {
 			__fetch() {
@@ -133,6 +181,9 @@
 							} else {
 								this.okCount += 1;
 							}
+						});
+						this.$nextTick(() => {
+							this.__calcAnswersHeight();
 						});
 					})
 					.catch(err => {
@@ -192,6 +243,13 @@
 					.catch(() => {
 						this.loading = false;
 					});
+			},
+			__calcAnswersHeight() {
+				if (this.atype === "2") {
+					const rect = this.$refs.btns.getBoundingClientRect();
+					const answersRect = this.$refs.answers.getBoundingClientRect();
+					this.answersHeight = rect.top - answersRect.top - 10;
+				}
 			}
 		},
 		created() {

@@ -2,7 +2,7 @@
 	.exam-rule {
 		padding: 67px 45px 53px 43px;
 		width: 607px;
-		height: 511px;
+		height: 481px;
 
 		.header {
 			position: absolute;

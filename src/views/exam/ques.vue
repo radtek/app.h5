@@ -134,9 +134,6 @@
 								: [],
 							ans: data.anList
 						};
-					})
-					.catch(() => {
-						this.$toast.text("问题详情获取失败", "top");
 					});
 			},
 			__doSubmit() {
@@ -164,20 +161,7 @@
 								.then(() => {
 									done();
 									this.$confirm.close();
-									this.$router.push({
-										path: "/result",
-										query: {
-											pwd: this.pwd,
-											act: this.act,
-											ltype: this.ltype,
-											atype: this.atype,
-											type: this.type,
-											name: this.name,
-											userId: this.userId,
-											taskId: this.taskId,
-											testId: this.testId
-										}
-									});
+									this.__gotoResult();
 								})
 								.catch(() => {
 									done();
@@ -196,6 +180,24 @@
 				this.current -= 1;
 				this.currentInfo = this.titles[this.current - 1];
 			},
+			__errHnd(err) {
+				switch (err.code) {
+					case "65":
+						this.$router.replace({
+							path: "/login",
+							query: { taskId: this.taskId }
+						});
+						break;
+					case "64":
+					case "68":
+					case "70":
+						this.__gotoResult();
+						break;
+					default:
+						return false;
+				}
+				return true;
+			},
 			__toNext() {
 				this.current += 1;
 				const quesInfo = this.titles[this.current - 1];
@@ -210,7 +212,11 @@
 				// 先更新当前题目的答案
 				const selected = this.titles[this.current - 1].selected;
 				if (!selected || !selected.length) {
-					return this.__toNext();
+					return this.__toNext().catch(err => {
+						if (!this.__errHnd(err)) {
+							this.$alert("获取下一题内容失败");
+						}
+					});
 				}
 
 				if (this.loading) return;
@@ -219,11 +225,13 @@
 				this.__doSubmit()
 					.then(() => {
 						this.loading = false;
-						this.__toNext();
+						return this.__toNext();
 					})
-					.catch(() => {
+					.catch(err => {
 						this.loading = false;
-						this.$alert("提交当前问题答案失败");
+						if (!this.__errHnd(err)) {
+							this.$alert("提交当前问题答案失败");
+						}
 					});
 			},
 			handleSubmit() {
@@ -237,20 +245,7 @@
 						.then(() => {
 							done();
 							this.$confirm.close();
-							this.$router.push({
-								path: "/result",
-								query: {
-									pwd: this.pwd,
-									act: this.act,
-									ltype: this.ltype,
-									atype: this.atype,
-									type: this.type,
-									name: this.name,
-									userId: this.userId,
-									taskId: this.taskId,
-									testId: this.testId
-								}
-							});
+							this.__gotoResult();
 						})
 						.catch(() => {
 							done();

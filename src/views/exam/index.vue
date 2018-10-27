@@ -9,7 +9,7 @@
 			.title {
 				color: #fff;
 				font-size: 48px;
-				padding-top: 119px;
+				padding-top: 74px;
 				line-height: 1;
 				text-align: center;
 			}
@@ -23,7 +23,7 @@
 			position: relative;
 			width: 100%;
 			text-align: center;
-			margin-top: 120px;
+			margin-top: 100px;
 		}
 
 		.inputs {
@@ -43,6 +43,7 @@
 			}
 		}
 	}
+	@import "../../assets/modules/exam/exam.rslt.media.scss";
 </style>
 
 <template>
