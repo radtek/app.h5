@@ -16,7 +16,7 @@
 				margin-top: 48px;
 				.rx-radio-group-item {
 					display: block;
-					margin-bottom: 16px;
+					margin-bottom: 36px;
 					font-size: 28px;
 				}
 				.rx-radio-inner {

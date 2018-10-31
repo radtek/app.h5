@@ -13,11 +13,14 @@
 <template>
 	<section rs-view="exam.ques"
 	         class="bg">
-		<rx-header @back="handleBack">{{name}}</rx-header>
+		<rx-header @back="handleBack">
+			{{name}}
+		</rx-header>
 		<ques-banner :current="current"
 		             :total="titles.length"
 		             :test-time="restTime"
-		             @time-end="handleTimeEnd"></ques-banner>
+		             @time-end="handleTimeEnd"
+		             @to-card="handleToCard"></ques-banner>
 		<div class="container">
 			<ques-item :item="currentInfo"
 			           :index="current"></ques-item>
@@ -39,6 +42,7 @@
 </template>
 
 <script>
+	import mixin from "~m/__exam";
 	export default {
 		name: "ExamQues",
 		components: {
@@ -47,20 +51,13 @@
 			QuesItem: () =>
 				import(/* webpackChunkName:"wc.exam.ques.item" */ "~c/exam/ques-item.vue")
 		},
+		mixins: [mixin],
 		data() {
 			return {
 				current: 1,
 				currentInfo: { selected: [] },
 				restTime: "",
 				titles: [],
-				taskId: "",
-				testId: "",
-				name: "",
-				ltype: "",
-				atype: "",
-				type: "",
-				act: "",
-				pwd: "",
 				loading: false
 			};
 		},
@@ -79,16 +76,12 @@
 							submited: false
 						}));
 						return this.__fetchQues(
-							this.titles[0].id,
-							(this.current = 1) - 1
+							this.titles[this.current - 1].id,
+							this.current - 1
 						);
 					})
-					.catch(() => {
-						this.restTime = 60;
-						return this.__fetchQues(
-							this.titles[0],
-							(this.current = 1) - 1
-						);
+					.catch(err => {
+						// TODO: err
 					});
 			},
 			__fetchAllSubmitedQues() {
@@ -178,25 +171,12 @@
 			},
 			handleGotoPrev() {
 				this.current -= 1;
-				this.currentInfo = this.titles[this.current - 1];
-			},
-			__errHnd(err) {
-				switch (err.code) {
-					case "65":
-						this.$router.replace({
-							path: "/login",
-							query: { taskId: this.taskId }
-						});
-						break;
-					case "64":
-					case "68":
-					case "70":
-						this.__gotoResult();
-						break;
-					default:
-						return false;
+				const quesInfo = this.titles[this.current - 1];
+				if (quesInfo.title) {
+					this.currentInfo = quesInfo;
+				} else {
+					return this.__fetchQues(quesInfo.id, this.current - 1);
 				}
-				return true;
 			},
 			__toNext() {
 				this.current += 1;
@@ -254,22 +234,6 @@
 						});
 				});
 			},
-			__gotoResult() {
-				this.$router.push({
-					path: "/result",
-					query: {
-						pwd: this.pwd,
-						act: this.act,
-						ltype: this.ltype,
-						atype: this.atype,
-						type: this.type,
-						name: this.name,
-						userId: this.userId,
-						taskId: this.taskId,
-						testId: this.testId
-					}
-				});
-			},
 			handleTimeEnd() {
 				if (this.$route.path !== "/ques") return;
 				this.$alert("考试截止时间已到，稍后系统会自动计算分数。").then(
@@ -286,36 +250,42 @@
 							});
 					}
 				);
-			}
-		},
-		created() {
-			if (!this.$isDev) {
-				JXRSApi.on("app.exam.back", () => {
-					this.handleBack();
-				});
+			},
+			handleToCard() {
+				if (this.loading) return;
+				this.loading = true;
+				this.__doSubmit()
+					.then(() => {
+						this.loading = false;
+						this.$router.push({
+							path: "/card",
+							query: {
+								pwd: this.pwd,
+								act: this.act,
+								ltype: this.ltype,
+								atype: this.atype,
+								type: this.type,
+								name: this.name,
+								userId: this.userId,
+								taskId: this.taskId,
+								testId: this.testId,
+								index: this.current
+							}
+						});
+					})
+					.catch(err => {
+						this.loading = false;
+						if (!this.__errHnd(err)) {
+							this.$alert("提交当前问题答案失败");
+						}
+					});
+			},
+			__fetch() {
+				this.__fetchAllQues().then(this.__fetchAllSubmitedQues);
 			}
 		},
 		activated() {
-			if (!this.$isDev) {
-				try {
-					JXRSApi.app.exam.hideHeader();
-				} catch (e) {}
-			}
-
-			this.getQS(
-				"taskId",
-				"testId",
-				"userId",
-				"name",
-				"ltype",
-				"atype",
-				"type",
-				"act",
-				"pwd"
-			);
-			this.name = this.name ? decodeURIComponent(this.name) : "";
-			this.act = this.act ? decodeURIComponent(this.act) : "";
-			this.__fetchAllQues().then(this.__fetchAllSubmitedQues);
+			this.current = this.index ? parseInt(this.index, 10) : 1;
 		}
 	};
 </script>

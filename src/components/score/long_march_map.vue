@@ -6,7 +6,7 @@
 
 <template>
 	<div class="wrap-map">
-		<img :src="getLocalMduImg('score','bg-map')" />
+		<img :src="bgUrl" />
 		<p v-for="(node,index) in nodes"
 		   @click.stop="onNodeClick(node)"
 		   :key="index"
@@ -30,6 +30,11 @@
 					return [];
 				}
 			}
+		},
+		data() {
+			return {
+				bgUrl: require(`~css/modules/score/imgs/bg-map.jpg`)
+			};
 		},
 		computed: {
 			humanClasses() {

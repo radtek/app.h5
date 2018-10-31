@@ -26,7 +26,7 @@
 				<div v-else
 				     class="empty"
 				     @click.stop="goto('问题列表','/questions')">
-					<rx-icon name="collect"></rx-icon>
+					<rx-icon name="answer"></rx-icon>
 					<p>您还没有任何回答，赶紧去答题吧</p>
 				</div>
 			</div>

@@ -102,6 +102,7 @@
 			if (!this.$isDev) {
 				// 由于在App中无法自动播放,需要App端通过主动请求H5来播放
 				JXRSApi.on("app.news.rdscAudioPlay", () => {
+					this.$refs.audio.load();
 					this.$refs.audio.play();
 				});
 			}

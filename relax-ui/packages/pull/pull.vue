@@ -91,6 +91,7 @@
 		},
 		data() {
 			return {
+				innerClick: true,
 				height: 0,
 				isRebounding: false,
 				downInitTop: -50,
@@ -152,6 +153,12 @@
 			}
 		},
 		watch: {
+			innerClick(val) {
+				this.$emit("update:click", val);
+			},
+			click(val) {
+				this.innerClick = val;
+			},
 			list(val) {
 				setTimeout(() => {
 					this.__forceUpdate(true);
@@ -184,7 +191,7 @@
 
 				const options = {
 					probeType: this.probeType,
-					click: this.click,
+					click: this.innerClick,
 					scrollbar: this.scrollbar,
 					freeScroll: this.freeScroll,
 					scrollY: this.freeScroll || this.vertical,
@@ -342,6 +349,14 @@
 			}
 		},
 		created() {
+			// 判断是否是android还是IOS
+			const ua = navigator.userAgent.toLowerCase();
+
+			// 是否是iphone客户端
+			// const isIPhone = ~ua.indexOf("iphone");
+
+			this.innerClick = ~ua.indexOf("android");
+
 			this.$on("fn-init", () => {
 				this.__initScoll();
 			});

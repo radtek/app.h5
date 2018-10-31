@@ -31,6 +31,11 @@ export function createRoutes(Vue) {
 					import(/* webpackChunkName: "p.exam.ques" */ `~v/${MODULENAME}/ques.vue`)
 			},
 			{
+				path: "/card",
+				component: () =>
+					import(/* webpackChunkName: "p.exam.card" */ `~v/${MODULENAME}/card.vue`)
+			},
+			{
 				path: "/result",
 				component: () =>
 					import(/* webpackChunkName: "p.exam.result" */ `~v/${MODULENAME}/result.vue`)

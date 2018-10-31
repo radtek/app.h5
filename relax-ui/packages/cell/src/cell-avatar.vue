@@ -4,17 +4,16 @@
 <template>
 	<div :class="classes">
 		<div class="rx-cell-img"
+		     @click.stop="onImgClick"
 		     v-if="imgPosition === 'left'">
 			<slot name="img">
 				<img :src="avatar"
 				     :class="[{'circle':circle}]"
 				     alt="头像"
-				     @click.stop="onImgClick"
 				     @error="$emit('on-avatar-err',$event)" />
 			</slot>
 		</div>
-		<div class="rx-cell-content"
-		     @click.stop="onClick">
+		<div class="rx-cell-content">
 			<div class="content">
 				<div class="header"
 				     v-if="$slots.header">
@@ -36,12 +35,12 @@
 			</div>
 		</div>
 		<div class="rx-cell-img"
+		     @click.stop="onImgClick"
 		     v-if="imgPosition === 'right'">
 			<slot name="img">
 				<img :src="avatar"
 				     :class="[{'circle':circle}]"
 				     alt="头像"
-				     @click.stop="onImgClick"
 				     @error="$emit('on-avatar-err',$event)" />
 			</slot>
 		</div>

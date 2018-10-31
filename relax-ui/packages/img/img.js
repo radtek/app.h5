@@ -31,7 +31,9 @@ export default {
 		// 是否开启智能模式
 		useSmartMode: { type: Boolean, default: true },
 		// 可允许的误差范围
-		rangeOfError: { type: Number, default: 0.2 }
+		rangeOfError: { type: Number, default: 0.2 },
+		// 是否使用canvas
+		userCanvas: Boolean
 	},
 	data() {
 		return {
@@ -53,7 +55,7 @@ export default {
 				? url.substring(startIndex + 1, index)
 				: url.substring(startIndex + 1);
 		},
-		__calc() {
+		__calcWithCanvas() {
 			const ext = this.__getExt(this.img.src);
 
 			if (ext === "gif") {
@@ -124,7 +126,8 @@ export default {
 			img.onload = () => {
 				if (!img.complete) return;
 				// 计算缩放比例
-				this.__calc();
+				this.$refs.img.src = this.src;
+				// this.__calcWithCanvas();
 			};
 
 			img.onerror = () => {
@@ -135,7 +138,8 @@ export default {
 
 			if (img.complete) {
 				// 直接从浏览器缓存中读取
-				this.__calc();
+				this.$refs.img.src = this.src;
+				// this.__calcWithCanvas();
 			}
 		},
 		load(parentEl, threshold) {

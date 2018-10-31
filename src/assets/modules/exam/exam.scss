@@ -47,11 +47,11 @@
 		width: 100%;
 		padding-left: 60px;
 		border: 1px solid #fff;
-		color: #000;
+		color: #fff;
 		background-color: rgba(34, 97, 227, 0.6);
 		font-size: 32px;
-		text-shadow: 0 0 0 #fff;
-		-webkit-text-fill-color: rgba(34, 97, 227, 0.1);
+		// text-shadow: 0 0 0 #fff;
+		// -webkit-text-fill-color: rgba(34, 97, 227, 0.1);
 
 		~ input[type="text"],
 		~ input[type="tel"],
@@ -61,8 +61,8 @@
 
 		&::-webkit-input-placeholder {
 			color: #fff;
-			text-shadow: none;
-			-webkit-text-fill-color: initial;
+			// text-shadow: none;
+			// -webkit-text-fill-color: initial;
 		}
 	}
 
@@ -106,7 +106,6 @@
 		input[type="text"],
 		input[type="tel"],
 		input[type="password"] {
-			color: #fff;
 			caret-color: #fff;
 		}
 	}

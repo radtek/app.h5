@@ -234,7 +234,10 @@
 			},
 			__fetchComments() {
 				return this.$http.edu
-					.getComments({ contentId: this.contentid })
+					.getComments({
+						contentId: this.contentid,
+						passport: this.authInfo.passport
+					})
 					.then(data => {
 						this.list = data.result.list;
 						this.total = data.result.total;
@@ -243,6 +246,10 @@
 								this,
 								"ItemOfComment"
 							);
+
+							setTimeout(() => {
+								this.__loadLazyImgs();
+							}, 300);
 						});
 					});
 			},
@@ -250,6 +257,7 @@
 				return this.$http.edu
 					.getComments({
 						contentId: this.contentid,
+						passport: this.authInfo.passport,
 						page: (this.page += 1)
 					})
 					.then(data => {

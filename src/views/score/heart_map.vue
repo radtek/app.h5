@@ -19,15 +19,12 @@
 	</section>
 </template>
 <script>
-	import { utils } from "~rx";
 	import MapData from "~v/score/heart_map.data";
 	export default {
 		name: "PageOfHeartMap",
 		components: {
 			LongMarchMap: () =>
-				import(/* webpackChunkName:"wc-long_march_map" */ "~c/score/long_march_map.vue").then(
-					utils.fixAsyncCmpLifeCycle
-				)
+				import(/* webpackChunkName:"wc-long_march_map" */ "~c/score/long_march_map.vue")
 		},
 		data() {
 			return {

@@ -77,7 +77,7 @@
 				return this.$http.edu
 					.getComments({
 						contentId: this.contentid,
-						passport: this.passport
+						passport: this.authInfo.passport
 					})
 					.then(data => {
 						this.list = data.result.list;
@@ -92,7 +92,7 @@
 				return this.$http.edu
 					.getComments({
 						contentId: this.contentid,
-						passport: this.passport,
+						passport: this.authInfo.passport,
 						page: (this.page += 1)
 					})
 					.then(data => {
@@ -116,8 +116,7 @@
 			}
 		},
 		created() {
-			this.getQS("contentid", "passport");
-			this.passport = decodeURIComponent(this.passport);
+			this.getQS("contentid");
 			if (!this.$isDev) {
 				JXRSApi.on("app.education.refreshComments", () => {
 					this.__fetch();

@@ -19,15 +19,15 @@
 		<rx-row justify="center"
 		        align="center">
 			<template v-if="!isFinished">
-				<rx-col>
+				<rx-col v-if="usage==='ques'">
 					<span>{{current}}/{{total}}</span>
 				</rx-col>
 				<rx-col>
 					<i class="rx-icon icon-time"></i>
 					<span>剩{{time}}</span>
 				</rx-col>
-				<rx-col>
-					<span>答题卡</span>
+				<rx-col v-if="usage==='ques'">
+					<span @click="handleToCard">答题卡</span>
 				</rx-col>
 			</template>
 			<template v-else>
@@ -47,6 +47,7 @@
 	export default {
 		name: "ExamQuesBanner",
 		props: {
+			usage: { type: String, default: "ques" },
 			current: Number,
 			total: Number,
 			testTime: [Number, String],
@@ -56,6 +57,7 @@
 		},
 		data() {
 			return {
+				timeout: null,
 				time: "",
 				numberTime: this.testTime
 			};
@@ -67,6 +69,15 @@
 			}
 		},
 		methods: {
+			handleToCard() {
+				this.endInterval();
+				this.$emit("to-card");
+			},
+			endInterval() {
+				if (this.timeout) {
+					clearTimeout(this.timeout);
+				}
+			},
 			__calc() {
 				this.numberTime -= 1000;
 
@@ -82,7 +93,7 @@
 					parseInt((this.numberTime % (1000 * 60)) / 1000, 10) +
 					"秒";
 
-				setTimeout(() => {
+				this.timeout = setTimeout(() => {
 					this.__calc();
 				}, 1000);
 			}

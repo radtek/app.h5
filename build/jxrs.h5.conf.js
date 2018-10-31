@@ -130,7 +130,14 @@ module.exports = {
 			case "edu":
 				return ["/detail", "/comments"];
 			case "exam":
-				return ["/list", "/info", "/ques", "/result", "/login"];
+				return [
+					"/list",
+					"/info",
+					"/ques",
+					"/result",
+					"/login",
+					"/card"
+				];
 			default:
 				break;
 		}
