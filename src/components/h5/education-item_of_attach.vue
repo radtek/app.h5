@@ -31,11 +31,12 @@
 
 <template>
 	<li class="rs-edu-attach-item">
-		<rx-cell-avatar @on-click="onClick">
+		<rx-cell-avatar @on-img-click="onClick">
 			<template slot="img">
 				<rx-icon :name="`doc-${__getMimeType(row.mineType)}`"></rx-icon>
 			</template>
-			<span slot="header">{{row.fileName}}</span>
+			<span slot="header"
+			      @click.stop="onClick">{{row.fileName}}</span>
 		</rx-cell-avatar>
 	</li>
 </template>
@@ -60,7 +61,7 @@
 				const item = this.row;
 
 				const params = {
-					id: item.id,
+					id: ""+item.id,
 					fileName: item.fileName,
 					fileSize: item.fileSize,
 					isCollected: 0,

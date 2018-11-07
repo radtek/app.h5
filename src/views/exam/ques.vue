@@ -23,21 +23,25 @@
 		             @to-card="handleToCard"></ques-banner>
 		<div class="container">
 			<ques-item :item="currentInfo"
-			           :index="current"></ques-item>
+			           :index="current"
+			           ref="quesItem">
+			</ques-item>
+			<div class="btns fixed"
+			     ref="btns">
+				<rx-btn type="primary"
+				        @on-click="handleGotoPrev"
+				        v-if="current>1">上一题</rx-btn>
+				<rx-btn type="primary"
+				        @on-click="handleGotoNext"
+				        v-if="current<titles.length"
+				        :loading="loading">{{loading?"提交中...":"下一题"}}</rx-btn>
+				<rx-btn type="primary"
+				        @on-click="handleSubmit"
+				        v-if="current === titles.length"
+				        :loading="loading">{{loading?"答卷提交中...":"提交答卷"}}</rx-btn>
+			</div>
 		</div>
-		<div class="btns fixed">
-			<rx-btn type="primary"
-			        @on-click="handleGotoPrev"
-			        v-if="current>1">上一题</rx-btn>
-			<rx-btn type="primary"
-			        @on-click="handleGotoNext"
-			        v-if="current<titles.length"
-			        :loading="loading">{{loading?"提交中...":"下一题"}}</rx-btn>
-			<rx-btn type="primary"
-			        @on-click="handleSubmit"
-			        v-if="current === titles.length"
-			        :loading="loading">{{loading?"答卷提交中...":"提交答卷"}}</rx-btn>
-		</div>
+
 	</section>
 </template>
 
@@ -127,6 +131,11 @@
 								: [],
 							ans: data.anList
 						};
+
+						setTimeout(() => {
+							const rect = this.$refs.btns.getBoundingClientRect();
+							this.$refs.quesItem.calcHeight(rect.top);
+						}, 200);
 					});
 			},
 			__doSubmit() {

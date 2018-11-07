@@ -1,10 +1,12 @@
 <style lang="scss">
 	.exam-ques-item {
 		.content {
-			padding: 75px 44px 73px 44px;
+			padding: 55px 20px 73px 20px;
 			border-radius: 20px;
 			border: 1px solid #fff;
 			color: #fff;
+			overflow-y: auto;
+			overflow-x: hidden;
 
 			.title {
 				font-size: 32px;
@@ -31,6 +33,11 @@
 						left: 2px;
 					}
 				}
+
+				.rx-radio-text {
+					word-break: break-all;
+					white-space: normal;
+				}
 			}
 		}
 	}
@@ -38,8 +45,9 @@
 
 <template>
 	<div class="exam-ques-item pane-box">
-		<div class="mask"></div>
-		<div class="content">
+		<div class="content"
+		     ref="content"
+		     :style="styles">
 			<p class="title">{{index}}.{{item.title}}</p>
 			<div class="options">
 				<rx-radio-group v-model="currentSelected"
@@ -69,8 +77,20 @@
 		},
 		data() {
 			return {
-				currentSelected: ""
+				currentSelected: "",
+				height: ""
 			};
+		},
+		computed: {
+			styles() {
+				const styles = {};
+
+				if (this.height) {
+					styles.maxHeight = this.getRealSize(this.height);
+				}
+
+				return styles;
+			}
 		},
 		watch: {
 			item: {
@@ -97,6 +117,11 @@
 				if (checked) {
 					this.item.selected = [curValue];
 				}
+			},
+			calcHeight(limitBottom) {
+				this.$refs.content.scrollTop = 0;
+				const rect = this.$refs.content.getBoundingClientRect();
+				this.height = limitBottom - rect.top - 20;
 			}
 		}
 	};

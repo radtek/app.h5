@@ -13,7 +13,8 @@
 				     @error="$emit('on-avatar-err',$event)" />
 			</slot>
 		</div>
-		<div class="rx-cell-content">
+		<div class="rx-cell-content"
+		     @click.stop="onClick">
 			<div class="content">
 				<div class="header"
 				     v-if="$slots.header">

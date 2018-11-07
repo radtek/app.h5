@@ -15,7 +15,7 @@
 			       @focus="onFocus"
 			       @blur="onBlur">
 		</span>
-		<slot>{{ label }}</slot>
+		<slot><span class="rx-radio-text">{{ label }}</span></slot>
 	</label>
 </template>
 
