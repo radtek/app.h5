@@ -80,7 +80,7 @@ App端接收H5对应的操作
 			"url":"native://createAnswer" (针对开发环境),
 			"query":{
 				"questionId":"话题id",
-                  "question":"话题标题",
+                  "title":"话题标题",
                   "topicFlag":"话题名称"
 			}
 		}
