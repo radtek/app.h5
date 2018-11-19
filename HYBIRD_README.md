@@ -36,6 +36,56 @@ App端接收H5对应的操作
 		}
 ```
 
+### 点击话题跳转到话题列表页面
+
+```js
+App端接收H5对应的操作
+
+操作名称: view.goto
+
+操作参数: 
+	    {
+			"title":"话题",
+			"url":"http://manage.guotailimin.com/qa/topic.list" (针对开发环境)
+		}
+```
+
+### 点击轮播话题跳转到话题详情页面
+
+```js
+App端接收H5对应的操作
+
+操作名称: view.goto
+
+操作参数: 
+	    {
+			"title":"话题详情",
+			"url":"http://manage.guotailimin.com/qa/topic.detail" (针对开发环境),
+			"query":{
+				id:"话题id"
+			}
+		}
+```
+
+### 点击回答跳转到回答原生页面
+
+```js
+App端接收H5对应的操作
+
+操作名称: view.goto
+
+操作参数: 
+	    {
+			"title":"回复话题",
+			"url":"native://createAnswer" (针对开发环境),
+			"query":{
+				"questionId":"话题id",
+                  "question":"话题标题",
+                  "topicFlag":"话题名称"
+			}
+		}
+```
+
 ## 2. 问答详情
 
 >   此交互在问题详情和回答详情页面都存在
@@ -74,6 +124,55 @@ App调用方式： JXRSApi.invoke("操作名称","操作参数");
 
 demo: 
 	JXRSApi.invoke("app.qa.refreshAnswerStatusCount",'{"id":"1","status":"click","count":3}')
+```
+
+
+## 3. 话题详情 (http(s)://域名/qa/topic.detail?id=话题id)
+
+### H5端通知App更新参与讨论按钮的传递参数
+
+```
+H5通知App
+
+操作名称: app.qa.topic.sendReplyArgs
+
+操作参数: 
+	{
+		"questionId":  话题ID
+		"question": 当前话题的标题
+		"topicFlag": 当前话题的名称
+	}
+
+```
+
+### H5通知App去批量获取当前回复用户与登录用户的好友关系
+
+```
+H5通知App
+
+操作名称： app.qa.refreshH5IMInfo
+
+操作参数：
+	{
+		"userIds":["id1","id2"]
+	}
+```
+
+
+
+### App通知H5去更新好友状态
+
+```
+App调用方式: JXRSApi.invoke("操作名称",操作参数);
+
+操作名称: app.qa.refreshIMStatus
+
+操作参数: 
+		{
+			"userStatus":[与"app.qa.refreshH5IMInfo"操作中用户Id对应的好友关系状态值]
+		}
+demo: 
+	JXRSApi.invoke("app.qa.refreshIMStatus",'{"userStatus":[1,0]}')
 ```
 
 
