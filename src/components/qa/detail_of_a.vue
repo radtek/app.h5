@@ -8,6 +8,8 @@
 		              mode="line"
 		              click-on-expand
 		              @on-expand="handleGoto">
+			<a v-if="question.topicTag"
+			   class="topic-tag">#{{question.topicTag}}#</a>
 			<div v-html="row.answer"
 			     @click.stop="handleGoto"></div>
 		</rx-read-more>
@@ -67,7 +69,8 @@
 				default() {
 					return {};
 				}
-			}
+			},
+			isTopic: Boolean
 		},
 		data() {
 			return {
@@ -82,9 +85,10 @@
 					.catch(err => {
 						console.log && console.log(err);
 					});
-				this.goto("回答详情", "/answer", {
+				this.goto(this.isTopic ? "回复详情" : "回答详情", "/answer", {
 					qid: this.question.id,
-					aid: this.row.id
+					aid: this.row.id,
+					[`topic`]: this.isTopic ? 1 : 0
 				});
 			},
 			handleAnswerShare() {

@@ -6,6 +6,10 @@
 		</template>
 		<rx-read-more v-if="row.answer"
 		              mode="line">
+			<a v-if="isTopic"
+			   href="javascript:void(0);"
+			   class="topic-tag"
+			   @click.stop="goto('话题详情','/topic.detail',{qid:row.infoQuestion.id})">#{{row.infoQuestion.topicTag}}#</a>
 			<div v-html="row.answer"></div>
 		</rx-read-more>
 		<template slot="img"
@@ -48,6 +52,9 @@
 				)
 		},
 		mixins: [DetailOfAMixin],
+		props: {
+			isTopic: Boolean
+		},
 		created() {
 			this.$rxUtils.asyncCmp.dataReady
 				.call(this, "User")

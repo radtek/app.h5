@@ -5,8 +5,8 @@
 			border-top: 1px solid #e6e6e6;
 
 			.rx-col {
-				&:first-child {
-					border-right: 1px solid #e6e6e6;
+				~ .rx-col {
+					border-left: 1px solid #e6e6e6;
 				}
 			}
 
@@ -53,5 +53,20 @@
 		.rx-card_body > .rx-cell {
 			padding: 0 30px;
 		}
+	}
+
+	.rx-slider {
+		padding: 30px 0;
+		background: #f5f5f5;
+
+		&-item {
+			border-radius: 16px;
+			background-color: #edeae9;
+		}
+	}
+
+	.rx-slider-group img {
+		width: 140px;
+		height: 96px;
 	}
 }

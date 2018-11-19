@@ -6,7 +6,7 @@
 	<rx-cell class="item-qa q_a">
 		<template slot="header">
 			<div class="title"
-			     @click.stop="goto('问题详情','/detail',{qid: row.id})">{{row.question}}</div>
+			     @click.stop="go">{{row.question}}</div>
 		</template>
 		<template v-if="row.infoAnswer">
 			<div @click.stop="onAnswerDetailClick">
@@ -26,13 +26,15 @@
 					</rx-row>
 				</template>
 				<template v-else>
-					{{row.infoAnswer.answer | overflowContent}}
+					{{row.infoAnswer.answer | removeHtmlTag | overflowContent}}
 				</template>
 			</div>
 		</template>
 		<template slot="footer">
 			<status :row="row"
-			        :can-answer="canAnswer"></status>
+			        :show-tag="showTag"
+			        :can-answer="canAnswer"
+			        :is-topic="isTopic"></status>
 		</template>
 	</rx-cell>
 </template>
@@ -54,10 +56,19 @@
 					return {};
 				}
 			},
+			showTag: { type: Boolean, default: true },
+			isTopic: Boolean,
 			async: Boolean,
 			canAnswer: { type: Boolean, default: true }
 		},
 		methods: {
+			go() {
+				if (this.isTopic) {
+					this.goto("话题详情", "/topic.detail", { qid: this.row.id });
+					return;
+				}
+				this.goto("问题详情", "/detail", { qid: this.row.id });
+			},
 			onAnswerDetailClick() {
 				this.goto("回答详情", "/answer", {
 					qid: this.row.id,

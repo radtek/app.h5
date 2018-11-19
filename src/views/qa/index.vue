@@ -44,9 +44,31 @@
 							        type="text"
 							        @on-click="gotoNative('提问','createQuestion')">提问</rx-btn>
 						</rx-col>
+						<rx-col>
+							<rx-btn icon="tiwen1"
+							        type="text"
+							        @on-click="goto('话题列表','/topic.list')">话题</rx-btn>
+						</rx-col>
 					</rx-row>
 				</rx-card>
-				<div class="separate"></div>
+				<!-- 话题轮播 -->
+				<rx-slider async
+				           :offset="-45"
+				           :gutter="20"
+				           ref="slider">
+					<rx-cell-avatar v-for="(topic,index) in swipeTopics"
+					                :key="index"
+					                :circle="false"
+					                @click="goto('话题详情','/topic.deatil',{qid:topic.id})">
+						<template slot="img">
+							<img v-if="topic.imgPath && topic.imgPath.length"
+							     :src="topic.imgPath[0]"
+							     @error="onImgErr">
+						</template>
+						<h2 slot="header">{{topic.question}}</h2>
+						<h4>{{topic.description | removeHtmlTag | overflowContent(10)}}</h4>
+					</rx-cell-avatar>
+				</rx-slider>
 				<rx-card class="list-card"
 				         padding="h">
 					<template slot="header">
@@ -121,7 +143,8 @@
 				listPart1: [],
 				listPart2: [],
 				total: 1000,
-				pageIndex: 1
+				pageIndex: 1,
+				swipeTopics: []
 			};
 		},
 		computed: {
@@ -130,15 +153,28 @@
 			}
 		},
 		methods: {
-			__fetchUserInfo() {
-				return this.$http.user.getUserInfo().then(resp => {
+			async __fetchUserInfo() {
+				const [err, resp] = await this.$sync(this.$http.user.getUserInfo());
+
+				if (!err) {
 					this.userInfo = resp.result;
 					this.isPrerender = false;
 					this.$rxUtils.asyncCmp.dataReady.call(this, "ImUsers");
-				});
+				}
 			},
-			__fetchRecommendQ() {
-				return this.$http.qa.getRecommendQ().then(resp => {
+			async __fetchSwipeTopics() {
+				const [err, resp] = await this.$sync(
+					this.$http.qa.getSwipeTopics()
+				);
+
+				if (!err) {
+					this.swipeTopics = resp.result;
+				}
+			},
+			async __fetchRecommendQ() {
+				const [err, resp] = await this.$sync(this.$http.qa.getRecommendQ());
+
+				if (!err) {
 					const list = resp.result;
 					if (list && list.length > 2) {
 						this.listPart1 = list.slice(0, 2);
@@ -146,23 +182,25 @@
 					}
 					this.isPrerender2 = false;
 					this.$rxUtils.asyncCmp.dataReady.call(this, "ItemOfQA");
-				});
+				}
 			},
 			__fetch() {
 				return Promise.all([
 					this.__fetchUserInfo(),
+					this.__fetchSwipeTopics(),
 					this.__fetchRecommendQ()
 				]);
 			},
-			__append() {
-				this.$http.qa
-					.getRecommendQ({ page: ++this.pageIndex })
-					.then(resp => {
-						const list = resp.result;
-						if (list && list.length) {
-							this.listPart2 = this.listPart2.concat(list);
-						}
-					});
+			async __append() {
+				const [err, resp] = await this.$sync(
+					this.$http.qa.getRecommendQ({ page: ++this.pageIndex })
+				);
+				if (!err) {
+					const list = resp.result;
+					if (list && list.length) {
+						this.listPart2 = this.listPart2.concat(list);
+					}
+				}
 			}
 		},
 		created() {
@@ -177,8 +215,13 @@
 				.ready(this, "ImUsers", cmp => {
 					cmp.$emit("fn.fetch");
 				});
-
-			return this.__fetch();
+		},
+		mounted() {
+			this.__fetch().then(() => {
+				this.$nextTick(() => {
+					this.broadcast("RxSlider", "fn.init");
+				});
+			});
 		}
 	};
 </script>

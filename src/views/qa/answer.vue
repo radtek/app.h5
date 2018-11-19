@@ -13,6 +13,14 @@
 				margin-top: 10px;
 			}
 		}
+
+		.topic-tag {
+			color: #0097ee;
+			float: left;
+			display: block;
+			line-height: 40px;
+			margin-top: 2px;
+		}
 	}
 </style>
 
@@ -32,7 +40,8 @@
 				<rx-card padding>
 					<rx-cell :border="false">
 						<p slot="header">{{ques.question}}</p>
-						<q-status :row="ques"></q-status>
+						<q-status :row="ques"
+						          :is-topic="topic==='1'"></q-status>
 					</rx-cell>
 				</rx-card>
 			</div>
@@ -40,6 +49,7 @@
 			<rx-card class="pane-answer"
 			         padding="b">
 				<a-detail-v2 :row="answer"
+				             :is-topic="topic === '1'"
 				             ref="readyCmp"></a-detail-v2>
 			</rx-card>
 			<div class="separate"></div>
@@ -92,45 +102,57 @@
 			};
 		},
 		methods: {
-			__fetchQ() {
-				return this.$http.qa
-					.getQuesDetail({ questionId: this.qid })
-					.then(resp => {
-						this.ques = resp.result.question;
-					});
+			async __fetchQ() {
+				const [err, resp] = await this.$sync(
+					this.$http.qa.getQuesDetail({ questionId: this.qid })
+				);
+
+				if (!err) {
+					this.ques = resp.result.question;
+				}
 			},
-			__fetchA() {
+			async __fetchA() {
 				const params = {
 					questionId: this.qid,
 					answerId: this.aid
 				};
-				return this.$http.qa.getAnswerDetail(params).then(resp => {
-					const answer = resp.result.list[0];
-					if (answer) {
-						this.commentCount = answer.commentCount;
-						const answerUser = answer.communityUser || {};
-						answer.infoQuestion = this.ques;
-						this.answer = answer;
-						if (!this.$isDev) {
-							JXRSApi.app.qa.refreshAppStatusOfAnswer({
-								questionId: this.qid,
-								answerId: answer.id,
-								commentCount: answer.commentCount,
-								supportCount: answer.supportCount,
-								isSupported: answer.isSupported ? 1 : 0
-							});
-							if (
-								answer.isAnonymous !== 1 &&
-								answerUser.userId !== this.authInfo.userId
-							) {
-								// H5通知App主动去获取回答用户与当前登录用户的好友状态
-								JXRSApi.app.qa.refreshH5IMInfo({
-									userIds: [answerUser.userId]
-								});
-							}
-						}
+				const [err, resp] = await this.$sync(
+					this.$http.qa.getAnswerDetail(params)
+				);
+
+				if (
+					err ||
+					!resp.result ||
+					!resp.result.list ||
+					!resp.result.list.length
+				) {
+					return;
+				}
+
+				const answer = resp.result.list[0];
+				if (!answer) return;
+				this.commentCount = answer.commentCount;
+				const answerUser = answer.communityUser || {};
+				answer.infoQuestion = this.ques;
+				this.answer = answer;
+				if (!this.$isDev) {
+					JXRSApi.app.qa.refreshAppStatusOfAnswer({
+						questionId: this.qid,
+						answerId: answer.id,
+						commentCount: answer.commentCount,
+						supportCount: answer.supportCount,
+						isSupported: answer.isSupported ? 1 : 0
+					});
+					if (
+						answer.isAnonymous !== 1 &&
+						answerUser.userId !== this.authInfo.userId
+					) {
+						// H5通知App主动去获取回答用户与当前登录用户的好友状态
+						JXRSApi.app.qa.refreshH5IMInfo({
+							userIds: [answerUser.userId]
+						});
 					}
-				});
+				}
 			},
 			__fetchComments() {
 				this.page = 1;
@@ -288,7 +310,7 @@
 			}
 		},
 		created() {
-			this.getQS("qid", "aid");
+			this.getQS("qid", "aid", "topic");
 			this.__bindInteractionOfApp();
 			this.$rxUtils.asyncCmp
 				.ready(this, "DetailOfAV2", cmp => {

@@ -46,6 +46,18 @@ export function createRoutes(Vue) {
 				path: "/profile",
 				component: () =>
 					import(/* webpackChunkName: "view-profile" */ `~v/${MODULENAME}/profile.vue`)
+			},
+			{
+				path: "/topic.list",
+				component: () =>
+					import(/* webpackChunkName: "p.topic.list" */ `~v/${MODULENAME}/topic.list.vue`)
+			},
+			{
+				path: "/topic.detail",
+				component: () =>
+					import(/* webpackChunkName: "p.topic.detail" */ `~v/${MODULENAME}/topic.detail.vue`).then(
+						utils.asyncCmp.solution
+					)
 			}
 		]
 	});

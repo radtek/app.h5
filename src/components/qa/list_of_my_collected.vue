@@ -20,12 +20,13 @@
 					      v-for="(ques,index) in list"
 					      :key="index"
 					      :row="ques.infoQuestion"
+					      :is-topic="ques.infoQuestion.type === 2"
 					      async>
 					</item>
 				</template>
 				<div v-else
 				     class="empty"
-				     @click.stop="goto('问题列表','/questions')">
+				     @click.stop="goto('问答社区','/index')">
 					<rx-icon name="collect"></rx-icon>
 					<p>您还没有任何收藏，赶紧去收藏吧</p>
 				</div>

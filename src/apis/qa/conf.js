@@ -144,5 +144,37 @@ export default [
 			{ name: "page", default: 1 },
 			{ name: "pageSize", default: 10 }
 		]
+	},
+	{
+		// 获取首页话题轮播图列表
+		outKey: "getSwipeTopics",
+		action: "/community/topic/getTopicCarousel.qa",
+		verb: "get"
+	},
+	{
+		// 获取最新话题列表
+		verb: "get",
+		outKey: "getLatestTopics",
+		action: "/community/topic/listLatestTopic.qa",
+		reqParams: [
+			{ name: "page", default: 1 },
+			{ name: "pageSize", default: 10 }
+		]
+	},
+	{
+		// 获取最热话题列表
+		verb: "get",
+		outKey: "getHottestTopics",
+		action: "/community/topic/listHottestTopic.qa",
+		reqParams: [
+			{ name: "page", default: 1 },
+			{ name: "pageSize", default: 10 }
+		]
+	},
+	{
+		// 收藏或取消问题
+		outKey: "collect",
+		action: "/qauser/insertQuestionCollection.qa",
+		reqParams: ["questionId", { name: "collect", default: true }]
 	}
 ];

@@ -73,6 +73,9 @@ export function createVue(Vue, datas, jsApiActions) {
 			}
 		};
 	}
+
+	Vue.prototype.$sync = p => p.then(d => [null, d]).catch(e => [e]);
+
 	/* eslint-disable no-new */
 	new Vue({
 		el: "#app",

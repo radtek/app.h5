@@ -19,6 +19,7 @@ import Row from "./packages/row/index";
 import Col from "./packages/col/index";
 
 import Pull from "./packages/pull/index";
+import Slider from "./packages/slider/index";
 import { Cell, CellAvatar } from "./packages/cell/index";
 
 import Card from "./packages/card/index";
@@ -72,6 +73,7 @@ const components = [
 	Pull,
 	Pull.down,
 	Pull.up,
+	Slider,
 	CheckIcon,
 	RadioGroup,
 	Radio,
@@ -153,6 +155,7 @@ export {
 	Tab,
 	TabPane,
 	Pull,
+	Slider,
 	lazyImgDirective,
 	CheckIcon,
 	RadioGroup,

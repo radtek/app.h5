@@ -3,14 +3,13 @@
 	        align="center">
 		<rx-col>
 			<rx-btn type="text"
-			        plain
 			        icon="answer"
-			        @on-click.stop="gotoNative('撰写回答','createAnswer',{questionId:row.id,title:row.question})">写回答</rx-btn>
+			        @on-click.stop="goAnswer">写{{showText}}</rx-btn>
 		</rx-col>
 		<rx-col align="right">
 			<rx-btn type="text"
 			        icon="comment"
-			        @on-click.stop="goto('问题详情','/detail',{qid:row.id})">查看{{row.answerCount}}个回答</rx-btn>
+			        @on-click.stop="goDetail">查看{{row.answerCount}}个{{showText}}</rx-btn>
 		</rx-col>
 	</rx-row>
 </template>
@@ -23,6 +22,36 @@
 				default() {
 					return {};
 				}
+			},
+			isTopic: Boolean
+		},
+		computed: {
+			showText() {
+				return this.isTopic ? "回复" : "回答";
+			}
+		},
+		methods: {
+			goAnswer() {
+				if (this.isTopic) {
+					this.gotoNative("回复话题", "createAnswer", {
+						questionId: this.row.id,
+						title: this.row.question,
+						topicFlag: this.row.topicTag
+					});
+
+					return;
+				}
+				this.gotoNative("撰写回答", "createAnswer", {
+					questionId: this.row.id,
+					title: this.row.question
+				});
+			},
+			goDetail() {
+				if (this.isTopic) {
+					this.goto("话题详情", "/topic.detail", { qid: this.row.id });
+					return;
+				}
+				this.goto("问题详情", "/detail", { qid: this.row.id });
 			}
 		}
 	};

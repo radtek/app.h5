@@ -96,7 +96,9 @@ module.exports = {
 					"/detail",
 					"/audit-detail",
 					"/answer",
-					"/profile"
+					"/profile",
+					"/topic.list",
+					"/topic.detail"
 				];
 			case "doc":
 				return [
