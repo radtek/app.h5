@@ -58,15 +58,16 @@
 				           ref="slider">
 					<rx-cell-avatar v-for="(topic,index) in swipeTopics"
 					                :key="index"
-					                :circle="false"
-					                @click="goto('话题详情','/topic.deatil',{qid:topic.id})">
+					                :circle="false">
 						<template slot="img">
 							<img v-if="topic.imgPath && topic.imgPath.length"
 							     :src="topic.imgPath[0]"
-							     @error="onImgErr">
+							     @error="onImgErr"
+							     @click="goto('话题详情','/topic.detail',{qid:topic.id})">
 						</template>
-						<h2 slot="header">{{topic.question}}</h2>
-						<h4>{{topic.description | removeHtmlTag | overflowContent(10)}}</h4>
+						<h2 slot="header"
+						    @click="goto('话题详情','/topic.detail',{qid:topic.id})">{{topic.question}}</h2>
+						<h4 @click="goto('话题详情','/topic.detail',{qid:topic.id})">{{topic.description | removeHtmlTag | overflowContent(10)}}</h4>
 					</rx-cell-avatar>
 				</rx-slider>
 				<rx-card class="list-card"

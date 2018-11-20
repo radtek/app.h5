@@ -10,5 +10,6 @@ createVue(Vue, { router: createRoutes(Vue), http }, [
 	"share",
 	"addIMFriend",
 	"doComment",
-	"openImgViewer"
+	"openImgViewer",
+	"topic.sendReplyArgs"
 ]);

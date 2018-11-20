@@ -355,7 +355,7 @@
 			// 是否是iphone客户端
 			// const isIPhone = ~ua.indexOf("iphone");
 
-			this.innerClick = ~ua.indexOf("android");
+			this.innerClick = !!~ua.indexOf("android");
 
 			this.$on("fn-init", () => {
 				this.__initScoll();

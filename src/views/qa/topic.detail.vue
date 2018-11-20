@@ -80,6 +80,12 @@
 				}
 			}
 		}
+
+		.topic-content {
+			.topic-tag {
+				margin-top: 0;
+			}
+		}
 	}
 </style>
 
@@ -96,29 +102,28 @@
 			<rx-pull-down slot="down"></rx-pull-down>
 			<rx-pull-up slot="up"></rx-pull-up>
 			<div class="pane-ques">
-				<template v-if="question.imgPath && question.imgPath.length">
-					<div class="topic-header">
-						<img :src="question.imgPath[0]" />
+				<div class="topic-header">
+					<img v-if="question.imgPath && question.imgPath.length"
+					     :src="question.imgPath[0]" />
+				</div>
+				<div class="topic-body">
+					<h1 class="topic-title">{{question.question}}</h1>
+					<div class="topic-content">
+						<a href="javascript:void(0);"
+						   class="topic-tag">#{{question.topicTag}}#</a>
+						<div v-html="question.description"></div>
 					</div>
-					<div class="topic-body">
-						<h1 class="topic-title">{{question.question}}</h1>
-						<div class="topic-content">
-							<a href="javascript:void(0);"
-							   class="topic-tag">#{{question.topicTag}}#</a>
-							<div v-html="question.description"></div>
-						</div>
-						<rx-row class="topic-bar">
-							<rx-col align="left">
-								<span>{{question.answerCount ||0}}人回答·{{question.collectionCount ||0}}人收藏</span>
-							</rx-col>
-							<rx-col align="right">
-								<rx-btn type="text"
-								        :icon="isCollected ? 'star-fill':'star'"
-								        @on-click="doCollect">收藏</rx-btn>
-							</rx-col>
-						</rx-row>
-					</div>
-				</template>
+					<rx-row class="topic-bar">
+						<rx-col align="left">
+							<span>{{question.answerCount ||0}}人回答·{{question.collectionCount ||0}}人收藏</span>
+						</rx-col>
+						<rx-col align="right">
+							<rx-btn type="text"
+							        :icon="isCollected ? 'star-fill':'star'"
+							        @on-click="doCollect">收藏</rx-btn>
+						</rx-col>
+					</rx-row>
+				</div>
 			</div>
 			<div class="separate"></div>
 			<rx-card v-if="total>0"
@@ -184,14 +189,12 @@
 
 				const question = resp.result.question;
 				this.isCollected = resp.result.isCollected;
-				if (question) {
-					if (!this.$isDev) {
-						JXRSApi.app.qa.refreshAppStatusOfQuesCollect({
-							isCollect: resp.result.isCollected,
-							questionId: this.qid,
-							questionTitle: question.question
-						});
-					}
+				if (!this.$isDev) {
+					JXRSApi.app.qa.topic.sendReplyArgs({
+						questionId: this.qid,
+						question: question.question,
+						topicFlag: question.topicTag
+					});
 				}
 				this.question = question;
 				this.isPrerenderQues = false;
@@ -362,7 +365,7 @@
 								default:
 									break;
 							}
-							for (let l = list.length; l--; ) {
+							for (let l = list.length; l--;) {
 								if (list[l].id === id) {
 									list[l][prop] =
 										(list[l][prop] || 0) + (count || 1);
