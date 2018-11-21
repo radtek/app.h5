@@ -6,5 +6,6 @@ import http from "~a/news/";
 createVue(Vue, { router: createRoutes(Vue), http }, [
 	"updateNewsInfoIcon",
 	"commentInputFocus",
-	"operationTopbar"
+	"operationTopbar",
+	"openImgViewer"
 ]);

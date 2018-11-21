@@ -37,7 +37,8 @@
 					</div>
 					<div class="content"
 					     ref="content"
-					     v-html="info.txt"></div>
+					     v-html="info.txt"
+					     @click="handleContentClick"></div>
 				</div>
 				<div class="separate"
 				     v-if="recommendNews && recommendNews.length"></div>
@@ -105,7 +106,8 @@
 				itemReadyCount: 0,
 				page: 1,
 				list: [],
-				total: 0
+				total: 0,
+				imgs: []
 			};
 		},
 		computed: {
@@ -138,81 +140,112 @@
 				this.handleScrollEnd(pos);
 				this.__loadLazyImgs();
 			},
-			__fetchDetail() {
-				return this.$http.news
-					.getDetail({ contentId: this.contentid })
-					.then(data => {
-						const info = data.list[0];
-						if (info && info.txt) {
-							info.txt = info.txt.replace(
-								/\bsrc\b\s*=\s*(['"]?([^'"]*)['"]?)/gi,
-								"data-src=$1"
-							);
-						}
-						this.info = info;
-						this.$nextTick(() => {
-							this.__loadLazyImgs();
-						});
+			async __fetchDetail() {
+				const [err, data] = await this.$sync(
+					this.$http.news.getDetail({ contentId: this.contentid })
+				);
 
-						if (!this.$isDev) {
-							const content = info.txt
-								? info.txt
-										.replace(REG_HTML_SCRIPT, "")
-										.replace(REG_HTML_STYLE, "")
-										.replace(/<[^<>]+>/g, "")
-										.replace(/(^\s*)|(\s*&)/g, "")
-										.replace(/[\r\n]/g, "")
-								: "";
+				if (err) return;
 
-							JXRSApi.app.news.updateNewsInfoIcon({
-								contentId: parseInt(this.contentid, 10),
-								channelId: parseInt(this.channelid, 10),
-								isCollected: !!info.isCollected,
-								isSupported: !!info.isSupported,
-								likeCount: info.likeCount,
-								commentCount: info.commentCount || 0,
-								content
-							});
+				const info = data.list[0];
+				if (info && info.txt) {
+					info.txt = info.txt.replace(
+						/\bsrc\b\s*=\s*(['"]?([^'"]*)['"]?)/gi,
+						"data-src=$1"
+					);
+				}
+				this.info = info;
+				this.$nextTick(() => {
+					this.__loadLazyImgs();
+				});
+
+				setTimeout(() => {
+					let imgs = document.querySelectorAll(".wrap .content img");
+
+					imgs = Array.prototype.slice.call(imgs);
+
+					const targetImgs = [];
+
+					imgs.forEach((i, index) => {
+						if (
+							i.hasAttribute("src") ||
+							i.src ||
+							i.hasAttribute("data-src")
+						) {
+							const src =
+								i.getAttribute("data-src") || i.getAttribute("src");
+							if (!src || !~src.indexOf("http")) return;
+							targetImgs.push([i, src]);
 						}
 					});
+
+					targetImgs.forEach((item, index) => {
+						item[0].setAttribute("data-index", index);
+						this.imgs.push(item[1]);
+					});
+				}, 300);
+
+				if (this.$isDev) return;
+
+				const content = info.txt
+					? info.txt
+							.replace(REG_HTML_SCRIPT, "")
+							.replace(REG_HTML_STYLE, "")
+							.replace(/<[^<>]+>/g, "")
+							.replace(/(^\s*)|(\s*&)/g, "")
+							.replace(/[\r\n]/g, "")
+					: "";
+
+				JXRSApi.app.news.updateNewsInfoIcon({
+					contentId: parseInt(this.contentid, 10),
+					channelId: parseInt(this.channelid, 10),
+					isCollected: !!info.isCollected,
+					isSupported: !!info.isSupported,
+					likeCount: info.likeCount,
+					commentCount: info.commentCount || 0,
+					content
+				});
 			},
-			__fetchRecommends() {
-				return this.$http.news
-					.getRecommends({
+			async __fetchRecommends() {
+				const [err, data] = await this.$sync(
+					this.$http.news.getRecommends({
 						contentId: this.contentid,
 						channelId: this.channelid
 					})
-					.then(data => {
-						this.recommendNews = data.list;
-					});
+				);
+
+				if (err) return;
+
+				this.recommendNews = data.list;
 			},
-			__fetchComments() {
+			async __fetchComments() {
 				this.page = 1;
-				return this.$http.news
-					.getComments({ contentId: this.contentid })
-					.then(data => {
-						this.list = data.list;
-						this.total = data.count;
-					});
+				const [err, data] = await this.$sync(
+					this.$http.news.getComments({ contentId: this.contentid })
+				);
+				if (err) return;
+				this.list = data.list;
+				this.total = data.count;
 			},
-			__fetch() {
-				this.__fetchDetail();
-				this.__fetchRecommends();
-				this.__fetchComments();
+			async __fetch() {
+				await this.__fetchDetail();
+				await this.__fetchRecommends();
+				await this.__fetchComments();
 			},
-			__append() {
+			async __append() {
 				// 由于此个页面上拉加载更多只是去加载评论内容
-				return this.$http.news
-					.getComments({
+				const [err, data] = await this.$sync(
+					this.$http.news.getComments({
 						startIndex: ++this.page,
 						contentId: this.contentid
 					})
-					.then(data => {
-						const list = data.list;
-						if (list && list.length) {
-							this.list = this.list.concat(list);
-						}
-					});
+				);
+				if (err) return;
+
+				const list = data.list;
+				if (list && list.length) {
+					this.list = this.list.concat(list);
+				}
 			},
 			handleCommentEmptyClick() {
 				// 通知App去发表评论
@@ -235,6 +268,19 @@
 					item.supportNum += isSupported ? -1 : 1;
 					item.isSupported = !isSupported;
 				});
+			},
+			handleContentClick(event) {
+				const target = event.target;
+				if (!this.$isDev && target.tagName === "IMG") {
+					const hasDataSrc = target.hasAttribute("data-src");
+					JXRSApi.app.news.openImgViewer({
+						currentImgUrl: target.getAttribute(
+							hasDataSrc ? "data-src" : "src"
+						),
+						currentIndex: target.getAttribute("data-index") || 0,
+						imgs: this.imgs
+					});
+				}
 			}
 		},
 		created() {

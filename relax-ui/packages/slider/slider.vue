@@ -206,9 +206,8 @@
 		},
 		created() {
 			// IOS端无需开启click:true的配置
-			const ua = navigator.userAgent.toLowerCase();
-			this.innerClick = !!~ua.indexOf("android");
-
+			// const ua = navigator.userAgent.toLowerCase();
+			// this.innerClick = !!~ua.indexOf("android");
 			this.$on("fn.init", () => {
 				this.__reset();
 			});

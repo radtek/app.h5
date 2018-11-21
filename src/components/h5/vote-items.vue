@@ -225,7 +225,7 @@
 							});
 							if (!hasSelect) {
 								return Promise.reject(
-									new Error("你还有未投票内容")
+									new Error("您还有部分问题未填写意见，请填写完整")
 								);
 							}
 							// 通过reply去查找选中的项
@@ -255,7 +255,7 @@
 
 							if (checkedLen === 0 || hasOtherNoText) {
 								return Promise.reject(
-									new Error("你还有未投票内容")
+									new Error("您还有部分问题未填写意见，请填写完整")
 								);
 							}
 						} else if (theme.voteType === 3) {
@@ -271,7 +271,7 @@
 							});
 							if (checkedLen !== theme.infoVoteOptionsList.length) {
 								return Promise.reject(
-									new Error("你还有未投票内容")
+									new Error("您还有部分问题未填写意见，请填写完整")
 								);
 							}
 						}

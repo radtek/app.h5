@@ -647,3 +647,44 @@ App端接收H5的通知
 		url: 分享出去的H5链接地址
 	}
 ```
+
+
+# 5.资讯
+
+## 1. 资讯详情页面
+
+### H5端通知App显示图片预览器
+
+```js
+H5通知App
+
+操作名称: app.news.openImgViewer
+
+操作参数: 
+	{
+		"currentImgUrl":  当前需要展示的图片路径
+		"currentIndex": 当前展示的图片对应的索引
+		"imgs": 当前需要展示的图片数组
+	}
+```
+
+# 6. 生日贺卡
+
+## 生日贺卡页面 (card/birth?id=生日贺卡id&passport)
+
+### 点击生日祝福跳转
+
+```js
+H5通知App
+
+操作名称: view.goto
+
+操作参数: 
+	{
+		"title":"生日感言",
+		"url":"native://myBirthSpeech"
+		"query":{
+			"speech":"生日感言"
+		}
+	}
+```
