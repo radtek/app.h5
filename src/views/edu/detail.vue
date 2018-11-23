@@ -84,6 +84,7 @@
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
 	import ScrollToComment from "~m/scroll-to-comment";
+	import { setTimeout } from "timers";
 	const REG_HTML_SCRIPT = /<script[^>]*?>[\s\S]*?<\/script>/g;
 	const REG_HTML_STYLE = /<style[^>]*?>[\s\S]*?<\/style>/g;
 	export default {
@@ -309,7 +310,9 @@
 						this.isNight = isNight;
 					})
 					.on("app.education.refreshComments", () => {
-						this.__fetchComments();
+						setTimeout(() => {
+							this.__fetchComments();
+						}, 500);
 					})
 					.on("app.education.scrollToComment", () => {
 						this.__scrollToComment();

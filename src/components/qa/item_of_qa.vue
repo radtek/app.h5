@@ -14,7 +14,7 @@
 					<rx-row :flex="false">
 						<rx-col :span="16"
 						        v-if="row.infoAnswer.answer">
-							<span class="content">{{row.infoAnswer.answer | overflowContent}}</span>
+							<span class="content">{{row.infoAnswer.answer | removeHtmlTag | overflowContent}}</span>
 						</rx-col>
 						<rx-col :span="row.infoAnswer.answer ?8:24"
 						        align="right">

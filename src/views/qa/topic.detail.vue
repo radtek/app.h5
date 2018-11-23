@@ -31,7 +31,8 @@
 		.topic {
 			&-header {
 				width: 100%;
-				img {
+				img,
+				video {
 					width: 100%;
 					height: 422px;
 				}
@@ -58,7 +59,7 @@
 				color: #0097ee;
 				float: left;
 				display: block;
-				line-height: 40px;
+				line-height: 1;
 				margin-top: 2px;
 			}
 
@@ -81,9 +82,9 @@
 			}
 		}
 
-		.topic-content {
+		.pane-answer {
 			.topic-tag {
-				margin-top: 0;
+				margin-top: 10px;
 			}
 		}
 	}
@@ -103,7 +104,11 @@
 			<rx-pull-up slot="up"></rx-pull-up>
 			<div class="pane-ques">
 				<div class="topic-header">
-					<img v-if="question.imgPath && question.imgPath.length"
+					<video v-if="question.videoPath"
+					       :src="question.videoPath"
+					       :poster="question.imgPath"
+					       controls></video>
+					<img v-else-if="question.imgPath && question.imgPath.length"
 					     :src="question.imgPath[0]" />
 				</div>
 				<div class="topic-body">
@@ -238,12 +243,6 @@
 				this.userIds = userIds;
 				if (!this.$isDev) {
 					JXRSApi.app.qa.refreshH5IMInfo({ userIds });
-				} else {
-					console.log &&
-						console.log(
-							"JXRSApi.app.qa.refreshH5IMInfo:",
-							this.userIds
-						);
 				}
 				this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfA");
 			},
@@ -274,12 +273,6 @@
 					this.userIds = userIds;
 					if (!this.$isDev) {
 						JXRSApi.app.qa.refreshH5IMInfo({ userIds });
-					} else {
-						console.log &&
-							console.log(
-								"JXRSApi.app.qa.refreshH5IMInfo:",
-								this.userIds
-							);
 					}
 
 					this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfA");
@@ -365,7 +358,7 @@
 								default:
 									break;
 							}
-							for (let l = list.length; l--;) {
+							for (let l = list.length; l--; ) {
 								if (list[l].id === id) {
 									list[l][prop] =
 										(list[l][prop] || 0) + (count || 1);

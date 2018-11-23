@@ -14,13 +14,13 @@
 			     @click.stop="handleGoto"></div>
 		</rx-read-more>
 		<template slot="footer">
-			<a-status :row="row"
-			          :ques-info="question"></a-status>
-			<a-status-v2 :row="row"
+			<!-- <a-status :row="row"
+			          :ques-info="question"></a-status> -->
+			<a-status-v4 :row="row"
 			             @on-share="handleAnswerShare"
 			             @on-zan="handleAnswerZan"
 			             @on-comment="handleGoto">
-			</a-status-v2>
+			</a-status-v4>
 		</template>
 		<template slot="img"
 		          v-if="row.imgPath && row.imgPath.length">
@@ -53,12 +53,12 @@
 				import(/* webpackChunkName:"wc-user" */ "~c/qa/user.vue").then(
 					cmp => utils.asyncCmp.solution(cmp, "DetailOfA")
 				),
-			AStatus: () =>
-				import(/* webpackChunkName:"wc-status_of_a" */ "~c/qa/status_of_a.vue").then(
-					utils.asyncCmp.solution
-				),
-			AStatusV2: () =>
-				import(/* webpackChunkName:"wc-status_of_a_v2" */ "~c/qa/status_of_a_v2.vue").then(
+			// AStatus: () =>
+			// 	import(/* webpackChunkName:"wc-status_of_a" */ "~c/qa/status_of_a.vue").then(
+			// 		utils.asyncCmp.solution
+			// 	),
+			AStatusV4: () =>
+				import(/* webpackChunkName:"wc-status_of_a_v4" */ "~v/qa/wc/status_of_a_v4.vue").then(
 					utils.asyncCmp.solution
 				)
 		},

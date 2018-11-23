@@ -33,12 +33,9 @@
 		font-size: $btn-font-size;
 	}
 
-	// i + span {
-	// 	margin-left: -2px;
-	// }
-
 	&.text {
-		i + span {
+		i + span,
+		span + i {
 			margin-left: 5px;
 		}
 	}

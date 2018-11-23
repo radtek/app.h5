@@ -95,8 +95,8 @@ $defaultSize: (
 		&.not_wechat {
 			.content {
 				img {
-					width: 80% !important;
-					height: 80% !important;
+					width: 100% !important;
+					height: 100% !important;
 					margin-left: 50%;
 					transform: translateX(-50%);
 				}
@@ -169,7 +169,7 @@ $defaultSize: (
 		}
 	}
 
-	/**夜晚*/
+	/** 夜晚 */
 
 	&.isnight {
 		background: #1a1a1a;

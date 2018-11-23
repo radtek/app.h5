@@ -56,6 +56,7 @@
 			<comment-pane :total="total"
 			              :list="list"
 			              :zan="answer.supportCount"
+			              :is-show-zan="topic!=='1'"
 			              @on-empty-click="handleCommentEmptyClick">
 				<comment-item ref="items"
 				              v-for="(comment,index) in list"

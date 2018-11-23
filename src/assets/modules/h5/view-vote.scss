@@ -97,6 +97,17 @@
 		&_inner {
 			padding: 30px;
 
+			.user-info {
+				* {
+					vertical-align: top;
+				}
+
+				img {
+					width: 40px;
+					height: 40px;
+				}
+			}
+
 			.title {
 				padding-bottom: 30px;
 				color: #666;

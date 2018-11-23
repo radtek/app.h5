@@ -29,6 +29,8 @@
 						<span>&nbsp;&nbsp;{{userInfo.clickCountSum}}人阅读</span>
 						<rx-btn slot="rightAction"
 						        class="primary"
+						        icon="arrow-right"
+						        icon-position="right"
 						        @on-click="goto('我的问答','/profile')">我的问答</rx-btn>
 					</rx-cell-avatar>
 					<rx-row justify="center"
@@ -45,7 +47,7 @@
 							        @on-click="gotoNative('提问','createQuestion')">提问</rx-btn>
 						</rx-col>
 						<rx-col>
-							<rx-btn icon="tiwen1"
+							<rx-btn icon="topic"
 							        type="text"
 							        @on-click="goto('话题列表','/topic.list')">话题</rx-btn>
 						</rx-col>
@@ -53,9 +55,14 @@
 				</rx-card>
 				<!-- 话题轮播 -->
 				<rx-slider async
-				           :offset="-45"
+				           :offset="-20"
 				           :gutter="20"
-				           ref="slider">
+				           :dot="false"
+				           ref="slider"
+				           :interval="4000"
+				           :speed="600"
+				           :loop="swipeTopics.length >1"
+				           :auto-play="swipeTopics.length >1">
 					<rx-cell-avatar v-for="(topic,index) in swipeTopics"
 					                :key="index"
 					                :circle="false">
@@ -67,14 +74,16 @@
 						</template>
 						<h2 slot="header"
 						    @click="goto('话题详情','/topic.detail',{qid:topic.id})">{{topic.question}}</h2>
-						<h4 @click="goto('话题详情','/topic.detail',{qid:topic.id})">{{topic.description | removeHtmlTag | overflowContent(10)}}</h4>
+						<h4 @click="goto('话题详情','/topic.detail',{qid:topic.id})">{{topic.description | removeHtmlTag | overflowContent(15)}}</h4>
 					</rx-cell-avatar>
 				</rx-slider>
 				<rx-card class="list-card"
 				         padding="h">
 					<template slot="header">
-						<span class="title">为你推荐</span>
+						<span class="title"><i class="rx-icon icon-qa-heart"></i> 为你推荐</span>
 						<rx-btn type="text"
+						        icon="arrow-right-fill"
+						        icon-position="right"
 						        @on-click="goto('问题列表','/questions')">查看更多</rx-btn>
 					</template>
 					<rx-skeleton-cell v-if="isPrerender2"></rx-skeleton-cell>

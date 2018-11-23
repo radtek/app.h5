@@ -4,4 +4,10 @@
 			border: none;
 		}
 	}
+
+	&.b-left {
+		.rx-dialog_body {
+			text-align: left;
+		}
+	}
 }

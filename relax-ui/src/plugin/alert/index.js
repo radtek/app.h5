@@ -10,14 +10,15 @@ let instance;
  *
  * @param {String|Object} title
  * @param {String|Object} content
+ * @param {Boolean} isLeftContent
  */
-const Alert = function(content, title = "提示") {
+const Alert = function(content, title = "提示", isLeftContent = false) {
 	if (Vue.prototype.$isServer) return;
 	let options;
 	if (typeof content === "object") {
 		options = content;
 	} else {
-		options = { title, content, value: true };
+		options = { title, content, value: true, contentLeft: isLeftContent };
 	}
 
 	if (!instance) {

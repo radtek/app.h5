@@ -74,6 +74,7 @@
 	import { utils } from "~rx";
 	import ScrollToComment from "~m/scroll-to-comment";
 	import Pull from "~m/pull";
+	import { setTimeout } from "timers";
 	const REG_HTML_SCRIPT = /<script[^>]*?>[\s\S]*?<\/script>/g;
 	const REG_HTML_STYLE = /<style[^>]*?>[\s\S]*?<\/style>/g;
 	export default {
@@ -308,7 +309,9 @@
 
 			if (!this.$isDev) {
 				JXRSApi.on("app.news.refreshComments", () => {
-					this.__fetchComments();
+					setTimeout(() => {
+						this.__fetchComments();
+					}, 500);
 				})
 					.on("app.news.scrollToComment", () => {
 						this.__scrollToComment();

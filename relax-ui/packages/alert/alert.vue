@@ -3,7 +3,8 @@
 </style>
 
 <template>
-	<div class="rx-alert">
+	<div class="rx-alert"
+	     :class="[{'b-left':contentLeft}]">
 		<dlg v-model="show"
 		     :mask-z-index="maskZIndex"
 		     :close-on-mask="closeOnMask"
@@ -36,6 +37,7 @@
 		name: "RxAlert",
 		components: { dlg },
 		props: {
+			contentLeft: Boolean,
 			value: Boolean,
 			okText: String,
 			title: String,

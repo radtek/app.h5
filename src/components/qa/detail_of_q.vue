@@ -20,6 +20,8 @@
 				</rx-row>
 			</template>
 			<q-status :row="row"
+			          :can-answer="false"
+			          :show-tag="false"
 			          slot="footer"></q-status>
 		</rx-cell>
 	</rx-card>

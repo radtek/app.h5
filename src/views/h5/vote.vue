@@ -14,6 +14,9 @@
 					<div class="vote_items">
 						<vote-items :aid="activityId"
 						            :status.sync="voteStatus"
+						            :mzpy="mzpy"
+						            :unit-id="unitid"
+						            :user-id="userid"
 						            ref="voteItems"></vote-items>
 					</div>
 				</rx-tab-pane>
@@ -36,7 +39,9 @@
 			<rx-btn :type="!voteStatus?'primary':'info'"
 			        :disabled="voteStatus"
 			        :loading.sync="isSubmiting"
-			        @on-click="handleVoteSubmit">{{voteStatus?'你已投票': isSubmiting ? '投票中...':'确定投票'}}</rx-btn>
+			        @on-click="handleVoteSubmit">
+				{{btnText}}
+			</rx-btn>
 		</div>
 	</section>
 </template>
@@ -57,12 +62,32 @@
 		},
 		data() {
 			return {
+				// 是否是民主评议投票的链接 1:是
+				mzpy: "",
+				unitid: "",
+				userid: "",
 				voteStatus: false,
 				isSubmiting: false,
 				tabIndex: 0,
 				selected: {},
 				showVoteItems: false
 			};
+		},
+		computed: {
+			btnText() {
+				if (this.mzpy === "1") {
+					return this.voteStatus
+						? "互评已提交"
+						: this.isSubmiting
+							? "提交中..."
+							: "提交互评";
+				}
+				return this.voteStatus
+					? "你已投票"
+					: this.isSubmiting
+						? "投票中..."
+						: "确定投票";
+			}
 		},
 		watch: {
 			tabIndex(val) {
@@ -101,12 +126,13 @@
 					})
 					.catch(err => {
 						this.isSubmiting = false;
+						if (err === false) return;
 						this.$alert(err.message || "投票发生异常", "");
 					});
 			}
 		},
 		created() {
-			this.getQS("activityId");
+			this.getQS("activityId", "mzpy", "unitid", "userid");
 			this.$rxUtils.asyncCmpListenApi.on("VoteItems.afterMounted", cmp => {
 				this.broadcast("VoteItems", "fn.fetch");
 				this.broadcast("VoteStatistics", "fn.fetch");
@@ -123,13 +149,13 @@
 					setTimeout(() => {
 						this.broadcast("VoteItems", "fn.fetch");
 						this.broadcast("VoteStatistics", "fn.fetch");
-					}, 800);
+					}, 600);
 				})
 				.catch(() => {
 					this.showVoteItems = false;
 					setTimeout(() => {
 						this.broadcast("VoteStatistics", "fn.fetch");
-					}, 800);
+					}, 600);
 				});
 		}
 	};

@@ -181,12 +181,6 @@
 						this.userIds = userIds;
 						if (!this.$isDev) {
 							JXRSApi.app.qa.refreshH5IMInfo({ userIds });
-						} else {
-							console.log &&
-								console.log(
-									"JXRSApi.app.qa.refreshH5IMInfo:",
-									this.userIds
-								);
 						}
 						this.$rxUtils.asyncCmp.dataReady.call(this, "DetailOfA");
 					});
@@ -217,12 +211,6 @@
 							this.userIds = userIds;
 							if (!this.$isDev) {
 								JXRSApi.app.qa.refreshH5IMInfo({ userIds });
-							} else {
-								console.log &&
-									console.log(
-										"JXRSApi.app.qa.refreshH5IMInfo:",
-										this.userIds
-									);
 							}
 
 							this.$rxUtils.asyncCmp.dataReady.call(

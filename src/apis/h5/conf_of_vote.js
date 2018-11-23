@@ -4,7 +4,7 @@ export default [
 		outKey: "getVoteItems",
 		action: "/mobile/v1/getVoteListByActiveId.life",
 		needPassport: true,
-		reqParams: ["activityId"]
+		reqParams: ["activityId", { name: "isMZPY", default: "" }]
 	},
 	{
 		// desp: "查询投票统计信息",
@@ -19,7 +19,13 @@ export default [
 		action: "/mobile/v1/doVoteTheme.life",
 		needPassport: true,
 		contentType: "json",
-		reqParams: ["activityId", "voteIds", "voteResultList"]
+		reqParams: [
+			"activityId",
+			"voteIds",
+			"voteResultList",
+			{ name: "isMZPY", default: "" },
+			{ name: "unitId", default: "" }
+		]
 	},
 	{
 		// desp:"判断是否可以投票",
