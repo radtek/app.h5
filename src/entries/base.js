@@ -14,6 +14,7 @@ FastClick.attach(document.body);
 const isDebugMode = process.env.NODE_ENV !== "production";
 
 export function createVue(Vue, datas, jsApiActions) {
+	console.log(datas.http)
 	Vue.use(RelaxUI, {
 		onImgErrSrcGetter(isAvatar) {
 			if (utils.isSupportWebp()) {
