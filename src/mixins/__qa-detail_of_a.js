@@ -42,7 +42,7 @@ export default {
 
 				for (let i = 1; i <= fullNum; i++) {
 					if (i === fullNum) {
-						rslts.push(imgs.slice((i - 1) * 3, len - 1));
+						rslts.push(imgs.slice((i - 1) * 3));
 					} else {
 						rslts.push(imgs.slice((i - 1) * 3, (i - 1) * 3 + 3));
 					}
