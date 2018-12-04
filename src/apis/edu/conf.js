@@ -20,14 +20,14 @@ export default [
 	},
 	{
 		// 学习教育: 点赞用户评论
-		outKye: "addZanToComment",
+		outKey: "addZanToComment",
 		action:
 			"mobile/v1/studyCustomController/insertContentCommentSupporter.lm",
 		reqParams: ["commentId"]
 	},
 	{
 		// 学习教育: 取消点赞用户评论
-		outKye: "cancelZanToComment",
+		outKey: "cancelZanToComment",
 		action:
 			"mobile/v1/studyCustomController/delContentCommentSupportern.lm",
 		reqParams: ["commentId"]
