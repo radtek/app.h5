@@ -1,5 +1,5 @@
 <style lang="scss">
-	@import "../../assets/modules/qa/view-answer_detail.scss";
+	@import "../../assets/modules/qa/item_topic-tag.scss";
 	[rs-view="answer"] {
 		.rx-cell-avatar.p {
 			padding: 15px 30px 0 30px;
