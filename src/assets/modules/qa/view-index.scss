@@ -70,7 +70,7 @@
 		}
 	}
 
-	.rx-slider {
+	.rx-swiper {
 		padding: 30px 0;
 		background: #f5f5f5;
 
@@ -78,10 +78,14 @@
 			border-radius: 16px;
 			background-color: #edeae9;
 		}
-	}
 
-	.rx-slider-group img {
-		width: 140px;
-		height: 96px;
+		img {
+			width: 140px;
+			height: 100px;
+		}
+		
+		.rx-cell-content{
+			padding-left:20px;
+		}
 	}
 }
