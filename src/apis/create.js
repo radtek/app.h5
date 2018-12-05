@@ -6,7 +6,11 @@ import { stringify } from "qs";
 
 const isProd = process.env.NODE_ENV === "production";
 
-const apiRoot = `${window.location.protocol}//${process.env.JXRS_ORIGIN}/`;
+const apiRoot = `${
+	process.env.NODE_ENV === "development"
+		? "http://manage.guotailimin.com"
+		: window.location.origin
+}/`;
 
 // axios 配置
 axios.defaults.timeout = 15000;
