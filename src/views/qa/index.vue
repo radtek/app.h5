@@ -1,5 +1,5 @@
 <style lang="scss">
-	@import "../../assets/modules/qa/view-index.scss";
+  @import "../../assets/modules/qa/view-index.scss";
 </style>
 
 <template>
@@ -110,6 +110,7 @@
                   v-for="(q,index) in listPart1"
                   :key="index"
                   :row="q"
+                  :show-tag="false"
                   :can-answer="false"
                   :async="false"></item>
           </template>
@@ -131,6 +132,7 @@
                 v-for="(q,index) in listPart2"
                 :key="listPart1.length + index"
                 :row="q"
+                :show-tag="false"
                 :can-answer="false"
                 :async="false"></item>
         </rx-card>
