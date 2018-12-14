@@ -1,0 +1,30 @@
+.vote-statistics {
+	.empty-wrapper {
+		text-align: center;
+
+		img {
+			width: 223px;
+			height: 383px;
+			margin: auto;
+			margin-top: 201px;
+			text-align: center;
+		}
+
+		p.tips {
+			width: 100%;
+			margin-top: 38px;
+			color: #999;
+			font-weight: bold;
+			font-size: 28px;
+			text-align: center;
+		}
+	}
+
+	.kfx-btn {
+		margin-top: 20px;
+		margin-left: 142px;
+		color: #0097ee;
+		font-size: 32px;
+		line-height: 48px;
+	}
+}

@@ -198,6 +198,10 @@
 			background-color: #ecedee;
 		}
 
+		tbody tr:first-child {
+			background: #f6fafd;
+		}
+
 		th,
 		tbody tr:last-child td {
 			font-weight: bold;

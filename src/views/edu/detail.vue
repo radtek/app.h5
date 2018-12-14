@@ -1,21 +1,21 @@
 <style lang="scss">
-	@import "../../assets/modules/edu/view-detail.scss";
-	[rs-view="detail"] {
-		.content {
-			img {
-				width: 90%;
-				margin-left: 5%;
-			}
-		}
+  @import "../../assets/modules/edu/view-detail.scss";
+  [rs-view="detail"] {
+  	.content {
+  		img {
+  			width: 90%;
+  			margin-left: 5%;
+  		}
+  	}
 
-		.pane_of_comment .rx-card_header span {
-			border-left: none;
-		}
+  	.pane_of_comment .rx-card_header span {
+  		border-left: none;
+  	}
 
-		.editable-item > .rx-col:last-child {
-			border: none;
-		}
-	}
+  	.editable-item > .rx-col:last-child {
+  		border: none;
+  	}
+  }
 </style>
 
 <template>
@@ -92,7 +92,7 @@
   	asyncListenCmps: "RsEduItemOfAttach,ItemOfComment",
   	components: {
   		Item: () =>
-  			import(/* webpackChunkName:"wc-education-item_of_attach" */ "~c/h5/education-item_of_attach.vue").then(
+  			import(/* webpackChunkName:"wc-education-item_of_attach" */ "~c/edu/education-item_of_attach.vue").then(
   				cmp => utils.asyncCmp.solution(cmp, "VwEduDetail")
   			),
   		CommentPane: () =>

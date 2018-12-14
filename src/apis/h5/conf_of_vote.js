@@ -14,6 +14,20 @@ export default [
 		reqParams: ["activityId", { name: "isMZPY", default: "" }]
 	},
 	{
+		// "查询开发型投票的列表信息",
+		outKey: "getKFXVotes",
+		action: "mobile/v1/getActiveVoteQuestion.life",
+		needPassport: true,
+		reqParams: ["activityId"]
+	},
+	{
+		// "查询开发型投票的回答统计信息",
+		outKey: "getKFXStatistics",
+		action: "mobile/v1/getActiveVoteAnswer.life",
+		needPassport: true,
+		reqParams: ["activityId", "voteThemeId"]
+	},
+	{
 		// desp: "提交问卷"
 		outKey: "submit",
 		action: "/mobile/v1/doVoteTheme.life",

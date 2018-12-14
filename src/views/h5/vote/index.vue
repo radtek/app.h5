@@ -1,5 +1,5 @@
 <style lang="sass">
-@import "../../assets/modules/h5/view-vote.scss"
+@import "../../../assets/modules/vote/view-vote.scss"
 </style>
 
 <template>
@@ -22,7 +22,8 @@
         </rx-tab-pane>
         <rx-tab-pane ref="pane"
                      label="统计结果"
-                     :index="1">
+                     :index="1"
+                     v-if="role !== '1'">
           <vote-statistics :aid="activityId"
                            :mzpy="mzpy"
                            :role="role"></vote-statistics>
@@ -31,7 +32,8 @@
       <template v-else>
         <rx-tab-pane ref="pane"
                      label="统计结果"
-                     :index="0">
+                     :index="0"
+                     v-if="role !== '1'">
           <vote-statistics :aid="activityId"
                            :mzpy="mzpy"
                            :role="role"></vote-statistics>
@@ -56,11 +58,11 @@
   	name: "PageOfVote",
   	components: {
   		VoteItems: () =>
-  			import(/* webpackChunkName:"wc-vote_items" */ "~c/h5/vote-items.vue").then(
+  			import(/* webpackChunkName:"wc-vote_items" */ "~c/vote/vote-items.vue").then(
   				utils.fixAsyncCmpLifeCycle
   			),
   		VoteStatistics: () =>
-  			import(/* webpackChunkName:"wc-vote_statistics" */ "~c/h5/vote-statistics.vue").then(
+  			import(/* webpackChunkName:"wc-vote_statistics" */ "~c/vote/vote-statistics.vue").then(
   				utils.fixAsyncCmpLifeCycle
   			)
   	},

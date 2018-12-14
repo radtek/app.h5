@@ -1,30 +1,8 @@
-<style lang="scss">
-.vote-container{
-	.empty-wrapper{
-		text-align: center;
-		img{
-			width:223px;
-			height:383px;
-			text-align: center;
-			margin:auto;
-			margin-top:201px;
-		}
-
-		p.tips{
-			color:#999;
-			font-size:28px;
-			text-align: center;
-			width:100%;
-			font-weight: bold;
-			margin-top:38px;
-		}
-	}
-}
+<style lang="sass">
+ @import "../../assets/modules/vote/statistics.scss"
 </style>
-
-
 <template>
-  <div class="vote-container">
+  <div class="vote-statistics">
     <template v-if="role === '1'">
       <div class="empty-wrapper">
         <img :src="noAccessImg" />
@@ -51,7 +29,12 @@
                 [单选题]
               </span>
             </p>
-            <div class="wrap_of_tb">
+            <div v-if="theme.kfx">
+              <p @click.stop="goto('结果详情','/vote.statistics.kfx',{index,aid,vtid:theme.voteThemeId})"
+                 class="kfx-btn">查看结果详情>></p>
+            </div>
+            <div v-else
+                 class="wrap_of_tb">
               <table>
                 <thead>
                   <tr>
@@ -115,7 +98,7 @@
   	},
   	data() {
   		return {
-  			noAccessImg: require("~css/modules/h5/no-access.png"),
+  			noAccessImg: require("~css/modules/vote/no-access.png"),
   			list: [],
   			isLoaded: false
   		};
@@ -140,17 +123,60 @@
 
   			return total;
   		},
-  		__fetch() {
-  			return this.$http.vote
-  				.getVoteStatistics({
-  					activityId: this.aid,
-  					requestUserId: this.uid,
-  					isMZPY: this.mzpy,
-  					passport: this.authInfo.passport
-  				})
-  				.then(resp => {
-  					this.list = resp.result.list;
-  				});
+  		async __fetch() {
+  			const [err, resp] = await this.$sync(
+  				Promise.all([
+  					this.$http.vote.getVoteStatistics({
+  						activityId: this.aid,
+  						requestUserId: this.uid,
+  						isMZPY: this.mzpy,
+  						passport: this.authInfo.passport
+  					}),
+  					this.$http.vote.getKFXVotes({
+  						activityId: this.aid,
+  						passport: this.authInfo.passport
+  					})
+  				])
+  			);
+
+  			if (!err) {
+  				console.log(resp);
+  				const kfxVotes = [];
+  				const temp = {};
+  				if (resp[1] && resp[1].result) {
+  					resp[1].result.forEach(it => {
+  						if (temp[it.voteId] >= 0) {
+  							kfxVotes[temp[it.voteId]].infoVoteThemeList.push({
+  								kfx: true,
+  								voteThemeId: it.voteThemeId,
+  								voteTheme: it.voteTheme
+  							});
+  						} else {
+  							temp[it.voteId] = kfxVotes.length;
+  							kfxVotes[kfxVotes.length] = {
+  								voteId: it.voteId,
+  								voteTitle: it.voteTitle,
+  								infoVoteThemeList: [
+  									{
+  										kfx: true,
+  										voteThemeId: it.voteThemeId,
+  										voteTheme: it.voteTheme
+  									}
+  								]
+  							};
+  						}
+  					});
+  				}
+  				if (resp[0] && resp[0].result) {
+  					if (resp[0].result.list && resp[0].result.list.length) {
+  						this.list = kfxVotes.concat(resp[0].result.list);
+  					} else {
+  						this.list = kfxVotes;
+  					}
+  				}
+
+  				this.list.sort((a, b) => (a <= b ? -1 : 1));
+  			}
   		}
   	},
   	created() {
