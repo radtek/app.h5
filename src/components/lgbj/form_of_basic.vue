@@ -216,6 +216,7 @@
 		},
 		created() {
 			this.$http.lgbj.getEducationList().then(data => {
+				console.log(data)
 				if (data.result && data.result.length) {
 					this.educationActions = data.result.map(it => {
 						return {
