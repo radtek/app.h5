@@ -246,6 +246,7 @@
   			}
   		},
   		__getRealUrlOfImg(img) {
+  			if (!img) return;
   			if (
   				img.hasAttribute("data-src") &&
   				this.$rxUtils.isInClientView(img)

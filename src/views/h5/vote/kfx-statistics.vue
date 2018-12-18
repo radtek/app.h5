@@ -1,5 +1,13 @@
-<style lang="sass">
-@import "../../../assets/modules/vote/view-vote.scss"
+<style lang="scss">
+  @import "../../../assets/modules/vote/view-vote.scss";
+  [rs-view="vote"] {
+  	tbody tr {
+  		&:last-child,
+  		&:first-child {
+  			background: #f6fafd;
+  		}
+  	}
+  }
 </style>
 
 <template>

@@ -59,6 +59,8 @@ import Header from "./packages/header/index";
 
 import { Swiper, SwiperItem } from "./packages/swiper/index";
 
+import Avatar from "./packages/avatar/index";
+
 const components = [
 	Row,
 	Col,
@@ -105,7 +107,8 @@ const components = [
 	VTooltip,
 	Header,
 	Swiper,
-	SwiperItem
+	SwiperItem,
+	Avatar
 ];
 
 function install(Vue, options = {}) {
@@ -189,7 +192,8 @@ export {
 	VTooltip,
 	Header,
 	Swiper,
-	SwiperItem
+	SwiperItem,
+	Avatar
 };
 
 export default install;

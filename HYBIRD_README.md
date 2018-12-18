@@ -702,3 +702,24 @@ H5通知App
 
 操作参数: 无
 ```
+
+## 投票结果页
+
+### 点击"查看结果详情"跳转至开发型结果统计页面
+
+```js
+H5通知App
+
+操作名称: view.goto
+
+操作参数: 
+	    {
+			"title":"目标页面的标题",
+			"url":"https://manage.guotailimin.com/h5/vote.statistics.kfx"
+			"query":{
+				index:当前题目的序号,
+				aid:活动id,
+				vtid:投票主题id
+			}
+		}
+```

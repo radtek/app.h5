@@ -23,7 +23,20 @@
         <rx-card v-else
                  class="card-user"
                  :padding="false">
-          <rx-cell-avatar :avatar="userInfo.user.imgPath">
+          <rx-cell-avatar>
+            <template slot="img">
+              <rx-avatar v-if="__isEmptyAvatar(userInfo.user.imgPath)"
+                         :sex="userInfo.user.sex"
+                         :padding="8"
+                         :width="50"
+                         :height="50">
+                {{__convertUserName(userInfo.user.userName)}}
+              </rx-avatar>
+              <img v-else
+                   :src="userInfo.user.imgPath"
+                   class="circle"
+                   alt="头像" />
+            </template>
             <h2 slot="header">{{userInfo.user.userName}}</h2>
             <span>回答获得{{userInfo.supportCountSum}}赞</span>
             <span>&nbsp;&nbsp;{{userInfo.clickCountSum}}人阅读</span>
@@ -53,7 +66,6 @@
             </rx-col>
           </rx-row>
         </rx-card>
-
         <rx-swiper :pagination="false"
                    :autoplay-time="4000"
                    :speed="720">
@@ -71,30 +83,6 @@
             </rx-cell-avatar>
           </rx-swiper-item>
         </rx-swiper>
-
-        <!-- 话题轮播 -->
-        <!-- <rx-slider async
-                   :offset="-20"
-                   :gutter="20"
-                   :dot="false"
-                   ref="slider"
-                   :interval="4000"
-                   :speed="600"
-                   :loop="swipeTopics.length >1"
-                   :auto-play="swipeTopics.length >1">
-          <rx-cell-avatar v-for="(topic,index) in swipeTopics"
-                          :key="index"
-                          :circle="false"
-                          @on-click="onTopicGoto(topic)">
-            <template slot="img">
-              <img v-if="topic.imgPath && topic.imgPath.length"
-                   :src="topic.imgPath[0]"
-                   @error="onImgErr">
-            </template>
-            <h2 slot="header">{{topic.question}}</h2>
-            <h4>{{topic.description | removeHtmlTag | overflowContent(15)}}</h4>
-          </rx-cell-avatar>
-        </rx-slider> -->
         <rx-card class="list-card"
                  padding="h">
           <template slot="header">
@@ -145,6 +133,7 @@
   import { utils } from "~rx";
   import Pull from "~m/pull";
   import Msgbox from "~m/__msgbox";
+  import UserNameMixin from "~m/__username";
   export default {
   	name: "PageOfIndex",
   	asyncListenCmps: "ItemOfQA,ImUsers",
@@ -158,7 +147,7 @@
   				cmp => utils.asyncCmp.solution(cmp, "PageOfIndex")
   			)
   	},
-  	mixins: [Pull, Msgbox],
+  	mixins: [Pull, Msgbox, UserNameMixin],
   	provide() {
   		return {
   			qaList: this

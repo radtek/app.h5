@@ -13,10 +13,8 @@ export default {
 				if (this.row.isAnonymous === 1) {
 					return {
 						userName: "匿名",
-						imgPath:
-							this.row.communityUser.sex === 1
-								? this.$DEFAULT_AVATAR
-								: this.$DEFAULT_AVATAR_FEMALE,
+						sex: this.row.communityUser.sex,
+						imgPath: "",
 						isAnonymous: 1
 					};
 				}

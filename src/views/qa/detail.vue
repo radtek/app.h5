@@ -1,33 +1,33 @@
 <style lang="scss">
-	@import "../../assets/modules/qa/view-question_detail.scss";
-	[rs-view="detail"] {
-		.rx-cell-avatar.p {
-			padding: 15px 30px 0 30px;
-		}
-		.rx-cell-header {
-			padding-bottom: 0;
-			padding-top: 5px;
-		}
-		.rx-cell-imgs {
-			margin-top: 10px;
-		}
+  @import "../../assets/modules/qa/view-question_detail.scss";
+  [rs-view="detail"] {
+  	.rx-cell-avatar.p {
+  		padding: 15px 30px 0 30px;
+  	}
+  	.rx-cell-header {
+  		padding-bottom: 0;
+  		padding-top: 5px;
+  	}
+  	.rx-cell-imgs {
+  		margin-top: 10px;
+  	}
 
-		.empty-wrap {
-			padding: 61px 0 81px 0;
-			color: #666;
-			font-size: 30px;
-			text-align: center;
+  	.empty-wrap {
+  		padding: 61px 0 81px 0;
+  		color: #666;
+  		font-size: 30px;
+  		text-align: center;
 
-			.rx-icon {
-				color: #0091f5;
-				font-size: 46px;
-			}
+  		.rx-icon {
+  			color: #0091f5;
+  			font-size: 46px;
+  		}
 
-			p {
-				padding-top: 27px;
-			}
-		}
-	}
+  		p {
+  			padding-top: 27px;
+  		}
+  	}
+  }
 </style>
 
 <template>
@@ -119,7 +119,8 @@
   						if (question.isAnonymous === 1) {
   							userInfo = {
   								userName: "匿名",
-  								imgPath: this.$DEFAULT_AVATAR,
+  								sex: question.communityUser.sex,
+  								imgPath: "",
   								isAnonymous: 1
   							};
   						} else {
