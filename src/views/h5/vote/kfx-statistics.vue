@@ -1,10 +1,26 @@
 <style lang="scss">
   @import "../../../assets/modules/vote/view-vote.scss";
   [rs-view="vote"] {
-  	tbody tr {
+  	.vote-theme_item {
+  		height: 100%;
+  		&_inner {
+  			height: 100%;
+  			overflow-y: auto;
+  		}
+  	}
+  	table tbody tr {
   		&:last-child,
   		&:first-child {
   			background: #f6fafd;
+
+  			td {
+  				font-weight: normal;
+  			}
+  		}
+
+  		td:last-child {
+  			text-align: left;
+  			padding: 0 5px;
   		}
   	}
   }
@@ -18,20 +34,25 @@
            :key="idx">
         <div class="title">
           <span class="strong">第{{parseInt(index,10)+1}}题：</span>
-          <span>{{item.voteTheme}}</span>
+          <span>{{item.voteTheme || title}}</span>
         </div>
         <div class="wrap_of_tb">
           <table>
+            <colgroup>
+              <col align="center"
+                   :style="cellStyle" />
+              <col />
+            </colgroup>
             <thead>
               <tr>
-                <th>姓名</th>
+                <th align="center">姓名</th>
                 <th>回答内容</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(it,i) in item.results"
                   :key="i">
-                <td>{{it.userName}}</td>
+                <td align="center">{{it.userName}}</td>
                 <td>{{it.voteMes}}</td>
               </tr>
             </tbody>
@@ -50,8 +71,16 @@
   			vtid: "",
   			aid: "",
   			index: "",
+  			title: "",
   			list: []
   		};
+  	},
+  	computed: {
+  		cellStyle() {
+  			return {
+  				width: this.getRealSize(70)
+  			};
+  		}
   	},
   	methods: {
   		async __fetch() {
@@ -93,7 +122,8 @@
   		}
   	},
   	activated() {
-  		this.getQS("vtid", "aid", "index");
+  		this.getQS("vtid", "aid", "index", "title");
+  		this.title = decodeURIComponent(decodeURIComponent(this.title));
   		this.__fetch();
   	}
   };
