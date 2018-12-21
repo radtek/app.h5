@@ -30,7 +30,7 @@
               </span>
             </p>
             <div v-if="theme.kfx">
-              <p @click.stop="goto('结果详情','/vote.statistics.kfx',{index,aid,vtid:theme.voteThemeId})"
+              <p @click.stop="goto('结果详情','/vote.statistics.kfx',{index,aid,vtid:theme.voteThemeId,title:theme.voteTheme})"
                  class="kfx-btn">查看结果详情>></p>
             </div>
             <div v-else
@@ -123,6 +123,20 @@
 
   			return total;
   		},
+  		async __fetchMPZY() {
+  			const [err, resp] = await this.$sync(
+  				this.$http.vote.getVoteStatistics({
+  					activityId: this.aid,
+  					requestUserId: this.uid,
+  					isMZPY: this.mzpy,
+  					passport: this.authInfo.passport
+  				})
+  			);
+
+  			if (!err) {
+  				this.list = resp.result.list;
+  			}
+  		},
   		async __fetch() {
   			const [err, resp] = await this.$sync(
   				Promise.all([
@@ -140,7 +154,6 @@
   			);
 
   			if (!err) {
-  				console.log(resp);
   				const kfxVotes = [];
   				const temp = {};
   				if (resp[1] && resp[1].result) {
@@ -183,10 +196,10 @@
   		this.$on("fn.fetch", isMustRefresh => {
   			if (this.role === "1") return;
   			if (isMustRefresh) {
-  				this.__fetch();
+  				this.mzpy ? this.__fetchMPZY() : this.__fetch();
   			} else {
   				if (this.isLoaded) return;
-  				this.__fetch().then(() => {
+  				(this.mzpy ? this.__fetchMPZY() : this.__fetch()).then(() => {
   					this.isLoaded = true;
   				});
   			}
