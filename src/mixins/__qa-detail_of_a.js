@@ -13,10 +13,8 @@ export default {
 				if (this.row.isAnonymous === 1) {
 					return {
 						userName: "匿名",
-						imgPath:
-							this.row.communityUser.sex === 1
-								? this.$DEFAULT_AVATAR
-								: this.$DEFAULT_AVATAR_FEMALE,
+						sex: this.row.communityUser.sex,
+						imgPath: "",
 						isAnonymous: 1
 					};
 				}
@@ -42,7 +40,7 @@ export default {
 
 				for (let i = 1; i <= fullNum; i++) {
 					if (i === fullNum) {
-						rslts.push(imgs.slice((i - 1) * 3, len - 1));
+						rslts.push(imgs.slice((i - 1) * 3));
 					} else {
 						rslts.push(imgs.slice((i - 1) * 3, (i - 1) * 3 + 3));
 					}

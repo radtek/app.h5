@@ -12,6 +12,7 @@ export default {
 		nativeType: { type: String, default: "button" },
 		size: String,
 		icon: String,
+		iconPosition: { type: String, default: "left" },
 		loading: Boolean,
 		disabled: Boolean,
 		plain: Boolean,
@@ -54,26 +55,48 @@ export default {
 	render(h) {
 		const childrens = [];
 
-		if (this.loading) {
-			childrens.push(
-				h("icon", {
-					props: {
-						loading: this.loading
-					}
-				})
-			);
-		} else if (this.icon) {
-			childrens.push(
-				h("icon", {
-					props: {
-						name: this.icon
-					}
-				})
-			);
+		if (this.iconPosition === "left") {
+			if (this.loading) {
+				childrens.push(
+					h("icon", {
+						props: {
+							loading: this.loading
+						}
+					})
+				);
+			} else if (this.icon) {
+				childrens.push(
+					h("icon", {
+						props: {
+							name: this.icon
+						}
+					})
+				);
+			}
 		}
 
 		if (this.$slots.default) {
 			childrens.push(h("span", {}, this.$slots.default));
+		}
+
+		if (this.iconPosition === "right") {
+			if (this.loading) {
+				childrens.push(
+					h("icon", {
+						props: {
+							loading: this.loading
+						}
+					})
+				);
+			} else if (this.icon) {
+				childrens.push(
+					h("icon", {
+						props: {
+							name: this.icon
+						}
+					})
+				);
+			}
 		}
 
 		return h(

@@ -6,7 +6,7 @@ const webpackConfig = require("./webpack.prod.conf");
 // const path = require("path");
 // const api = require("./build-api");
 
-const spinner = ora("building for production...");
+const spinner = ora(`building for ${process.env.NODE_ENV}...`);
 spinner.start();
 
 // rm(
@@ -16,7 +16,7 @@ spinner.start();
 // 	),
 // 	err => {
 // 		if (err) throw err;
-		
+
 // 	}
 // );
 webpack(webpackConfig, (err, stats) => {

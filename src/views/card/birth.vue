@@ -114,7 +114,7 @@
 					<div class="blessing">{{this.birthInfo.blessing}}</div>
 					<div class="btns">
 						<rx-btn @on-click="handleClick">收到祝福</rx-btn>
-						<rx-btn @on-click="gotoNative('生日感言','myBirthSpeech',{speech:birthInfo.speech})">生日感言</rx-btn>
+						<rx-btn @on-click="gotoNative('生日感言','myBirthSpeech',{speech:birthInfo.speech})">{{birthInfo.speech?'查看生日感言':"生日感言"}}</rx-btn>
 					</div>
 				</div>
 			</div>

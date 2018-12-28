@@ -1,0 +1,40 @@
+.tag {
+	padding: 5px 10px;
+	border: 1px solid #f6b987;
+	border-radius: 8px;
+	color: #f6b987;
+	vertical-align: middle;
+	font-size: 26px;
+	text-align: center;
+
+	&.topic {
+		border-color: #ff5874;
+		color: #ff5874;
+	}
+
+	~ .rx-btn {
+		margin-left: 35px;
+	}
+}
+
+.rx-col {
+	&.only-tag {
+		flex: 0 0 120px !important;
+	}
+
+	&.only-answer {
+		flex: 0 0 120px !important;
+	}
+
+	&.has {
+		flex: 0 0 200px !important;
+	}
+}
+
+.topic-tag {
+	float: left;
+	display: block;
+	margin-top: 10px;
+	color: #0097ee;
+	line-height: 1;
+}

@@ -101,7 +101,7 @@
 					/* eslint-disable no-console */
 					if (console.warn) {
 						console.warn(
-							"[iview] Name does not match Radio Group name."
+							"[relax-ui] Name does not match Radio Group name."
 						);
 					}
 					/* eslint-enable no-console */

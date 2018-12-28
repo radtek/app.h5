@@ -111,7 +111,10 @@ $icons: (
 	search: "\e726",
 	start: "\e62c",
 	time: "\e62f",
-	finish: "\e630"
+	finish: "\e630",
+	topic: "\e646",
+	arrow-right-fill: "\e63b",
+	qa-heart: "\e648"
 );
 
 @include each-icons($icons);

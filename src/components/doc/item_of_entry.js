@@ -19,7 +19,7 @@ export default {
 				on: {
 					click: () => {
 						// 通知App跳转
-						if (this.$isProd || this.$isTest) {
+						if (!this.$isDev) {
 							JXRSApi.view.goto({
 								title: this.item.title,
 								url: `${location.origin}/doc${

@@ -17,7 +17,12 @@ export function createRoutes(Vue) {
 			{
 				path: "/vote",
 				component: () =>
-					import(/* webpackChunkName: "view-vote" */ `~v/${MODULENAME}/vote.vue`)
+					import(/* webpackChunkName: "view-vote" */ `~v/${MODULENAME}/vote/index.vue`)
+			},
+			{
+				path: "/vote.statistics.kfx",
+				component: () =>
+					import(/* webpackChunkName: "view.vote.statistics.kfx" */ `~v/${MODULENAME}/vote/kfx-statistics.vue`)
 			},
 			{
 				path: "/education-detail",
