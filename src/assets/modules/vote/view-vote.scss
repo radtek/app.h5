@@ -198,6 +198,10 @@
 			background-color: #ecedee;
 		}
 
+		tbody tr:first-child {
+			background: #f6fafd;
+		}
+
 		th,
 		tbody tr:last-child td {
 			font-weight: bold;
@@ -210,7 +214,7 @@
 			border-left: none;
 			color: #666;
 			font-size: 28px;
-			line-height: 86px;
+			line-height: 50px;
 			text-align: center;
 
 			&:last-child {
@@ -221,5 +225,11 @@
 
 	.rx-icon {
 		font-size: 55px;
+	}
+
+	textarea {
+		padding: 5px;
+		border-radius: 15px;
+		font-size: 28px;
 	}
 }

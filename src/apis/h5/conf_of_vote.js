@@ -11,7 +11,21 @@ export default [
 		outKey: "getVoteStatistics",
 		action: "/mobile/v1/getVoteResultListByActiveId.life",
 		needPassport: true,
+		reqParams: ["activityId", { name: "isMZPY", default: "" }]
+	},
+	{
+		// "查询开发型投票的列表信息",
+		outKey: "getKFXVotes",
+		action: "mobile/v1/getActiveVoteQuestion.life",
+		needPassport: true,
 		reqParams: ["activityId"]
+	},
+	{
+		// "查询开发型投票的回答统计信息",
+		outKey: "getKFXStatistics",
+		action: "mobile/v1/getActiveVoteAnswer.life",
+		needPassport: true,
+		reqParams: ["activityId", "voteThemeId"]
 	},
 	{
 		// desp: "提交问卷"
@@ -32,6 +46,6 @@ export default [
 		outKey: "validVoteAccess",
 		action: "/mobile/v1/checkCanVote.life",
 		needPassport: true,
-		reqParams: ["activityId"]
+		reqParams: ["activityId", { name: "isMZPY", default: "" }]
 	}
 ];

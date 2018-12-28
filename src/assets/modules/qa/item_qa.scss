@@ -77,11 +77,19 @@
 
 			.rx-row:not(.audit) {
 				.rx-col {
-					&:nth-child(1) {
-						flex: 0 0 100px;
-					}
+					// &:nth-child(1) {
+					// 	flex: 0 0 100px;
+					// }
 
-					&:nth-child(3) {
+					// &:nth-child(3) {
+					// 	text-align: right;
+
+					// 	.iconfont {
+					// 		font-size: 18px;
+					// 	}
+					// }
+
+					&:last-child {
 						text-align: right;
 
 						.iconfont {

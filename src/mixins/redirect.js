@@ -15,7 +15,7 @@ export default {
 
 			const qsStr = this.$rxUtils.qs.stringify(query);
 
-			if (this.$isProd || this.$isTest) {
+			if (!this.$isDev) {
 				JXRSApi.view.goto({
 					title,
 					url: `${location.origin}/${
@@ -38,7 +38,7 @@ export default {
 		gotoNative(title, action, params) {
 			const query = params || {};
 
-			if (this.$isProd || this.$isTest) {
+			if (!this.$isDev) {
 				JXRSApi.view.goto({
 					url: `native://${action}`,
 					title,

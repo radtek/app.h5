@@ -1,8 +1,8 @@
 <style lang="scss">
 	.exam-rule {
-		padding: 67px 45px 53px 43px;
-		width: 607px;
-		height: 481px;
+		padding: 50px 10px 0 36px;
+		width: 600px;
+		height: 520px;
 
 		.header {
 			position: absolute;
@@ -27,6 +27,13 @@
 			}
 		}
 
+		.wrap-content{
+			overflow-x:hidden;
+			overflow-y:auto;
+			height:460px;
+			width:100%;
+		}
+
 		.rule-content {
 			position: absolute;
 			top: 0;
@@ -47,46 +54,47 @@
 </style>
 
 <template>
-	<div class="exam-rule pane-box">
-		<div class="header">
-			<img :src="getLocalMduImg('exam','rule')" />
-			<p>答题规则</p>
-		</div>
-		<div class="mask"></div>
-		<div style="position:relative;">
-			<ul class="rule-content">
-				<li>
-					<label>1.考试时间：</label>
-					<span>{{item.startTime|formatDate("yyyy-MM-dd hh:mm")}} 至 <br />{{item.endTime | formatDate("yyyy-MM-dd hh:mm")}}内任选时间完成答题</span>
-				</li>
-				<li>
-					<label>2.答题时长：</label>
-					<span>{{item.testTime}}分钟内完成</span>
-				</li>
-				<li>
-					<label>3.考试规则：</label>
-					<span>{{item.testRule}}</span>
-				</li>
-				<li>
-					<label>4.题量分数：</label>
-					<span>本次测试共{{item.amount}}道题，总分{{item.totalScore}}分，及格分数{{item.passMark}}分</span>
-				</li>
-			</ul>
-		</div>
-	</div>
+  <div class="exam-rule pane-box">
+    <div class="header">
+      <img :src="getLocalMduImg('exam','rule')" />
+      <p>答题规则</p>
+    </div>
+    <div class="mask"></div>
+    <div style="position:relative;"
+         class="wrap-content">
+      <ul class="rule-content">
+        <li>
+          <label>1.考试时间：</label>
+          <span>{{item.startTime|formatDate("yyyy-MM-dd hh:mm")}} 至 <br />{{item.endTime | formatDate("yyyy-MM-dd hh:mm")}}内任选时间完成答题</span>
+        </li>
+        <li>
+          <label>2.答题时长：</label>
+          <span>{{item.testTime}}分钟内完成</span>
+        </li>
+        <li>
+          <label>3.考试规则：</label>
+          <span class="rule-text">{{item.testRule}}</span>
+        </li>
+        <li>
+          <label>4.题量分数：</label>
+          <span>本次测试共{{item.amount}}道题，总分{{item.totalScore}}分，及格分数{{item.passMark}}分</span>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
-	export default {
-		name: "ExamRule",
-		props: {
-			item: {
-				type: Object,
-				default() {
-					return {};
-				}
-			}
-		}
-	};
+  export default {
+  	name: "ExamRule",
+  	props: {
+  		item: {
+  			type: Object,
+  			default() {
+  				return {};
+  			}
+  		}
+  	}
+  };
 </script>
 

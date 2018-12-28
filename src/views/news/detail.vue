@@ -27,7 +27,7 @@
 				<rx-pull-up slot="up"></rx-pull-up>
 				<div class="wrap"
 				     :class="[{[`not_wechat`]: channelid !== '48' && channelid !== '13'&& channelid !== '50'}]">
-					<h3 class="title">{{info.title}}</h3>
+					<h3 class="title" v-html="info.title"></h3>
 					<div class="status">
 						<span>{{info.origin}}</span>
 						<span>{{info.publishTime | formatDate("yyyy-M-d hh:mm")}}</span>

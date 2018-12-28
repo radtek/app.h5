@@ -2,7 +2,12 @@
 	[rs-view="exam.index"] {
 		.container {
 			.exam-rule {
+				height: 520px !important;
 				margin-top: 86px;
+
+				.wrap-content {
+					height: 460px !important;
+				}
 			}
 		}
 	}

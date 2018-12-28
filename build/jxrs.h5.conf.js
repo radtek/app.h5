@@ -113,7 +113,12 @@ module.exports = {
 					"/import_of_mobile"
 				];
 			case "h5":
-				return ["/vote", "/notice-info", "/education-detail"];
+				return [
+					"/vote",
+					"/notice-info",
+					"/education-detail",
+					"/vote.statistics.kfx"
+				];
 			case "lgbj":
 				return [
 					"/create",

@@ -57,6 +57,10 @@ import VTooltip from "./packages/v-chart/v-tooltip.vue";
 
 import Header from "./packages/header/index";
 
+import { Swiper, SwiperItem } from "./packages/swiper/index";
+
+import Avatar from "./packages/avatar/index";
+
 const components = [
 	Row,
 	Col,
@@ -101,7 +105,10 @@ const components = [
 	VPoint,
 	VScale,
 	VTooltip,
-	Header
+	Header,
+	Swiper,
+	SwiperItem,
+	Avatar
 ];
 
 function install(Vue, options = {}) {
@@ -183,7 +190,10 @@ export {
 	VPoint,
 	VScale,
 	VTooltip,
-	Header
+	Header,
+	Swiper,
+	SwiperItem,
+	Avatar
 };
 
 export default install;
