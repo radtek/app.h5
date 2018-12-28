@@ -8,6 +8,12 @@ export function createRoutes(Vue) {
 	return new VueRouter({
 		mode: "history",
 		base: `/${MODULENAME}/`,
-		routes: []
+		routes: [
+			{
+				path: "/details",
+				component: () =>
+					import(/* webpackChunkName: "view-create" */ `~v/${MODULENAME}/create.vue`)
+			},
+		]
 	});
 }
