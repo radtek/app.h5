@@ -8,10 +8,19 @@ export function createRoutes(Vue) {
 	return new VueRouter({
 		mode: "history",
 		base: `/${MODULENAME}/`,
-		routes: [{
-			path: "/wait_cargo",
-			component: () =>
-				import( /* webpackChunkName: "wait_cargo" */ `~v/${MODULENAME}/wait_cargo.vue`)
-		}]
+		routes: [
+			//商品详情
+			{
+				path: "/details",
+				component: () =>
+					import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
+			},
+			//待发货
+			{
+				path: "/wait_cargo",
+				component: () =>
+					import( /* webpackChunkName: "wait_cargo" */ `~v/${MODULENAME}/wait_cargo.vue`)
+			}
+		]
 	});
 }

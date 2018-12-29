@@ -48,6 +48,7 @@ const asyncCmp = {
 		return asyncCmp;
 	},
 	solution(component, parentCmpName) {
+		
 		const dft = component.default;
 
 		// 清理已缓存的组件定义

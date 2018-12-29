@@ -1,62 +1,64 @@
 <style lang="scss">
-.rx-card_header {
-	font-size: 12px;
-	font-family: PingFang-SC-Medium;
-	font-weight: 500;
-	color: rgba(102, 102, 102, 1);
-	margin: 0 30px;
-	padding: 0 !important;
-	height: 80px;
-	line-height: 80px;
-}
-
-.content {
-	display: flex;
-	margin-top: 20px;
-	margin-bottom: 44px;
-}
-
-.left_logo {
-	width: 150px;
-	margin-right: 20px;
-}
-
-.logo {
-	width: 150px;
-	height: 150px;
-}
-
-.right_text {
-	font-size: 28px;
-	font-family: PingFang-SC-Medium;
-	font-weight: 500;
-	color: rgba(51, 51, 51, 1);
-
-	& > p {
+[rs-view="wait_cargo"] {
+	.rx-card_header {
+		font-size: 12px;
+		font-family: PingFang-SC-Medium;
+		font-weight: 500;
+		color: rgba(102, 102, 102, 1);
+		margin: 0 30px;
+		padding: 0 !important;
 		height: 80px;
-		line-height: 40px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
+		line-height: 80px;
 	}
-	& > .info {
+
+	.content {
 		display: flex;
-		justify-content: space-between;
-		margin-top: 40px;
-		& > .price {
-			& > .money {
-				font-size: 32px;
-				font-family: PingFang-SC-Bold;
-				font-weight: bold;
-				color: rgba(255, 161, 50, 1);
-			}
-			& > .score {
-				font-size: 24px;
-				font-family: PingFang-SC-Bold;
-				font-weight: bold;
-				color: rgba(51, 51, 51, 1);
+		margin-top: 20px;
+		margin-bottom: 44px;
+	}
+
+	.left_logo {
+		width: 150px;
+		margin-right: 20px;
+	}
+
+	.logo {
+		width: 150px;
+		height: 150px;
+	}
+
+	.right_text {
+		font-size: 28px;
+		font-family: PingFang-SC-Medium;
+		font-weight: 500;
+		color: rgba(51, 51, 51, 1);
+
+		& > p {
+			height: 80px;
+			line-height: 40px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+		}
+		& > .info {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 40px;
+			& > .price {
+				& > .money {
+					font-size: 32px;
+					font-family: PingFang-SC-Bold;
+					font-weight: bold;
+					color: rgba(255, 161, 50, 1);
+				}
+				& > .score {
+					font-size: 24px;
+					font-family: PingFang-SC-Bold;
+					font-weight: bold;
+					color: rgba(51, 51, 51, 1);
+				}
 			}
 		}
 	}
