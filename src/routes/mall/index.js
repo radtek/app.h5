@@ -8,6 +8,10 @@ export function createRoutes(Vue) {
 	return new VueRouter({
 		mode: "history",
 		base: `/${MODULENAME}/`,
-		routes: []
+		routes: [{
+			path: "/wait_cargo",
+			component: () =>
+				import( /* webpackChunkName: "wait_cargo" */ `~v/${MODULENAME}/wait_cargo.vue`)
+		}]
 	});
 }
