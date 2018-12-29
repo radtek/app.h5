@@ -15,6 +15,11 @@ export function createRoutes(Vue) {
 				component: () =>
 					import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
 			},
+			{
+				path: "/index",
+				component: () =>
+					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`)
+			},
 		]
 	});
 }
