@@ -9,10 +9,11 @@ export function createRoutes(Vue) {
 		mode: "history",
 		base: `/${MODULENAME}/`,
 		routes: [
+			//商品详情
 			{
 				path: "/details",
 				component: () =>
-					import(/* webpackChunkName: "view-create" */ `~v/${MODULENAME}/create.vue`)
+					import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
 			},
 		]
 	});
