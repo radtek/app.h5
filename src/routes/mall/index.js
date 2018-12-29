@@ -12,6 +12,13 @@ export function createRoutes(Vue) {
 			path: "/index",
 			component: () =>
 				import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`)
-		},]
+		},
+		{
+			//商品详情
+			path: "/details",
+			component: () =>
+				import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
+		},
+		]
 	});
 }
