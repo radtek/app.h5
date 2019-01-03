@@ -55,7 +55,7 @@
             <template>
                 <div class="item-mall">
                     <rx-row type="flex" >
-                        <rx-col :span="12" v-for="(item,index) in listPart2">
+                        <rx-col :span="12" v-for="(item,index) in listPart2" :key="index">
                             <div>
                             <img :src="item.imgPath" alt="">
                             <div class="item-text">
