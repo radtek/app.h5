@@ -13,24 +13,30 @@ export function createRoutes(Vue) {
 			component: () =>
 				import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`)
 		},
-		{
-			//商品详情
-			path: "/details",
-			component: () =>
-				import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
-		},
-		{
-			//支付完成
-			path: "/paymentEnd",
-			component: () =>
-				import(/* webpackChunkName: "view-paymentEnd" */ `~v/${MODULENAME}/payment-end.vue`)
-		},
-		{
-			//选择类型
-			path: "/type",
-			component: () =>
-				import(/* webpackChunkName: "view-type" */ `~v/${MODULENAME}/type.vue`)
-		},
+			{
+				//商品详情
+				path: "/details",
+				component: () =>
+					import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
+			},
+			{
+				//添加地址
+				path: "/add-address",
+				component: () =>
+					import(/* webpackChunkName: "view-add" */ `~v/${MODULENAME}/add-address.vue`)
+			},
+			{
+				//支付完成
+				path: "/paymentEnd",
+				component: () =>
+					import(/* webpackChunkName: "view-paymentEnd" */ `~v/${MODULENAME}/payment-end.vue`)
+			},
+			{
+				//选择类型
+				path: "/type",
+				component: () =>
+					import(/* webpackChunkName: "view-type" */ `~v/${MODULENAME}/type.vue`)
+			}
 		]
 	});
 }

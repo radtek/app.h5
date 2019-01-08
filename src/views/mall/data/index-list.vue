@@ -1,7 +1,7 @@
 <template>
     <div class="item-mall">
         <rx-row type="flex" >
-            <rx-col :span="12" v-for="(item,index) in data">
+            <rx-col :span="12" v-for="(item,index) in data" :key="index">
                 <div>
                 <img :src="item.imgPath" alt="">
                 <div class="item-text">
