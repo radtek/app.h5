@@ -19,6 +19,18 @@ export function createRoutes(Vue) {
 			component: () =>
 				import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
 		},
+		{
+			//支付完成
+			path: "/paymentEnd",
+			component: () =>
+				import(/* webpackChunkName: "view-paymentEnd" */ `~v/${MODULENAME}/payment-end.vue`)
+		},
+		{
+			//选择类型
+			path: "/type",
+			component: () =>
+				import(/* webpackChunkName: "view-type" */ `~v/${MODULENAME}/type.vue`)
+		},
 		]
 	});
 }
