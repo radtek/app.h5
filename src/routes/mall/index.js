@@ -20,7 +20,13 @@ export function createRoutes(Vue) {
 				path: "/wait_cargo",
 				component: () =>
 					import( /* webpackChunkName: "wait_cargo" */ `~v/${MODULENAME}/wait_cargo.vue`)
+			},
+			{
+				path: "/index",
+				component: () =>
+					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`)
 			}
 		]
+	
 	});
 }
