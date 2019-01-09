@@ -1,0 +1,43 @@
+[rs-view="payment-end"] {
+    .card-payment {
+        .rx-btn{
+            .icon-success_circle {
+                font-size:196px;
+            }
+            .success {
+                font-size:36px;
+                font-family:"PingFang-SC-Bold";
+                font-weight:bold;
+                color:rgba(153,153,153,1);
+                line-height:48px;
+            }
+
+        }
+        .detail {
+            width:348px;
+            height:72px;
+            line-height:72px;
+            border:1px solid rgba(0,151,238,1);
+            border-radius:36px;
+            margin-bottom:60px;
+            p {
+                font-size:28px;
+                font-family:"PingFang-SC-Medium";
+                font-weight:500;
+                color:rgba(0,151,238,1);
+            }
+        }
+        .nav {
+            border-bottom: 20px solid rgba(245,245,245,1);
+        }
+    }
+    .better {
+        text-align: center;
+        font-size:28px;
+        font-family:PingFang-SC-Medium;
+        font-weight:500;
+        color:rgba(153,153,153,1);
+        line-height:116px;
+        border-bottom: 1px solid rgba(230,230,230,1);
+    }
+}
