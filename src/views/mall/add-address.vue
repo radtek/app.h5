@@ -13,9 +13,9 @@
 		<div class="address-contain">
 			<span class="address">选择省</span>
 			<img src="@/assets/imgs/mall/down2.png"></img>
-			<span class="address" style="margin-left: 51px">选择市</span>
+			<span class="address" style="margin-left: 41px">选择市</span>
 			<img src="@/assets/imgs/mall/down2.png"></img>
-			<span class="address" style="margin-left: 51px">选择区</span>
+			<span class="address" style="margin-left: 41px">选择区</span>
 			<img src="@/assets/imgs/mall/down2.png"></img>
 			<div class="wire"></div>
 		</div>
