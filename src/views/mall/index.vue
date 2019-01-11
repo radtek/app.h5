@@ -2,7 +2,7 @@
   @import "../../assets/modules/mall/view-index.scss";
 </style>
 <style>
-@import "//at.alicdn.com/t/font_995983_c10i7k3um9.css";
+@import "//at.alicdn.com/t/font_995983_ivv5k0pc2sq.css";
 </style>
 <template>
   <section rs-view="index">
@@ -26,7 +26,7 @@
                        @click="onTopicGoto()">
             <rx-swiper-item v-for="(topic,index) in swipeTopics"
                             :key="index">
-                    <img :src="topic.imgPath"
+                    <img :src="topic.imgPath[0]"
                          @error="onImgErr">
             </rx-swiper-item>
             </rx-swiper>
@@ -34,9 +34,11 @@
                     align="center"
                     class="nav">
                 <rx-col>
-                    <rx-btn class="iconfont icon-wodedingdan1"
-                            type="text"
-                            @on-click="goto()"><p>我的订单</p></rx-btn>
+                    <router-link :to="{path:'/detail'}">
+                        <rx-btn class="iconfont icon-wodedingdan1"
+                                type="text"
+                                @on-click="goto()"><p>我的订单</p></rx-btn>
+                    </router-link>
                 </rx-col>
                 <rx-col>
                     <rx-btn class="iconfont icon-gouwuche"
@@ -61,17 +63,15 @@
     </rx-pull>
   </section>
 </template>
-
 <script>
   import { utils } from "~rx";
   import Pull from "~m/pull";
-  import axios from 'axios'
   export default {
   	name: "MallOfIndex",
   	mixins: [Pull],
     components: {
         mallList: () =>
-				import(/* webpackChunkName:"mall-list" */ "~v/mall/data/index-list.vue")
+				import(/* webpackChunkName:"mall-list" */ "~c/mall/index-list.vue")
     },
   	data() {
   		return {
@@ -114,27 +114,19 @@
   		__fetch() {
             this.__fetchMallInfo();
             this.isPrerender = false;
-           
           },
         __fetchMallInfo(){
-			//获取banner
-			let that=this
-			axios.get('http://localhost:3000/home/banner')
-				.then(res=>{
-					console.log('res',res)
-					that.swipeTopics=res.data.swipeTopics
-				})
-          //   this.swipeTopics = [{
-          //       description: '<div><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></div><div class="editor-topic-block"><p>加班1<span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></p></div>',
-          //       fileKey: ["FGfFQFacwJ@upload_8369b2936bc0cee8e30360edbca3a8e5.jpg"],
-          //       id: "516684310121172992",
-          //       imgPath: ["https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546657924&di=d78403cf234fbca25cde7a02635cd751&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F019def58ee313aa8012049ef69e432.jpg%401280w_1l_2o_100sh.jpg"],
-          // },{
-          //       description: '<div><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></div><div class="editor-topic-block"><p>加班1<span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></p></div>',
-          //       fileKey: ["FGfFQFacwJ@upload_8369b2936bc0cee8e30360edbca3a8e5.jpg"],
-          //       id: "516684310121172992",
-          //       imgPath: ["https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062945526&di=05ce031f79c3d90c9c084b26ce7d0c3b&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c8415a77c3a4a80120a12372925c.jpg%402o.jpg"],
-          // }]
+            this.swipeTopics = [{
+                description: '<div><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></div><div class="editor-topic-block"><p>加班1<span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></p></div>',
+                fileKey: ["FGfFQFacwJ@upload_8369b2936bc0cee8e30360edbca3a8e5.jpg"],
+                id: "516684310121172992",
+                imgPath: ["https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546657924&di=d78403cf234fbca25cde7a02635cd751&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F019def58ee313aa8012049ef69e432.jpg%401280w_1l_2o_100sh.jpg"],
+          },{
+                description: '<div><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></div><div class="editor-topic-block"><p>加班1<span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></p></div>',
+                fileKey: ["FGfFQFacwJ@upload_8369b2936bc0cee8e30360edbca3a8e5.jpg"],
+                id: "516684310121172992",
+                imgPath: ["https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062945526&di=05ce031f79c3d90c9c084b26ce7d0c3b&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c8415a77c3a4a80120a12372925c.jpg%402o.jpg"],
+          }]
           this.listPart1 = [{
               imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
               title:"一小米小钢炮蓝牙音箱",
