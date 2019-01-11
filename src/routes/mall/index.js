@@ -19,18 +19,6 @@ export function createRoutes(Vue) {
 			component: () =>
 				import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
 		},
-			{
-				//添加地址
-				path: "/add-address",
-				component: () =>
-					import(/* webpackChunkName: "view-add" */ `~v/${MODULENAME}/add-address.vue`)
-			},
-			{
-				//地址管理
-				path: "/address-manage",
-				component: () =>
-					import(/* webpackChunkName: "view-manage" */ `~v/${MODULENAME}/address-manage.vue`)
-			},
 		{
 			//支付完成
 			path: "/paymentEnd",
@@ -55,6 +43,30 @@ export function createRoutes(Vue) {
 			component: () =>
 				import(/* webpackChunkName: "view-detail" */ `~v/${MODULENAME}/detail.vue`)
 		},
+		{
+			//添加地址
+			path: "/add-address",
+			component: () =>
+				import(/* webpackChunkName: "view-add" */ `~v/${MODULENAME}/add-address.vue`)
+		},
+		//待发货
+		{
+			path: "/wait_cargo",
+			component: () =>
+				import( /* webpackChunkName: "wait_cargo" */ `~v/${MODULENAME}/wait_cargo.vue`)
+		},
+		{
+			//物流详情
+			path: "/logistics-details",
+			component: () =>
+				import( /* webpackChunkName: "logistics-details" */ `~v/${MODULENAME}/logistics-details.vue`)
+		},
+		{
+			//订单详情--四种状态
+			path: "/order-details",
+			component: () =>
+				import( /* webpackChunkName: "order-details" */ `~v/${MODULENAME}/order-details.vue`)
+		}
 		]
 	});
 }

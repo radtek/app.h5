@@ -2,7 +2,7 @@
     <div class="item-mall">
         <rx-row type="flex" >
             <rx-col :span="12" v-for="(item,index) in data" :key="index">
-                <div>
+                <div @click="goto('商品详情','/details')">
                 <img :src="item.imgPath" alt="">
                 <div class="item-text">
                 <h2>{{item.title}}</h2>
@@ -25,6 +25,11 @@ export default {
             }
         }
 
+    },
+    methods: {
+        gotoDetails(){
+
+        }
     }
 }
 </script>

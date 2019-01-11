@@ -1,4 +1,3 @@
-
 <style lang="scss">
 	@import "../../../assets/__base/pane_of_comment.scss";
 </style>
