@@ -68,5 +68,6 @@ export function createRoutes(Vue) {
 				import( /* webpackChunkName: "order-details" */ `~v/${MODULENAME}/order-details.vue`)
 		}
 		]
+
 	});
 }

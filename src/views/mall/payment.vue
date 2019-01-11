@@ -81,8 +81,7 @@
                         <span class="num">×{{item.num}}</span>
                     </div>
                     <div class="right">
-                        <span class="price"
-                              v-model="allPrice">￥{{item.price}}</span>
+                        <span class="price">￥{{item.price}}</span>
                     </div>
                 </div>
             </div>
