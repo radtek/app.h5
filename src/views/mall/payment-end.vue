@@ -53,7 +53,7 @@ export default {
     mixins: [Pull],
     components: {
         mallList: () =>
-                import(/* webpackChunkName:"mall-list" */ "~v/mall/data/index-list.vue")
+                import(/* webpackChunkName:"mall-list" */ "~c/mall/index-list.vue")
     },
     data(){
         return {
