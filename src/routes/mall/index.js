@@ -43,6 +43,12 @@ export function createRoutes(Vue) {
 			component: () =>
 				import(/* webpackChunkName: "view-detail" */ `~v/${MODULENAME}/detail.vue`)
 		},
+		{
+			//添加地址
+			path: "/add-address",
+			component: () =>
+				import(/* webpackChunkName: "view-add" */ `~v/${MODULENAME}/add-address.vue`)
+		},
 		]
 	});
 }

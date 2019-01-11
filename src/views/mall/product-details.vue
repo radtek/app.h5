@@ -1,7 +1,25 @@
 <template>
 	<div  rs-view="details">
+		<rx-pull ref="pull"
+				 :list="listPart2"
+				 :total="total"
+				 :down="down"
+				 :up="up"
+				 @downing="handleDown"
+				
+				 @scroll-end="handleScrollEnd">
+			<rx-pull-down slot="down"></rx-pull-down>
 		<div class="contain">
-			<img class="img"  src="@/assets/imgs/1.jpeg"></img>
+			<rx-swiper :pagination="false"
+					   :autoplay-time="4000"
+					   :speed="720"
+					   @click="onTopicGoto()">
+				<rx-swiper-item v-for="(topic,index) in swipeTopics"
+								:key="index">
+					<img :src="topic.imgPath"
+						 @error="onImgErr" class="img">
+				</rx-swiper-item>
+			</rx-swiper>
 			<div class="card-details" >
 				<div class="product-describe">{{title}}</div>
 				<div class="source-contain">
@@ -58,16 +76,46 @@
 		<button class="add-shop">加入购物车</button>
 		<button class="pay-over">已售罄</button>
 	</div>
+		</rx-pull>
 	</div>
 </template>
 
 <script>
+	import { utils } from "~rx";
+	import Pull from "~m/pull";
+	import Msgbox from "~m/__msgbox";
+	import UserNameMixin from "~m/__username";
+	import axios from 'axios'
 	export default {
 		name: "product-details",
+		mixins: [Pull, Msgbox, UserNameMixin],
 		data(){
 			return{
-				title:'商品详情描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款羽绒服外套连帽羽绒衣'
+				listPart2: [],
+				total: 1000,
+				title:'商品详情描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款羽绒服外套连帽羽绒衣',
+				swipeTopics:[]
 			}
+		},
+		methods:{
+			__fetch() {
+				this.__fetchMallInfo();
+			},
+			__fetchMallInfo(){
+				let that=this
+				axios.get('http://localhost:3000/home/banner')
+					.then(res=>{
+						console.log('res',res)
+						that.swipeTopics=res.data.swipeTopics
+					})
+				axios.get('https://www.easy-mock.com/mock/5c2dad1732924755e4c0db3c/example/shb')
+					.then(res=>{
+						this.listPart2=res.data.data.data
+					})
+			}
+		},
+		created(){
+			this.__fetch();
 		}
 	};
 </script>
