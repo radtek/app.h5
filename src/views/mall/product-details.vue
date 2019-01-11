@@ -6,7 +6,6 @@
 				 :down="down"
 				 :up="up"
 				 @downing="handleDown"
-				
 				 @scroll-end="handleScrollEnd">
 			<rx-pull-down slot="down"></rx-pull-down>
 		<div class="contain">

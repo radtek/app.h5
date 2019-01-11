@@ -20,6 +20,18 @@ export function createRoutes(Vue) {
 				import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
 		},
 		{
+			//添加地址
+			path: "/add-address",
+			component: () =>
+				import(/* webpackChunkName: "view-add" */ `~v/${MODULENAME}/add-address.vue`)
+		},
+		{
+			//地址管理
+			path: "/address-manage",
+			component: () =>
+				import(/* webpackChunkName: "view-manage" */ `~v/${MODULENAME}/address-manage.vue`)
+		},
+		{
 			//支付完成
 			path: "/paymentEnd",
 			component: () =>
@@ -42,12 +54,6 @@ export function createRoutes(Vue) {
 			path: "/detail",
 			component: () =>
 				import(/* webpackChunkName: "view-detail" */ `~v/${MODULENAME}/detail.vue`)
-		},
-		{
-			//添加地址
-			path: "/add-address",
-			component: () =>
-				import(/* webpackChunkName: "view-add" */ `~v/${MODULENAME}/add-address.vue`)
 		},
 		//待发货
 		{

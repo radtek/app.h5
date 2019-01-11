@@ -10,7 +10,7 @@
             <router-link :to="{}">
                 <rx-row justify="center"
                         class="action"
-                        v-for="item in action">
+                        v-for="item in action" :key="index">
                     <rx-col :span="23" class="col-action">
                         <p><span class='name'>{{item.name}}</span>
                             <span class="phone">{{item.phone}}</span></p>
