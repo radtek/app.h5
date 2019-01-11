@@ -49,6 +49,24 @@ export function createRoutes(Vue) {
 			component: () =>
 				import(/* webpackChunkName: "view-add" */ `~v/${MODULENAME}/add-address.vue`)
 		},
+		//待发货
+		{
+			path: "/wait_cargo",
+			component: () =>
+				import( /* webpackChunkName: "wait_cargo" */ `~v/${MODULENAME}/wait_cargo.vue`)
+		},
+		{
+			//物流详情
+			path: "/logistics-details",
+			component: () =>
+				import( /* webpackChunkName: "logistics-details" */ `~v/${MODULENAME}/logistics-details.vue`)
+		},
+		{
+			//订单详情--四种状态
+			path: "/order-details",
+			component: () =>
+				import( /* webpackChunkName: "order-details" */ `~v/${MODULENAME}/order-details.vue`)
+		}
 		]
 	});
 }
