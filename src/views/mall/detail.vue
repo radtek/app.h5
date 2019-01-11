@@ -27,7 +27,7 @@
                 </router-link>    
             </rx-col>
             <rx-col :flexBasis="120">
-                <router-link :to="{}">
+                <router-link :to="{path:'wait_cargo'}">
                     <div class="df">
                         <rx-btn class="iconfont icon-daifahuo"
                                 type="text"><p>待发货</p></rx-btn>
