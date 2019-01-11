@@ -19,6 +19,12 @@ export function createRoutes(Vue) {
 			component: () =>
 				import(/* webpackChunkName: "view-details" */ `~v/${MODULENAME}/product-details.vue`)
 		},
+			{
+				//添加地址
+				path: "/add-address",
+				component: () =>
+					import(/* webpackChunkName: "view-add" */ `~v/${MODULENAME}/add-address.vue`)
+			},
 		{
 			//支付完成
 			path: "/paymentEnd",
