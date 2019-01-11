@@ -1,0 +1,159 @@
+body,html{
+    width: 100%;
+    height: 100%;
+}
+.payment {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    .body {
+        flex: 1;
+        overflow-y: scroll;
+        .action {
+            padding:30px;
+            border-bottom:20px solid rgba(245,245,245,1);
+            flex-flow: row wrap;
+            .name {
+                font-size:32px;
+                font-family:"PingFang-SC-Bold";
+                font-weight:bold;
+                color:rgba(51,51,51,1);
+                line-height:48px;
+                padding-right:30px;
+            }
+    
+            .phone {
+                font-size:28px;
+                font-family:"PingFang-SC-Medium";
+                font-weight:500;
+                color:rgba(51,51,51,1);
+                line-height:48px;
+            }
+    
+            .actionMsg {
+                font-size:28px;
+                font-family:"PingFang-SC-Medium";
+                font-weight:500;
+                color:rgba(153,153,153,1);
+                line-height:48px;
+            }
+            .rx-icon {
+                font-size:44px;
+                color:#999
+            }
+        }
+        .pay {
+            padding:30px;
+            border-bottom:20px solid rgba(245,245,245,1);
+            flex-flow: row wrap;
+            .choose {
+                font-size:28px;
+                font-family:PingFang-SC-Medium;
+                font-weight:500;
+                color:rgba(153,153,153,1);
+                line-height:48px;
+            }
+            .icon-wxpay {
+                color:rgb(103, 245, 98);
+            }
+            .iconfont {
+                font-size:44px;
+            }
+            .icontexts {
+                font-size:28px;
+                font-family:"PingFang-SC-Medium";
+                font-weight:500;
+                color:rgba(51,51,51,1);
+                line-height:48px;
+                padding-left:30px;
+            }
+            .main {
+                flex-flow:row wrap;
+            }
+            .zhifubao {
+                border-bottom:1px solid rgba(230,230,230,1);
+            }
+            input[type="radio"] {
+                position:absolute;
+                clip:rect(0px,0px,0px,0px);
+            }
+            label {
+                display:inline-block;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 1px solid #999;
+            }
+            input:checked+label { 
+                background-color: rgba(0,151,238,1);
+            }
+            input:checked+label::after {
+                position: absolute;
+                content: "";
+                width: 13px;
+                height: 22px;
+                top: 6px;
+                left: 13px;
+                border: 2px solid #fff;
+                border-top: none;
+                border-left: none;
+                transform: rotate(45deg)
+            }
+
+        }
+        .item {
+            padding:30px;
+            border-bottom:20px solid rgba(245,245,245,1);
+            flex-flow: row wrap;
+            .list {
+                display:flex;
+                justify-content:space-between;
+                font-size:28px;
+                font-family:"PingFang-SC-Medium";
+                font-weight:500;
+                color:rgba(153,153,153,1);
+                line-height:48px;
+                .name {
+                    padding-right:20px;
+                }
+            }
+        }
+        .pay-score {
+            padding:30px;
+            border-bottom:20px solid rgba(245,245,245,1);
+                font-size:28px;
+                font-family:"PingFang-SC-Medium";
+                font-weight:500;
+                color:rgba(51,51,51,1);
+                line-height:48px;
+        }
+    }
+    .footer {
+        height:98px;
+        background:rgba(255,255,255,1);
+        box-shadow:0px -1px 0px 0px rgba(230,230,230,1);
+        display:flex;
+        .add {
+            font-size:32px;
+            font-family:PingFang-SC-Bold;
+            font-weight:bold;
+            color:rgba(51,51,51,1);
+            line-height:98px;
+            padding-left:30px;
+            flex:1;
+        }
+        .doPay {
+            width:265px;
+            background:rgba(0,151,238,1);
+            box-shadow:0px -1px 0px 0px rgba(230,230,230,1);
+            text-align: center;
+            span {
+                font-size:32px;
+                font-family:"PingFang-SC-Bold";
+                font-weight:bold;
+                color:rgba(255,255,255,1);
+                line-height:98px;
+            }
+        }
+    }
+}

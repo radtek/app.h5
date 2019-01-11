@@ -114,7 +114,8 @@ $icons: (
 	finish: "\e630",
 	topic: "\e646",
 	arrow-right-fill: "\e63b",
-	qa-heart: "\e648"
+	qa-heart: "\e648",
+	goto:"\e9d9"
 );
 
 @include each-icons($icons);
