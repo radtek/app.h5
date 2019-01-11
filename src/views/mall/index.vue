@@ -2,7 +2,7 @@
   @import "../../assets/modules/mall/view-index.scss";
 </style>
 <style>
-@import "//at.alicdn.com/t/font_995983_c10i7k3um9.css";
+@import "//at.alicdn.com/t/font_995983_ivv5k0pc2sq.css";
 </style>
 <template>
   <section rs-view="index">

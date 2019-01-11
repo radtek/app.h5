@@ -31,6 +31,18 @@ export function createRoutes(Vue) {
 			component: () =>
 				import(/* webpackChunkName: "view-type" */ `~v/${MODULENAME}/type.vue`)
 		},
+		{
+			//支付页面
+			path: "/payment",
+			component: () =>
+				import(/* webpackChunkName: "view-type" */ `~v/${MODULENAME}/payment.vue`)
+		},
+		{
+			//订单详情
+			path: "/detail",
+			component: () =>
+				import(/* webpackChunkName: "view-detail" */ `~v/${MODULENAME}/detail.vue`)
+		},
 		]
 	});
 }

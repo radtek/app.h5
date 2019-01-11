@@ -4,6 +4,7 @@
              v-for="(item,index) in rows"
              :key="index">
         <div v-for="(list,index2) in item.list"
+             :key="index2"
              class=type-div>
         <input type="radio"
                ref="radio"
@@ -95,7 +96,6 @@ export default {
     input[type=radio]:checked + label {
         background:rgba(237,247,253,1);
         border:1px solid rgba(0,151,238,1);
-
     }
     }
     .type-button {
