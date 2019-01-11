@@ -381,7 +381,7 @@ export default {
 	name: "logistics-details",
 	components: {
 		mallList: () =>
-			import(/* webpackChunkName:"mall-list" */ "~v/mall/data/index-list.vue")
+			import(/* webpackChunkName:"mall-list" */ "~c/mall/index-list.vue")
 	},
 	mixins: [Pull, Msgbox],
 	provide() {
