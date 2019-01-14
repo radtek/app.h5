@@ -72,7 +72,13 @@ export function createRoutes(Vue) {
 			path: "/order-details",
 			component: () =>
 				import( /* webpackChunkName: "order-details" */ `~v/${MODULENAME}/order-details.vue`)
-		}
+		}, 
+			{
+				//购物车
+				path: "/shop-car",
+				component: () =>
+					import( /* webpackChunkName: "shop-car" */ `~v/${MODULENAME}/shop-car.vue`)
+			}
 		]
 
 	});
