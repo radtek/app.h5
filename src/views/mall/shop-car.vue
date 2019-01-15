@@ -1,28 +1,27 @@
 <template>
     <div class="main">
-		<div  class="main-contain" >
-			<div class="contain">
-				<div class="goods">
-					<img class="img"  src="@/assets/imgs/mall/weizhong.png">
-					<img class="goodImg"  src="@/assets/imgs/mall/good.png">
+		<div  class="main-contain" v-for="(item,index) in cartData" :key="index" >
+			<div class="contain" >
+				<div class="goods" @click="changeImg(index)">
+					<div class="img" :class="{on:item.isSelect}"></div>
+					<img class="goodImg"  :src="item.goodImg">
 					<div class="good-font">
-						<div class="good-title">商品详细描述2018冬季新款男士羽绒
-							服白鹅绒加厚大码中长款式不好看吗</div>
-						<div class="good-size">XL, 蓝色，64G，套餐一</div>
+						<div class="good-title">{{item.detail}}</div>
+						<div class="good-size">{{item.size}}</div>
 						<div  class="good-price">
 							<div class="integral">
-								<span class="integral-num">3000</span>积分+￥128
+								<span class="integral-num">{{item.integral}}</span>{{item.price}}
 							</div>
-							<div class="price">原价 ￥212</div>
+							<div class="price">{{item.sale}}</div>
 						</div>
 					</div>
 				</div>
 				<div class="good-operating">
-					<img  class="img"  src="@/assets/imgs/mall/reduce.png">
-					<span class="num">1</span>
-					<img  class="img" src="@/assets/imgs/mall/add.png">
-					<span class="font">该商品限购1件</span>
-					<img  class="delImg" src="@/assets/imgs/mall/shanchu.png">
+					<img  class="img"  :src="item.reduceImg" @click="reduce(index)">
+					<span class="num">{{item.num}}</span>
+					<img  class="img" :src="item.addImg" @click="add(index)">
+					<span class="font">该商品限购{{item.limtNum}}件</span>
+					<img  class="delImg" :src="item.delImg">
 				</div>
 			</div>
 		</div>
@@ -44,11 +43,12 @@
 					<div class="obtained-button">商品已下架</div>
 					<img  class="img" src="@/assets/imgs/mall/shanchu.png">
 				</div>
+				<div class="wire"></div>
 			</div>
 		</div>	
 		<div class="footer">
-			<img class="img"  src="@/assets/imgs/mall/weizhong.png">
-			<span class="footer-font">全选</span>
+			<div class="img"  :class="[isSelectAll?'on':'']" @click="allCheck"></div>
+			<span class="footer-font" >全选</span>
 			<div class="footer-contain" >
 				<div>
 					<span class="sum">合计:</span>
@@ -64,268 +64,94 @@
 
 <script>
 	export default {
-		name: "shop-car"
+		name: "shop-car",
+		created(){
+			let nowList=this.goods
+			nowList.forEach(item=>item.isSelect = false)
+			this.cartData= nowList
+		},
+		methods:{
+			reduce(index){
+				if(this.cartData[index].num===1){
+					return
+				}
+				this.cartData[index].num--
+			},
+			add(index){
+				if(this.cartData[index].num>=this.cartData[index].limtNum){
+					return
+				}
+				this.cartData[index].num++
+			},
+			changeImg(index){
+				console.log(this.cartData)
+				this.cartData[index].isSelect= !this.cartData[index].isSelect;
+				this.$set(this.cartData,index,this.cartData[index])
+				this.isSelectAll=this.selectAll()
+			},
+			selectAll(){
+				return this.cartData.every(item => item.isSelect);
+			}, 
+			allCheck(){
+				this.cartData.forEach(item => {
+					item.isSelect = !this.isSelectAll;
+				});
+				this.isSelectAll = !this.isSelectAll;
+			}
+		},
+		data(){
+			return{
+				isSelectAll:false,
+				cartData:[],
+				num:1,
+				goods:[
+					{
+					img:require('@/assets/imgs/mall/weizhong.png'),
+					goodImg:require('@/assets/imgs/mall/good.png'),
+					detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+					size:'XL, 蓝色，64G，套餐一',
+					integral:'3000',
+					price:'积分+￥128',
+					sale:'原价 ￥212',
+					reduceImg:require('@/assets/imgs/mall/reduce.png'),
+					addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+					limtNum:6,
+					delImg:require('@/assets/imgs/mall/shanchu.png')
+				},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:3,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:4,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					}],
+			}
+		},
 	};
 </script>
 
 <style lang="scss" scoped>
-	.main{
-		background:rgba(245,245,245,1);
-		width: 100%;
-		height: 100%;
-		.main-contain{
-			padding-top: 20px;
-			.contain{
-				background: white;
-				width: 100%;
-				height: 328px;
-				.goods{
-					display: flex;
-					align-items: center;
-					padding-top: 30px;
-					.img{
-						margin: 0 20px;
-						width: 40px;
-						height: 40px;
-					}
-					.goodImg{
-						width: 150px;
-						height: 150px;
-					}
-					.good-font{
-						padding-left: 20px;
-					}
-					.good-title{
-						line-height:38px;
-						height: 69px;
-						width:466px;
-						font-size:28px;
-						font-family:PingFang-SC-Medium;
-						color:rgba(51,51,51,1);
-					}
-					.good-size{
-						margin-top: 20px;
-						width:301px;
-						font-size:28px;
-						font-family:PingFang-SC-Medium;
-						color:rgba(153,153,153,1);
-					}
-					.good-price{
-						display: flex;
-						.integral{
-							font-size:28px;
-							font-family:PingFang-SC-Medium;
-							color:rgba(153,153,153,1);
-							line-height:48px;
-							.integral-num{
-								font-size:32px;
-								font-weight: 500;
-								font-family:PingFang-SC-Bold;
-								color:#FFA132;
-							}
-						}
-						.price{
-							margin-left: 110px;
-							height: 23px;
-							font-size:24px;
-							line-height:48px;
-							font-family:PingFang-SC-Medium;
-							text-decoration:line-through;
-							color:rgba(153,153,153,1);
-						}
-					}
-				}
-				.good-operating{
-					display: flex;
-					align-items: center;
-					margin-bottom: 30px;
-					margin-top: 44px;
-					margin-left: 250px;
-					.img{
-						width: 52px;
-						height: 52px
-					}
-					.delImg{
-						width: 50px;
-						height: 50px
-					}
-					.num{
-						font-size:32px;
-						font-family:PingFang-SC-Medium;
-						color:rgba(51,51,51,1);
-						padding-left: 39px;
-						padding-right: 39px;
-					}
-					.font{
-						padding-right: 21px;
-						padding-left: 21px;
-						font-size:24px;
-						font-family:PingFang-SC-Medium;
-						color:rgba(153,153,153,1);
-					}
-				}
-			}
-		}
-		.obtained-contain{
-			padding-top: 20px;
-			.title{
-				background: white;
-				height: 100px;
-				width: 100%;
-				display: flex;
-				align-items: center;
-				.obtained-img{
-					margin-left: 29px;
-					margin-right: 11px;
-					width:6px;
-					height:30px;
-					background:rgba(0,151,238,1);
-				}
-				.title-font{
-					font-size:32px;
-					font-family:PingFang-SC-Medium;
-					color:rgba(51,51,51,1);
-					line-height:48px;	
-				}
-			}
-			.wire{
-				padding-right: 29px;
-				padding-left: 29px;
-				border-bottom: 1px solid rgba(230,230,230,1);
-			}
-			.contain{
-				background: white;
-				width: 100%;
-				height: 245px;
-				.goods{
-					display: flex;
-					padding-top: 30px;
-					.goodImg{
-						margin-left: 29px;
-						width: 150px;
-						height: 150px;
-					}
-					.good-font{
-						margin-left: 19px;
-					}
-					.good-title{
-						line-height:38px;
-						height: 69px;
-						width:512px;
-						font-size:28px;
-						font-family:PingFang-SC-Medium;
-						color:rgba(51,51,51,1);
-					}
-					.good-size{
-						margin-top: 20px;
-						width:301px;
-						font-size:28px;
-						font-family:PingFang-SC-Medium;
-						color:rgba(153,153,153,1);
-					}
-					.good-price{
-						display: flex;
-						.integral{
-							font-size:28px;
-							font-family:PingFang-SC-Medium;
-							color:rgba(153,153,153,1);
-							line-height:48px;
-							.integral-num{
-								font-size:32px;
-								font-weight: 500;
-								font-family:PingFang-SC-Bold;
-								color:#FFA132;
-							}
-						}
-						.price{
-							margin-left: 110px;
-							height: 23px;
-							font-size:24px;
-							line-height:48px;
-							font-family:PingFang-SC-Medium;
-							text-decoration:line-through;
-							color:rgba(153,153,153,1);
-						}
-					}
-				}
-				.obtained-detail{
-					display: flex;
-					.obtained-button{
-						margin-left: 191px;
-						line-height: 40px;
-						text-align: center;
-						width:160px;
-						height:40px;
-						background:rgba(204,204,204,1);
-						border-radius:20px;
-						font-size:24px;
-						font-family:PingFang-SC-Medium;
-						font-weight:500;
-						color:rgba(255,255,255,1);
-					}
-					.img{
-						margin-left: 300px;
-						width: 50px;
-						height: 50px;
-					}
-				}
-			}
-		}
-		.footer{
-			position: fixed;
-			bottom: 0;
-			background: white;
-			width: 100%;
-			height: 98px;
-			display: flex;
-			align-items: center;
-			.img{
-			    margin: 0 20px;
-				width: 40px;
-				height: 40px;
-			}
-			.footer-font{
-				font-size:28px;
-				font-family:PingFang-SC-Medium;
-				color:rgba(153,153,153,1);
-			}
-			.footer-contain{
-				margin-left: 110px;
-			}
-			.sum{
-				font-size:28px;
-				font-family:PingFang-SC-Medium;
-				color:rgba(51,51,51,1);
-			}
-			.footer-num{
-				font-size:32px;
-				color: #FFA132;
-			}
-			.integral{
-				font-size:24px;
-				font-family:PingFang-SC-Bold;
-				color:#333333;
-			}
-			.sale{
-				font-size:24px;
-				font-family:PingFang-SC-Medium;
-				color:rgba(153,153,153,1);
-			}
-			.button{
-				margin-left: 20px;
-			   width: 200px;
-				height: 100%;
-				border:none;
-				background:#0097EE;
-				box-shadow:0px -1px 0px 0px rgba(230,230,230,1);
-				font-size:32px;
-				font-family:PingFang-SC-Bold;
-				font-weight:bold;
-				color:rgba(255,255,255,1);
-				line-height:48px;
-			}
-		}
-		
-	}
-
+	@import "@/assets/modules/mall/view-shop-car.scss";
 </style>
