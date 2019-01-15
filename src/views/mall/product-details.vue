@@ -6,7 +6,6 @@
 				 :down="down"
 				 :up="up"
 				 @downing="handleDown"
-				
 				 @scroll-end="handleScrollEnd">
 			<rx-pull-down slot="down"></rx-pull-down>
 		<div class="contain">
@@ -39,10 +38,12 @@
 			</div>
 			<div class="card-select">
 				<div class="size-contain">
+					<router-link :to="{path:'/type'}">
 					<div class="single-contain">
 						<span class="single-font">选择尺码规格类型</span>
 						<img  class="single-img"  src="@/assets/imgs/mall/right.png"></img>
 					</div>
+					</router-link>
 				</div>
 				<div class="size-contain2">
 					<div class="single-contain">
@@ -73,7 +74,8 @@
 		<div style="width: 190px;display: flex;align-items: center;justify-content: center">
 			<img class="img" src="@/assets/imgs/mall/shop.png"></img>
 		</div>
-		<button class="add-shop">加入购物车</button>
+		<button class="add-shop"
+				@click="goto">加入购物车</button>
 		<button class="pay-over">已售罄</button>
 	</div>
 		</rx-pull>
@@ -100,6 +102,9 @@
 		methods:{
 			__fetch() {
 				this.__fetchMallInfo();
+			},
+			goto(){
+				this.$router.push({path:'/shop-car'})
 			},
 			__fetchMallInfo(){
 				let that=this

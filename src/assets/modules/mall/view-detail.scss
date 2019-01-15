@@ -1,18 +1,33 @@
 .detail {
     .nav {
+        display:flex;
         padding-bottom:40px;
-        .rx-col {
-            text-align: center;
-            .iconfont {
-                font-size:120px;
+        justify-content: space-around;
+            .col {
+                text-align: center;
+                position: relative;
+                .iconfont {
+                    font-size:120px;
+                    .dot {
+                        position: absolute;
+                        color:rgba(255,255,255,1);
+                        padding:0 13px;
+                        height:40px;
+                        line-height: 40px;
+                        top:20px;
+                        right:0px;
+                        background:rgba(255,50,84,1);
+                        border-radius:20px;
+                        font-size:24px;
+                    }
+                }
+                .icon-daifahuo {
+                    color:rgb(201, 184, 31);
+                }
+                .icon-daishouhuo {
+                    color:rgb(102, 241, 109)
+                }
             }
-            .icon-daifahuo {
-                color:rgb(201, 184, 31);
-            }
-            .icon-daishouhuo {
-                color:rgb(102, 241, 109)
-            }
-        }
 
     }
     .bar {

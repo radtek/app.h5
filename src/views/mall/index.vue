@@ -37,18 +37,27 @@
                     <router-link :to="{path:'/detail'}">
                         <rx-btn class="iconfont icon-wodedingdan1"
                                 type="text"
-                                @on-click="goto()"><p>我的订单</p></rx-btn>
+                                @on-click="goto()">
+                                <p>我的订单</p>
+                                <span class="dot" v-if="dotdd">{{dotdd}}</span>
+                                </rx-btn>
                     </router-link>
                 </rx-col>
                 <rx-col>
                     <rx-btn class="iconfont icon-gouwuche"
                             type="text"
-                            @on-click="goto()"><p>购物车</p></rx-btn>
+                            @on-click="goto()">
+                            <p>购物车</p>
+                            <span class="dot" v-if="dotgw">{{dotgw}}</span>
+                            </rx-btn>
                 </rx-col>
                 <rx-col>
                     <rx-btn class="iconfont icon-wodejifen"
                             type="text"
-                            @on-click="goto()"><p>我的积分</p></rx-btn>
+                            @on-click="goto()">
+                            <p>我的积分</p>
+                            <span class="dot" v-if="dotjf">{{dotjf}}</span>
+                            </rx-btn>
                 </rx-col>
             </rx-row>
         </rx-card>
@@ -82,6 +91,9 @@
   			pageIndex: 1,
             swipeTopics: [],
             index:6,
+            dotdd:0,
+            dotgw:8,
+            dotjf:12
   		};
   	},
   	computed: {

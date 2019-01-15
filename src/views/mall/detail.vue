@@ -18,16 +18,45 @@
     <rx-pull-down slot="down"></rx-pull-down>
     <rx-pull-up slot="up"></rx-pull-up>
     <div class="detail">
-      <rx-row justify="center" class="nav">
-        <rx-col :flexBasis="120">
-          <router-link :to="{}">
-            <div class="dj">
-              <rx-btn class="iconfont icon-dingdan" type="text">
-                <p>待接订单</p>
-              </rx-btn>
+        <div class="nav">
+            <div class="col">
+                <router-link :to="{path:'/wait_cargo'}">
+                    <div class="dj">
+                        <rx-btn class="iconfont icon-dingdan"
+                                type="text">
+                                <p>待接订单</p>
+                                <span class="dot">9</span>
+                        </rx-btn>
+                    </div>
+                </router-link>    
             </div>
-          </router-link>
-        </rx-col>
+            <div class="col">
+                <router-link :to="{path:'/wait_cargo'}">
+                    <div class="df">
+                        <rx-btn class="iconfont icon-daifahuo"
+                                type="text">
+                                <p>待发货</p>
+                                <span class="dot">9</span>
+                        </rx-btn>
+                    </div>
+                </router-link>    
+            </div>
+            <div class="col">
+                <router-link :to="{path:'/wait_cargo'}">
+                    <div class="ds">
+                        <rx-btn class="iconfont icon-daishouhuo"
+                                type="text">
+                                <p>待收货</p>
+                            	<span class="dot">9</span>
+                        </rx-btn>
+                    </div>
+                </router-link>    
+            </div>
+        </div>
+        <div class="bar">
+            <div class="title">
+                <div class="text">历史订单</div>
+            </div>
         <rx-col :flexBasis="120">
           <router-link :to="{}">
             <div class="df">
@@ -46,7 +75,6 @@
             </div>
           </router-link>
         </rx-col>
-      </rx-row>
       <div class="bar">
         <div class="title">
           <div class="text">历史订单</div>

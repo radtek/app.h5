@@ -161,6 +161,9 @@ export default {
 		}
 	},
 	methods: {
+		goto(){
+			this.$router.push({path:'/logistics-details'})
+		},
 		async __fetchUserInfo() {
 			const [err, resp] = await this.$sync(this.$http.user.getUserInfo());
 
