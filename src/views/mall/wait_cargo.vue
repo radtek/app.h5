@@ -1,7 +1,7 @@
 <style lang="scss">
 [rs-view="wait_cargo"] {
 	.rx-card_header {
-		font-size: 12px;
+		font-size: 24px;
 		font-family: PingFang-SC-Medium;
 		font-weight: 500;
 		color: rgba(102, 102, 102, 1);
@@ -117,7 +117,7 @@
                   </span>
                   <span class="score">x{{q.number}}</span>
                 </div>
-                <div class="right_bottom" v-if="q.code==3">
+                <div class="right_bottom" v-if="q.text=='卖家已接单'">
                   <button class="btn">查看物流</button>
                   <button class="btn btn1">确认收货</button>
                 </div>
