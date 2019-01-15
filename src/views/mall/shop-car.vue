@@ -83,8 +83,8 @@
 				}
 				this.cartData[index].num++
 			},
+			//复选
 			changeImg(index){
-				console.log(this.cartData)
 				this.cartData[index].isSelect= !this.cartData[index].isSelect;
 				this.$set(this.cartData,index,this.cartData[index])
 				this.isSelectAll=this.selectAll()
@@ -92,6 +92,7 @@
 			selectAll(){
 				return this.cartData.every(item => item.isSelect);
 			}, 
+			//全选
 			allCheck(){
 				this.cartData.forEach(item => {
 					item.isSelect = !this.isSelectAll;
