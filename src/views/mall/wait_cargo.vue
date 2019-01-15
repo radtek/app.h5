@@ -118,7 +118,10 @@
                   <span class="score">x{{q.number}}</span>
                 </div>
                 <div class="right_bottom" v-if="q.text=='卖家已接单'">
-                  <button class="btn">查看物流</button>
+                          <router-link :to="{path:'/logistics-details'}">
+
+									<button class="btn">查看物流</button>
+                          </router-link>
                   <button class="btn btn1">确认收货</button>
                 </div>
               </div>
