@@ -57,14 +57,20 @@
 				</div>
 				<div class="sale">（已优惠￥34）</div>
 			</div>
-			<button class="button">结算</button>
+			<button class="button"
+					@click="goto">结算</button>
 		</div>
 	</div>
 </template>
 
 <script>
 	export default {
-		name: "shop-car"
+		name: "shop-car",
+		methods: {
+			goto(){
+				this.$router.push({path:'/payment'})
+			}
+		}
 	};
 </script>
 
