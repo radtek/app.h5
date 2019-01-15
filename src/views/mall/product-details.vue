@@ -119,6 +119,9 @@
 					})
 			}
 		},
+		mounted() {
+			console.log(this.$route.query)
+		},
 		created(){
 			this.__fetch();
 		}

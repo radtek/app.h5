@@ -100,7 +100,9 @@
         <div class="footer">
             <span class="add">总计： ￥{{allPrice}}+{{score}}积分</span>
             <div class="doPay"
-                 @click="doPay()"><span>支付</span></div>
+                 @click="doPay()">
+                 <span>支付</span>
+            </div>
         </div>
     </div>
 </template>
