@@ -29,10 +29,23 @@
         .rx-row {
             .rx-btn {
                 padding:40px 0;
+                position: relative;
 				span {
 					color: #333;
 					font-size: 32px;
-				}
+                }
+               .dot {
+                   position: absolute;
+                   color:rgba(255,255,255,1);
+                   padding:0 13px;
+                   height:40px;
+                   line-height: 40px;
+                   top:30px;
+                   right:0;
+                   background:rgba(255,50,84,1);
+                   border-radius:20px;
+                   font-size:24px;
+               }
             }
             .iconfont {
                 font-size:90px;

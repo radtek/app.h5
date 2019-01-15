@@ -27,7 +27,7 @@
                 <rx-row justify="center"
                         align="center"
                         class="nav">
-                    <div class="detail">
+                    <div class="detail" @click="goto">
                         <p>查看订单详情</p>
                     </div>
                 </rx-row>
@@ -74,6 +74,9 @@ export default {
             this.__fetchMallInfo();
             this.isPrerender = false;
           },
+        goto(){
+            this.$router.push({path:'/order-details'})
+        },
         async __append() {
   			// const [err, resp] = await this.$sync(
   			// 	this.$http.qa.getRecommendQ({ page: ++this.pageIndex })

@@ -20,7 +20,8 @@
         </div>
     </rx-cell>
     <div class="type-button"
-         @click="doSubmit"><span>确定</span></div>
+         @click="goBack"><span>确定</span>
+    </div>
 </div>
 </template>
 
@@ -56,8 +57,9 @@ export default {
         getValue(index,list){
             this.item[index] = list;
         },
-        doSubmit(){
+        goBack(){
             console.log(this.item)
+            this.$router.back()
         }
     },
     created(){

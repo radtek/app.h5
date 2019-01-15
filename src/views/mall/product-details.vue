@@ -38,10 +38,12 @@
 			</div>
 			<div class="card-select">
 				<div class="size-contain">
+					<router-link :to="{path:'/type'}">
 					<div class="single-contain">
 						<span class="single-font">选择尺码规格类型</span>
 						<img  class="single-img"  src="@/assets/imgs/mall/right.png"></img>
 					</div>
+					</router-link>
 				</div>
 				<div class="size-contain2">
 					<div class="single-contain">

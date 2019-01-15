@@ -118,7 +118,7 @@
                   <span class="score">x{{q.number}}</span>
                 </div>
                 <div class="right_bottom" v-if="q.code==3">
-                  <button class="btn">查看物流</button>
+                  <button class="btn" @click="goto">查看物流</button>
                   <button class="btn btn1">确认收货</button>
                 </div>
               </div>
@@ -161,6 +161,9 @@ export default {
 		}
 	},
 	methods: {
+		goto(){
+			this.$router.push({path:'/logistics-details'})
+		},
 		async __fetchUserInfo() {
 			const [err, resp] = await this.$sync(this.$http.user.getUserInfo());
 
