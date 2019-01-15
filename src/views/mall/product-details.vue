@@ -74,7 +74,8 @@
 		<div style="width: 190px;display: flex;align-items: center;justify-content: center">
 			<img class="img" src="@/assets/imgs/mall/shop.png"></img>
 		</div>
-		<button class="add-shop">加入购物车</button>
+		<button class="add-shop"
+				@click="goto">加入购物车</button>
 		<button class="pay-over">已售罄</button>
 	</div>
 		</rx-pull>
@@ -101,6 +102,9 @@
 		methods:{
 			__fetch() {
 				this.__fetchMallInfo();
+			},
+			goto(){
+				this.$router.push({path:'/shop-car'})
 			},
 			__fetchMallInfo(){
 				let that=this
