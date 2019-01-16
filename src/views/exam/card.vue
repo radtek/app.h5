@@ -45,7 +45,8 @@
 <template>
   <div rs-view="exam.card"
        class="bg">
-    <rx-header @back="handleBack">{{name}}</rx-header>
+    <rx-header @back="handleBack"
+               class="overflow">{{name}}</rx-header>
     <ques-banner :test-time="restTime"
                  usage="card"
                  @time-end="handleTimeEnd"
@@ -115,7 +116,7 @@
   			})
   				.then(done => {
   					this.$confirm.close();
-  					this.__gotoResult();
+  					this.__gotoResult(true);
   				})
   				.catch(() => {
   					this.$confirm.close();
@@ -175,11 +176,11 @@
   					// // 提交当前题目的答案
   					return this.__doSubmit()
   						.then(() => {
-  							this.__gotoResult();
+  							this.__gotoResult(true);
   						})
   						.catch(err => {
   							if (err.code === "70") {
-  								this.__gotoResult();
+  								this.__gotoResult(true);
   							}
   						});
   				}

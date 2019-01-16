@@ -180,59 +180,60 @@
   			this.handleScrollEnd(pos);
   			this.__loadLazyImgs();
   		},
-  		__fetch() {
-  			return this.$http.edu
-  				.getDetail({
+  		async __fetch() {
+  			const [err, data] = await this.$sync(
+  				this.$http.edu.getDetail({
   					contentId: this.contentid,
   					passport: this.authInfo.passport
   				})
-  				.then(data => {
-  					const info = data.result.content;
+  			);
 
-  					if (info) {
-  						const content = info.txt
-  							? info.txt
-  									.replace(REG_HTML_SCRIPT, "")
-  									.replace(REG_HTML_STYLE, "")
-  									.replace(/<[^<>]+>/g, "")
-  									.replace(/(^\s*)|(\s*&)/g, "")
-  									.replace(/[\r\n]/g, "")
-  							: "";
+  			if (err) {
+  				return;
+  			}
 
-  						if (!this.$isDev) {
-  							JXRSApi.app.education.setAudioText({ content });
-  							JXRSApi.app.education.updateStatusInfo({
-  								contentId: parseInt(this.contentid, 10),
-  								isCollected: !!info.isCollected,
-  								isSupported: !!info.isSupported,
-  								likeCount: info.likeCount,
-  								commentCount: info.commentCount || 0,
-  								content
-  							});
-  						}
+  			const info = data.result.content || {};
 
-  						this.info = info;
-  					}
+  			const content = info.txt
+  				? info.txt
+  						.replace(REG_HTML_SCRIPT, "")
+  						.replace(REG_HTML_STYLE, "")
+  						.replace(/<[^<>]+>/g, "")
+  						.replace(/(^\s*)|(\s*&)/g, "")
+  						.replace(/[\r\n]/g, "")
+  				: "";
 
-  					if (data.result.files && data.result.files.length) {
-  						this.attachments = data.result.files.map(it => {
-  							return {
-  								id: 0,
-  								fileName: it.name,
-  								fileSize: it.fileSize,
-  								url: it.fileUrl,
-  								mineType: it.name.substring(
-  									it.name.indexOf(".") + 1
-  								)
-  							};
-  						});
-  					}
-  					this.$rxUtils.asyncCmp.dataReady.call(
-  						this,
-  						"RsEduItemOfAttach"
-  					);
-  				})
-  				.then(this.__fetchComments);
+  			if (!this.$isDev) {
+  				JXRSApi.app.education.setAudioText({ content });
+  			}
+
+  			this.info = info;
+
+  			if (data.result.files && data.result.files.length) {
+  				this.attachments = data.result.files.map(it => {
+  					return {
+  						id: 0,
+  						fileName: it.name,
+  						fileSize: it.fileSize,
+  						url: it.fileUrl,
+  						mineType: it.name.substring(it.name.indexOf(".") + 1)
+  					};
+  				});
+  			}
+  			this.$rxUtils.asyncCmp.dataReady.call(this, "RsEduItemOfAttach");
+
+  			await this.__fetchComments();
+
+  			if (!this.$isDev) {
+  				JXRSApi.app.education.updateStatusInfo({
+  					contentId: parseInt(this.contentid, 10),
+  					isCollected: !!info.isCollected,
+  					isSupported: !!info.isSupported,
+  					likeCount: info.likeCount,
+  					commentCount: this.total || 0,
+  					content
+  				});
+  			}
   		},
   		async __fetchComments() {
   			this.page = 1;

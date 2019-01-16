@@ -14,8 +14,8 @@ export default {
 		};
 	},
 	methods: {
-		__gotoResult() {
-			this.$router.push({
+		__gotoResult(isReplace) {
+			this.$router[isReplace ? "replace" : "push"]({
 				path: "/result",
 				query: {
 					pwd: this.pwd,
