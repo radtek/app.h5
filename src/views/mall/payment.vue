@@ -7,10 +7,10 @@
 <template>
     <div class="payment">
         <div class="body">
-            <router-link :to="{}">
+            <router-link :to="{path:'address-manage'}">
                 <rx-row justify="center"
                         class="action"
-                        v-for="item in action" :key="index">
+                        v-for="item,index in action" :key="index">
                     <rx-col :span="23" class="col-action">
                         <p><span class='name'>{{item.name}}</span>
                             <span class="phone">{{item.phone}}</span></p>
@@ -100,7 +100,9 @@
         <div class="footer">
             <span class="add">总计： ￥{{allPrice}}+{{score}}积分</span>
             <div class="doPay"
-                 @click="doPay()"><span>支付</span></div>
+                 @click="doPay()">
+                 <span>支付</span>
+            </div>
         </div>
     </div>
 </template>
@@ -129,6 +131,7 @@ export default {
                 return false;
             }
             console.log(this.isChecked)
+            this.$router.push({path:'/paymentEnd'})
         },
         __fetch(){
             this.rows = [
