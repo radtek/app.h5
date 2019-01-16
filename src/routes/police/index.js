@@ -35,6 +35,11 @@ export function createRoutes(Vue) {
 				path: "/login",
 				component: () =>
 					import( /* webpackChunkName: "view-login" */ `~v/${MODULENAME}/login.vue`)
+			},
+			{
+				path: "/date",
+				component: () =>
+					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/date/date.vue`)
 			}
 		]
 	});
