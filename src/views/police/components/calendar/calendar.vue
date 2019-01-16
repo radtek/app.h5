@@ -86,8 +86,8 @@
 		vertical-align: top;
 	}
 	.calendar td.week{
-		font-size:20px;
-		padding-bottom: 10px;
+		font-size:30px;
+		padding-bottom: 15px;
 		pointer-events:none !important;
 		cursor: default !important;
 	}
