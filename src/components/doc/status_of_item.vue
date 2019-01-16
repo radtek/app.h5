@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import categoryMap from "~v/doc/data/categoryMap";
+  import categoryMap from "~v/doc/date/categoryMap";
   export default {
   	name: "StatusOfDocItem",
   	props: {

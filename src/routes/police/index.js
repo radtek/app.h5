@@ -13,6 +13,11 @@ export function createRoutes(Vue) {
 				path: "/index",
 				component: () =>
 					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`)
+			},
+			{
+				path: "/date",
+				component: () =>
+					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/date/date.vue`)
 			}
 		]
 	});
