@@ -2,15 +2,18 @@
 <!--代码引用地址https://github.com/jinzhe/vue-calendar，需要学习请点此链接-->
 <style lang="scss" scoped>
 	.calendar {
+		z-index:1000;
 		margin:auto;
-		width: 100%;
-		min-width:600px;
-		background: #fff;
+		width:670px;
+		height: 667px;
+		border-radius:20px;
+		background: white;
+		box-shadow:0px -4px 30px 0px rgba(110,63,8,0.3);
 		font-family: "PingFang SC","Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
 		user-select:none;
 	}
-
 	.calendar-tools{
+		padding-top: 30px;
 		height:80px;
 		font-size: 40px;
 		line-height: 1.3;
@@ -20,12 +23,12 @@
 		cursor: pointer;
 	}
 	.calendar-prev{
+		padding-top: 10px;
 		width: 14.28571429%;
 		float:left;
 		text-align: center;
 	}
 	.calendar-info{
-		padding-top: 3px;
 		font-size:32px;
 		line-height: 1.3;
 		text-align: center;
@@ -55,11 +58,12 @@
 		text-align: center;
 	}
 	.calendar-info>div.year{
-		font-size:20px;
+		font-size:25px;
 		line-height: 1;
 		color:#999;
 	}
 	.calendar-next{
+		padding-top: 10px;
 		width: 14.28571429%;
 		float:right;
 		text-align: center;
@@ -87,6 +91,7 @@
 	}
 	.calendar td.week{
 		font-size:30px;
+		padding-top: 30px;
 		padding-bottom: 15px;
 		pointer-events:none !important;
 		cursor: default !important;
@@ -129,7 +134,6 @@
 		left:0;
 		right:0;
 		text-align: center;
-
 		padding:2px;
 		font-size:24px;
 		line-height: 1.2;
