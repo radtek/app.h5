@@ -23,6 +23,8 @@
     "dev.test.vote": "cross-env NODE_ENV=development JXRS_ORIGIN=whrdd.f3322.net:8889 JXRS_APP_MODULE=vote webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
     "dev.exam": "cross-env NODE_ENV=development JXRS_ORIGIN=manage.guotailimin.com JXRS_APP_MODULE=exam webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
     "dev.test.exam": "cross-env NODE_ENV=development JXRS_ORIGIN=whrdd.f3322.net:8889 JXRS_APP_MODULE=exam webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
+	"dev.police": "cross-env NODE_ENV=development JXRS_ORIGIN=manage.guotailimin.com JXRS_APP_MODULE=police webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
+    "dev.test.police": "cross-env NODE_ENV=development JXRS_ORIGIN=whrdd.f3322.net:8889 JXRS_APP_MODULE=police webpack-dev-server --progress --display-error-details --config build/webpack.dev.conf.js",
     "aliyun.news": "cross-env NODE_ENV=aliyun JXRS_ORIGIN=manage.guotailimin.com JXRS_APP_MODULE=news node ./build/build.js & npm run gulp.aliyun.news",
     "aliyun.score": "cross-env NODE_ENV=aliyun JXRS_ORIGIN=manage.guotailimin.com JXRS_APP_MODULE=score node ./build/build.js & npm run gulp.aliyun.score",
     "aliyun.qa": "cross-env NODE_ENV=aliyun JXRS_ORIGIN=manage.guotailimin.com JXRS_APP_MODULE=qa node ./build/build.js & npm run gulp.aliyun.qa",

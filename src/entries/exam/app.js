@@ -6,5 +6,6 @@ import http from "~a/exam/";
 createVue(Vue, { router: createRoutes(Vue), http }, [
 	"tellNativeIsExamIndex",
 	"hideHeader",
-	"share"
+	"share",
+	"back"
 ]);
