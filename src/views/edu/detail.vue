@@ -68,6 +68,7 @@
                       :total="total"
                       :list="list"
                       :is-show-zan="false"
+                      title="学习讨论"
                       @on-empty-click="handleCommentEmptyClick">
           <comment-item ref="items"
                         v-for="(comment,index) in list"
