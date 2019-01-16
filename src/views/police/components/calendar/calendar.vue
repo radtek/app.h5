@@ -106,7 +106,7 @@
 		font-size: 30px;
 		line-height:33px;
 		margin:0px auto;
-		border-radius:60px;
+		border-radius:90px;
 	}
 	.calendar td:not(.selected) span:not(.red):hover{
 		background:#f3f8fa;
@@ -131,7 +131,7 @@
 		text-align: center;
 
 		padding:2px;
-		font-size:8px;
+		font-size:24px;
 		line-height: 1.2;
 		color:#444;
 	}
