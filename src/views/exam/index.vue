@@ -12,6 +12,9 @@
   			padding-top: 74px;
   			line-height: 1.5;
   			text-align: center;
+  			text-overflow: ellipsis;
+  			overflow-y: hidden;
+  			white-space: nowrap;
   		}
 
   		.exam-rule {

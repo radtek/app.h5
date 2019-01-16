@@ -11,6 +11,12 @@
 			position: absolute;
 			min-width: 2 * 320px;
 			max-width: 2 * 414px;
+
+			&_title {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
 		}
 	}
 

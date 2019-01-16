@@ -82,7 +82,7 @@
   				})
   				.then(data => {
   					this.list = data.result.list;
-  					this.result = data.result.total;
+  					this.total = data.result.total;
 
   					setTimeout(() => {
   						this.__loadLazyImgs();
