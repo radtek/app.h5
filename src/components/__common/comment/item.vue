@@ -36,7 +36,9 @@
       </rx-row>
     </template>
     <template>
-      {{getProp("text")}}
+      <div style="white-space: initial;word-break: break-all;">
+        {{getProp("text")}}
+      </div>
     </template>
     <template slot="footer">
       <span>{{getProp('time') | formatDate("MM-dd hh:mm")}}</span>

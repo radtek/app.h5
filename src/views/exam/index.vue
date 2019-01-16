@@ -1,56 +1,61 @@
 <style lang="scss">
-	@import "../../assets/modules/exam/exam.scss";
-	[rs-view="exam.index"] {
-		.container {
-			position: relative;
-			width: 100%;
-			height: 100%;
+  @import "../../assets/modules/exam/exam.scss";
+  [rs-view="exam.index"] {
+  	.container {
+  		position: relative;
+  		width: 100%;
+  		height: 100%;
 
-			.title {
-				color: #fff;
-				font-size: 48px;
-				padding-top: 74px;
-				line-height: 1.5;
-				text-align: center;
-			}
+  		.title {
+  			color: #fff;
+  			font-size: 48px;
+  			padding-top: 74px;
+  			line-height: 1.5;
+  			text-align: center;
+  			text-overflow: ellipsis;
+  			overflow-y: hidden;
+  			white-space: nowrap;
+  		}
 
-			.exam-rule {
-				margin: 80px 72px 44px 72px;
-			}
-		}
+  		.exam-rule {
+  			margin: 80px 72px 44px 72px;
+  		}
+  	}
 
-		.btns {
-			position: relative;
-			width: 100%;
-			text-align: center;
-			margin-top: 100px;
-		}
+  	.btns {
+  		position: relative;
+  		width: 100%;
+  		text-align: center;
+  		margin-top: 100px;
+  	}
 
-		.inputs {
-			padding: 0 70px 40px 70px;
+  	.inputs {
+  		padding: 0 70px 40px 70px;
 
-			~ .btns {
-				margin-top: 0;
-			}
-		}
+  		~ .btns {
+  			margin-top: 0;
+  		}
+  	}
 
-		.rx-btn {
-			&.dj {
-				padding: 0 40px;
-			}
-			&.other {
-				padding: 0 180px;
-			}
-		}
-	}
-	@import "../../assets/modules/exam/exam.rslt.media.scss";
+  	.rx-btn {
+  		&.dj {
+  			padding: 0 40px;
+  		}
+  		&.other {
+  			padding: 0 180px;
+  		}
+  	}
+  }
+  @import "../../assets/modules/exam/exam.rslt.media.scss";
 </style>
 
 <template>
   <section rs-view="exam.index"
-           class="bg">
+           class="bg"
+           ref="main">
     <rx-header v-show="needBack && loginMode"
-               @back="handleBack"></rx-header>
+               @back="handleBack">
+    </rx-header>
     <div class="container">
       <div class="title">
         {{info.name}}
@@ -121,7 +126,9 @@
   				psw: "",
   				userName: "",
   				identityId: ""
-  			}
+  			},
+  			originHeight: "",
+  			testHeight: ""
   		};
   	},
   	computed: {
@@ -241,11 +248,26 @@
   			this.formData.mobile = this.formData.psw = "";
   			this.formData.userName = this.formData.identityId = "";
   			this.loginMode = "";
+  		},
+  		resizeHnd() {
+  			this.testHeight = document.body.scrollHeight;
+  			if (document.body.scrollHeight !== this.originHeight) {
+  				document.body.style.height = this.originHeight + "px";
+  			} else {
+  				document.body.style.height = "100%";
+  			}
   		}
   	},
   	created() {
   		this.getQS("taskId");
   		this.__fetch();
+  	},
+  	mounted() {
+  		this.originHeight = document.body.scrollHeight;
+  		window.addEventListener("resize", this.resizeHnd);
+  	},
+  	beforeDestroy() {
+  		window.removeEventListener("resize", this.resizeHnd);
   	}
   };
 </script>

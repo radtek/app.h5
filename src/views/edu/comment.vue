@@ -13,6 +13,7 @@
       <comment-pane ref="comment"
                     :total="total"
                     :list="list"
+                    title="学习讨论"
                     :is-show-zan="false"
                     @on-empty-click="handleCommentEmptyClick">
         <comment-item ref="items"
@@ -81,7 +82,7 @@
   				})
   				.then(data => {
   					this.list = data.result.list;
-  					this.result = data.result.total;
+  					this.total = data.result.total;
 
   					setTimeout(() => {
   						this.__loadLazyImgs();
