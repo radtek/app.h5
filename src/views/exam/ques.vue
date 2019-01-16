@@ -95,9 +95,6 @@
   						this.titles[this.current - 1].id,
   						this.current - 1
   					);
-  				})
-  				.catch(err => {
-  					// TODO: err
   				});
   		},
   		__fetchAllSubmitedQues() {
@@ -175,7 +172,7 @@
   							.then(() => {
   								done();
   								this.$confirm.close();
-  								this.__gotoResult();
+  								this.__gotoResult(true);
   							})
   							.catch(() => {
   								done();
@@ -246,7 +243,7 @@
   					.then(() => {
   						done();
   						this.$confirm.close();
-  						this.__gotoResult();
+  						this.__gotoResult(true);
   					})
   					.catch(() => {
   						done();
@@ -257,20 +254,17 @@
   		},
   		handleTimeEnd() {
   			if (this.$route.path !== "/ques") return;
-  			this.$alert("考试截止时间已到，稍后系统会自动计算分数。").then(
-  				() => {
-  					// // 提交当前题目的答案
-  					return this.__doSubmit()
-  						.then(() => {
-  							this.__gotoResult();
-  						})
-  						.catch(err => {
-  							if (err.code === "70") {
-  								this.__gotoResult();
-  							}
-  						});
-  				}
-  			);
+  			this.$alert("由于考试截止时间已到，系统已为您自动计算分数。");
+  			// // 提交当前题目的答案
+  			return this.__doSubmit()
+  				.then(() => {
+  					this.__gotoResult(true);
+  				})
+  				.catch(err => {
+  					if (err.code === "70") {
+  						this.__gotoResult(true);
+  					}
+  				});
   		},
   		handleToCard() {
   			if (this.loading) return;

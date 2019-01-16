@@ -12,6 +12,9 @@
   			padding-top: 139px;
   			line-height: 1;
   			text-align: center;
+  			text-overflow: ellipsis;
+  			overflow-y: hidden;
+  			white-space: nowrap;
   		}
 
   		.exam-rule {
@@ -119,11 +122,13 @@
   		handleBack() {
   			this.$router.back();
 
-  			setTimeout(() => {
-  				if (!this.$isDev) {
+  			if (!this.isDev) {
+  				if (this.close === "1") {
   					JXRSApi.view.close();
+  				} else {
+  					JXRSApi.view.back();
   				}
-  			}, 50);
+  			}
   		},
   		handleClick() {
   			if (this.loading) return;
@@ -199,21 +204,17 @@
   			}
   		}
   	},
-  	created() {
-  		if (!this.$isDev) {
-  			JXRSApi.on("app.exam.back", () => {
-  				this.handleBack();
-  			});
-  		}
-  	},
   	activated() {
   		if (!this.$isDev) {
   			try {
+  				JXRSApi.on("app.exam.back", () => {
+  					this.handleBack();
+  				});
   				JXRSApi.app.exam.hideHeader();
   			} catch (e) {}
   		}
 
-  		this.getQS("taskId", "userId", "isin");
+  		this.getQS("taskId", "userId", "isin", "close");
   		this.__fetch();
   	}
   };
