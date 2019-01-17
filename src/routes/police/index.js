@@ -40,6 +40,11 @@ export function createRoutes(Vue) {
 				path: "/date",
 				component: () =>
 					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/date/date.vue`)
+			},
+			{
+				path: "/add-person",
+				component: () =>
+					import(/* webpackChunkName: "view-add-person" */ `~v/${MODULENAME}/add-person.vue`)
 			}
 		]
 	});

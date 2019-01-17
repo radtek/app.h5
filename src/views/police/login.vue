@@ -2,7 +2,7 @@
 [rs-view="login"] {
 	background: url(../../assets/imgs/police/bg.png) no-repeat center;
 	background-size: 100% 100%;
-	width: 750px;
+	width: 100%;
 	.input {
 		background: rgba(246, 246, 246, 1);
 		opacity: 0.8;
@@ -21,6 +21,9 @@
 		margin-bottom: 128px;
 	}
 	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		.phone {
 			width: 660px;
 			height: 98px;
@@ -28,7 +31,6 @@
 			background: rgba(246, 246, 246, 1);
 			opacity: 0.8;
 			border: 1px solid rgba(0, 151, 238, 1);
-			margin-left: 45px;
 			display: flex;
 			align-items: center;
 			position: relative;
@@ -91,7 +93,6 @@
 			border: 2px solid rgba(255, 255, 255, 1);
 			border-radius: 55px;
 			text-align: center;
-			margin-left: 51px;
 			margin-top: 162px;
 			display: flex;
 			justify-content: center;
@@ -171,16 +172,12 @@
           class="input input_code"
           onkeyup="this.value=this.value.replace(/\D/g,'')"
           placeholder="请输入验证码"
+          maxlength="6"
           v-model="code"
         >
         <button class="get_code" @click="get_code()" v-show="isCode">{{getCode}}</button>
         <button class="again_get" v-show="!isCode">再次获取（{{little_time}}）</button>
-        <div class="box" v-if="showToast">
-          <div class="window">
-            <img src="../../assets/imgs/police/x.png" alt class="x">
-            <div class="text">{{toast_text}}</div>
-          </div>
-        </div>
+        <toast :text="toast_text" :showToast="showToast"></toast>
       </div>
       <div class="login_btn">
         <div class="login_text" @click="login()">立即登录</div>
@@ -201,8 +198,13 @@ export default {
 			toast_text: "",
 			showToast: false,
 			code: "",
-			phoneN: /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
+			phoneN: /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/,
+			click: 0
 		};
+	},
+	components: {
+		toast: () =>
+			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/components/phone-toast.vue")
 	},
 	methods: {
 		clear() {
@@ -234,7 +236,6 @@ export default {
 		login() {
 			var Num = this.num;
 			var Code = this.code;
-
 			if (Num == "") {
 				this.toast_text = "请输入手机号";
 				this.toast();
@@ -246,9 +247,23 @@ export default {
 				this.toast_text = "请输入验证码";
 				this.toast();
 			} else if (this.phoneN.test(Num) && Code != "") {
-				//发请求
-                console.log("要发请求了");
-                localStorage.setItem('username',Num)
+				//防多次点击
+				if (this.click == 0) {
+					//发请求
+					console.log("要发请求了");
+
+					//存储信息
+					localStorage.setItem("username", Num);
+
+					this.click = 1;
+					var self = this;
+					setTimeout(function() {
+						self.click = 0;
+					}, 2000);
+				} else {
+					this.toast_text = "不要重复点击";
+					this.toast();
+				}
 			}
 		},
 		toast() {
