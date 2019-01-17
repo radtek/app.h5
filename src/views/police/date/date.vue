@@ -4,7 +4,6 @@
 			<div class="header-contain">
 					<img src="@/assets/imgs/police/left.png">
 					<span class="header-font">活动时间</span>
-				
 			</div>
 			<div class="time-contain">
 				<div class="date" @click="clickDate" v-if="isShow">
