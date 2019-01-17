@@ -4,10 +4,15 @@
 			<div class="header-contain">
 					<img src="@/assets/imgs/police/left.png">
 					<span class="header-font">活动时间</span>
+				
 			</div>
 			<div class="time-contain">
-				<div class="date" @click="clickDate">
+				<div class="date" @click="clickDate" v-if="isShow">
 					<span class="date-font">请选择日期</span>
+				</div>
+				<div v-if="isShowDate" class="new-time">
+					<div class="time-font">{{month}}月{{day}}日</div>
+					<div class="week-font">{{week}}</div>
 				</div>
 				<img src="@/assets/imgs/police/xie.png"></img>
 				<div class="date">
@@ -40,6 +45,12 @@
 		},
 		data(){
 			return {
+				year:'',
+				month:'',
+				day:'',
+				week:'',
+				isShow:true,
+				isShowDate:false,
 				calendar3:{
 					display:"2019/01/16",
 					show:false,
@@ -47,9 +58,10 @@
 					value:[2019,1,16], //默认日期
 					lunar:true, //显示农历
 					select:(value)=>{
-						console.log(value)
+						console.log(value.toString())
 						this.calendar3.value=value;
 						this.calendar3.display=value.join("/");
+						console.log(this.calendar3.display)
 					}
 				},
 			}
@@ -58,8 +70,27 @@
 			clickDate(){
 				this.calendar3.show=true
 			},
+			//获取星期几
+			getWeek(date){
+				let week;
+				if(date.getDay()==0) week="星期日"
+				if(date.getDay()==1) week="星期一"
+				if(date.getDay()==2) week="星期二"
+				if(date.getDay()==3) week="星期三"
+				if(date.getDay()==4) week="星期四"
+				if(date.getDay()==5) week="星期五"
+				if(date.getDay()==6) week="星期六"
+				return week;
+			},
+			//确定日期
 			sureDate(){
-				console.log(this.calendar3.value)
+				this.year=this.calendar3.value.toString().slice(0,4);
+				this.month=this.calendar3.value.toString().slice(5,7);
+				this.day=this.calendar3.value.toString().slice(8,10);
+				this.week= this.getWeek(new Date(this.calendar3.display));
+				console.log(this.week)
+				this.isShow=false
+				this.isShowDate=true
 			}
 		}
 
@@ -105,6 +136,20 @@
 					background:rgba(57,46,144,0.3);
 					border-radius:8px;
 					.date-font{
+						font-size:40px;
+						font-family:PingFang-SC-Medium;
+						color:rgba(255,255,255,1);
+						line-height:48px;
+					}
+				}
+				.new-time{
+					.time-font{
+						font-size:40px;
+						font-family:PingFang-SC-Medium;
+						color:rgba(255,255,255,1);
+						line-height:48px;
+					}
+					.week-font{
 						font-size:40px;
 						font-family:PingFang-SC-Medium;
 						color:rgba(255,255,255,1);
