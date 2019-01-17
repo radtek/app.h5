@@ -1,6 +1,6 @@
 <style lang="scss">
 [rs-view="login"] {
-	background: url(../../assets/imgs/police/bg.png) no-repeat center;
+	background: url(../../assets/modules/police/imgs/bg.png) no-repeat center;
 	background-size: 100% 100%;
 	width: 100%;
 	.input {
@@ -147,7 +147,7 @@
     <header>登录页面</header>
     <main>
       <div class="phone">
-        <img src="../../assets/imgs/police/phone.png" class="phone_icon">
+        <img :src="getLocalMduImg('police','phone')" class="phone_icon">
         <input
           ref="phone"
           id="phone"
@@ -161,7 +161,7 @@
         >
         <img
           class="cancel"
-          src="../../assets/imgs/police/cancel.png"
+          :src="getLocalMduImg('police','cancel')"
           @click="clear()"
           v-show="this.num !=''"
         >

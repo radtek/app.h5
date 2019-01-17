@@ -38,7 +38,7 @@
 <template>
   <div class="box" v-if="showToast">
     <div class="window">
-      <img src="../../../assets/imgs/police/x.png" alt class="x">
+      <img src="../../../assets/modules/police/imgs/x.png" alt class="x">
       <div class="text">{{text}}</div>
     </div>
   </div>
