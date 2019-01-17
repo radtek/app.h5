@@ -44,12 +44,14 @@
                     </router-link>
                 </rx-col>
                 <rx-col>
+					<router-link :to="{path:'/shop-car'}">
                     <rx-btn class="iconfont icon-gouwuche"
                             type="text"
                             @on-click="goto()">
                             <p>购物车</p>
                             <span class="dot" v-if="dotgw">{{dotgw}}</span>
-                            </rx-btn>
+					</rx-btn>
+					</router-link>
                 </rx-col>
                 <rx-col>
                     <rx-btn class="iconfont icon-wodejifen"
