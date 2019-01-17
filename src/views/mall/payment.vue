@@ -67,16 +67,12 @@
             </rx-col>
           </rx-row>
         </div>
-      </div>
-      <div class="item">
-        <div class="list" v-for="(item,index) in rows" :key="index">
-          <div class="left">
-            <span class="name">{{item.name}}</span>
-            <span class="num">×{{item.num}}</span>
-          </div>
-          <div class="right">
-            <span class="price">￥{{item.price}}</span>
-          </div>
+        <div class="footer">
+            <span class="add">总计： ￥{{allPrice}}+{{score}}积分</span>
+            <div class="doPay"
+                 @click="doPay()">
+                 <span>支付</span>
+            </div>
         </div>
       </div>
       <div class="pay-score">

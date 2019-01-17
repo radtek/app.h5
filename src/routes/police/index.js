@@ -45,6 +45,11 @@ export function createRoutes(Vue) {
 				path: "/add-person",
 				component: () =>
 					import(/* webpackChunkName: "view-add-person" */ `~v/${MODULENAME}/add-person.vue`)
+			},
+			{
+				path: "/personnel",
+				component: () =>
+					import(/* webpackChunkName: "view-personnel" */ `~v/${MODULENAME}/personnel.vue`)
 			}
 		]
 	});

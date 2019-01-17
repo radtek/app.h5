@@ -58,7 +58,6 @@ export default {
     data(){
         return {
             likeList:[],
-            listPart:[],
             total:100,
             isPrerender:false,
             index:4,
@@ -70,115 +69,30 @@ export default {
   		}
   	},
     methods: {
-        __fetch() {
-            this.__fetchMallInfo();
+        async __fetch() {
+          await  this.__fetchMallInfo();
             this.isPrerender = false;
           },
         goto(){
             this.$router.push({path:'/order-details'})
         },
         async __append() {
-  			// const [err, resp] = await this.$sync(
-  			// 	this.$http.qa.getRecommendQ({ page: ++this.pageIndex })
-              // );
-              
-              const err = false;
+  			const [err, resp] = await this.$sync(
+  				this.$http.mall.getMallList({ page: ++this.pageIndex })
+              );
   			if (!err) {
-                  // const list = resp.result;
-                  let list = this.listPart.slice(this.index,this.index+2);
-                  this.index += 2;
+                const list = resp.result;
   				if (list && list.length) {
-                      this.likeList = this.listPart.concat(list);
+                      this.likeList = this.likeList.concat(list);
   				}
   			}
         },
-        __fetchMallInfo(){
-          this.listPart = [{
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"一小米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },{
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"二大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"三大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"四大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"五大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"六大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"七大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"八大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"九大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"十大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"十一大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },
-          {
-              imgPath:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
-              title:"十二大米小钢炮蓝牙音箱",
-              score:"1000",
-              price:"48",
-              oldPrice:"88"
-          },]
-          this.likeList = this.listPart.slice(0,4)
-        }  
-
+        async __fetchMallInfo(){
+            const [err,resp] = await this.$sync(this.$http.mall.getMallList())
+            if(!err) {
+                this.likeList = resp.result;
+            }
+        },
     },
     mounted() {
         this.__fetch();

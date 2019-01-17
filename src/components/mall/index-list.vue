@@ -2,13 +2,13 @@
     <div class="item-mall">
         <rx-row type="flex" >
             <rx-col :span="12" v-for="(item,index) in data" :key="index">
-                <div @click="goto('商品详情','/details')">
-                <img :src="item.imgPath" alt="">
-                <div class="item-text">
-                <h2>{{item.title}}</h2>
-                <p><span>{{item.score}}</span>积分+￥{{item.price}}</p>
-                <div class="oldPrice">￥{{item.oldPrice}}</div>
-                </div>
+                <div @click="goto('商品详情','/details',{id:item.id})">
+                    <img :src="item.imgPath" alt="图片">
+                    <div class="item-text">
+                        <h2>{{item.title}}</h2>
+                        <p><span>{{item.score}}</span>积分+￥{{item.price}}</p>
+                        <div class="oldPrice">￥{{item.oldPrice}}</div>
+                    </div>
                 </div>
             </rx-col>
         </rx-row> 
@@ -27,9 +27,7 @@ export default {
 
     },
     methods: {
-        gotoDetails(){
 
-        }
     }
 }
 </script>
