@@ -71,7 +71,7 @@
 
 <template>
   <div rs-view="view-person">
-	  <top-head :title="title"></top-head>
+    <top-head :title="title"></top-head>
     <div class="top">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
@@ -86,14 +86,20 @@
             </div>
           </li>
           <li v-show="leaveP > 0">
-            <img :src="getLocalMduImg('police','redadd')" alt class="add">
+            <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="dialogJoin">
           </li>
         </ul>
       </div>
+      <dialog-join
+        :showToast="join"
+        :text="text"
+        @doCancel="Cancel"
+        @doConfirm="Confirm"
+      ></dialog-join>
     </div>
     <div class="separate" v-show="isShowUsers && leaveP > 0"></div>
 
-	 <div class="top" v-show="leaveP > 0">
+    <div class="top" v-show="leaveP > 0">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
         <span class="fw">请假人员({{leaveP}})</span>
@@ -109,7 +115,6 @@
         </ul>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -122,17 +127,31 @@ export default {
 			atPerson: 16,
 			allPerson: 20,
 			list: [],
-			title:'参与人员'
+			title: "参与人员",
+			join: false,
+			text:'该课程还有剩余名额，是否加入？'
 		};
 	},
 	components: {
 		topHead: () =>
-			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue")
+			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue"),
+		dialogJoin: () =>
+			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
 	},
-	methods: {},
-	computed:{
-		leaveP:function(){
-			return (this.allPerson - this.atPerson)
+	methods: {
+		dialogJoin() {
+			this.join = !this.join;
+		},
+		Cancel(){
+			this.join = false;
+		},
+		Confirm(){
+			this.join = false;
+		}
+	},
+	computed: {
+		leaveP: function() {
+			return this.allPerson - this.atPerson;
 		}
 	},
 	created() {

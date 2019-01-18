@@ -107,8 +107,15 @@
 
 <template>
   <div rs-view="edit-person">
-    <top-head :title="title" :right="right" :left="left" @change="change"></top-head>
+    <top-head :title="title" :right="right" :left="left" @change="change" @delete="Delete"></top-head>
     <div class="top">
+      <dialog-join
+        :showToast="join"
+        :isView="isEdit"
+        :text="num"
+        @doCancel="Cancel"
+        @doConfirm="Confirm"
+      ></dialog-join>
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
         <span class="fw">参与人员({{atPerson}}/{{allPerson}})</span>
@@ -117,9 +124,14 @@
         <ul>
           <li v-for="(q,index) in list" :key="index">
             <div class="person">
-              <div class="icon_head" @click="changeImg(index)">
+              <div class="icon_head">
                 <img :src="q.iconUrl" :class="[right == '完成'?'icon1':'icon']">
-                <div class="circle" :class="{pitch:q.isSelect}" v-show="right=='完成'"></div>
+                <div
+                  class="circle"
+                  :class="{pitch:q.isSelect}"
+                  v-show="right=='完成'"
+                  @click="changeImg(index)"
+                ></div>
               </div>
 
               <div class="name">{{q.name}}</div>
@@ -127,7 +139,7 @@
           </li>
           <li v-show="leaveP > 0">
             <router-link :to="{path:'/add-person'}">
-              <img :src="getLocalMduImg('police','redadd')" alt class="add">
+            <img :src="getLocalMduImg('police','redadd')" alt class="add">
             </router-link>
           </li>
         </ul>
@@ -148,12 +160,18 @@ export default {
 			title: "全部参与人员",
 			right: "编辑",
 			left: "",
-			isAdmin: true
+			isAdmin: true,
+			join: false,
+			text: "",
+			isEdit: true,
+			N: 0
 		};
 	},
 	components: {
 		topHead: () =>
-			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue")
+			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue"),
+		dialogJoin: () =>
+			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
 	},
 	methods: {
 		change(e) {
@@ -167,15 +185,30 @@ export default {
 		changeImg(index) {
 			this.cartData[index].isSelect = !this.cartData[index].isSelect;
 			this.$set(this.cartData, index, this.cartData[index]);
-			this.isSelectAll = this.selectAll();
 		},
-		selectAll() {
-			return this.cartData.every(item => item.isSelect);
-		}
+		Cancel() {
+			this.join = false;
+		},
+		Confirm() {
+			this.join = false;
+        },
+        Delete(){
+		this.join = !this.join;
+			var R = this.cartData;
+			this.N = 0;
+			for (let i of R) {
+				if (i.isSelect) {
+					this.N++;
+				}
+			}
+        }
 	},
 	computed: {
 		leaveP: function() {
 			return this.allPerson - this.atPerson;
+		},
+		num: function() {
+			return `确定要删除${this.N}个学员吗`;
 		}
 	},
 	created() {
