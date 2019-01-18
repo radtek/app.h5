@@ -161,7 +161,7 @@
         >
         <img
           class="cancel"
-          :src="getLocalMduImg('police','cancel')"
+          :src="getLocalMduImg('police','cancel1')"
           @click="clear()"
           v-show="this.num !=''"
         >
