@@ -1,5 +1,5 @@
 <style lang="scss">
-[rs-view="view-person"] {
+[rs-view="edit-person"] {
 	.fw {
 		font-family: PingFang-SC-Bold;
 		font-weight: bold;
@@ -70,8 +70,8 @@
 </style>
 
 <template>
-  <div rs-view="view-person">
-	  <top-head :title="title"></top-head>
+  <div rs-view="edit-person">
+    <top-head :title="title" ></top-head>
     <div class="top">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
@@ -91,38 +91,20 @@
         </ul>
       </div>
     </div>
-    <div class="separate" v-show="isShowUsers && leaveP > 0"></div>
-
-	 <div class="top" v-show="leaveP > 0">
-      <div class="title1">
-        <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">请假人员({{leaveP}})</span>
-      </div>
-      <div class="content">
-        <ul>
-          <li v-for="(q,index) in list" :key="index">
-            <div class="person">
-              <img :src="q.iconUrl" class="head_icon">
-              <div>{{q.name}}</div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-
   </div>
 </template>
 
 <script>
 export default {
-	name: "view-person",
+	name: "edit-person",
 	data() {
 		return {
 			isShowUsers: true,
 			atPerson: 16,
 			allPerson: 20,
 			list: [],
-			title:'参与人员'
+            title: "全部参与人员",
+            right:''
 		};
 	},
 	components: {
@@ -130,9 +112,9 @@ export default {
 			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue")
 	},
 	methods: {},
-	computed:{
-		leaveP:function(){
-			return (this.allPerson - this.atPerson)
+	computed: {
+		leaveP: function() {
+			return this.allPerson - this.atPerson;
 		}
 	},
 	created() {

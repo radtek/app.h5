@@ -36,25 +36,37 @@ export function createRoutes(Vue) {
 				component: () =>
 					import( /* webpackChunkName: "view-login" */ `~v/${MODULENAME}/login.vue`)
 			},
+			//日历
 			{
 				path: "/date",
 				component: () =>
-					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/date/date.vue`)
+					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/date/date.vue`)
 			},
 			{
 				path: "/add-person",
 				component: () =>
-					import(/* webpackChunkName: "view-add-person" */ `~v/${MODULENAME}/add-person.vue`)
+					import( /* webpackChunkName: "view-add-person" */ `~v/${MODULENAME}/add-person.vue`)
 			},
 			{
 				path: "/personnel",
 				component: () =>
-					import(/* webpackChunkName: "view-personnel" */ `~v/${MODULENAME}/personnel.vue`)
+					import( /* webpackChunkName: "view-personnel" */ `~v/${MODULENAME}/personnel.vue`)
 			},
 			{
 				path: "/view-person",
 				component: () =>
-					import(/* webpackChunkName: "view-view-person" */ `~v/${MODULENAME}/view-person.vue`)
+					import( /* webpackChunkName: "view-view-person" */ `~v/${MODULENAME}/view-person.vue`)
+			},
+			//创建活动
+			{
+				path: "/create-activities",
+				component: () =>
+					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/index.vue`)
+			},
+			{
+				path: "/edit-person",
+				component: () =>
+					import( /* webpackChunkName: "view-edit-person" */ `~v/${MODULENAME}/edit-person.vue`)
 			},
 		]
 	});

@@ -57,8 +57,7 @@
 				</div>
 				<div class="sale">（已优惠￥34）</div>
 			</div>
-			<button class="button"
-					@click="goto">结算</button>
+			<button class="button">结算</button>
 		</div>
 	</div>
 </template>
