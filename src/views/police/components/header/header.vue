@@ -3,9 +3,9 @@
 <template>
 	<div class="header">
 		<div class="contain">
-			<img src="@/assets/imgs/police/left.png"></img>
+			<img src="@/assets/imgs/police/left.png" @click="goBack"></img>
 			<div class="title">{{title}}</div>
-			<div class="right">{{right}}</div>
+			<div class="right" @click="clickRight">{{right}}</div>
 		</div>
 	</div>
 </template>
@@ -16,6 +16,19 @@
 		props:{
 			title:String,
 			right:String
+		},
+		methods:{
+			goBack(){
+				this.$router.go(-1)
+			},
+			//点击右侧的文字
+			clickRight(){
+				if(this.right==='编辑'){
+					this.$emit('change','完成')
+				}else{
+					this.$emit('change','编辑')
+				}
+			}
 		}
 	};
 </script>
@@ -44,8 +57,6 @@
 				line-height:48px;
 			}
 			.right{
-				/*padding-top: 70px;*/
-				/*padding-left: 209px;*/
 				font-size:32px;
 				opacity:0.8;
 				font-family:PingFang-SC-Medium;

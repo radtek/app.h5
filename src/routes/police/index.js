@@ -68,6 +68,12 @@ export function createRoutes(Vue) {
 				component: () =>
 					import( /* webpackChunkName: "view-edit-person" */ `~v/${MODULENAME}/edit-person.vue`)
 			},
+			//活动时间
+			{
+				path: "/activity-time",
+				component: () =>
+					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
+			},
 		]
 	});
 
