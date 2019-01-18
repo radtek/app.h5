@@ -3,7 +3,8 @@
 <template>
 	<div class="header">
 		<div class="contain">
-			<img src="@/assets/imgs/police/left.png" @click="goBack"></img>
+			<div class="left" v-if="left">{{left}}</div>
+			<img src="@/assets/imgs/police/left.png" v-else @click="goBack"></img>
 			<div class="title">{{title}}</div>
 			<div class="right" @click="clickRight">{{right}}</div>
 		</div>
@@ -14,6 +15,7 @@
 	export default {
 		name: "Header",
 		props:{
+			left:String,
 			title:String,
 			right:String
 		},
@@ -44,11 +46,20 @@
 			display: flex;
 			justify-content: space-between;
 			padding-top: 24px;
-			padding-left: 10px;
+			padding-left: 20px;
 			padding-right: 30px;
 			img{
 				width: 44px;
 				height: 44px;
+			}
+			.left{
+				font-size:32px;
+				font-family:PingFang-SC-Medium;
+				font-weight:500;
+				color:rgba(255,255,255,1);
+				line-height:48px;
+				opacity:0.8;
+				text-shadow:0px 2px 6px rgba(0,80,126,0.5);
 			}
 			.title{
 				font-size:32px;

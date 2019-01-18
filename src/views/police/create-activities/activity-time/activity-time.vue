@@ -1,6 +1,6 @@
 <template>
     <div>
-		<Header :title="mainTitle" :right="rightTitle" @change="change"></Header>
+		<Header :title="mainTitle" :right="rightTitle" :left="left" @change="change"></Header>
 		<div class="time-contain">
 			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png">
 			<div class="time-font" :class="{'active':rightTitle==='完成'}">周一20：00</div>
@@ -23,7 +23,8 @@
 		data(){
 			return{
 				mainTitle:'活动时间',
-				rightTitle:'编辑'
+				rightTitle:'编辑',
+				left:'删除'
 			}
 		},
 		methods:{
