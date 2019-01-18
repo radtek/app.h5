@@ -4,7 +4,9 @@
 	<div class="header">
 		<div class="contain">
 			<div class="left" v-if="left">{{left}}</div>
-			<img src="@/assets/imgs/police/left.png" v-else @click="goBack"></img>
+			<div class="img-contain" v-else>
+				<img src="@/assets/imgs/police/left.png"  @click="goBack"></img>
+			</div>
 			<div class="title">{{title}}</div>
 			<div class="right" @click="clickRight">{{right}}</div>
 		</div>
@@ -48,11 +50,15 @@
 			padding-top: 24px;
 			padding-left: 20px;
 			padding-right: 30px;
-			img{
-				width: 44px;
-				height: 44px;
+			.img-contain{
+				width: 80px;
+				img{
+					width: 44px;
+					height: 44px;
+				}
 			}
 			.left{
+				width:80px; 
 				font-size:32px;
 				font-family:PingFang-SC-Medium;
 				font-weight:500;
@@ -68,6 +74,7 @@
 				line-height:48px;
 			}
 			.right{
+				width: 80px;
 				font-size:32px;
 				opacity:0.8;
 				font-family:PingFang-SC-Medium;

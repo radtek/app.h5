@@ -11,16 +11,18 @@
 		</div>
 		<div class="activity-contain" @click="changeTime">
 			<div class="title">活动时间：</div>
-			<input placeholder="请选择活动地点">
+			<!--<input placeholder="请选择活动时间">-->
+			<div class="activity-font">请选择活动时间</div>
+			<img src="@/assets/imgs/police/right.png">
 		</div>
 		<div class="change">
 			<div class="change-contain">
 				<div class="change-font">避开假日</div>
-				<img src="@/assets/imgs/police/change.png"></img>
+				<SwitchBut></SwitchBut>
 			</div>
 			<div class="change-contain">
 				<div class="change-font">是否重复</div>
-				<img src="@/assets/imgs/police/change.png"></img>
+				<SwitchBut></SwitchBut>
 			</div>
 		</div>
 		<div class="footer-button">
@@ -31,13 +33,16 @@
 </template>
 
 <script>
-
 	import { utils } from "~rx";
 	export default {
 		name: "index",
 		components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-calendar" */ "@/views/police/components/header/header.vue").then(
+				import(/* webpackChunkName:"wc-header" */ "@/views/police/components/header/header.vue").then(
+					utils.fixAsyncCmpLifeCycle
+				),
+			SwitchBut: () =>
+				import(/* webpackChunkName:"wc-switch" */ "@/views/police/components/switch/switch.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
@@ -67,6 +72,18 @@
 			font-weight:bold;
 			font-family:PingFang-SC-Bold;
 			color:rgba(102,102,102,1);
+		}
+		.activity-font{
+			width: 450px;
+			margin-left: 20px;
+			font-size:32px;
+			font-family:PingFang-SC-Medium;
+			font-weight:500;
+			color:rgba(153,153,153,1);
+		}
+		img{
+			width: 44px;
+			height: 44px;
 		}
 		input{
 			width: 500px;

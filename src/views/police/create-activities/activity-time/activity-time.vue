@@ -1,12 +1,13 @@
 <template>
     <div>
-		<Header :title="mainTitle" :right="rightTitle" :left="left" @change="change"></Header>
+		<Header :title="mainTitle" :right="rightTitle"  @change="change"></Header>
 		<div class="time-contain">
 			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png">
 			<div class="time-font" :class="{'active':rightTitle==='完成'}">周一20：00</div>
-			<img class="butImg" src="@/assets/imgs/police/change.png"></img>
+			<SwitchBut></SwitchBut>
 		</div>
 		<img class="addImg" v-if="rightTitle==='编辑'" src="@/assets/imgs/police/add.png"></img>
+	
 	</div>
 </template>
 
@@ -16,7 +17,11 @@
 		name: "activity-time",
 		components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-calendar" */ "@/views/police/components/header/header.vue").then(
+				import(/* webpackChunkName:"wc-header" */ "@/views/police/components/header/header.vue").then(
+					utils.fixAsyncCmpLifeCycle
+				),
+			SwitchBut: () =>
+				import(/* webpackChunkName:"wc-switch" */ "@/views/police/components/switch/switch.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
@@ -24,41 +29,38 @@
 			return{
 				mainTitle:'活动时间',
 				rightTitle:'编辑',
-				left:'删除'
+				on:false
 			}
 		},
 		methods:{
 			change(e){
 				this.rightTitle=e
-			}
+			},
+			
 		}
 	};
 </script>
 
 <style lang="scss" scoped>
-  		.time-contain{
+  		.time-contain {
 			height: 130px;
 			margin: 0 29px;
-			border-bottom: 1px solid rgba(230,230,230,1);
+			border-bottom: 1px solid rgba(230, 230, 230, 1);
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			.time-font{
-				font-size:32px;
-				font-family:PingFang-SC-Bold;
-				font-weight:bold;
-				color:rgba(153,153,153,1);
+			.time-font {
+				font-size: 32px;
+				font-family: PingFang-SC-Bold;
+				font-weight: bold;
+				color: rgba(153, 153, 153, 1);
 			}
-			.delImg{
+			.delImg {
 				width: 58px;
 				height: 58px;
 			}
-			.active{
+			.active {
 				margin-right: 200px;
-			}
-			.butImg{
-				width: 102px;
-				height: 62px;
 			}
 		}
 	.addImg{
@@ -67,4 +69,6 @@
 		width: 179px;
 		height: 179px;
 	}
+
+		
 </style>
