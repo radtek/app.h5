@@ -50,7 +50,12 @@ export function createRoutes(Vue) {
 				path: "/personnel",
 				component: () =>
 					import(/* webpackChunkName: "view-personnel" */ `~v/${MODULENAME}/personnel.vue`)
-			}
+			},
+			{
+				path: "/view-person",
+				component: () =>
+					import(/* webpackChunkName: "view-view-person" */ `~v/${MODULENAME}/view-person.vue`)
+			},
 		]
 	});
 
