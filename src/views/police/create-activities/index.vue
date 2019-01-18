@@ -9,17 +9,19 @@
 			<div class="title">活动地点：</div>
 			<input placeholder="请输入活动地点">
 		</div>
-		<div class="activity-contain">
+		<div class="activity-contain" @click="changeTime">
 			<div class="title">活动时间：</div>
 			<input placeholder="请选择活动地点">
 		</div>
 		<div class="change">
-			<div class="change-font">避开假日</div>
-			<img src="@/assets/imgs/police/change.png"></img>
-		</div>
-		<div class="change">
-			<div class="change-font">是否重复</div>
-			<img src="@/assets/imgs/police/change.png"></img>
+			<div class="change-contain">
+				<div class="change-font">避开假日</div>
+				<img src="@/assets/imgs/police/change.png"></img>
+			</div>
+			<div class="change-contain">
+				<div class="change-font">是否重复</div>
+				<img src="@/assets/imgs/police/change.png"></img>
+			</div>
 		</div>
 		<div class="footer-button">
 			<img src="@/assets/imgs/police/but.png">
@@ -35,13 +37,18 @@
 		name: "index",
 		components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-calendar" */ "../components/header/header.vue").then(
+				import(/* webpackChunkName:"wc-calendar" */ "@/views/police/components/header/header.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
 		data(){
 			return{
 				mainTitle:'创建活动',
+			}
+		},
+		methods:{
+			changeTime(){
+				this.$router.push('/activity-time')
 			}
 		}
 	};
@@ -85,17 +92,22 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		.change-font{
-			font-size:32px;
-			width:160px;
-			font-weight:bold;
-			font-family:PingFang-SC-Bold;
-			color:rgba(102,102,102,1);
+		.change-contain{
+			display: flex;
+			align-items: center;
+			.change-font{
+				font-size:32px;
+				width:160px;
+				font-weight:bold;
+				font-family:PingFang-SC-Bold;
+				color:rgba(102,102,102,1);
+			}
+			img{
+				width: 112px;
+				height: 75px;
+			}
 		}
-		img{
-			width: 112px;
-			height: 75px;
-		}
+		
 	}
 	.footer-button{
 		position: relative;
