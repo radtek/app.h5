@@ -50,15 +50,51 @@
 		justify-content: center;
 		align-items: center;
 
-		img {
+		.icon_head {
+			width: 100px;
+			position: relative;
+			background: #000;
+			border-radius: 50%;
+			height: 100px;
+		}
+
+		.icon1 {
 			width: 100px;
 			height: 100px;
 			border-radius: 50%;
-			margin-bottom: 10px;
+			opacity: 0.6;
+			filter: alpha(opacity=60);
 		}
-		div {
+		.icon {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+		}
+
+		.circle {
+			background: url(../../assets/modules/police/imgs/circle.png)
+				no-repeat;
+			background-size: 36px 36px;
+			width: 36px;
+			height: 36px;
+			position: absolute;
+			top: 32px;
+			left: 32px;
+		}
+		.pitch {
+			background: url(../../assets/modules/police/imgs/pitch.png)
+				no-repeat;
+			background-size: 100% 100%;
+			width: 36px;
+			height: 36px;
+			position: absolute;
+			top: 32px;
+			left: 32px;
+		}
+		.name {
 			width: 120px;
 			text-align: center;
+			margin-top: 10px;
 			margin-bottom: 30px;
 			font-size: 28px;
 			font-family: PingFang-SC-Medium;
@@ -71,7 +107,7 @@
 
 <template>
   <div rs-view="edit-person">
-    <top-head :title="title" :right="right" @change="change"></top-head>
+    <top-head :title="title" :right="right" :left="left" @change="change"></top-head>
     <div class="top">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
@@ -81,12 +117,18 @@
         <ul>
           <li v-for="(q,index) in list" :key="index">
             <div class="person">
-              <img :src="q.iconUrl" class="head_icon">
-              <div>{{q.name}}</div>
+              <div class="icon_head" @click="changeImg(index)">
+                <img :src="q.iconUrl" :class="[right == '完成'?'icon1':'icon']">
+                <div class="circle" :class="{pitch:q.isSelect}" v-show="right=='完成'"></div>
+              </div>
+
+              <div class="name">{{q.name}}</div>
             </div>
           </li>
           <li v-show="leaveP > 0">
-            <img :src="getLocalMduImg('police','redadd')" alt class="add">
+            <router-link :to="{path:'/add-person'}">
+              <img :src="getLocalMduImg('police','redadd')" alt class="add">
+            </router-link>
           </li>
         </ul>
       </div>
@@ -104,7 +146,9 @@ export default {
 			allPerson: 20,
 			list: [],
 			title: "全部参与人员",
-			right: "编辑"
+			right: "编辑",
+			left: "",
+			isAdmin: true
 		};
 	},
 	components: {
@@ -113,8 +157,20 @@ export default {
 	},
 	methods: {
 		change(e) {
-            this.right = e;
-            
+			this.right = e;
+			if (this.right == "完成") {
+				this.left = "删除";
+			} else {
+				this.left = "";
+			}
+		},
+		changeImg(index) {
+			this.cartData[index].isSelect = !this.cartData[index].isSelect;
+			this.$set(this.cartData, index, this.cartData[index]);
+			this.isSelectAll = this.selectAll();
+		},
+		selectAll() {
+			return this.cartData.every(item => item.isSelect);
 		}
 	},
 	computed: {
@@ -123,48 +179,54 @@ export default {
 		}
 	},
 	created() {
+		if (!this.isAdmin) {
+			this.right = "";
+		}
 		this.list = [
 			{
 				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵1"
+					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
+				name: "宋海兵啊"
 			},
 			{
 				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵2"
+					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
+				name: "宋海啊"
 			},
 			{
 				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵3"
+					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
+				name: "宋海兵啊"
 			},
 			{
 				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵4"
+					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
+				name: "宋海兵啊"
 			},
 			{
 				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵5"
+					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
+				name: "宋海兵"
 			},
 			{
 				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
+					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
 				name: "宋海兵6"
 			},
 			{
 				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
+					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
 				name: "宋海兵7"
 			},
 			{
 				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
+					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
 				name: "宋海兵8"
 			}
 		];
+		let nowList = this.list;
+		nowList.forEach(item => (item.isSelect = false));
+		this.cartData = nowList;
 	}
 };
 </script>
