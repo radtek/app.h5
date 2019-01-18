@@ -24,12 +24,17 @@
 			return{
 				mainTitle:'活动时间',
 				rightTitle:'编辑',
-				left:'删除'
+				left:''
 			}
 		},
 		methods:{
 			change(e){
 				this.rightTitle=e
+				if(e==='完成'){
+					this.left='删除'
+				}else{
+					this.left=''
+				}
 			}
 		}
 	};
