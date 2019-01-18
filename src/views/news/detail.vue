@@ -123,16 +123,16 @@
 		},
 		methods: {
 			__loadLazyImgs() {
-				let imgs = document.querySelectorAll("img[date-src]");
+				let imgs = document.querySelectorAll("img[data-src]");
 				if (imgs && imgs.length) {
 					imgs = Array.prototype.slice.call(imgs);
 					imgs.forEach(img => {
 						if (
-							img.hasAttribute("date-src") &&
+							img.hasAttribute("data-src") &&
 							this.$rxUtils.isInClientView(img)
 						) {
-							img.setAttribute("src", img.getAttribute("date-src"));
-							img.removeAttribute("date-src");
+							img.setAttribute("src", img.getAttribute("data-src"));
+							img.removeAttribute("data-src");
 						}
 					});
 				}
@@ -152,7 +152,7 @@
 				if (info && info.txt) {
 					info.txt = info.txt.replace(
 						/\bsrc\b\s*=\s*(['"]?([^'"]*)['"]?)/gi,
-						"date-src=$1"
+						"data-src=$1"
 					);
 				}
 				this.info = info;
@@ -171,17 +171,17 @@
 						if (
 							i.hasAttribute("src") ||
 							i.src ||
-							i.hasAttribute("date-src")
+							i.hasAttribute("data-src")
 						) {
 							const src =
-								i.getAttribute("date-src") || i.getAttribute("src");
+								i.getAttribute("data-src") || i.getAttribute("src");
 							if (!src || !~src.indexOf("http")) return;
 							targetImgs.push([i, src]);
 						}
 					});
 
 					targetImgs.forEach((item, index) => {
-						item[0].setAttribute("date-index", index);
+						item[0].setAttribute("data-index", index);
 						this.imgs.push(item[1]);
 					});
 				}, 300);
@@ -273,12 +273,12 @@
 			handleContentClick(event) {
 				const target = event.target;
 				if (!this.$isDev && target.tagName === "IMG") {
-					const hasDataSrc = target.hasAttribute("date-src");
+					const hasDataSrc = target.hasAttribute("data-src");
 					JXRSApi.app.news.openImgViewer({
 						currentImgUrl: target.getAttribute(
-							hasDataSrc ? "date-src" : "src"
+							hasDataSrc ? "data-src" : "src"
 						),
-						currentIndex: target.getAttribute("date-index") || 0,
+						currentIndex: target.getAttribute("data-index") || 0,
 						imgs: this.imgs
 					});
 				}

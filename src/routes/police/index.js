@@ -8,7 +8,9 @@ export function createRoutes(Vue) {
 	return new VueRouter({
 		mode: "history",
 		base: `/${MODULENAME}/`,
-		routes: [{
+		routes: [
+			//主页
+			{
 				path: "/index",
 				component: () =>
 					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`),
@@ -35,6 +37,12 @@ export function createRoutes(Vue) {
 				path: "/login",
 				component: () =>
 					import( /* webpackChunkName: "view-login" */ `~v/${MODULENAME}/login.vue`)
+			},
+			//人员
+			{
+				path: "/personnel",
+				component: () =>
+					import(/* webpackChunkName: "view-personnel" */ `~v/${MODULENAME}/personnel.vue`)
 			},
 			//日历
 			{

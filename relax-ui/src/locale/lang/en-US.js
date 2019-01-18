@@ -8,13 +8,13 @@ export default {
 				},
 				ing: "refreshing",
 				complete: "refreshing success",
-				empty: "no date!",
+				empty: "no data!",
 				error: "netword error,click to refreshing"
 			},
 			up: {
 				ing: "loading",
 				complete: "load success",
-				empty: "no more date!",
+				empty: "no more data!",
 				error: "netword error,click to loading"
 			}
 		},
