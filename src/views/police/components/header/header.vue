@@ -57,7 +57,6 @@
 					height: 44px;
 				}
 			}
-			
 			.left{
 				width:80px; 
 				font-size:32px;
@@ -75,6 +74,7 @@
 				line-height:48px;
 			}
 			.right{
+				width: 80px;
 				font-size:32px;
 				opacity:0.8;
 				font-family:PingFang-SC-Medium;
