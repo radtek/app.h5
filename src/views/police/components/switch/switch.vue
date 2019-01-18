@@ -9,7 +9,7 @@
 		name: "switchBut",
 		methods:{
 			test(){
-				console.log(!document.getElementById('switch').checked ? "未选中" : "选中");
+				// console.log(!document.getElementById('switch').checked ? "未选中" : "选中");
 			}
 		}
 	};

@@ -16,11 +16,11 @@
 		<div class="change">
 			<div class="change-contain">
 				<div class="change-font">避开假日</div>
-				<img src="@/assets/imgs/police/change.png"></img>
+				<SwitchBut></SwitchBut>
 			</div>
 			<div class="change-contain">
 				<div class="change-font">是否重复</div>
-				<img src="@/assets/imgs/police/change.png"></img>
+				<SwitchBut></SwitchBut>
 			</div>
 		</div>
 		<div class="footer-button">
@@ -31,13 +31,16 @@
 </template>
 
 <script>
-
 	import { utils } from "~rx";
 	export default {
 		name: "index",
 		components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-calendar" */ "@/views/police/components/header/header.vue").then(
+				import(/* webpackChunkName:"wc-header" */ "@/views/police/components/header/header.vue").then(
+					utils.fixAsyncCmpLifeCycle
+				),
+			SwitchBut: () =>
+				import(/* webpackChunkName:"wc-switch" */ "@/views/police/components/switch/switch.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},

@@ -17,11 +17,11 @@
 		name: "activity-time",
 		components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-calendar" */ "@/views/police/components/header/header.vue").then(
+				import(/* webpackChunkName:"wc-header" */ "@/views/police/components/header/header.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 			SwitchBut: () =>
-				import(/* webpackChunkName:"wc-calendar" */ "@/views/police/components/switch/switch.vue").then(
+				import(/* webpackChunkName:"wc-switch" */ "@/views/police/components/switch/switch.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
