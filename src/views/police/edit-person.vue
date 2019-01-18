@@ -71,7 +71,7 @@
 
 <template>
   <div rs-view="edit-person">
-    <top-head :title="title" ></top-head>
+    <top-head :title="title" :right="right" @change="change"></top-head>
     <div class="top">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
@@ -103,15 +103,20 @@ export default {
 			atPerson: 16,
 			allPerson: 20,
 			list: [],
-            title: "全部参与人员",
-            right:''
+			title: "全部参与人员",
+			right: "编辑"
 		};
 	},
 	components: {
 		topHead: () =>
 			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue")
 	},
-	methods: {},
+	methods: {
+		change(e) {
+            this.right = e;
+            
+		}
+	},
 	computed: {
 		leaveP: function() {
 			return this.allPerson - this.atPerson;
