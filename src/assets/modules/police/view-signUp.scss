@@ -1,76 +1,104 @@
-.sign-content {
-    width:690px;
-    border-bottom:1px solid rgba(230,230,230,1);
-    padding:20px 0;
-    margin:0 auto;
-
-    .header {
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        padding:5px 0;
+.sign-up {
+    .sign-content {
         
-        .left {
+        border-bottom:1px solid rgba(230,230,230,1);
+        padding:20px 0;
+        margin:0 30px;
+    
+        .header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:5px 0;
+            
+            .left {
+                font-size:24px;
+                font-family:PingFang-SC-Medium;
+                font-weight:bold;
+                color:rgba(153,153,153,1);
+                line-height:42px;
+                padding:0 10px;
+            }
+            .right {
+                font-size:24px;
+                font-family:PingFang-SC-Medium;
+                font-weight:bold;
+                color:rgba(153,153,153,1);
+                line-height:42px;
+            }
+            .img {
+                display:inline-block;
+                width:32px;
+                height:32px;
+                vertical-align:text-bottom;
+                img {
+                    width:100%;
+                    height:100%;
+                }
+            }
+        }
+        .main {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+    
+            .left {
+                height:60px;
+                line-height: 60px;
+                padding:0 10px;
+            }
+            .right {
+                width:99px;
+                height:99px;
+                img {
+                    width:100%;
+                    height:100%;
+                }
+            }
+            .head {
+                width:60px;
+                height:60px;
+                background: antiquewhite;
+                border-radius: 50%;
+                display:inline-block;
+                margin-right:-12px;
+            }
+            
+        }
+        .footer {
+            padding:5px 0;
             font-size:24px;
             font-family:PingFang-SC-Medium;
             font-weight:bold;
-            color:rgba(153,153,153,1);
+            color:rgba(0,151,238,1);
             line-height:42px;
             padding:0 10px;
         }
-        .right {
-            font-size:24px;
+    }
+    .more {
+        text-align: center;
+        .more-text {
+            font-size:26px;
             font-family:PingFang-SC-Medium;
             font-weight:bold;
-            color:rgba(153,153,153,1);
-            line-height:42px;
+            color:rgba(51,51,51,1);
+            padding:50px 0;
         }
-        .img {
+        .more-button {
+            width:168px;
+            height:60px;
+            border:2px solid rgba(0,151,238,1);
+            border-radius:30px;
+            text-align: center;
+            line-height: 56px;
             display:inline-block;
-            width:32px;
-            height:32px;
-            vertical-align:text-bottom;
-            img {
-                width:100%;
-                height:100%;
-            }
-        }
-    }
-    .main {
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
 
-        .left {
-            height:60px;
-            line-height: 60px;
-            padding:0 10px;
-        }
-        .right {
-            width:99px;
-            height:99px;
-            img {
-                width:100%;
-                height:100%;
+            span {
+                font-size:26px;
+                font-family:PingFang-SC-Medium;
+                font-weight:bold;
+                color:rgba(0,151,238,1);
             }
         }
-        .head {
-            width:60px;
-            height:60px;
-            background: antiquewhite;
-            border-radius: 50%;
-            display:inline-block;
-            padding-right:-50px;
-        }
-        
-    }
-    .footer {
-        padding:5px 0;
-        font-size:24px;
-        font-family:PingFang-SC-Medium;
-        font-weight:bold;
-        color:rgba(0,151,238,1);
-        line-height:42px;
-        padding:0 10px;
     }
 }
