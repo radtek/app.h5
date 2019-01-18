@@ -68,7 +68,7 @@
 		border-bottom: 1px solid rgba(230,230,230,1);
 		.title{
 			font-size:32px;
-			width:160px;
+			width:200px;
 			font-weight:bold;
 			font-family:PingFang-SC-Bold;
 			color:rgba(102,102,102,1);
