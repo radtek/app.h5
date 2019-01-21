@@ -3,7 +3,7 @@
 <template>
 	<div class="header">
 		<div class="contain">
-			<div class="left" v-if="left">{{left}}</div>
+			<div class="left" v-if="left" @click="goBack">{{left}}</div>
 			<div class="img-contain" v-else>
 				<img src="@/assets/imgs/police/left.png"  @click="goBack"></img>
 			</div>
@@ -24,6 +24,9 @@
 		methods:{
 			goBack(){
 				this.$router.go(-1)
+			},
+			del(){
+				this.$emit('delete')
 			},
 			//点击右侧的文字
 			clickRight(){

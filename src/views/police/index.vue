@@ -29,7 +29,7 @@
         </div>
         
         <div class="column-footer">
-          <div class="jion">已有<span class="red">112</span>人参与活动 &nbsp
+          <div class="jion">已有<span class="red">112</span>人参与活动 &nbsp;
           <span class="red">查看全部</span>
           <p class="img"><img :src="getLocalMduImg('police','quanbu')"></p></div>
           <div class="tips">温馨提示：您最近的课程是 <span class='red'>2019-01-14 周一20：00</span></div>
@@ -72,6 +72,13 @@
       }
     },
     methods: {
+      async __fetchUser(){
+        const [err, resp] = await this.$sync(this.$http.police.getAllUser());
+        console.log(err,resp)
+      },
+      async __fetch(){
+        await this.__fetchUser()
+      },
       inEdit(){
         if(!this.edit){
           this.edit = true;
@@ -103,6 +110,7 @@
       }
     },
     mounted(){
+      this.__fetch();
       this.rows = [{name:"瑜伽活动",action:"江西省南昌市新建区赣江南大道1366号省公安厅201室"}]
       }
     
