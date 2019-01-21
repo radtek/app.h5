@@ -160,7 +160,7 @@ export default {
                             }
                             .labelWebp {
                                 position: absolute;
-                                background:url("../police/imgs/check1.png") 427px 31px no-repeat;
+                                background:url("../police/imgs/webp/check1.webp") 427px 31px no-repeat;
                                 background-size: 36px 36px;
                                 top:0;
                                 left:0;

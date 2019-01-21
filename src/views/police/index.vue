@@ -72,6 +72,13 @@
       }
     },
     methods: {
+      async __fetchUser(){
+        const [err, resp] = await this.$sync(this.$http.police.getAllUser());
+        console.log(err,resp)
+      },
+      async __fetch(){
+        await this.__fetchUser()
+      },
       inEdit(){
         if(!this.edit){
           this.edit = true;
@@ -103,6 +110,7 @@
       }
     },
     mounted(){
+      this.__fetch();
       this.rows = [{name:"瑜伽活动",action:"江西省南昌市新建区赣江南大道1366号省公安厅201室"}]
       }
     
