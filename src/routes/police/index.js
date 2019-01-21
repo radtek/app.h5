@@ -48,7 +48,7 @@ export function createRoutes(Vue) {
 			{
 				path: "/date",
 				component: () =>
-					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/date/date.vue`)
+					import( /* webpackChunkName: "view-date" */ `~v/${MODULENAME}/date/date.vue`)
 			},
 			{
 				path: "/add-person",
@@ -69,7 +69,7 @@ export function createRoutes(Vue) {
 			{
 				path: "/create-activities",
 				component: () =>
-					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/index.vue`)
+					import( /* webpackChunkName: "view-activities" */ `~v/${MODULENAME}/create-activities/index.vue`)
 			},
 			{
 				path: "/edit-person",
@@ -80,7 +80,12 @@ export function createRoutes(Vue) {
 			{
 				path: "/activity-time",
 				component: () =>
-					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
+					import(/* webpackChunkName: "view-time" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
+			},
+			{
+				path: "/default-icon",
+				component: () =>
+					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/default-icon.vue`)
 			},
 		]
 	});

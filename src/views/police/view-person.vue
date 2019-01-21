@@ -134,7 +134,7 @@ export default {
 	},
 	components: {
 		topHead: () =>
-			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue"),
+			import(/* webpackChunkName:"police-header" */ "~v/police/__wc__/header/header.vue"),
 		dialogJoin: () =>
 			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
 	},
@@ -159,12 +159,12 @@ export default {
 			{
 				iconUrl:
 					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵1"
+				name: "宋海兵啊"
 			},
 			{
 				iconUrl:
 					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵2"
+				name: "宋海兵"
 			},
 			{
 				iconUrl:

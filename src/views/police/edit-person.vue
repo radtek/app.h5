@@ -169,7 +169,7 @@ export default {
 	},
 	components: {
 		topHead: () =>
-			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue"),
+			import(/* webpackChunkName:"police-header" */ "~v/police/__wc__/header/header.vue"),
 		dialogJoin: () =>
 			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
 	},

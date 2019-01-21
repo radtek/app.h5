@@ -18,7 +18,7 @@
         </div>
         <div class="comfirm">
           <div class="cancel" @click="cancel">
-            <img :src="getLocalMduImg('police','cancel')">
+            <img :src="getLocalMduImg('police','cancelText')">
           </div>
           <div class="sure" @click="submit">
             <img :src="getLocalMduImg('police','comfirm')">
@@ -160,7 +160,7 @@ export default {
                             }
                             .labelWebp {
                                 position: absolute;
-                                background:url("../police/imgs/check1.png") 427px 31px no-repeat;
+                                background:url("../police/imgs/webp/check1.webp") 427px 31px no-repeat;
                                 background-size: 36px 36px;
                                 top:0;
                                 left:0;
