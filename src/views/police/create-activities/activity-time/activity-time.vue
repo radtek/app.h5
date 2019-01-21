@@ -36,7 +36,6 @@
 
 <script>
 	import { utils } from "~rx";
-	import DateTimePicker from '@/views/police/components/dateTimePicker/DateTimePicker'
 	export default {
 		name: "activity-time",
 		components: {
