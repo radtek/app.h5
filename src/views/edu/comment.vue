@@ -47,17 +47,17 @@
   	},
   	methods: {
   		__loadLazyImgs() {
-  			let imgs = document.querySelectorAll("img[data-src]");
+  			let imgs = document.querySelectorAll("img[date-src]");
   			if (imgs && imgs.length) {
   				imgs = Array.prototype.slice.call(imgs);
   				imgs.forEach((img, index) => {
-  					img.setAttribute("data-index", index);
+  					img.setAttribute("date-index", index);
   					if (
-  						img.hasAttribute("data-src") &&
+  						img.hasAttribute("date-src") &&
   						this.$rxUtils.isInClientView(img)
   					) {
-  						img.setAttribute("src", img.getAttribute("data-src"));
-  						img.removeAttribute("data-src");
+  						img.setAttribute("src", img.getAttribute("date-src"));
+  						img.removeAttribute("date-src");
   					}
   				});
   			}

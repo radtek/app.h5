@@ -333,7 +333,7 @@
   					this.cartChange(this.moveDistance, isQuick)
   				);
   			}
-  			// reset some data
+  			// reset some date
   			this.moveDistance = 0;
   		},
   		// 考虑 this.loop 的取值对 translate 的影响

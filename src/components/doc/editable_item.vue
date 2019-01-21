@@ -83,7 +83,7 @@
 </template>
 
 <script>
-	import categoryMap from "~v/doc/data/categoryMap";
+	import categoryMap from "~v/doc/date/categoryMap";
 	import mimeType from "~f/mimeType";
 	export default {
 		name: "EditableItemOfDoc",

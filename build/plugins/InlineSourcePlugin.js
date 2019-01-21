@@ -100,7 +100,7 @@ module.exports = class InlineSourcePlugin {
 		// Return unmodified source if map is unspecified, URL-encoded, or already relative to site root
 		if (
 			!mapUrlOriginal ||
-			mapUrlOriginal.indexOf("data:") === 0 ||
+			mapUrlOriginal.indexOf("date:") === 0 ||
 			mapUrlOriginal.indexOf("/") === 0
 		) {
 			return source;

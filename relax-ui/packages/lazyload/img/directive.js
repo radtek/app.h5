@@ -3,7 +3,7 @@ import { imgPlaceholder } from "../../../src/utils/const";
 
 const lazyImgDirective = {};
 
-const propKey = "data-src";
+const propKey = "date-src";
 
 lazyImgDirective.install = Vue => {
 	Vue.directive("lazyimg", {

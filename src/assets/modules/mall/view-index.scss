@@ -1,0 +1,56 @@
+[rs-view="index"] {
+    .rx-cell-avatar {
+        padding:0;
+        width:100%;
+    }
+    .rx-swiper {
+        .test {
+            width:100%;
+        }
+		img {
+			width: 100%;
+            height: 282px;
+
+		}
+    }
+    .icon-qa-heart {
+        color:red;
+    }
+    .icon-gouwuche {
+        color:#b33c3c;
+    }
+    .icon-wodejifen {
+        color:#e2bb4e;
+    }
+    .nav {
+        border-bottom: 20px solid #e6e6e6;
+    }
+    .card-mall {
+        .rx-row {
+            .rx-btn {
+                padding:40px 0;
+                position: relative;
+				span {
+					color: #333;
+					font-size: 32px;
+                }
+               .dot {
+                   position: absolute;
+                   color:rgba(255,255,255,1);
+                   padding:0 13px;
+                   height:40px;
+                   line-height: 40px;
+                   top:30px;
+                   right:0;
+                   background:rgba(255,50,84,1);
+                   border-radius:20px;
+                   font-size:24px;
+               }
+            }
+            .iconfont {
+                font-size:90px;
+            }
+        }
+    }
+
+}
