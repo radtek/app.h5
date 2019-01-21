@@ -82,6 +82,11 @@ export function createRoutes(Vue) {
 				component: () =>
 					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
 			},
+			{
+				path: "/default-icon",
+				component: () =>
+					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/default-icon.vue`)
+			},
 		]
 	});
 
