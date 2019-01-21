@@ -146,29 +146,29 @@
   		handleContentClick(event) {
   			const target = event.target;
   			if (!this.$isDev && target.tagName === "IMG") {
-  				const hasDataSrc = target.hasAttribute("date-src");
+  				const hasDataSrc = target.hasAttribute("data-src");
   				JXRSApi.app.h5.openImgViewer({
   					currentImgUrl: target.getAttribute(
-  						hasDataSrc ? "date-src" : "src"
+  						hasDataSrc ? "data-src" : "src"
   					),
-  					currentIndex: target.getAttribute("date-index") || 0,
+  					currentIndex: target.getAttribute("data-index") || 0,
   					imgs: this.imgs,
   					aid: ""
   				});
   			}
   		},
   		__loadLazyImgs() {
-  			let imgs = document.querySelectorAll("img[date-src]");
+  			let imgs = document.querySelectorAll("img[data-src]");
   			if (imgs && imgs.length) {
   				imgs = Array.prototype.slice.call(imgs);
   				imgs.forEach((img, index) => {
-  					img.setAttribute("date-index", index);
+  					img.setAttribute("data-index", index);
   					if (
-  						img.hasAttribute("date-src") &&
+  						img.hasAttribute("data-src") &&
   						this.$rxUtils.isInClientView(img)
   					) {
-  						img.setAttribute("src", img.getAttribute("date-src"));
-  						img.removeAttribute("date-src");
+  						img.setAttribute("src", img.getAttribute("data-src"));
+  						img.removeAttribute("data-src");
   					}
   				});
   			}

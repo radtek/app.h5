@@ -60,7 +60,7 @@ module.exports = class PreloadPlugin {
 	apply(compiler) {
 		const options = this.options;
 		compiler.hooks.compilation.tap("PreloadPlugin", compilation => {
-			// Auto DLL plugin injects assets by mutating html plugin date, so the only
+			// Auto DLL plugin injects assets by mutating html plugin data, so the only
 			// way to get a hold of those is by saving the pre-mutated assets and
 			// comparing them later.
 			let originalAssets;

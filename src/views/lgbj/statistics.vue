@@ -211,7 +211,7 @@
 			<!-- <v-chart ref="health"
 			         :width="suitableWidth"
 			         v-if="healthData.length"
-			         :date="healthData">
+			         :data="healthData">
 				<v-bar />
 				<v-tooltip :show-item-marker="false" />
 			</v-chart> -->

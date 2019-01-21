@@ -25,7 +25,7 @@
   </section>
 </template>
 <script>
-  import MapData from "~v/score/heart_map.date";
+  import MapData from "~v/score/heart_map.data";
   import Pull from "~m/pull";
   export default {
   	name: "PageOfHeartMap",

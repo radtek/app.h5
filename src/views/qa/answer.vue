@@ -248,15 +248,15 @@
   		__getRealUrlOfImg(img) {
   			if (!img) return;
   			if (
-  				img.hasAttribute("date-src") &&
+  				img.hasAttribute("data-src") &&
   				this.$rxUtils.isInClientView(img)
   			) {
-  				img.setAttribute("src", img.getAttribute("date-src"));
-  				img.removeAttribute("date-src");
+  				img.setAttribute("src", img.getAttribute("data-src"));
+  				img.removeAttribute("data-src");
   			}
   		},
   		__loadLazyImgs() {
-  			let imgs = document.querySelectorAll("img[date-src]");
+  			let imgs = document.querySelectorAll("img[data-src]");
   			if (imgs && imgs.length) {
   				imgs = Array.prototype.slice.call(imgs);
   				imgs.forEach((img, index) => {
