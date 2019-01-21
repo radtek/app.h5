@@ -4,6 +4,7 @@ import filters from "~f/index";
 import RelaxUI, { utils } from "~rx/index";
 import { createJSApi, listenJSApi, callH5Action } from "~j/index";
 
+
 import App from "~e/App.vue";
 
 // 引入针对Promise的polyfill

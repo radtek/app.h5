@@ -18,19 +18,19 @@ export function createRoutes(Vue) {
 			{
 				path: "/date",
 				component: () =>
-					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/date/date.vue`)
+					import(/* webpackChunkName: "view-date" */ `~v/${MODULENAME}/date/date.vue`)
 			},
 			//创建活动
 			{
 				path: "/create-activities",
 				component: () =>
-					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/index.vue`)
+					import(/* webpackChunkName: "view-activities" */ `~v/${MODULENAME}/create-activities/index.vue`)
 			},
 			//活动时间
 			{
 				path: "/activity-time",
 				component: () =>
-					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
+					import(/* webpackChunkName: "view-time" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
 			},
 		]
 	});
