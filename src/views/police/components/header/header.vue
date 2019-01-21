@@ -3,11 +3,7 @@
 <template>
 	<div class="header">
 		<div class="contain">
-<<<<<<< HEAD
 			<div class="left" v-if="left" @click="goBack">{{left}}</div>
-=======
-			<div class="left" v-if="left" @click="del">{{left}}</div>
->>>>>>> faa6c7e3873a5f4ff84d2a7d9385df04f3b1160a
 			<div class="img-contain" v-else>
 				<img src="@/assets/imgs/police/left.png"  @click="goBack"></img>
 			</div>

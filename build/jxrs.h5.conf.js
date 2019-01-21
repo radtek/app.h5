@@ -65,11 +65,7 @@ module.exports = {
 		}
 	},
 	devServer: {
-<<<<<<< HEAD
 		host: "localhost",
-=======
-		host: "192.168.137.110",
->>>>>>> faa6c7e3873a5f4ff84d2a7d9385df04f3b1160a
 		port: getPort()
 	},
 	dll: [
