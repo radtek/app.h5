@@ -1,0 +1,137 @@
+<style lang="scss">
+.box {
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.mask {
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 1);
+	opacity: 0.4;
+}
+.box1{
+    display: flex;
+    justify-content: center;
+    margin-top:-900px;
+}
+.window {
+	position: absolute;
+	width: 608px;
+	height: 442px;
+	background: linear-gradient(
+		0deg,
+		rgba(255, 253, 250, 1) 0%,
+		rgba(255, 236, 209, 1) 100%
+	);
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	.title {
+		width: 528px;
+		height: 362px;
+		border: 1px solid rgba(241, 170, 0, 1);
+		box-shadow: 1px 0px 1px 0px rgba(255, 255, 255, 1);
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		.bot {
+			display: flex;
+			align-items: center;
+			.cancel {
+				width: 70px;
+				height: 39px;
+				margin-right: 54px;
+				margin-left: 89px;
+            }
+            .cancel1{
+                width: 102px;
+                height: 39px;
+				margin-right: 54px;
+				margin-left: 89px;
+            }
+			.confirm {
+				width: 331px;
+				height: 176px;
+				margin-top: 43px;
+			}
+		}
+	}
+	.x {
+		width: 322px;
+		height: 62px;
+		margin-top: 24px;
+	}
+	.text {
+		font-size: 30px;
+		font-family: Adobe Heiti Std R;
+		font-weight: normal;
+		color: rgba(102, 102, 102, 1);
+		line-height: 138px;
+	}
+}
+</style>
+
+<template>
+  <div class="box" v-if="showToast">
+    <div class="mask"></div>
+    <div class="box1">
+      <div class="window">
+        <div class="title" v-if="isView">
+          <img :src="getLocalMduImg('police','delete')" alt class="x">
+          <div class="text">{{text}}</div>
+          <div class="bot">
+            <img :src="getLocalMduImg('police','cancelText')" alt class="cancel" @click="cancel">
+            <img :src="getLocalMduImg('police','confirm')" alt class="confirm" @click="confirm">
+          </div>
+        </div>
+        <div class="title" v-else>
+          <img :src="getLocalMduImg('police','join')" alt class="x">
+          <div class="text">{{text}}</div>
+          <div class="bot">
+            <img :src="getLocalMduImg('police','again')" alt class="cancel1" @click="cancel">
+            <img :src="getLocalMduImg('police','confirm')" alt class="confirm" @click="confirm">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+	props: {
+		text: {
+			type: String,
+			default() {
+				return "";
+			}
+		},
+		showToast: {
+			type: Boolean,
+			default() {
+				return false;
+			}
+        },
+        isView:{
+            type:Boolean,
+            
+        }
+    },
+    methods:{
+        cancel(){
+            this.$emit('doCancel')
+        },
+        confirm(){
+            this.$emit('doConfirm')
+        }
+        
+    }
+};
+</script>
