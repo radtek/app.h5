@@ -16,7 +16,8 @@
         <comment-item ref="items"
                       v-for="(comment,index) in list"
                       :key="index"
-                      :item="comment"></comment-item>
+                      :item="comment"
+                      @on-zan="handleZan"></comment-item>
       </comment-pane>
     </rx-pull>
   </div>
@@ -77,6 +78,19 @@
   					channelId: this.channelid
   				});
   			}
+  		},
+  		handleZan(item) {
+  			const isSupported = item.isSupported;
+  			const action = isSupported
+  				? "cancelZanToComment"
+  				: "addZanToComment";
+  			this.$http.news[action]({
+  				contentId: this.contentid,
+  				commentId: item.id
+  			}).then(() => {
+  				item.supportNum += isSupported ? -1 : 1;
+  				item.isSupported = !isSupported;
+  			});
   		}
   	},
   	created() {
