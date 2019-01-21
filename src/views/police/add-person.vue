@@ -113,10 +113,10 @@ export default {
 	},
 	components: {
 		topHead: () =>
-			import(/* webpackChunkName:"police-header" */ "~v/police/components/header/header.vue"),
+			import(/* webpackChunkName:"police-header" */ "~v/police/__wc__/header/header.vue"),
 
 		toast: () =>
-			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/components/phone-toast.vue")
+			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
 	},
 	methods: {
 		add() {

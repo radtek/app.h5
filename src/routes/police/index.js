@@ -80,7 +80,7 @@ export function createRoutes(Vue) {
 			{
 				path: "/activity-time",
 				component: () =>
-					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
+					import(/* webpackChunkName: "view-time" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
 			},
 			{
 				path: "/default-icon",

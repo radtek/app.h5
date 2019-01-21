@@ -2,15 +2,15 @@
     <div>
 	   <Header :title="mainTitle" ></Header>
 		<div class="activity-contain">
-			<div class="title">活动主题：</div>
+			<div class="title">活动主题:</div>
 			<input placeholder="请输入活动主题">
 		</div>
 		<div class="activity-contain">
-			<div class="title">活动地点：</div>
+			<div class="title">活动地点:</div>
 			<input placeholder="请输入活动地点">
 		</div>
 		<div class="activity-contain" @click="changeTime">
-			<div class="title">活动时间：</div>
+			<div class="title">活动时间:</div>
 			<!--<input placeholder="请选择活动时间">-->
 			<div class="activity-font">请选择活动时间</div>
 			<img src="@/assets/imgs/police/right.png">
@@ -38,11 +38,11 @@
 		name: "index",
 		components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-header" */ "@/views/police/components/header/header.vue").then(
+				import(/* webpackChunkName:"wc-header" */ "@/views/police/__wc__/header/header.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 			SwitchBut: () =>
-				import(/* webpackChunkName:"wc-switch" */ "@/views/police/components/switch/switch.vue").then(
+				import(/* webpackChunkName:"wc-switch" */ "@/views/police/__wc__/switch/switch.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
@@ -68,7 +68,7 @@
 		border-bottom: 1px solid rgba(230,230,230,1);
 		.title{
 			font-size:32px;
-			width:160px;
+			width:190px;
 			font-weight:bold;
 			font-family:PingFang-SC-Bold;
 			color:rgba(102,102,102,1);
