@@ -9,10 +9,17 @@ export function createRoutes(Vue) {
 		mode: "history",
 		base: `/${MODULENAME}/`,
 		routes: [
+			//主页
 			{
 				path: "/index",
 				component: () =>
 					import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`)
+			},
+			//人员
+			{
+				path: "/personnel",
+				component: () =>
+					import(/* webpackChunkName: "view-personnel" */ `~v/${MODULENAME}/personnel.vue`)
 			},
 			//日历
 			{

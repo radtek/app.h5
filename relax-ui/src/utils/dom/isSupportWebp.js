@@ -4,6 +4,6 @@ export default function isSupportWebp() {
 		document
 			.createElement("canvas")
 			.toDataURL("image/webp")
-			.indexOf("date:image/webp") === 0
+			.indexOf("data:image/webp") === 0
 	);
 }

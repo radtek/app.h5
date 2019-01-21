@@ -1,0 +1,27 @@
+.person {
+    .header {
+        height:100px;
+        line-height: 100px;
+        padding:0 30px;
+    }
+    .list {
+        .list-header {
+            height:80px;
+            background:rgba(245,245,245,1);
+            line-height:80px;
+            padding:0 30px;
+        }
+        .list-item {
+            height:160px;
+            line-height: 160px;
+            width:690px;
+            padding:0 30px;
+        }
+        .list-item:nth-child(n+3){
+            border-top: 1px solid rgba(230,230,230,1);
+        }
+    }
+    .aside {
+        
+    }
+}
