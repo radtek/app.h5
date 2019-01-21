@@ -1,5 +1,5 @@
 <style lang="scss">
-.box {
+.boxx {
 	width: 100%;
 	height: 100%;
 	z-index: 10;
@@ -18,7 +18,7 @@
     justify-content: center;
     margin-top:-900px;
 }
-.window {
+.window1 {
 	position: absolute;
 	width: 608px;
 	height: 442px;
@@ -32,7 +32,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	.title {
+	.title2 {
 		width: 528px;
 		height: 362px;
 		border: 1px solid rgba(241, 170, 0, 1);
@@ -41,7 +41,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		.bot {
+		.bot2 {
 			display: flex;
 			align-items: center;
 			.cancel {
@@ -56,19 +56,18 @@
 				margin-right: 54px;
 				margin-left: 89px;
             }
-			.confirm {
+			.confirm1 {
 				width: 331px;
 				height: 176px;
 				margin-top: 43px;
 			}
 		}
 	}
-	.x {
+	.xx {
 		width: 322px;
-		height: 62px;
 		margin-top: 24px;
 	}
-	.text {
+	.text2 {
 		font-size: 30px;
 		font-family: Adobe Heiti Std R;
 		font-weight: normal;
@@ -79,24 +78,24 @@
 </style>
 
 <template>
-  <div class="box" v-if="showToast">
+  <div class="boxx" v-if="showToast">
     <div class="mask"></div>
     <div class="box1">
-      <div class="window">
-        <div class="title" v-if="isView">
-          <img :src="getLocalMduImg('police','delete')" alt class="x">
-          <div class="text">{{text}}</div>
-          <div class="bot">
+      <div class="window1">
+        <div class="title2" v-if="isView">
+          <img :src="getLocalMduImg('police','delete')" alt class="xx">
+          <div class="text2">{{text}}</div>
+          <div class="bot2">
             <img :src="getLocalMduImg('police','cancelText')" alt class="cancel" @click="cancel">
-            <img :src="getLocalMduImg('police','confirm')" alt class="confirm" @click="confirm">
+            <img :src="getLocalMduImg('police','confirm')" alt class="confirm1" @click="confirm">
           </div>
         </div>
-        <div class="title" v-else>
-          <img :src="getLocalMduImg('police','join')" alt class="x">
-          <div class="text">{{text}}</div>
-          <div class="bot">
+        <div class="title2" v-else>
+          <img :src="getLocalMduImg('police','join')" alt class="xx">
+          <div class="text2">{{text}}</div>
+          <div class="bot2">
             <img :src="getLocalMduImg('police','again')" alt class="cancel1" @click="cancel">
-            <img :src="getLocalMduImg('police','confirm')" alt class="confirm" @click="confirm">
+            <img :src="getLocalMduImg('police','confirm')" alt class="confirm1" @click="confirm">
           </div>
         </div>
       </div>
