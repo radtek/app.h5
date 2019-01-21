@@ -29,7 +29,7 @@
         </div>
         
         <div class="column-footer">
-          <div class="jion">已有<span class="red">112</span>人参与活动 &nbsp
+          <div class="jion">已有<span class="red">112</span>人参与活动 &nbsp;
           <span class="red">查看全部</span>
           <p class="img"><img :src="getLocalMduImg('police','quanbu')"></p></div>
           <div class="tips">温馨提示：您最近的课程是 <span class='red'>2019-01-14 周一20：00</span></div>

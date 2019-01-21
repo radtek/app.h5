@@ -63,7 +63,7 @@
                      type="text"><p>你还没有相关订单</p></rx-btn>
              </div>
         <div class="item"
-             v-for="item,index in listPart"
+             v-for="(item,index) in listPart"
              :key="index"
              v-else>
             <div class="msg">
