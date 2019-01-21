@@ -38,7 +38,7 @@
 		name: 'app',
 		components: {
 			calendar: () =>
-				import(/* webpackChunkName:"wc-calendar" */ "../components/calendar/calendar.vue").then(
+				import(/* webpackChunkName:"wc-calendar" */ "@/views/police/__wc__/calendar/calendar.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
@@ -57,9 +57,8 @@
 					value:[2019,1,16], //默认日期
 					lunar:true, //显示农历
 					select:(value)=>{
-						console.log(value.toString())
 						this.calendar3.value=value;
-						this.calendar3.display=value.join("/");
+						this.calendar3.display=value.join("-");
 						console.log(this.calendar3.display)
 					}
 				},
@@ -191,3 +190,4 @@
 		}
 	}
 </style>
+

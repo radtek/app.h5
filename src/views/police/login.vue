@@ -129,7 +129,7 @@ export default {
 	},
 	components: {
 		toast: () =>
-			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/components/phone-toast.vue")
+			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
 	},
 	methods: {
 		clear() {

@@ -18,7 +18,7 @@
         </div>
         <div class="comfirm">
           <div class="cancel" @click="cancel">
-            <img :src="getLocalMduImg('police','cancel')">
+            <img :src="getLocalMduImg('police','cancelText')">
           </div>
           <div class="sure" @click="submit">
             <img :src="getLocalMduImg('police','comfirm')">

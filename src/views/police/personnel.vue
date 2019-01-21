@@ -32,7 +32,7 @@ import { utils } from "~rx";
 export default {
   components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-header" */ "@/views/police/components/header/header.vue").then(
+				import(/* webpackChunkName:"wc-header" */ "@/views/police/__wc__/header/header.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
