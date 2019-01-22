@@ -7,11 +7,10 @@
 		</div>
 		<div class="activity-contain">
 			<div class="title">活动地点:</div>
-			<input placeholder="请输入活动地点">
+			<input class="address-input" placeholder="请输入活动地点">
 		</div>
 		<div class="activity-contain" @click="changeTime">
 			<div class="title">活动时间:</div>
-			<!--<input placeholder="请选择活动时间">-->
 			<div class="activity-font">请选择活动时间</div>
 			<img src="@/assets/imgs/police/right.png">
 		</div>
@@ -34,15 +33,16 @@
 
 <script>
 	import { utils } from "~rx";
+	import { Indicator } from 'mint-ui';
 	export default {
 		name: "index",
 		components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-header" */ "@/views/police/__wc__/header/header.vue").then(
+				import(/* webpackChunkName:"wc-header" */ "~v/police/__wc__/header/header.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 			SwitchBut: () =>
-				import(/* webpackChunkName:"wc-switch" */ "@/views/police/__wc__/switch/switch.vue").then(
+				import(/* webpackChunkName:"wc-switch" */ "~v/police/__wc__/switch/switch.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
@@ -53,6 +53,7 @@
 		},
 		methods:{
 			changeTime(){
+				Indicator.open('登录中...');
 				this.$router.push('/activity-time')
 			}
 		}
@@ -66,6 +67,9 @@
 		height: 131px;
 		margin: 0 29px;
 		border-bottom: 1px solid rgba(230,230,230,1);
+		.address-input{
+			display: inline-block;
+		}
 		.title{
 			font-size:32px;
 			width:190px;

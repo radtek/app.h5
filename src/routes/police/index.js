@@ -48,7 +48,7 @@ export function createRoutes(Vue) {
 			{
 				path: "/date",
 				component: () =>
-					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/date/date.vue`)
+					import( /* webpackChunkName: "view-date" */ `~v/${MODULENAME}/date/date.vue`)
 			},
 			{
 				path: "/add-person",
@@ -69,7 +69,7 @@ export function createRoutes(Vue) {
 			{
 				path: "/create-activities",
 				component: () =>
-					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/create-activities/index.vue`)
+					import( /* webpackChunkName: "view-activities" */ `~v/${MODULENAME}/create-activities/index.vue`)
 			},
 			{
 				path: "/edit-person",

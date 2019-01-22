@@ -40,15 +40,15 @@
 		name: "activity-time",
 		components: {
 			Header: () =>
-				import(/* webpackChunkName:"wc-header" */ "@/views/police/__wc__/header/header.vue").then(
+				import(/* webpackChunkName:"wc-header" */ "~v/police/__wc__/header/header.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 			SwitchBut: () =>
-				import(/* webpackChunkName:"wc-switch" */ "@/views/police/__wc__/switch/switch.vue").then(
+				import(/* webpackChunkName:"wc-switch" */ "~v/police/__wc__/switch/switch.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 			DateTimePicker: () =>
-				import(/* webpackChunkName:"wc-picker" */ "@/views/police/__wc__/dateTimePicker/DateTimePicker.vue").then(
+				import(/* webpackChunkName:"wc-picker" */ "~v/police/__wc__/dateTimePicker/DateTimePicker.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
 		},
@@ -71,11 +71,12 @@
 				]
 			}
 		},
+		activated(){
+			this.rightTitle='编辑'
+		},
 		created(){
 			this.calRootFontSize()
-
 			this.timeControl()
-
 			window.onresize = () => {
 				window.location.reload()
 			}

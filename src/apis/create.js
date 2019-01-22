@@ -7,7 +7,7 @@ import { stringify } from "qs";
 const isProd = process.env.NODE_ENV === "production";
 const apiRoot = `${
 	process.env.NODE_ENV === "development"
-		? "http://manage.guotailimin.com"
+		? (process.env.JXRS_APP_MODULE === "police"?"http://police.guotailimin.com":"http://manage.guotailimin.com")
 		: window.location.origin
 }/`;
 // axios 配置

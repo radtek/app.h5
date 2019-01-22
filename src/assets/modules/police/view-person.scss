@@ -1,8 +1,18 @@
 .person {
-    .header {
+    .person-header {
         height:100px;
         line-height: 100px;
         padding:0 30px;
+        div {
+            vertical-align: middle;
+            display:inline-block;
+            width:60px;
+            height:60px;
+            line-height: 100px;
+            border-radius:50%;
+            background:antiquewhite;
+            margin-right:-24px;
+            }
     }
     .list {
         .list-header {
@@ -16,12 +26,66 @@
             line-height: 160px;
             width:690px;
             padding:0 30px;
+            display:flex;
+            position: relative;
+            .choose {
+                input[type=checkbox] {
+                    display:none;
+                }
+                input[type=checkbox]:checked + label {
+                    background:url("../police/imgs/check2.png") 0 0 no-repeat;
+                    background-size: 36px 36px;
+                }
+                input[type=checkbox]:checked + .labelWebp {
+                    background:url("../police/imgs/webp/check2.webp") 0 0 no-repeat;
+                    background-size: 36px 36px;
+                }
+                label {
+                    position: absolute;
+                    background:url("../police/imgs/check1.png") 0 0 no-repeat;
+                    background-size: 36px 36px;
+                    top:62px;
+                    left:30px;
+                    width:464px;
+                    height:98px;
+
+                }
+                .labelWebp {
+                    position: absolute;
+                    background:url("../police/imgs/webp/check1.webp")  0 0 no-repeat;
+                    background-size: 36px 36px;
+                    top:62px;
+                    left:30px;
+                    width:464px;
+                    height:98px;
+                }
+            }
+            .list-pic {
+                margin: 0 30px 0 60px;
+                div {
+                vertical-align: middle;
+                display:inline-block;
+                width:100px;
+                height:100px;
+                line-height: 160px;
+                border-radius:50%;
+                border:1px solid aqua
+                }
+            }
         }
         .list-item:nth-child(n+3){
             border-top: 1px solid rgba(230,230,230,1);
         }
     }
     .aside {
-        
+        position:fixed;
+        top:266px;
+        right:0;
+        font-size:24px;
+        font-family:PingFang-SC-Bold;
+        font-weight:bold;
+        color:rgba(0,122,255,1);
+        line-height:30px;
+        text-align: center;
     }
 }
