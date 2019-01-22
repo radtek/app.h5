@@ -41,7 +41,7 @@ export default [
 		// 查询活动设置
 		verb: "post",
 		outKey: "getInfoActivity",
-		action: "/mobile/v1/user/getAllUser",
+		action: "mobile/v1/infoActivity/selectById",
 		reqParams: [
 			{ name: "page", default: 1 },
 			{ name: "pageSize", default: 10 }

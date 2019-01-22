@@ -25,9 +25,6 @@
 			goBack(){
 				this.$router.go(-1)
 			},
-			historyBack(){
-				history.back()
-			},
 			del(){
 				this.$emit('delete')
 			},

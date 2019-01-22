@@ -156,7 +156,7 @@ export default {
 	data() {
 		return {
 			isShowUsers: true,
-			atPerson: 16,
+			atPerson: 0,
 			allPerson: 20,
 			list: [],
 			title: "全部参与人员",
@@ -176,6 +176,18 @@ export default {
 			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
 	},
 	methods: {
+		async __fetchUser() {
+			const [err, resp] = await this.$sync(
+				this.$http.police.getAllUser()
+			);
+			if (!err) {
+				this.list = resp.result;
+				this.atPerson = this.list.length;
+			}
+		},
+		async __fetch() {
+			await this.__fetchUser();
+		},
 		change(e) {
 			this.right = e;
 			if (this.right == "完成") {
@@ -194,7 +206,7 @@ export default {
 
 		Confirm() {
 			//发请求
-			
+
 			Indicator.open({
 				text: "删除中..",
 				spinnerType: "snake"
@@ -205,17 +217,23 @@ export default {
 				Indicator.close();
 			}, 2000);
 		},
-		Delete() {
-			var R = this.cartData;
-			this.N = 0;
-			for (let i of R) {
-				if (i.isSelect) {
-					this.N++;
-				}
-			}
-			if (this.N !== 0) {
-				this.join = !this.join;
-			}
+		async Delete() {
+			const [err, resp] = await this.$sync(
+				this.$http.police.delUser({
+					id: 1
+				})
+			);
+			console.log(err, resp);
+			// var R = this.cartData;
+			// this.N = 0;
+			// for (let i of R) {
+			// 	if (i.isSelect) {
+			// 		this.N++;
+			// 	}
+			// }
+			// if (this.N !== 0) {
+			// 	this.join = !this.join;
+			// }
 		}
 	},
 	computed: {
@@ -226,52 +244,11 @@ export default {
 			return `确定要删除${this.N}个学员吗`;
 		}
 	},
-	created() {
+	async created() {
 		if (!this.isAdmin) {
 			this.right = "";
 		}
-		this.list = [
-			{
-				iconUrl:
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
-				name: "宋海兵啊"
-			},
-			{
-				iconUrl:
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
-				name: "宋海啊"
-			},
-			{
-				iconUrl:
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
-				name: "宋海兵啊"
-			},
-			{
-				iconUrl:
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
-				name: "宋海兵啊"
-			},
-			{
-				iconUrl:
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
-				name: "宋海兵"
-			},
-			{
-				iconUrl:
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
-				name: "宋海兵6"
-			},
-			{
-				iconUrl:
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
-				name: "宋海兵7"
-			},
-			{
-				iconUrl:
-					"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547804290601&di=ee5afb14760151dde4e331128b5654e5&imgtype=0&src=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FoPoEg0lLt5KjibZw5icrBoMsGGkwZj2uR2j5soicgFlmSzMart8hN1IrrdURe4PIylv5y2uPw92pKy8RE5dbm4eLg%2F0%3Fwx_fmt%3Djpeg",
-				name: "宋海兵8"
-			}
-		];
+		await this.__fetch();
 		let nowList = this.list;
 		nowList.forEach(item => (item.isSelect = false));
 		this.cartData = nowList;
