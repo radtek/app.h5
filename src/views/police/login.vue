@@ -195,6 +195,8 @@ export default {
 					}
 				});
 			} else {
+				Indicator.close();
+
 				this.toast_text = err.msg;
 				this.toast();
 			}
