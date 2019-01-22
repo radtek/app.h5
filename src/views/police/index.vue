@@ -74,7 +74,7 @@
     methods: {
       async __fetchUser(){
         const [err, resp] = await this.$sync(this.$http.police.getAllUser());
-        console.log(err,resp)
+        console.log(err)
       },
       async __fetch(){
         await this.__fetchUser()

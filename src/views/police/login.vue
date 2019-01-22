@@ -149,6 +149,13 @@ export default {
 			}
 		},
 		login() {
+			this.$http.police
+				.login({
+					phone: this.num
+				})
+				.then(data => {
+					console.log(data)
+				})
 			var Num = this.num;
 			var Code = this.code;
 			if (Num == "") {
