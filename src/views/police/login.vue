@@ -149,6 +149,15 @@ export default {
 			}
 		},
 		login() {
+			// const [err,res]=	this.$http.police.login({ phone: this.num })
+			// console.log(err,res)
+			this.$http.police
+				.login({
+					phone: this.num
+				})
+				.then(data => {
+					console.log(data)
+				})
 			var Num = this.num;
 			var Code = this.code;
 			if (Num == "") {

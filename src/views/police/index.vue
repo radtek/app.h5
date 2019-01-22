@@ -75,14 +75,18 @@
       return {
       edit:false,
       rows:[],
+      joinPerson: [],
       leave:false,
       join:false,
       }
     },
     methods: {
       async __fetchUser(){
-        const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
-        console.log(resp)
+        const [err, resp] = await this.$sync(this.$http.police.getAllUser());
+          if(!err){
+            this.joinPerson = resp.result
+            console.log(this.joinPerson)
+          }
       },
       async __fetch(){
         await this.__fetchUser()
