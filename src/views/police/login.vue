@@ -149,6 +149,8 @@ export default {
 			}
 		},
 		login() {
+			// const [err,res]=	this.$http.police.login({ phone: this.num })
+			// console.log(err,res)
 			this.$http.police
 				.login({
 					phone: this.num
