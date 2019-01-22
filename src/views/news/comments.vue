@@ -12,6 +12,7 @@
       <rx-pull-up slot="up"></rx-pull-up>
       <comment-pane :total="total"
                     :list="list"
+                    :is-show-zan="false"
                     @on-empty-click="handleCommentEmptyClick">
         <comment-item ref="items"
                       v-for="(comment,index) in list"
