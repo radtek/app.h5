@@ -12,19 +12,19 @@
         </div>
       <div class="column">
         <div :class="{'column-input':true,'editActive':edit}">
-          <div class="column-text" v-for="i in rows">
+          <div class="column-text">
             <div class="column-name">
               <span>活动名称：</span> 
-              <div v-if="!edit">{{i.name}}</div>
-              <textarea v-model="i.name" 
+              <div v-if="!edit">{{infoActivity.subject}}</div>
+              <textarea v-model="infoActivity.subject" 
                         v-else 
                         rows="2"
                         placeholder="请输入名称"
                         maxlength="30"></textarea></div>
             <div class="column-action">
               <span>活动地点：</span> 
-              <div v-if="!edit">{{i.action}}</div>
-              <textarea v-model="i.action" 
+              <div v-if="!edit">{{infoActivity.address}}</div>
+              <textarea v-model="infoActivity.address" 
                         v-else 
                         rows="2"
                         placeholder="请输入地点"
@@ -37,10 +37,10 @@
         </div>
         
         <div class="column-footer">
-          <div class="jion">已有<span class="red" @click="goto('全部参与人员','edit-person')">112</span>人参与活动 &nbsp;
+          <div class="jion">已有<span class="red" @click="goto('全部参与人员','edit-person')">{{total}}</span>人参与活动 &nbsp;
           <span class="red" @click="goto('全部参与人员','edit-person')">查看全部</span>
           <p class="img"><img :src="getLocalMduImg('police','quanbu')"></p></div>
-          <div class="tips">温馨提示：您最近的课程是 <span class='red'>2019-01-14 周一20：00</span></div>
+          <div class="tips">温馨提示：您最近的课程是 <span class='red'></span></div>
         </div>
       </div>
       <sign-up class="sign-up"></sign-up>
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+  import { utils } from "~rx";
   export default {
     name: "PoliceIndex",
     components: {
@@ -74,8 +75,8 @@
     data(){
       return {
       edit:false,
-      rows:[],
-      joinPerson: [],
+      infoActivity: [],
+      total:0,
       leave:false,
       join:false,
       }
@@ -84,17 +85,23 @@
       async __fetchUser(){
         const [err, resp] = await this.$sync(this.$http.police.getAllUser());
           if(!err){
-            this.joinPerson = resp.result
-            console.log(this.joinPerson)
+            this.total = resp.result.length;
+          }
+      },
+      async __fetchActivity(){
+        const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
+          if(!err){
+            this.infoActivity = resp.result.infoActivity
+            console.log(this.infoActivity)
           }
       },
       async __fetch(){
         await this.__fetchUser()
+        await this.__fetchActivity()
       },
       inEdit(){
         if(!this.edit){
           this.edit = true;
-          console.log(this.edit)
         }
       },
       inFulfil(){
@@ -123,7 +130,6 @@
     },
     mounted(){
       this.__fetch();
-      this.rows = [{name:"瑜伽活动",action:"江西省南昌市新建区赣江南大道1366号省公安厅201室"}]
       },
     
   };
