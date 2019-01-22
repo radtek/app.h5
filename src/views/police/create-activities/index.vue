@@ -33,6 +33,7 @@
 
 <script>
 	import { utils } from "~rx";
+	import { Indicator } from 'mint-ui';
 	export default {
 		name: "index",
 		components: {
@@ -52,6 +53,7 @@
 		},
 		methods:{
 			changeTime(){
+				Indicator.open('登录中...');
 				this.$router.push('/activity-time')
 			}
 		}
