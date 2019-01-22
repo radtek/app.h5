@@ -70,6 +70,16 @@ export default [
 		reqParams: [
 			"priorityNo","userId",
 		]
-    },
+	},
+	{
+		// 请假
+		verb: "post",
+		outKey: "activityList",
+		action: "/mobile/v1/couse/list",
+		reqParams: [
+			"priorityNo","userId",
+		]
+	},
+	
     
 ];

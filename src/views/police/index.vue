@@ -77,6 +77,7 @@
       return {
       edit:false,
       infoActivity: [],
+      list:[],
       total:0,
       leave:false,
       join:false,
@@ -89,6 +90,18 @@
             this.total = resp.result.length;
           }
       },
+      async __fetchActivityList(){
+        const [err, resp] = await this.$sync(
+          this.$http.police.activityList({
+            priorityNo:1,
+            userId:1
+        }));
+        console.log(err)
+          if(!err){
+            this.list = resp.result
+            console.log(this.list)
+          }
+      },
       async __fetchActivity(){
         const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
           if(!err){
@@ -98,6 +111,7 @@
       async __fetch(){
         await this.__fetchUser()
         await this.__fetchActivity()
+        await this.__fetchActivityList()
       },
       inEdit(){
         if(!this.edit){
