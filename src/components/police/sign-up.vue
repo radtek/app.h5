@@ -5,9 +5,9 @@
     <div class="sign-up">
         <div class="sign-content">
             <div class="header">
-                <span class="left">2019-01-14  &nbsp;&nbsp;周一 &nbsp;&nbsp;20:00 &nbsp;（16/21人已报名）</span>
+                <span class="left">2019-01-14 周一 20:00 (16/21人已报名)</span>
                 <div class="right">
-                    <span>查看全部</span>
+                    <span @click="goto('查看参与人员','view-person')">查看全部</span>
                     <div class="img"><img :src="getLocalMduImg('police','quanbu2')"></div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
             <div class="header">
                 <span class="left">2019-01-14  &nbsp;&nbsp;周一 &nbsp;&nbsp;20:00 &nbsp;（16/21人已报名）</span>
                 <div class="right">
-                    <span>查看全部</span>
+                    <span @click="goto('查看参与人员','view-person')">查看全部</span>
                     <div class="img"><img :src="getLocalMduImg('police','quanbu2')"></div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             <div class="header">
                 <span class="left">2019-01-14  &nbsp&nbsp周一 &nbsp&nbsp20:00 &nbsp（16/21人已报名）</span>
                 <div class="right">
-                    <span>查看全部</span>
+                    <span @click="goto('查看参与人员','view-person')">查看全部</span>
                     <div class="img"><img :src="getLocalMduImg('police','quanbu2')"></div>
                 </div>
             </div>
@@ -52,4 +52,13 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    data(){
+        return {
+
+        }
+    },
+}
+</script>
 
