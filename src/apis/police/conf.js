@@ -52,6 +52,24 @@ export default [
 		verb: "post",
 		outKey: "getAllUser",
 		action: "/mobile/v1/user/getAllUser",
+	},
+	{
+		// 抢课
+		verb: "post",
+		outKey: "robbingClass",
+		action: "/mobile/v1/couse/rob",
+		reqParams: [
+			"priorityNo","userId",
+		]
+	},
+	{
+		// 请假
+		verb: "post",
+		outKey: "robbingClass",
+		action: "/mobile/v1/couse/rob",
+		reqParams: [
+			"priorityNo","userId",
+		]
     },
     
 ];

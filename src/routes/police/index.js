@@ -14,21 +14,21 @@ export function createRoutes(Vue) {
 				path: "/index",
 				component: () =>
 					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`),
-				// beforeEnter: (to, from, next) => { //导航守卫
-				// 	if (localStorage.getItem('username') != null) {
-				// 		console.log(localStorage.getItem('username'))
-				// 		console.log('用户已经登录');
-				// 		next();
-				// 	} else {
-				// 		console.log('用户未登录');
-				// 		next({
-				// 			path: '/login',
-				// 			query: {
-				// 				Rurl: to.fullPath
-				// 			}
-				// 		});
-				// 	}
-				// },
+				beforeEnter: (to, from, next) => { //导航守卫
+					if (localStorage.getItem('username') != null) {
+						console.log(localStorage.getItem('username'))
+						console.log('用户已经登录');
+						next();
+					} else {
+						console.log('用户未登录');
+						next({
+							path: '/login',
+							query: {
+								Rurl: to.fullPath
+							}
+						});
+					}
+				},
 				
 				
 

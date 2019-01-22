@@ -93,7 +93,6 @@
         const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
           if(!err){
             this.infoActivity = resp.result.infoActivity
-            console.log(this.infoActivity)
           }
       },
       async __fetch(){
