@@ -139,7 +139,7 @@
           </li>
           <li v-show="leaveP > 0">
             <router-link :to="{path:'/add-person'}">
-            <img :src="getLocalMduImg('police','redadd')" alt class="add">
+              <img :src="getLocalMduImg('police','redadd')" alt class="add">
             </router-link>
           </li>
         </ul>
@@ -149,6 +149,8 @@
 </template>
 
 <script>
+import { Indicator } from "mint-ui";
+import { setTimeout } from "timers";
 export default {
 	name: "edit-person",
 	data() {
@@ -191,9 +193,17 @@ export default {
 		},
 		Confirm() {
 			this.join = false;
-        },
-        Delete(){
-		this.join = !this.join;
+			//发请求
+			Indicator.open({
+				text: "删除中..",
+				spinnerType: "snake"
+			});
+			setTimeout(function() {
+				Indicator.close();
+			}, 2000);
+		},
+		Delete() {
+			this.join = !this.join;
 			var R = this.cartData;
 			this.N = 0;
 			for (let i of R) {
@@ -201,7 +211,7 @@ export default {
 					this.N++;
 				}
 			}
-        }
+		}
 	},
 	computed: {
 		leaveP: function() {
