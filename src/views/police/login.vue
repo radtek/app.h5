@@ -75,7 +75,6 @@
 				color: rgba(255, 255, 255, 1);
 			}
 		}
-
 	}
 }
 </style>
@@ -114,6 +113,8 @@
 </template>
 
 <script>
+import { Indicator } from "mint-ui";
+
 export default {
 	name: "login",
 	data() {
@@ -167,21 +168,19 @@ export default {
 				this.toast_text = "手机号格式错误";
 				this.toast();
 			} else if (this.phoneN.test(Num)) {
-				if (this.click == 0) {
-					//发请求
-					console.log("要发请求了");
-					//存储信息
-					localStorage.setItem("username", Num);
-					//防多次点击
-					this.click = 1;
-					var self = this;
-					setTimeout(function() {
-						self.click = 0;
-					}, 2000);
-				} else {
-					this.toast_text = "不要重复点击";
-					this.toast();
-				}
+				//发请求
+				console.log("要发请求了");
+				//存储信息
+				localStorage.setItem("username", Num);
+				//防多次点击
+
+				Indicator.open({
+					text: "登录中..",
+					spinnerType: "snake"
+				});
+				setTimeout(function() {
+					Indicator.close();
+				}, 2000);
 			}
 		},
 		toast() {
