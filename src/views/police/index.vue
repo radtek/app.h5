@@ -43,7 +43,8 @@
           <div class="tips">温馨提示：您最近的课程是 <span class='red'></span></div>
         </div>
       </div>
-      <sign-up class="sign-up"></sign-up>
+      <sign-up class="sign-up"
+               @join="dialogJoin"></sign-up>
     </main>
  </div>
   <footer :class="[isWebp()?'webp':'']">
