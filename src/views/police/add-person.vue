@@ -134,7 +134,8 @@ export default {
 				this.toast_text = "手机号格式错误";
 				this.toast();
 			} else {
-				console.log("发请求");
+				this.__fetch();
+
 				Indicator.open({
 					text: "添加中..",
 					spinnerType: "snake"
@@ -150,6 +151,22 @@ export default {
 			setTimeout(function() {
 				self.showToast = false;
 			}, 2000);
+		},
+		async __fetchAdd() {
+			const [err, res] = await this.$sync(
+				this.$http.police.addUser({
+					name: this.name,
+					phone: this.num,
+					icon: ""
+				})
+			);
+			console.log(err, res);
+			if (!err) {
+				console.log(res);
+			}
+		},
+		async __fetch() {
+			await this.__fetchAdd();
 		}
 	}
 };

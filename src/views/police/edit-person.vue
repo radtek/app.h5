@@ -191,25 +191,30 @@ export default {
 		Cancel() {
 			this.join = false;
 		},
+
 		Confirm() {
-			this.join = false;
 			//发请求
+			
 			Indicator.open({
 				text: "删除中..",
 				spinnerType: "snake"
 			});
+			this.join = false;
+
 			setTimeout(function() {
 				Indicator.close();
 			}, 2000);
 		},
 		Delete() {
-			this.join = !this.join;
 			var R = this.cartData;
 			this.N = 0;
 			for (let i of R) {
 				if (i.isSelect) {
 					this.N++;
 				}
+			}
+			if (this.N !== 0) {
+				this.join = !this.join;
 			}
 		}
 	},
