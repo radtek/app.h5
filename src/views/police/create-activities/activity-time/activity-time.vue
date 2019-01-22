@@ -71,11 +71,12 @@
 				]
 			}
 		},
+		activated(){
+			this.rightTitle='编辑'
+		},
 		created(){
 			this.calRootFontSize()
-
 			this.timeControl()
-
 			window.onresize = () => {
 				window.location.reload()
 			}
