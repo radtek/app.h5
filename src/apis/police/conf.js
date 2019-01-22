@@ -1,7 +1,7 @@
 export default [
     {
 		// 查询活动设置
-		verb: "get",
+		verb: "post",
 		outKey: "getInfoActivity",
 		action: "/mobile/v1/user/getAllUser",
 		reqParams: [
