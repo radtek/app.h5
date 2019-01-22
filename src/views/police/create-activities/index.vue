@@ -3,39 +3,54 @@
 	   <Header :title="mainTitle" ></Header>
 		<div class="activity-contain">
 			<div class="title">活动主题:</div>
-			<input placeholder="请输入活动主题">
+			<input placeholder="请输入活动主题" v-model="title">
 		</div>
 		<div class="activity-contain">
 			<div class="title">活动地点:</div>
-			<input class="address-input" placeholder="请输入活动地点">
+			<input class="address-input" placeholder="请输入活动地点" v-model="address">
 		</div>
 		<div class="activity-contain" @click="changeTime">
 			<div class="title">活动时间:</div>
-			<div class="activity-font">请选择活动时间</div>
+			<div class="time-contain" v-if="temp">
+				<div class="contain" >
+					<span class="time" v-for="(item,index) in date" :key="index">{{item.week}}{{item.time}}</span>
+				</div>
+			</div>
+			<div class="activity-font" v-else>请选择活动时间</div>
 			<img src="@/assets/imgs/police/right.png">
 		</div>
 		<div class="change">
 			<div class="change-contain">
 				<div class="change-font">避开假日</div>
-				<SwitchBut></SwitchBut>
+				<mt-switch ></mt-switch>
 			</div>
 			<div class="change-contain">
 				<div class="change-font">是否重复</div>
 				<SwitchBut></SwitchBut>
 			</div>
 		</div>
-		<div class="footer-button">
+		<div class="footer-button" @click="create">
 			<img src="@/assets/imgs/police/but.png">
-			<div class="but-font">创建活动</div>
+			<div class="but-font" >创建活动</div>
 		</div>
 	</div>
 </template>
 
 <script>
+	import { Switch } from 'mint-ui';
+	import Vue from 'vue'
+	Vue.component(Switch.name, Switch);
 	import { utils } from "~rx";
 	import { Indicator } from 'mint-ui';
 	export default {
 		name: "index",
+		activated(){
+			//筛选isSelect为true的对象返回新数组
+			if(this.$route.query.temp){
+				this.temp=this.$route.query.temp
+				this.date=this.$route.query.temp.filter(item=>item.isSelect)
+			}
+		},
 		components: {
 			Header: () =>
 				import(/* webpackChunkName:"wc-header" */ "~v/police/__wc__/header/header.vue").then(
@@ -49,12 +64,37 @@
 		data(){
 			return{
 				mainTitle:'创建活动',
+				date:[],
+				temp:[],
+				title:'',
+				address:''
 			}
 		},
 		methods:{
 			changeTime(){
-				Indicator.open('登录中...');
 				this.$router.push('/activity-time')
+			},
+			create(){
+				let data=JSON.stringify([
+					{
+						id:'',
+						relationId:1,
+						week:'周二',
+						startTime:'9:00',
+						isEnabled:1
+					}
+				])
+				this.$http.police
+					.editActivity({
+						subject:this.title,
+						address:this.address,
+						isNotHoliday:1,
+						isRepeat:1,
+						infoActivityPlanList:data
+					})
+					.then(data => {
+						console.log(data)
+					})
 			}
 		}
 	};
@@ -70,6 +110,31 @@
 		.address-input{
 			display: inline-block;
 		}
+		.time-contain{
+			margin-left: 20px;
+			width: 423px;
+			.contain{
+				.time{
+					width: 150px;
+					display: inline-block;
+					font-size:32px;
+					font-family:PingFang-SC-Medium;
+					font-weight:500;
+					color:rgba(51,51,51,1);
+				}
+				.time:nth-child(even) {
+					margin-left: 61px;
+				}
+				.time:nth-child(3) {
+					margin-top: 10px;
+				}
+				.time:nth-child(4) {
+					margin-top: 10px;
+				}
+			}
+			
+		}
+		
 		.title{
 			font-size:32px;
 			width:190px;
@@ -116,6 +181,16 @@
 		.change-contain{
 			display: flex;
 			align-items: center;
+			.mint-switch-core {
+				display: inline-block;
+				position: relative;
+				width: 0.69333rem;
+				height: 0.42667rem;
+				border: 10px solid #d9d9d9;
+				border-radius: 0.21333rem;
+				box-sizing: border-box;
+				background: #d9d9d9;
+			}
 			.change-font{
 				font-size:32px;
 				width:160px;
@@ -148,4 +223,9 @@
 			line-height:48px;
 		}
 	}
+	.mint-switch-core {
+		width: 104px;
+		height: 64px;
+	}
+	
 </style>

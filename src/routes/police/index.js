@@ -68,6 +68,7 @@ export function createRoutes(Vue) {
 			//创建活动
 			{
 				path: "/create-activities",
+				name:'create-activities',
 				component: () =>
 					import( /* webpackChunkName: "view-activities" */ `~v/${MODULENAME}/create-activities/index.vue`)
 			},

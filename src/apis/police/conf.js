@@ -34,7 +34,7 @@ export default [
 		outKey: "editActivity",
 		action: "/mobile/v1/infoActivity/update",
 		reqParams: [
-			"subject","address","isNotHoliday","isRepeat"," id"," relationId","week","startTime"," isEnabled"
+			"subject","address","isNotHoliday","isRepeat","infoActivityPlanList"
 		]
 	},
     {
