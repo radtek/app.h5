@@ -15,8 +15,6 @@ export function createRoutes(Vue) {
 				component: () =>
 					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`),
 				beforeEnter: (to, from, next) => { //导航守卫
-					console.log(to)
-					console.log(from)
 					if (localStorage.getItem('username') != null) {
 						console.log(localStorage.getItem('username'))
 						console.log('用户已经登录');
@@ -30,7 +28,9 @@ export function createRoutes(Vue) {
 							}
 						});
 					}
-				}
+				},
+				
+				
 
 			},
 			{ //登录页面
@@ -87,7 +87,7 @@ export function createRoutes(Vue) {
 				component: () =>
 					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/default-icon.vue`)
 			},
-		]
+		],
 	});
 
 

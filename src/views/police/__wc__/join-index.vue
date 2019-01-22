@@ -4,7 +4,7 @@
     <div class="dialog1" v-if="dialog1">
       <div class="content">
         <div class="mark">
-          <img :src="getLocalMduImg('police','qingjia')">
+          <img :src="getLocalMduImg('police','active')">
         </div>
         <div class="item">
           <div class="list" v-for="i in leaveDate">

@@ -3,7 +3,7 @@
 <template>
 	<div class="header">
 		<div class="contain">
-			<div class="left" v-if="left" @click="goBack">{{left}}</div>
+			<div class="left" v-if="left" @click="historyBack">{{left}}</div>
 			<div class="img-contain" v-else>
 				<img src="@/assets/imgs/police/left.png"  @click="goBack"></img>
 			</div>
@@ -24,6 +24,9 @@
 		methods:{
 			goBack(){
 				this.$router.go(-1)
+			},
+			historyBack(){
+				history.back()
 			},
 			del(){
 				this.$emit('delete')
@@ -77,7 +80,6 @@
 				line-height:48px;
 			}
 			.right{
-				width: 80px;
 				font-size:32px;
 				opacity:0.8;
 				font-family:PingFang-SC-Medium;
