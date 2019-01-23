@@ -2,7 +2,7 @@
     <div>
 		<Header :title="mainTitle" :right="rightTitle"  @change="change"></Header>
 		<div class="time-contain"  v-for="(item,index) in date" :key="index">
-			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png">
+			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del">
 				<div class="time-font" :class="{'active':rightTitle==='完成'}">
 					{{item.week}}{{item.time}}
 				</div>
@@ -38,6 +38,7 @@
 
 <script>
 	import { utils } from "~rx";
+	import { MessageBox } from 'mint-ui';
 	export default {
 		name: "activity-time",
 		beforeRouteLeave(to, from, next) {
@@ -71,7 +72,7 @@
 				dateTimePickerResult2: '',
 				nowWeek:'',
 				nowTime:'',
-				date:[{week:'周一',time:'9:00',isSelect: false}]
+				date:[{week:'周一',time:'09:00',isSelect: false}]
 			}
 		},
 		activated(){
@@ -87,6 +88,13 @@
 		methods:{
 			change(e){
 				this.rightTitle=e
+			},
+			del(index){
+				MessageBox.confirm('确定执行此操作?').then(action => {
+					this.date.splice(index, 1)
+				});
+				
+				
 			},
 			calRootFontSize () {
 				const html = document.getElementsByTagName('html')[0]
@@ -235,5 +243,4 @@
 				transition: left 0.3s;
 			}
 		}
-		
 </style>

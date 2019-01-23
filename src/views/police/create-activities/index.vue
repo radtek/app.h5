@@ -11,12 +11,10 @@
 		</div>
 		<div class="activity-contain" @click="changeTime">
 			<div class="title">活动时间:</div>
-			<div class="time-contain" v-if="temp">
-				<div class="contain" >
+			<div class="time-contain">
 					<span class="time" v-for="(item,index) in date" :key="index">{{item.week}}{{item.time}}</span>
-				</div>
 			</div>
-			<div class="activity-font" v-else>请选择活动时间</div>
+			<!--<div class="activity-font">请选择活动时间</div>-->
 			<img src="@/assets/imgs/police/right.png">
 		</div>
 		<div class="change">
@@ -45,7 +43,13 @@
 	import { Indicator } from 'mint-ui';
 	export default {
 		name: "index",
+		created(){
+			
+		},
 		activated(){
+			//是否避开假日和是否重复默认为是
+			document.getElementById('switch').checked=true
+			document.getElementById('switch1').checked=true
 			//筛选isSelect为true的对象返回新数组
 			if(this.$route.query.temp){
 				this.temp=this.$route.query.temp
@@ -69,8 +73,8 @@
 				temp:[],
 				title:'',
 				address:'',
-				changeNum:'',
-				changeNum1:''
+				changeNum:1,
+				changeNum1:1
 			}
 		},
 		methods:{
@@ -136,24 +140,21 @@
 		.time-contain{
 			margin-left: 20px;
 			width: 423px;
-			.contain{
 				.time{
-					width: 150px;
-					display: inline-block;
+					width: 220px;
 					font-size:32px;
 					font-family:PingFang-SC-Medium;
 					font-weight:500;
 					color:rgba(51,51,51,1);
-				}
-				.time:nth-child(even) {
-					margin-left: 61px;
-				}
-				.time:nth-child(3) {
-					margin-top: 10px;
-				}
-				.time:nth-child(4) {
-					margin-top: 10px;
-				}
+				/*.time:nth-child(even) {*/
+					/*margin-left: 61px;*/
+				/*}*/
+				/*.time:nth-child(3) {*/
+					/*margin-top: 10px;*/
+				/*}*/
+				/*.time:nth-child(4) {*/
+					/*margin-top: 10px;*/
+				/*}*/
 			}
 			
 		}
