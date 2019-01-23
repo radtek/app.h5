@@ -64,6 +64,7 @@
 			font-family: PingFang-SC-Medium;
 			font-weight: 500;
 			color: rgba(51, 51, 51, 1);
+			word-break: break-all;
 		}
 	}
 }
@@ -75,35 +76,35 @@
     <div class="top">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">参与人员({{atPerson}}/{{allPerson}})</span>
+        <span class="fw">参与人员({{list1.length}}/{{list.length}})</span>
       </div>
       <div class="content">
         <ul>
-          <li v-for="(q,index) in list" :key="index">
+          <li v-for="(q,index) in list1" :key="index">
             <div class="person">
-              <img :src="q.iconUrl" class="head_icon">
+              <img :src="q.icon_url" class="head_icon">
               <div>{{q.name}}</div>
             </div>
           </li>
-          <li v-show="leaveP > 0">
+          <li v-show="list2.length > 0">
             <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="dialogJoin">
           </li>
         </ul>
       </div>
       <dialog-join :showToast="join" :text="text" @doCancel="Cancel" @doConfirm="Confirm"></dialog-join>
     </div>
-    <div class="separate" v-show="isShowUsers && leaveP > 0"></div>
+    <div class="separate" v-show="isShowUsers && list2.length > 0"></div>
 
-    <div class="top" v-show="leaveP > 0">
+    <div class="top" v-show="list2.length > 0">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">请假人员({{leaveP}})</span>
+        <span class="fw">请假人员({{list2.length}})</span>
       </div>
       <div class="content">
         <ul>
-          <li v-for="(q,index) in list" :key="index">
+          <li v-for="(q,index) in list2" :key="index">
             <div class="person">
-              <img :src="q.iconUrl" class="head_icon">
+              <img :src="q.icon_url" class="head_icon">
               <div>{{q.name}}</div>
             </div>
           </li>
@@ -121,9 +122,11 @@ export default {
 	data() {
 		return {
 			isShowUsers: true,
-			atPerson: 16,
-			allPerson: 20,
+			atPerson: "",
+			allPerson: "",
 			list: [],
+			list1: [],
+			list2: [],
 			title: "参与人员",
 			join: false,
 			text: "该课程还有剩余名额，是否加入？"
@@ -151,56 +154,40 @@ export default {
 				Indicator.close();
 			}, 2000);
 			this.join = false;
-		}
-	},
-	computed: {
-		leaveP: function() {
-			return this.allPerson - this.atPerson;
-		}
-	},
-	created() {
-		this.list = [
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵啊"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵3"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵4"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵5"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵6"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵7"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵8"
+		},
+		async __fetchDetails() {
+			const [err, resp] = await this.$sync(this.$http.police.details());
+			console.log(err,resp)
+			if (!err && resp.STATUS) {
+				this.list = resp.result.list;
+				this.allPerson = resp.result.list.length;
+				console.log(this.list);
+				this.list1 = this.list.filter(function(item, index, array) {
+					return item.is_leave == 0;
+				});
+				this.list2 = this.list.filter(function(item, index, array) {
+					return item.is_leave == 1;
+				});
 			}
-		];
+		},
+		async __fetchRob() {
+			const [err, resp] = await this.$sync(this.$http.police.rob());
+						console.log(err,resp)
+
+			if(!err && resp.STATUS){
+				console.log(resp)
+			}
+		},
+		async __fetch() {
+			await this.__fetchDetails();
+		},
+		async __Rob(){
+			await this.__fetchRob();
+		}
+	},
+	computed: {},
+	async created() {
+		await this.__fetch();
 	}
 };
 </script>

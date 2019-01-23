@@ -90,8 +90,8 @@
       </div>
     </div>
     <div class="bottom">
-      <div class="btn">
-        <button class="fw" @click="add">立即添加</button>
+      <div class="btn" @click="add">
+        <button class="fw">立即添加</button>
       </div>
     </div>
     <toast :text="toast_text" :showToast="showToast"></toast>
@@ -134,15 +134,11 @@ export default {
 				this.toast_text = "手机号格式错误";
 				this.toast();
 			} else {
-				this.__fetch();
-
 				Indicator.open({
 					text: "添加中..",
 					spinnerType: "snake"
 				});
-				setTimeout(function() {
-					Indicator.close();
-				}, 2000);
+				this.__fetch();
 			}
 		},
 		toast() {
@@ -156,13 +152,19 @@ export default {
 			const [err, res] = await this.$sync(
 				this.$http.police.addUser({
 					name: this.name,
-					phone: this.num,
-					icon: ""
+					phone: this.num
 				})
 			);
 			console.log(err, res);
-			if (!err) {
-				console.log(res);
+			if (!err && res.STATUS) {
+				Indicator.close();
+				this.$router.push({
+					path: "/edit-person"
+				});
+			} else {
+				Indicator.close();
+				this.toast_text = err.msg;
+				this.toast();
 			}
 		},
 		async __fetch() {
