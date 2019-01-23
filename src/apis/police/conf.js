@@ -65,8 +65,8 @@ export default [
 	{
 		// 请假
 		verb: "post",
-		outKey: "robbingClass",
-		action: "/mobile/v1/couse/rob",
+		outKey: "leaveClass",
+		action: "/mobile/v1/couse/leave",
 		reqParams: [
 			"priorityNo","userId",
 		]
@@ -76,7 +76,15 @@ export default [
 		verb: "post",
 		outKey: "activityList",
 		action: "/mobile/v1/couse/list",
+		reqParams: [
+			"userId",
+		]
 	},
-	
+	{
+		// 抢课列表
+		verb: "post",
+		outKey: "listForRob",
+		action: "/mobile/v1/couse/listForRob",
+	},
     
 ];

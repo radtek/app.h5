@@ -181,17 +181,18 @@ export default {
 			const [err, res] = await this.$sync(
 				this.$http.police.login({ phone: this.num })
 			);
-			console.log(err, res);
-
+			
 			if (!err) {
-				console.log(1);
 				Indicator.close();
-
 				this.$router.push({
 					path: "/index",
 					query: {
-						id: 1,
-						isManager: 1
+						isManager:res.result.isManager,
+						name:res.result.name,
+						iconUrl:res.result.iconUrl,
+						id:res.result.id,
+						phone:res.result.phone,
+						gmtCreate:res.result.gmtCreate,
 					}
 				});
 			} else {
