@@ -1,5 +1,5 @@
 <template>
-    <div class="leave">
+    <div class="leave" v-if="show">
     <div class="mask"></div>
     <div class="dialog1" v-if="dialog1">
       <div class="content">
@@ -7,14 +7,14 @@
           <img :src="getLocalMduImg('police','active')">
         </div>
         <div class="item">
-          <div class="list" v-for="i,index in leaveDate">
+          <div class="list" v-for="i,index in info">
             <div class="time"><span></span>{{formatDate(index)}}</div>
             <div class="choose">
               <input type="radio" 
                      :id="i.id" 
                      name="leaveData"
                      :value="i.id"
-                     v-model="kv.time">
+                     v-model="kv.id">
               <label :for="i.id" :class="[isWebp()?'labelWebp':'']">
               </label>
             </div>
@@ -48,39 +48,57 @@ import { utils } from "~rx";
 export default {
     data(){
         return {
-            leaveDate:[],
             dialog2:false,
             state:true,
             kv:{},
             dialog1:true
         }
     },
+    props: {
+        show: {
+            type:Boolean,
+            default(){
+                return false
+            }
+        },
+        info: {
+            type:Array,
+            default(){
+                return []
+            }
+        }
+    },
     methods: {
         formatDate(i){
-            return utils.formatDate(this.leaveDate[i].startTime,"yyyy-MM-dd hh:mm")
-        },
-        async __fetch(){
-            const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
-          if(!err){
-            this.leaveDate = resp.result.infoActivityPlanList
-          }
+            return utils.formatDate(this.info[i].startTime,"yyyy-MM-dd hh:mm")
         },
         cancel(){
             this.dialog2 = false
             this.$emit("doCancel")
         },
-        submit(){
-            if(!this.kv.time){
+        async __fetch(){
+            const[err,resp] = await this.$sync(this.$http.police.listForRob())
+            if(!err){
+            }
+        },
+        async submit(){
+            if(!this.kv.id){
                 return false
             }
-            this.dialog1 = false;
-            this.dialog2 = true;
+            const [err, resp] = await this.$sync(this.$http.police.robbingClass({
+                priorityNo:this.kv.id,
+                userId:this.kv.userId,
+            }));
+            if(!err){
+                this.dialog1 = false;
+                this.dialog2 = true;
+            }
+            
             
         }
     },
     mounted() {
-        this.__fetch()
-    
+    this.__fetch()
     },
 }
 </script>

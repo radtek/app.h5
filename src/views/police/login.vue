@@ -136,19 +136,7 @@ export default {
 		clear() {
 			this.num = "";
 		},
-		// get_code() {
-		// 	const Num = this.num;
-		// 	if (this.num == "") {
-		// 		this.toast_text = "请输入手机号";
-		// 		this.toast();
-		// 	} else if (!this.phoneN.test(Num)) {
-		// 		this.toast_text = "手机号格式错误";
-		// 		this.toast();
-		// 	} else if (this.phoneN.test(Num)) {
-		// 		//发请求
-		// 		console.log("要发请求了");
-		// 	}
-		// },
+
 		async login() {
 			const Num = this.num;
 			if (Num == "") {
@@ -177,20 +165,22 @@ export default {
 			const [err, res] = await this.$sync(
 				this.$http.police.login({ phone: this.num })
 			);
+			console.log(err,res)
 			if (!err) {
-			if(res.STATUS===true){
-				// 存储信息;
-				localStorage.setItem("userName", this.num);
 				Indicator.close();
 				this.$router.push({
 					path: "/index",
 					query: {
-						id: 1,
-						isManager: 1
+						isManager:res.result.isManager,
+						name:res.result.name,
+						iconUrl:res.result.iconUrl,
+						id:res.result.id,
+						phone:res.result.phone,
+						gmtCreate:res.result.gmtCreate,
 					}
 				});
 			}
-			} else {
+			 else {
 				Indicator.close();
 				this.toast_text = err.msg;
 				this.toast();

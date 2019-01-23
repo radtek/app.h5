@@ -1,5 +1,5 @@
 <template>
-    <div class="leave">
+    <div class="leave" v-if="show">
     <div class="mask"></div>
     <div class="dialog1">
       <div class="content">
@@ -14,7 +14,7 @@
                      :id="i.id" 
                      name="leaveData"
                      :value="i.id"
-                     v-model="kv.time">
+                     v-model="kv.id">
               <label :for="i.id" :class="[isWebp()?'labelWebp':'']">
               </label>
             </div>
@@ -44,34 +44,57 @@ export default {
     data(){
         return {
             leaveDate:[],
-            kv:{},
+            leave:[],
             dialog2:false,
+        }
+    },
+    props: {
+        show: {
+            type:Boolean,
+            default(){
+                return false
+            }
+        },
+        kv: {
+            rype:Object,
+            default(){
+                return {}
+            }
         }
     },
     methods: {
         formatDate(i){
             return utils.formatDate(this.leaveDate[i].startTime,"yyyy-MM-dd hh:mm")
         },
-        async __fetch(){
+        async __fetchList(){
             const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
           if(!err){
             this.leaveDate = resp.result.infoActivityPlanList
           }
         },
+        async __fetch(){
+            await this.__fetchList();
+        },
         cancel(){
             this.dialog2 = false
             this.$emit("doCancel")
         },
-        submit(){
-            if(!this.kv.time){
+        async submit(){
+            if(!this.kv.id){
                 return false;
             }
+            const [err, resp] = await this.$sync(this.$http.police.leaveClass({
+                priorityNo:this.kv.id,
+                userId:this.kv.userId,
+            }));
+          if(!err){
             this.dialog2 = true;
+          }
+            
         }
     },
     mounted() {
         this.__fetch()
-    
     },
 }
 </script>

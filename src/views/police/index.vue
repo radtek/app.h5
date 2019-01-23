@@ -6,10 +6,11 @@
   <div class="body">
       <main class="content">
       <div class="backpic"><img :src="getLocalMduImg('police','yujia')"></div>
-      <div class="nav">
+      <div class="nav" v-if="isManager">
         <span v-if="!edit" @click="inEdit()">编辑</span>
         <span v-else @click="inFulfil()">完成</span>
         </div>
+      <div class="nav" v-else></div>
       <div class="column">
         <div :class="{'column-input':true,'editActive':edit}">
           <div class="column-text">
@@ -40,21 +41,29 @@
           <div class="jion">已有<span class="red" @click="goto('全部参与人员','edit-person')">{{total}}</span>人参与活动 &nbsp;
           <span class="red" @click="goto('全部参与人员','edit-person')">查看全部</span>
           <p class="img"><img :src="getLocalMduImg('police','quanbu')"></p></div>
-          <div class="tips">温馨提示：您最近的课程是 <span class='red'></span></div>
+          <div class="tips" v-if="this.startTime">温馨提示：您最近的课程是
+            <span class='red'>{{this.startTime}} {{this.startWeek}}</span>
+          </div>
+          <div class="tips" v-else>温馨提示：
+            <span class="nored" >排课按顺序循环进行</span>
+          </div>
         </div>
       </div>
       <sign-up class="sign-up"
-               @join="dialogJoin"></sign-up>
+               @join="dialogJoin"
+               :person="person"
+               ></sign-up>
     </main>
  </div>
   <footer :class="[isWebp()?'webp':'']">
     <div class="left">分享</div>
     <div class="right" @click="dialogLeave()">请假</div>
   </footer>
-  <dialog-leave v-if="leave"
+  <dialog-leave :show="leave"
                 @doCancel="isLeaveCancel"
                 @doSubmit="isLeaveSubmit"></dialog-leave>
-  <dialog-join  v-if="join"
+  <dialog-join  
+                :show="join"
                 @doCancel="isJoinCancel"
                 @doSubmit="isJoinSubmit"></dialog-join>
 </div>
@@ -76,11 +85,15 @@
     data(){
       return {
       edit:false,
-      infoActivity: [],
-      list:[],
+      infoActivity: [], //获取活动详情
       total:0,
+      isManager:false,
       leave:false,
       join:false,
+      startTime:"",
+      startWeek:"",
+      person:{},
+      kv:{},
       }
     },
     methods: {
@@ -90,27 +103,39 @@
             this.total = resp.result.length;
           }
       },
-      async __fetchActivityList(){
+      // async __fetchActivityList(){
+      //   const [err, resp] = await this.$sync(
+      //     this.$http.police.activityList({
+      //       userId:this.person.id
+      //   }));
+      //     if(!err){
+      //       this.list = resp.result
+      //       console.log(this.list)
+      //     }
+      // },
+      async __fetchActivity(){
         const [err, resp] = await this.$sync(
           this.$http.police.activityList({
-        }));
-        console.log(err,"错误")
+            userId:this.person.id
+          }
+        ));
           if(!err){
-            this.list = resp.result
-            console.log(this.list)
+            this.infoActivity = resp.result.infoActivity; 
+            this.startTime = resp.result.startTime.slice(0,16)
+            this.startWeek = resp.result.week
           }
       },
-      async __fetchActivity(){
-        const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
-          if(!err){
-            this.infoActivity = resp.result.infoActivity
-            console.log(resp)
-          }
+      __fetchPerson(){
+        this.kv.id = this.person.id
+        if(this.person.isManager == 1){
+          this.isManager = true
+        }
       },
       async __fetch(){
+        await this.__fetchPerson()
         await this.__fetchUser()
         await this.__fetchActivity()
-        await this.__fetchActivityList()
+        // await this.__fetchActivityList()
       },
       inEdit(){
         if(!this.edit){
@@ -141,9 +166,10 @@
         this.join = false;
       }
     },
-    mounted(){
+    created() {
+      this.person = this.$route.query
       this.__fetch();
-      },
+    },
     
   };
 </script>
