@@ -42,12 +42,41 @@ export default [
 		verb: "post",
 		outKey: "getInfoActivity",
 		action: "mobile/v1/infoActivity/selectById",
+		reqParams: [
+			{ name: "page", default: 1 },
+			{ name: "pageSize", default: 10 }
+		]
     },
     {
 		// 获得所有参与人员
 		verb: "post",
 		outKey: "getAllUser",
 		action: "/mobile/v1/user/getAllUser",
-    },
+	},
+	{
+		// 抢课
+		verb: "post",
+		outKey: "robbingClass",
+		action: "/mobile/v1/couse/rob",
+		reqParams: [
+			"priorityNo","userId",
+		]
+	},
+	{
+		// 请假
+		verb: "post",
+		outKey: "robbingClass",
+		action: "/mobile/v1/couse/rob",
+		reqParams: [
+			"priorityNo","userId",
+		]
+	},
+	{
+		// 活动详情
+		verb: "post",
+		outKey: "activityList",
+		action: "/mobile/v1/couse/list",
+	},
+	
     
 ];

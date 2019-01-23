@@ -90,12 +90,7 @@
           </li>
         </ul>
       </div>
-      <dialog-join
-        :showToast="join"
-        :text="text"
-        @doCancel="Cancel"
-        @doConfirm="Confirm"
-      ></dialog-join>
+      <dialog-join :showToast="join" :text="text" @doCancel="Cancel" @doConfirm="Confirm"></dialog-join>
     </div>
     <div class="separate" v-show="isShowUsers && leaveP > 0"></div>
 
@@ -119,6 +114,8 @@
 </template>
 
 <script>
+import { Indicator } from "mint-ui";
+
 export default {
 	name: "view-person",
 	data() {
@@ -129,7 +126,7 @@ export default {
 			list: [],
 			title: "参与人员",
 			join: false,
-			text:'该课程还有剩余名额，是否加入？'
+			text: "该课程还有剩余名额，是否加入？"
 		};
 	},
 	components: {
@@ -142,10 +139,17 @@ export default {
 		dialogJoin() {
 			this.join = !this.join;
 		},
-		Cancel(){
+		Cancel() {
 			this.join = false;
 		},
-		Confirm(){
+		Confirm() {
+			Indicator.open({
+				text: "正在加入..",
+				spinnerType: "snake"
+			});
+			setTimeout(function() {
+				Indicator.close();
+			}, 2000);
 			this.join = false;
 		}
 	},

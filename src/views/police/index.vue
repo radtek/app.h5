@@ -12,15 +12,23 @@
         </div>
       <div class="column">
         <div :class="{'column-input':true,'editActive':edit}">
-          <div class="column-text" v-for="i in rows">
+          <div class="column-text">
             <div class="column-name">
               <span>活动名称：</span> 
-              <div v-if="!edit">{{i.name}}</div>
-              <textarea v-model="i.name" v-else rows="1"></textarea></div>
+              <div v-if="!edit">{{infoActivity.subject}}</div>
+              <textarea v-model="infoActivity.subject" 
+                        v-else 
+                        rows="2"
+                        placeholder="请输入名称"
+                        maxlength="30"></textarea></div>
             <div class="column-action">
               <span>活动地点：</span> 
-              <div v-if="!edit">{{i.action}}</div>
-              <textarea v-model="i.action" v-else rows="2"></textarea></div>
+              <div v-if="!edit">{{infoActivity.address}}</div>
+              <textarea v-model="infoActivity.address" 
+                        v-else 
+                        rows="2"
+                        placeholder="请输入地点"
+                        maxlength="100"></textarea></div>
           </div>
         </div>
         <div class="column-icon"
@@ -29,13 +37,14 @@
         </div>
         
         <div class="column-footer">
-          <div class="jion">已有<span class="red">112</span>人参与活动 &nbsp;
-          <span class="red">查看全部</span>
+          <div class="jion">已有<span class="red" @click="goto('全部参与人员','edit-person')">{{total}}</span>人参与活动 &nbsp;
+          <span class="red" @click="goto('全部参与人员','edit-person')">查看全部</span>
           <p class="img"><img :src="getLocalMduImg('police','quanbu')"></p></div>
-          <div class="tips">温馨提示：您最近的课程是 <span class='red'>2019-01-14 周一20：00</span></div>
+          <div class="tips">温馨提示：您最近的课程是 <span class='red'></span></div>
         </div>
       </div>
-      <sign-up class="sign-up"></sign-up>
+      <sign-up class="sign-up"
+               @join="dialogJoin"></sign-up>
     </main>
  </div>
   <footer :class="[isWebp()?'webp':'']">
@@ -52,6 +61,7 @@
 </template>
 
 <script>
+  import { utils } from "~rx";
   export default {
     name: "PoliceIndex",
     components: {
@@ -66,7 +76,9 @@
     data(){
       return {
       edit:false,
-      rows:[],
+      infoActivity: [],
+      list:[],
+      total:0,
       leave:false,
       join:false,
       }
@@ -74,15 +86,35 @@
     methods: {
       async __fetchUser(){
         const [err, resp] = await this.$sync(this.$http.police.getAllUser());
-        console.log(err)
+          if(!err){
+            this.total = resp.result.length;
+          }
+      },
+      async __fetchActivityList(){
+        const [err, resp] = await this.$sync(
+          this.$http.police.activityList({
+        }));
+        console.log(err,"错误")
+          if(!err){
+            this.list = resp.result
+            console.log(this.list)
+          }
+      },
+      async __fetchActivity(){
+        const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
+          if(!err){
+            this.infoActivity = resp.result.infoActivity
+            console.log(resp)
+          }
       },
       async __fetch(){
         await this.__fetchUser()
+        await this.__fetchActivity()
+        await this.__fetchActivityList()
       },
       inEdit(){
         if(!this.edit){
           this.edit = true;
-          console.log(this.edit)
         }
       },
       inFulfil(){
@@ -111,8 +143,7 @@
     },
     mounted(){
       this.__fetch();
-      this.rows = [{name:"瑜伽活动",action:"江西省南昌市新建区赣江南大道1366号省公安厅201室"}]
-      }
+      },
     
   };
 </script>

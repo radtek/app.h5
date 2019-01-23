@@ -25,8 +25,8 @@
 				margin-right: 40px;
 			}
 			input {
-                border: 0;
-                width: 70%;
+				border: 0;
+				width: 70%;
 			}
 			img {
 				width: 100px;
@@ -68,7 +68,7 @@
     <div class="content">
       <div class="name fw borderB">
         <div class="name1">姓名:</div>
-        <input type="text" placeholder="请输入姓名" v-model="name">
+        <input type="text" placeholder="请输入姓名" v-model="name" maxlength="25">
       </div>
     </div>
     <div class="content">
@@ -99,6 +99,8 @@
 </template>
 
 <script>
+import { Indicator } from "mint-ui";
+
 export default {
 	name: "add-person",
 	data() {
@@ -131,9 +133,17 @@ export default {
 			} else if (!this.phoneN.test(Num)) {
 				this.toast_text = "手机号格式错误";
 				this.toast();
-			}else{
-                console.log('发请求')
-            }
+			} else {
+				this.__fetch();
+
+				Indicator.open({
+					text: "添加中..",
+					spinnerType: "snake"
+				});
+				setTimeout(function() {
+					Indicator.close();
+				}, 2000);
+			}
 		},
 		toast() {
 			var self = this;
@@ -141,6 +151,22 @@ export default {
 			setTimeout(function() {
 				self.showToast = false;
 			}, 2000);
+		},
+		async __fetchAdd() {
+			const [err, res] = await this.$sync(
+				this.$http.police.addUser({
+					name: this.name,
+					phone: this.num,
+					icon: ""
+				})
+			);
+			console.log(err, res);
+			if (!err) {
+				console.log(res);
+			}
+		},
+		async __fetch() {
+			await this.__fetchAdd();
 		}
 	}
 };

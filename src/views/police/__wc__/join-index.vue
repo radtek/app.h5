@@ -4,13 +4,17 @@
     <div class="dialog1" v-if="dialog1">
       <div class="content">
         <div class="mark">
-          <img :src="getLocalMduImg('police','qingjia')">
+          <img :src="getLocalMduImg('police','active')">
         </div>
         <div class="item">
-          <div class="list" v-for="i in leaveDate">
-            <div class="time">·{{i.date}} {{i.time}}</div>
+          <div class="list" v-for="i,index in leaveDate">
+            <div class="time"><span></span>{{formatDate(index)}}</div>
             <div class="choose">
-              <input type="radio" :id="i.id" name="leaveData">
+              <input type="radio" 
+                     :id="i.id" 
+                     name="leaveData"
+                     :value="i.id"
+                     v-model="kv.time">
               <label :for="i.id" :class="[isWebp()?'labelWebp':'']">
               </label>
             </div>
@@ -40,32 +44,42 @@
 </template>
 
 <script>
+import { utils } from "~rx";
 export default {
     data(){
         return {
             leaveDate:[],
             dialog2:false,
             state:true,
+            kv:{},
             dialog1:true
         }
     },
     methods: {
+        formatDate(i){
+            return utils.formatDate(this.leaveDate[i].startTime,"yyyy-MM-dd hh:mm")
+        },
+        async __fetch(){
+            const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
+          if(!err){
+            this.leaveDate = resp.result.infoActivityPlanList
+          }
+        },
         cancel(){
             this.dialog2 = false
             this.$emit("doCancel")
         },
         submit(){
+            if(!this.kv.time){
+                return false
+            }
             this.dialog1 = false;
             this.dialog2 = true;
-            if(!this.state){
-                console.log('报名失败')
-                return
-            }
-            console.log('报名成功')
+            
         }
     },
     mounted() {
-        this.leaveDate = [{id:"1",date:"2019-01-14",time:"20:00"},{id:"2",date:"2019-01-14",time:"20:00"},{id:"3",date:"2019-01-14",time:"20:00"}]
+        this.__fetch()
     
     },
 }
@@ -127,6 +141,16 @@ export default {
                             font-family:Adobe Heiti Std R;
                             font-weight:normal;
                             color:rgba(102,102,102,1);
+                            vertical-align: middle;
+                            span {
+                                display: inline-block;
+                                background:rgba(102,102,102,1);
+                                width:8px;
+                                height:8px;
+                                border-radius:50%;
+                                vertical-align: middle;
+                                margin-right:8px;
+                            }
                         }
                         .choose {
                             input[type=radio] {
