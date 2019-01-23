@@ -43,7 +43,13 @@
 		name: "activity-time",
 		beforeRouteLeave(to, from, next) {
 			if (to.name == 'create-activities') {
-				to.query.temp = this.date;
+				let selectAll=this.selectAll()
+				if(selectAll){
+					to.query.temp = this.date;
+				}else{
+					to.query.temp = undefined;
+				}
+				
 			}
 			next();
 		},
@@ -86,6 +92,9 @@
 			}
 		},
 		methods:{
+			selectAll(){
+				return this.date.every(item => item.isSelect);
+			},
 			change(e){
 				this.rightTitle=e
 			},
@@ -93,8 +102,6 @@
 				MessageBox.confirm('确定执行此操作?').then(action => {
 					this.date.splice(index, 1)
 				});
-				
-				
 			},
 			calRootFontSize () {
 				const html = document.getElementsByTagName('html')[0]
@@ -108,12 +115,8 @@
 				}
 			},
 			test(index){
-			
 				this.date[index].isSelect= !this.date[index].isSelect;
 				this.$set(this.date,index,this.date[index])
-				console.log(this.date)
-				
-			
 			},
 			getWeek(date){
 				let week;

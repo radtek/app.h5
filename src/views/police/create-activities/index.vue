@@ -11,10 +11,14 @@
 		</div>
 		<div class="activity-contain" @click="changeTime">
 			<div class="title">活动时间:</div>
-			<div class="time-contain">
-					<span class="time" v-for="(item,index) in date" :key="index">{{item.week}}{{item.time}}</span>
+			<div class="activity-font" v-if="temp===undefined">请选择活动时间</div>
+			<div class="time-contain" v-else>
+				<div class="contain">
+					<div class="time" v-for="(item,index) in date" :key="index">{{item.week}}{{item.time}}</div>
+				</div>
+					
 			</div>
-			<!--<div class="activity-font">请选择活动时间</div>-->
+			
 			<img src="@/assets/imgs/police/right.png">
 		</div>
 		<div class="change">
@@ -50,9 +54,11 @@
 			//是否避开假日和是否重复默认为是
 			document.getElementById('switch').checked=true
 			document.getElementById('switch1').checked=true
+			console.log(this.$route.query.temp)
+			this.temp=this.$route.query.temp
 			//筛选isSelect为true的对象返回新数组
 			if(this.$route.query.temp){
-				this.temp=this.$route.query.temp
+				// this.temp=this.$route.query.temp
 				this.date=this.$route.query.temp.filter(item=>item.isSelect)
 			}
 		},
@@ -107,7 +113,7 @@
 						id:'',
 						relationId:1,
 						week:'周二',
-						startTime:'9:00',
+						startTime:'09:00',
 						isEnabled:1
 					}
 				])
@@ -115,8 +121,8 @@
 					.editActivity({
 						subject:this.title,
 						address:this.address,
-						isNotHoliday:1,
-						isRepeat:1,
+						isNotHoliday:this.changeNum,
+						isRepeat:this.changeNum1,
 						infoActivityPlanList:data
 					})
 					.then(data => {
@@ -140,22 +146,25 @@
 		.time-contain{
 			margin-left: 20px;
 			width: 423px;
+			.contain{
 				.time{
-					width: 220px;
+					width: 320px;
 					font-size:32px;
 					font-family:PingFang-SC-Medium;
 					font-weight:500;
 					color:rgba(51,51,51,1);
-				/*.time:nth-child(even) {*/
-					/*margin-left: 61px;*/
-				/*}*/
-				/*.time:nth-child(3) {*/
-					/*margin-top: 10px;*/
-				/*}*/
-				/*.time:nth-child(4) {*/
-					/*margin-top: 10px;*/
-				/*}*/
+					/*.time:nth-child(even) {*/
+						/*padding-left: 61px;*/
+					/*}*/
+					/*.time:nth-child(3) {*/
+						/*margin-top: 10px;*/
+					/*}*/
+					/*.time:nth-child(4) {*/
+						/*margin-top: 10px;*/
+					/*}*/
+				}
 			}
+				
 			
 		}
 		
