@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="main">
-                <span class="left"><div class="head"></div><div class="head"></div><div class="head"></div></span>
+                <span class="left"><div class="head"><img src="http://img1.imgtn.bdimg.com/it/u=2802691956,955693789&fm=26&gp=0.jpg" alt=""></div></span>
                 <div class="right"><img :src="getLocalMduImg('police','button')"
                                         @click="dialogJoin"></div>
             </div>
@@ -62,7 +62,7 @@ export default {
                 }));
           if(!err){
             this.rows = resp.result
-            console.log(this.rows)
+            console.log(this.rows.list.name)
           }
         },
         __fetch(){

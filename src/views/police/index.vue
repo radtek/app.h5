@@ -60,6 +60,7 @@
     <div class="right" @click="dialogLeave()">请假</div>
   </footer>
   <dialog-leave :show="leave"
+                :kv="kv"
                 @doCancel="isLeaveCancel"
                 @doSubmit="isLeaveSubmit"></dialog-leave>
   <dialog-join  
@@ -103,22 +104,13 @@
             this.total = resp.result.length;
           }
       },
-      // async __fetchActivityList(){
-      //   const [err, resp] = await this.$sync(
-      //     this.$http.police.activityList({
-      //       userId:this.person.id
-      //   }));
-      //     if(!err){
-      //       this.list = resp.result
-      //       console.log(this.list)
-      //     }
-      // },
       async __fetchActivity(){
         const [err, resp] = await this.$sync(
           this.$http.police.activityList({
             userId:this.person.id
           }
         ));
+        console.log(err)
           if(!err){
             this.infoActivity = resp.result.infoActivity; 
             this.startTime = resp.result.startTime.slice(0,16)
@@ -126,7 +118,7 @@
           }
       },
       __fetchPerson(){
-        this.kv.id = this.person.id
+        this.kv.userId = this.person.id
         if(this.person.isManager == 1){
           this.isManager = true
         }
@@ -135,7 +127,6 @@
         await this.__fetchPerson()
         await this.__fetchUser()
         await this.__fetchActivity()
-        // await this.__fetchActivityList()
       },
       inEdit(){
         if(!this.edit){

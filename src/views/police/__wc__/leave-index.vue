@@ -84,9 +84,10 @@ export default {
                 return false;
             }
             const [err, resp] = await this.$sync(this.$http.police.leaveClass({
-                priorityNo:this.kv.id,
-                userId:this.kv.userId,
+                priorityNo:2,
+                userId:6,
             }));
+            console.log(err)
           if(!err){
             this.dialog2 = true;
           }
