@@ -30,6 +30,7 @@ export default [
 	},
 	{
 		//编辑活动设置
+		contentType:"json",
 		verb: "post",
 		outKey: "editActivity",
 		action: "/mobile/v1/infoActivity/update",

@@ -30,8 +30,8 @@
             :right="'完成'+'('+(num)+')'"
             title="选择参与人员"></Header>
     <div class="person-header"><div></div><div></div><div></div></div>
-		<mt-index-section  v-for="item in alphabet" :index="item.initial">
-			<mt-cell v-for="cell,index in item.cells">
+		<mt-index-section  v-for="(item,index) in alphabet" :key="item.initial">
+			<mt-cell v-for="(cell,index) in item.cells" :key="index">
       <div class="choose">
         <input type="checkbox" 
                :id="cell" 

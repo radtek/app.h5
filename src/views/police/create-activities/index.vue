@@ -108,7 +108,7 @@
 				this.$router.push('/activity-time')
 			},
 			create(){
-				let data=JSON.stringify([
+				let data=[
 					{
 						id:'',
 						relationId:1,
@@ -116,7 +116,7 @@
 						startTime:'09:00',
 						isEnabled:1
 					}
-				])
+				]
 				this.$http.police
 					.editActivity({
 						subject:this.title,

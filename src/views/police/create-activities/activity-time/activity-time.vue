@@ -107,7 +107,6 @@
 					"是否确认删除"
 				)
 					.then(done => {
-						// 提交问卷
 						this.date.splice(index, 1)
 						this.$confirm.close();
 					})
