@@ -93,7 +93,7 @@
 		},
 		methods:{
 			selectAll(){
-				return this.date.every(item => item.isSelect);
+				return this.date.some(item => item.isSelect);
 			},
 			change(e){
 				this.rightTitle=e

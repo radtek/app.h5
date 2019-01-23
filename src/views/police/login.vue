@@ -105,8 +105,8 @@
         <toast :text="toast_text" :showToast="showToast"></toast>
       </div>
 
-      <div class="login_btn">
-        <div class="login_text" @click="login()">立即登录</div>
+      <div class="login_btn" @click="login()">
+        <div class="login_text" >立即登录</div>
       </div>
     </main>
   </div>
@@ -184,9 +184,8 @@ export default {
 			console.log(err, res);
 
 			if (!err) {
-				console.log(1);
+				console.log(1)
 				Indicator.close();
-
 				this.$router.push({
 					path: "/index",
 					query: {
@@ -196,7 +195,6 @@ export default {
 				});
 			} else {
 				Indicator.close();
-
 				this.toast_text = err.msg;
 				this.toast();
 			}
