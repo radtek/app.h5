@@ -2,7 +2,7 @@
     <div>
 		<Header :title="mainTitle" :right="rightTitle"  @change="change"></Header>
 		<div class="time-contain"  v-for="(item,index) in date" :key="index">
-			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png">
+			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del">
 				<div class="time-font" :class="{'active':rightTitle==='完成'}">
 					{{item.week}}{{item.time}}
 				</div>
@@ -38,11 +38,18 @@
 
 <script>
 	import { utils } from "~rx";
+	import { MessageBox } from 'mint-ui';
 	export default {
 		name: "activity-time",
 		beforeRouteLeave(to, from, next) {
 			if (to.name == 'create-activities') {
-				to.query.temp = this.date;
+				let selectAll=this.selectAll()
+				if(selectAll){
+					to.query.temp = this.date;
+				}else{
+					to.query.temp = undefined;
+				}
+				
 			}
 			next();
 		},
@@ -71,7 +78,7 @@
 				dateTimePickerResult2: '',
 				nowWeek:'',
 				nowTime:'',
-				date:[{week:'周一',time:'9:00',isSelect: false}]
+				date:[{week:'周一',time:'09:00',isSelect: false}]
 			}
 		},
 		activated(){
@@ -85,8 +92,22 @@
 			}
 		},
 		methods:{
+			selectAll(){
+				return this.date.some(item => item.isSelect);
+			},
 			change(e){
 				this.rightTitle=e
+			},
+			del(index){
+				this.$confirm(
+					"删除提醒",
+					"是否确认删除"
+				)
+					.then(done => {
+						this.date.splice(index, 1)
+						this.$confirm.close();
+					})
+				
 			},
 			calRootFontSize () {
 				const html = document.getElementsByTagName('html')[0]
@@ -100,12 +121,8 @@
 				}
 			},
 			test(index){
-			
 				this.date[index].isSelect= !this.date[index].isSelect;
 				this.$set(this.date,index,this.date[index])
-				console.log(this.date)
-				
-			
 			},
 			getWeek(date){
 				let week;
@@ -235,5 +252,4 @@
 				transition: left 0.3s;
 			}
 		}
-		
 </style>
