@@ -93,10 +93,8 @@
       async __fetchActivityList(){
         const [err, resp] = await this.$sync(
           this.$http.police.activityList({
-            priorityNo:1,
-            userId:1
         }));
-        console.log(err)
+        console.log(err,"错误")
           if(!err){
             this.list = resp.result
             console.log(this.list)
@@ -106,6 +104,7 @@
         const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
           if(!err){
             this.infoActivity = resp.result.infoActivity
+            console.log(resp)
           }
       },
       async __fetch(){

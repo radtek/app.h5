@@ -143,7 +143,6 @@ export default {
 			this.join = false;
 		},
 		Confirm() {
-			this.join = false;
 			Indicator.open({
 				text: "正在加入..",
 				spinnerType: "snake"
@@ -151,6 +150,7 @@ export default {
 			setTimeout(function() {
 				Indicator.close();
 			}, 2000);
+			this.join = false;
 		}
 	},
 	computed: {

@@ -149,16 +149,7 @@ export default {
 				console.log("要发请求了");
 			}
 		},
-		login() {
-			const [err,res]=	this.$http.police.login({ phone: this.num })
-			console.log(err,res)
-			this.$http.police
-				.login({
-					phone: this.num
-				})
-				.then(data => {
-					console.log(data)
-				})
+		async login() {
 			var Num = this.num;
 			var Code = this.code;
 			if (Num == "") {
@@ -169,18 +160,14 @@ export default {
 				this.toast();
 			} else if (this.phoneN.test(Num)) {
 				//发请求
-				console.log("要发请求了");
-				//存储信息
-				localStorage.setItem("username", Num);
-				//防多次点击
-
 				Indicator.open({
 					text: "登录中..",
 					spinnerType: "snake"
 				});
-				setTimeout(function() {
-					Indicator.close();
-				}, 2000);
+				this.__fetch();
+
+				// 存储信息;
+				localStorage.setItem("username", Num);
 			}
 		},
 		toast() {
@@ -189,6 +176,33 @@ export default {
 			setTimeout(function() {
 				self.showToast = false;
 			}, 2000);
+		},
+		async __fetchLogin() {
+			const [err, res] = await this.$sync(
+				this.$http.police.login({ phone: this.num })
+			);
+			console.log(err, res);
+
+			if (!err) {
+				console.log(1);
+				Indicator.close();
+
+				this.$router.push({
+					path: "/index",
+					query: {
+						id: 1,
+						isManager: 1
+					}
+				});
+			} else {
+				Indicator.close();
+
+				this.toast_text = err.msg;
+				this.toast();
+			}
+		},
+		async __fetch() {
+			await this.__fetchLogin();
 		}
 	},
 	created() {}

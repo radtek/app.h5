@@ -72,13 +72,10 @@ export default [
 		]
 	},
 	{
-		// 请假
+		// 活动详情
 		verb: "post",
 		outKey: "activityList",
 		action: "/mobile/v1/couse/list",
-		reqParams: [
-			"priorityNo","userId",
-		]
 	},
 	
     

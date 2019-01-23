@@ -107,11 +107,7 @@
 
 <template>
   <div rs-view="edit-person">
-    <top-head :title="title" 
-			  :right="right" 
-			  :left="left" 
-			  @change="change" 
-			  @delete="Delete"></top-head>
+    <top-head :title="title" :right="right" :left="left" @change="change" @delete="Delete"></top-head>
     <div class="top">
       <dialog-join
         :showToast="join"
@@ -180,15 +176,17 @@ export default {
 			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
 	},
 	methods: {
-		async __fetchUser(){
-			const [err, resp] = await this.$sync(this.$http.police.getAllUser());
-			if(!err){
-				this.list = resp.result
-				this.atPerson=this.list.length
+		async __fetchUser() {
+			const [err, resp] = await this.$sync(
+				this.$http.police.getAllUser()
+			);
+			if (!err) {
+				this.list = resp.result;
+				this.atPerson = this.list.length;
 			}
 		},
-		async __fetch(){
-			await this.__fetchUser()
+		async __fetch() {
+			await this.__fetchUser();
 		},
 		change(e) {
 			this.right = e;
@@ -205,26 +203,37 @@ export default {
 		Cancel() {
 			this.join = false;
 		},
+
 		Confirm() {
-			this.join = false;
 			//发请求
+
 			Indicator.open({
 				text: "删除中..",
 				spinnerType: "snake"
 			});
+			this.join = false;
+
 			setTimeout(function() {
 				Indicator.close();
 			}, 2000);
 		},
-		Delete() {
-			this.join = !this.join;
-			var R = this.cartData;
-			this.N = 0;
-			for (let i of R) {
-				if (i.isSelect) {
-					this.N++;
-				}
-			}
+		async Delete() {
+			const [err, resp] = await this.$sync(
+				this.$http.police.delUser({
+					id: 1
+				})
+			);
+			console.log(err, resp);
+			// var R = this.cartData;
+			// this.N = 0;
+			// for (let i of R) {
+			// 	if (i.isSelect) {
+			// 		this.N++;
+			// 	}
+			// }
+			// if (this.N !== 0) {
+			// 	this.join = !this.join;
+			// }
 		}
 	},
 	computed: {
@@ -243,7 +252,6 @@ export default {
 		let nowList = this.list;
 		nowList.forEach(item => (item.isSelect = false));
 		this.cartData = nowList;
-		
 	}
 };
 </script>
