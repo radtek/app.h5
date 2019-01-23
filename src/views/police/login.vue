@@ -185,8 +185,14 @@ export default {
 				this.$router.push({
 					path: "/index",
 					query: {
-						id: 1,
-						isManager: 1
+						query: {
+							isManager:res.result.isManager,
+							name:res.result.name,
+							iconUrl:res.result.iconUrl,
+							id:res.result.id,
+							phone:res.result.phone,
+							gmtCreate:res.result.gmtCreate,
+						}
 					}
 				});
 			}
