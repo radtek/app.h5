@@ -2,11 +2,13 @@
     <div>
 		<Header :title="mainTitle" :right="rightTitle"  @change="change"></Header>
 		<div class="time-contain"  v-for="(item,index) in date" :key="index">
-			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png">
+			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del">
 				<div class="time-font" :class="{'active':rightTitle==='完成'}">
 					{{item.week}}{{item.time}}
 				</div>
-				<SwitchBut></SwitchBut>
+			<div class="contain">
+				<input  id="swich" class="mui-switch mui-switch-animbg" type="checkbox" @click="test(index)">
+			</div>
 		</div>
 		<img class="addImg" v-if="rightTitle==='编辑'" src="@/assets/imgs/police/add.png" @click="showDateTimePicker2"></img>
 		<div id="app">
@@ -36,8 +38,21 @@
 
 <script>
 	import { utils } from "~rx";
+	import { MessageBox } from 'mint-ui';
 	export default {
 		name: "activity-time",
+		beforeRouteLeave(to, from, next) {
+			if (to.name == 'create-activities') {
+				let selectAll=this.selectAll()
+				if(selectAll){
+					to.query.temp = this.date;
+				}else{
+					to.query.temp = undefined;
+				}
+				
+			}
+			next();
+		},
 		components: {
 			Header: () =>
 				import(/* webpackChunkName:"wc-header" */ "~v/police/__wc__/header/header.vue").then(
@@ -63,12 +78,7 @@
 				dateTimePickerResult2: '',
 				nowWeek:'',
 				nowTime:'',
-				date:[
-					{
-						week:'周一',
-						time:'20:00'
-					}
-				]
+				date:[{week:'周一',time:'09:00',isSelect: false}]
 			}
 		},
 		activated(){
@@ -82,8 +92,25 @@
 			}
 		},
 		methods:{
+			selectAll(){
+				return this.date.some(item => item.isSelect);
+			},
 			change(e){
 				this.rightTitle=e
+			},
+			del(index){
+				// MessageBox.confirm('确定执行此操作?').then(action => {
+				// 	this.date.splice(index, 1)
+				// });
+				this.$confirm(
+					"删除提醒",
+					"是否确认删除"
+				)
+					.then(done => {
+						this.date.splice(index, 1)
+						this.$confirm.close();
+					})
+				
 			},
 			calRootFontSize () {
 				const html = document.getElementsByTagName('html')[0]
@@ -95,6 +122,10 @@
 				} else {
 					html.style.fontSize = pageHeight / 10 + 'px'
 				}
+			},
+			test(index){
+				this.date[index].isSelect= !this.date[index].isSelect;
+				this.$set(this.date,index,this.date[index])
 			},
 			getWeek(date){
 				let week;
@@ -115,8 +146,7 @@
 				let nowDate=	this.dateTimePickerResult2.toString().slice(0,9);
 				this.nowTime=	this.dateTimePickerResult2.toString().slice(10,16);
 				this.nowWeek= this.getWeek(new Date(nowDate));
-				this.date.push({week:this.nowWeek,time:this.nowTime})
-				console.log(this.dateTimePickerResult2)
+				this.date.push({week:this.nowWeek,time:this.nowTime,isSelect:false})
 			},
 			timeControl () {
 				const today = new Date()
@@ -164,6 +194,65 @@
 		width: 179px;
 		height: 179px;
 	}
-
-		
+		.contain{
+			width: 124px;
+			.mui-switch {
+				width: 104px;
+				height: 62px;
+				position: relative;
+				border: 1px solid #dfdfdf;
+				background-color: #fdfdfd;
+				box-shadow: #dfdfdf 0 0 0 0 inset;
+				border-radius: 40px;
+				border-top-left-radius: 40px;
+				border-top-right-radius: 40px;
+				border-bottom-left-radius: 40px;
+				border-bottom-right-radius: 40px;
+				background-clip: content-box;
+				display: inline-block;
+				-webkit-appearance: none;
+				user-select: none;
+				outline: none; }
+			.mui-switch:before {
+				content: '';
+				width: 58px;
+				height: 58px;
+				position: absolute;
+				top: 0px;
+				left: 0;
+				border-radius: 40px;
+				border-top-left-radius: 40px;
+				border-top-right-radius: 40px;
+				border-bottom-left-radius: 40px;
+				border-bottom-right-radius: 40px;
+				background-color: #fff;
+				box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); }
+			.mui-switch:checked {
+				border-color:#FF6936;
+				box-shadow: #FF6936 0 0 0 16px inset;
+				background-color: #FF6936; }
+			.mui-switch:checked:before {
+				left: 42px; }
+			.mui-switch.mui-switch-animbg {
+				transition: background-color ease 0.4s; }
+			.mui-switch.mui-switch-animbg:before {
+				transition: left 0.3s; }
+			.mui-switch.mui-switch-animbg:checked {
+				box-shadow: #dfdfdf 0 0 0 0 inset;
+				background-color:#FF6936;
+				transition: border-color 0.4s, background-color ease 0.4s; }
+			.mui-switch.mui-switch-animbg:checked:before {
+				transition: left 0.3s; }
+			.mui-switch.mui-switch-anim {
+				transition: border cubic-bezier(0, 0, 0, 1) 0.4s, box-shadow cubic-bezier(0, 0, 0, 1) 0.4s; }
+			.mui-switch.mui-switch-anim:before {
+				transition: left 0.3s; }
+			.mui-switch.mui-switch-anim:checked {
+				box-shadow:#FF6936 0 0 0 16px inset;
+				background-color: #FF6936;
+				transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s; }
+			.mui-switch.mui-switch-anim:checked:before {
+				transition: left 0.3s;
+			}
+		}
 </style>

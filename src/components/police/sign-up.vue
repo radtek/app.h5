@@ -13,7 +13,8 @@
             </div>
             <div class="main">
                 <span class="left"><div class="head"></div><div class="head"></div><div class="head"></div></span>
-                <div class="right"><img :src="getLocalMduImg('police','button')"></div>
+                <div class="right"><img :src="getLocalMduImg('police','button')"
+                                        @click="dialogJoin"></div>
             </div>
             <div class="footer">5人请假，还可以抢名额</div>
         </div>
@@ -33,6 +34,9 @@ export default {
         }
     },
     methods: {
+        dialogJoin(){
+        this.$emit('join')
+      },
         formatDate(i){
             return utils.formatDate(this.rows[i].startTime,"yyyy-MM-dd hh:mm")
         },

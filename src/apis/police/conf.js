@@ -28,11 +28,12 @@ export default [{
 	},
 	{
 		//编辑活动设置
+		contentType:"json",
 		verb: "post",
 		outKey: "editActivity",
 		action: "/mobile/v1/infoActivity/update",
 		reqParams: [
-			"subject", "address", "isNotHoliday", "isRepeat", " id", " relationId", "week", "startTime", " isEnabled"
+			"subject","address","isNotHoliday","isRepeat","infoActivityPlanList"
 		]
 	},
 	{
@@ -55,35 +56,31 @@ export default [{
 		verb: "post",
 		outKey: "getAllUser",
 		action: "/mobile/v1/user/getAllUser",
-	}, {
-		//请假
+	},
+	{
+		// 抢课
 		verb: "post",
-		outKey: 'leave',
-		action: '/mobile/v1/couse/leave',
+		outKey: "robbingClass",
+		action: "/mobile/v1/couse/rob",
 		reqParams: [
-			"priorityNo", //优先级
-			"userId" //用户id
+			"priorityNo","userId",
 		]
-	}, {
-		//抢课
-		verb: 'post',
-		outKey: 'rob',
-		action: '/mobile/v1/couse/rob',
+	},
+	{
+		// 请假
+		verb: "post",
+		outKey: "robbingClass",
+		action: "/mobile/v1/couse/rob",
 		reqParams: [
-			"priorityNo", //优先级
-			"userId" //用户id
+			"priorityNo","userId",
 		]
-	}, {
-		//活动详情
-		verb: 'post',
-		outKey: 'details',
-		action: '/mobile/v1/couse/list',
-
-	}, {
-		//抢课列表
-		verb: 'post',
-		outKey: 'listRob',
-		action: '/mobile/v1/couse/listForRob'
-	}
-
+	},
+	{
+		// 活动详情
+		verb: "post",
+		outKey: "activityList",
+		action: "/mobile/v1/couse/list",
+	},
+	
+    
 ];

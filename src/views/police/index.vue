@@ -43,7 +43,8 @@
           <div class="tips">温馨提示：您最近的课程是 <span class='red'></span></div>
         </div>
       </div>
-      <sign-up class="sign-up"></sign-up>
+      <sign-up class="sign-up"
+               @join="dialogJoin"></sign-up>
     </main>
  </div>
   <footer :class="[isWebp()?'webp':'']">
@@ -76,6 +77,7 @@
       return {
       edit:false,
       infoActivity: [],
+      list:[],
       total:0,
       leave:false,
       join:false,
@@ -88,16 +90,27 @@
             this.total = resp.result.length;
           }
       },
+      async __fetchActivityList(){
+        const [err, resp] = await this.$sync(
+          this.$http.police.activityList({
+        }));
+        console.log(err,"错误")
+          if(!err){
+            this.list = resp.result
+            console.log(this.list)
+          }
+      },
       async __fetchActivity(){
         const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
           if(!err){
             this.infoActivity = resp.result.infoActivity
-            console.log(this.infoActivity)
+            console.log(resp)
           }
       },
       async __fetch(){
         await this.__fetchUser()
         await this.__fetchActivity()
+        await this.__fetchActivityList()
       },
       inEdit(){
         if(!this.edit){

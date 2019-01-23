@@ -5,33 +5,16 @@ export function createRoutes(Vue) {
 
 	const MODULENAME = process.env.JXRS_APP_MODULE;
 
-	return new VueRouter({
+	const router = new VueRouter({
 		mode: "history",
 		base: `/${MODULENAME}/`,
 		routes: [
 			//主页
 			{
 				path: "/index",
+				name:'index',
 				component: () =>
 					import( /* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`),
-				beforeEnter: (to, from, next) => { //导航守卫
-					if (localStorage.getItem('username') != null) {
-						console.log(localStorage.getItem('username'))
-						console.log('用户已经登录');
-						next();
-					} else {
-						console.log('用户未登录');
-						next({
-							path: '/login',
-							query: {
-								Rurl: to.fullPath
-							}
-						});
-					}
-				},
-				
-				
-
 			},
 			{ //登录页面
 				path: "/login",
@@ -68,6 +51,7 @@ export function createRoutes(Vue) {
 			//创建活动
 			{
 				path: "/create-activities",
+				name:'create-activities',
 				component: () =>
 					import( /* webpackChunkName: "view-activities" */ `~v/${MODULENAME}/create-activities/index.vue`)
 			},
@@ -89,6 +73,14 @@ export function createRoutes(Vue) {
 			},
 		],
 	});
-
+	router.beforeEach((to, from, next) => {
+		if(to.path === '/login') return next();
+		if(localStorage.getItem('userName')){
+			next()
+		}else {
+			next("/login")
+		}
+	})
+	return router;
 
 }

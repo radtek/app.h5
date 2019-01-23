@@ -11,6 +11,9 @@
 			test(){
 				// console.log(!document.getElementById('switch').checked ? "未选中" : "选中");
 			}
+		},
+		props:{
+			item:[]
 		}
 	};
 </script>
