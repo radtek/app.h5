@@ -177,6 +177,7 @@ export default {
 			const [err, res] = await this.$sync(
 				this.$http.police.login({ phone: this.num })
 			);
+			console.log(res)
 			if (!err) {
 			if(res.STATUS===true){
 				// 存储信息;
@@ -185,14 +186,13 @@ export default {
 				this.$router.push({
 					path: "/index",
 					query: {
-						query: {
 							isManager:res.result.isManager,
 							name:res.result.name,
 							iconUrl:res.result.iconUrl,
 							id:res.result.id,
 							phone:res.result.phone,
 							gmtCreate:res.result.gmtCreate,
-						}
+						
 					}
 				});
 			}

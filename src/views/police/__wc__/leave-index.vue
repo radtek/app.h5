@@ -7,15 +7,16 @@
           <img :src="getLocalMduImg('police','qingjia')">
         </div>
         <div class="item">
-          <div class="list" v-for="i,index in leaveDate">
+          <div class="list" v-for="i,index in leaveDate"
+          >
             <div class="time"><span></span>{{formatDate(index)}}</div>
             <div class="choose">
               <input type="radio" 
-                     :id="i.id" 
+                     :id="i.start_time" 
                      name="leaveData"
-                     :value="i.id"
-                     v-model="kv.id">
-              <label :for="i.id" :class="[isWebp()?'labelWebp':'']">
+                     :value="i.priority_no"
+                     v-model="kv.priority_no">
+              <label :for="i.start_time" :class="[isWebp()?'labelWebp':'']">
               </label>
             </div>
           </div>
@@ -56,7 +57,7 @@ export default {
             }
         },
         kv: {
-            rype:Object,
+            type:Object,
             default(){
                 return {}
             }
@@ -64,12 +65,15 @@ export default {
     },
     methods: {
         formatDate(i){
-            return utils.formatDate(this.leaveDate[i].startTime,"yyyy-MM-dd hh:mm")
+            return utils.formatDate(this.leaveDate[i].start_time,"yyyy-MM-dd hh:mm")
         },
         async __fetchList(){
-            const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
+            const [err, resp] = await this.$sync(this.$http.police.listForLeave({
+                userId:this.kv.userId
+            }));
           if(!err){
-            this.leaveDate = resp.result.infoActivityPlanList
+            this.leaveDate = resp.result.listForLeave
+
           }
         },
         async __fetch(){
@@ -80,15 +84,16 @@ export default {
             this.$emit("doCancel")
         },
         async submit(){
-            if(!this.kv.id){
+            if(!this.kv.priority_no){
                 return false;
             }
             const [err, resp] = await this.$sync(this.$http.police.leaveClass({
-                priorityNo:2,
-                userId:6,
+                priorityNo:this.kv.priority_no,
+                userId:this.kv.userId,
             }));
             console.log(err)
           if(!err){
+              console.log('a')
             this.dialog2 = true;
           }
             
@@ -96,6 +101,7 @@ export default {
     },
     mounted() {
         this.__fetch()
+        console.log(this.kv.id)
     },
 }
 </script>

@@ -67,6 +67,7 @@
                 :show="join"
                 @doCancel="isJoinCancel"
                 @doSubmit="isJoinSubmit"></dialog-join>
+  <toast :text="toast_text" :showToast="showToast"></toast>
 </div>
 </template>
 
@@ -81,7 +82,8 @@
             import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/leave-index.vue"),
       dialogJoin: () =>
             import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-index.vue"),
-
+      toast: () =>
+			      import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
     },
     data(){
       return {
@@ -93,8 +95,10 @@
       join:false,
       startTime:"",
       startWeek:"",
+      toast_text:"",
       person:{},
       kv:{},
+      showToast: false,
       }
     },
     methods: {
@@ -110,11 +114,14 @@
             userId:this.person.id
           }
         ));
-        console.log(err)
+        
           if(!err){
             this.infoActivity = resp.result.infoActivity; 
             this.startTime = resp.result.startTime.slice(0,16)
             this.startWeek = resp.result.week
+          }else{
+            this.toast_text =  "请重试"
+            this.toast()
           }
       },
       __fetchPerson(){
@@ -127,6 +134,13 @@
         await this.__fetchPerson()
         await this.__fetchUser()
         await this.__fetchActivity()
+      },
+      toast() {
+        const self = this;
+        this.showToast = true;
+        setTimeout(function() {
+          self.showToast = false;
+        }, 2000);
       },
       inEdit(){
         if(!this.edit){
