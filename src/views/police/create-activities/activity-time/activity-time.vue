@@ -99,9 +99,19 @@
 				this.rightTitle=e
 			},
 			del(index){
-				MessageBox.confirm('确定执行此操作?').then(action => {
-					this.date.splice(index, 1)
-				});
+				// MessageBox.confirm('确定执行此操作?').then(action => {
+				// 	this.date.splice(index, 1)
+				// });
+				this.$confirm(
+					"删除提醒",
+					"是否确认删除"
+				)
+					.then(done => {
+						// 提交问卷
+						this.date.splice(index, 1)
+						this.$confirm.close();
+					})
+				
 			},
 			calRootFontSize () {
 				const html = document.getElementsByTagName('html')[0]
