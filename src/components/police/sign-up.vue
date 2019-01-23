@@ -3,7 +3,7 @@
 </style>
 <template>
     <div class="sign-up">
-        <div class="sign-content" v-for="i,index in rows">
+        <div class="sign-content" v-for="i,index in rows.list">
             <div class="header">
                 <span class="left">{{formatDate(index)}} {{i.week}}  (16/21人已报名)</span>
                 <div class="right">
@@ -18,7 +18,7 @@
             </div>
             <div class="footer">5人请假，还可以抢名额</div>
         </div>
-        <div class="more">
+        <div class="more" v-if="isManager">
             <div class="more-text">没有更多活动了，快来
                 <div class="more-button" @click="goto('创建活动','/create-activities')"><span>立即创建</span></div></div>
             
@@ -31,28 +31,48 @@ export default {
     data(){
         return {
             rows:[],
+            activeList:[],
+            isManager:false
+        }
+    },
+    props: {
+        person: {
+            type:Object,
+            default(){
+                return {}
+            }      
         }
     },
     methods: {
         dialogJoin(){
         this.$emit('join')
       },
+      __fetchPerson(){
+          if(this.person.isManager == 1){
+              this.isManager = true
+          }
+      },
         formatDate(i){
-            return utils.formatDate(this.rows[i].startTime,"yyyy-MM-dd hh:mm")
+            return utils.formatDate(this.rows.list[i].start_time,"yyyy-MM-dd hh:mm")
         },
         async __fetchActivity(){
-            const [err, resp] = await this.$sync(this.$http.police.getInfoActivity());
+            const [err, resp] = await this.$sync(
+                this.$http.police.activityList({
+                    userId:this.person.id
+                }));
           if(!err){
-            this.rows = resp.result.infoActivityPlanList
+            this.rows = resp.result
+            console.log(this.rows)
           }
         },
         __fetch(){
-            this.__fetchActivity()
+            this.__fetchPerson()
+            this.__fetchActivity();
         }
     },
-    created(){
+    mounted(){
         this.__fetch()
-    }
+    },
 }
 </script>
 
