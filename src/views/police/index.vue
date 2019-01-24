@@ -7,8 +7,7 @@
       <main class="content">
       <div class="backpic"><img :src="getLocalMduImg('police','yujia')"></div>
       <div class="nav" v-if="isManager">
-        <span v-if="!edit" @click="inEdit()">编辑</span>
-        <span v-else @click="inFulfil()">完成</span>
+        <span  @click="goto('查看活动','create-activities')">编辑</span>
         </div>
       <div class="nav" v-else></div>
       <div class="column">
@@ -16,20 +15,10 @@
           <div class="column-text">
             <div class="column-name">
               <span>活动名称：</span> 
-              <div v-if="!edit">{{infoActivity.subject}}</div>
-              <textarea v-model="infoActivity.subject" 
-                        v-else 
-                        rows="2"
-                        placeholder="请输入名称"
-                        maxlength="30"></textarea></div>
+              <div >{{infoActivity.subject}}</div></div>
             <div class="column-action">
               <span>活动地点：</span> 
-              <div v-if="!edit">{{infoActivity.address}}</div>
-              <textarea v-model="infoActivity.address" 
-                        v-else 
-                        rows="2"
-                        placeholder="请输入地点"
-                        maxlength="100"></textarea></div>
+              <div>{{infoActivity.address}}</div></div>
           </div>
         </div>
         <div class="column-icon"
@@ -50,7 +39,7 @@
         </div>
       </div>
       <sign-up class="sign-up"
-               @join="dialogJoin"
+               @join="dlistJoin"
                :person="person"
                ></sign-up>
     </main>
@@ -65,8 +54,13 @@
                 @doSubmit="isLeaveSubmit"></dialog-leave>
   <dialog-join  
                 :show="join"
+                :kv="kv"
                 @doCancel="isJoinCancel"
                 @doSubmit="isJoinSubmit"></dialog-join>
+  <list-join    :show="listJoin"
+                :joinData="joinData"
+                @doCancel="isJoinCancel"
+                @doSubmit="isJoinSubmit"></list-join>
   <toast :text="toast_text" :showToast="showToast"></toast>
 </div>
 </template>
@@ -82,6 +76,8 @@
             import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/leave-index.vue"),
       dialogJoin: () =>
             import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-index.vue"),
+      listJoin: () =>
+            import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-list.vue"),
       toast: () =>
 			      import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
     },
@@ -93,6 +89,8 @@
       isManager:false,
       leave:false,
       join:false,
+      listJoin:false,
+      joinData:{},
       startTime:"",
       startWeek:"",
       toast_text:"",
@@ -142,11 +140,6 @@
           self.showToast = false;
         }, 2000);
       },
-      inEdit(){
-        if(!this.edit){
-          this.edit = true;
-        }
-      },
       inFulfil(){
         if(this.edit){
           this.edit = false;
@@ -154,6 +147,10 @@
       },
       dialogLeave(){
         this.leave = true;
+      },
+      dlistJoin(i){
+        this.joinData = i
+        this.listJoin = true
       },
       dialogJoin(){
         this.join = true;
@@ -165,9 +162,11 @@
         this.leave= false;
       },
       isJoinSubmit(){
+        this.listJoin = false;
         this.join = false;
       },
       isJoinCancel(){
+        this.listJoin = false;
         this.join = false;
       }
     },

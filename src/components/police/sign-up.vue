@@ -14,7 +14,7 @@
             <div class="main">
                 <span class="left"><div class="head" v-for="(url,index) in i.iconUrls"><img  :src="url" ></div></span>
                 <div class="right" v-if="Add"><img :src="getLocalMduImg('police','button')"
-                                        @click="dialogJoin"></div>
+                                        @click="dialogJoin(i)"></div>
             </div>
             <div class="footer">5人请假，还可以抢名额</div>
         </div>
@@ -34,6 +34,7 @@ export default {
             imgurl:[],
             activeList:[],
             total:[],
+            kv:{},
             Add:true,
             isLeave:[],
             isManager:false
@@ -55,8 +56,8 @@ export default {
         }
     },
     methods: {
-        dialogJoin(){
-        this.$emit('join')
+        dialogJoin(i){
+        this.$emit('join',i)
       },
       __fetchPerson(){
           if(this.person.isManager == 1){
@@ -69,7 +70,7 @@ export default {
         async __fetchActivity(){
             const [err, resp] = await this.$sync(
                 this.$http.police.activityList({
-                    userId:0
+                    userId:this.person.id
                 }));
           if(!err){
             this.rows = resp.result.list
@@ -81,7 +82,6 @@ export default {
                   this.rows[index].iconUrls =  e.iconUrls.split(',')
               }
             })
-            console.log(this.rows)
           }
         },
         __fetch(){
@@ -91,6 +91,7 @@ export default {
     },
     mounted(){
         this.__fetch()
+        console.log(this.person)
     },
 }
 </script>
