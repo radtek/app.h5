@@ -99,9 +99,6 @@
 				this.rightTitle=e
 			},
 			del(index){
-				// MessageBox.confirm('确定执行此操作?').then(action => {
-				// 	this.date.splice(index, 1)
-				// });
 				this.$confirm(
 					"删除提醒",
 					"是否确认删除"

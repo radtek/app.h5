@@ -18,7 +18,6 @@
 				</div>
 					
 			</div>
-			
 			<img src="@/assets/imgs/police/right.png">
 		</div>
 		<div class="change">
@@ -35,10 +34,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="footer-button" @click="create">
+		<div class="footer-button" @click="createActivity">
 			<img src="@/assets/imgs/police/but.png">
 			<div class="but-font" >创建活动</div>
 		</div>
+		<toast :text="toast_text" :showToast="showToast"></toast>
 	</div>
 </template>
 
@@ -54,12 +54,19 @@
 			//是否避开假日和是否重复默认为是
 			document.getElementById('switch').checked=true
 			document.getElementById('switch1').checked=true
-			console.log(this.$route.query.temp)
 			this.temp=this.$route.query.temp
 			//筛选isSelect为true的对象返回新数组
 			if(this.$route.query.temp){
 				// this.temp=this.$route.query.temp
 				this.date=this.$route.query.temp.filter(item=>item.isSelect)
+				this.date.forEach(item=>item.isEnabled = 1)
+				this.dateFs=this.$route.query.temp.filter(item=>!item.isSelect)
+				this.dateFs.forEach(item=>item.isEnabled = 0)
+				this.sumDate=this.date.concat(this.dateFs)
+				this.sumDate.forEach(item=>item.startTime=item.time + ':00')
+				this.sumDate.forEach(item=>item.id='')
+				this.sumDate.forEach(item=>item.relationId=1)
+				console.log(this.sumDate)
 			}
 		},
 		components: {
@@ -71,19 +78,32 @@
 				import(/* webpackChunkName:"wc-switch" */ "~v/police/__wc__/switch/switch.vue").then(
 					utils.fixAsyncCmpLifeCycle
 				),
+			toast: () =>
+				import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
 		},
 		data(){
 			return{
 				mainTitle:'创建活动',
 				date:[],
+				sumDate:[],
+				dateFs:[],
 				temp:[],
 				title:'',
 				address:'',
 				changeNum:1,
-				changeNum1:1
+				changeNum1:1,
+				toast_text: "",
+				showToast: false,
 			}
 		},
 		methods:{
+			toast() {
+				const self = this;
+				this.showToast = true;
+				setTimeout(function() {
+					self.showToast = false;
+				}, 2000);
+			},
 			//节假日
 			test(){
 				let change=!document.getElementById('switch').checked ? "未选中" : "选中"
@@ -107,27 +127,56 @@
 			changeTime(){
 				this.$router.push('/activity-time')
 			},
-			create(){
-				let data=[
-					{
-						id:'',
-						relationId:1,
-						week:'周二',
-						startTime:'09:00',
-						isEnabled:1
-					}
-				]
-				this.$http.police
-					.editActivity({
+			async  __fetchCreate(){
+				Indicator.open({
+					text: "创建中..",
+					spinnerType: "snake"
+				});
+				const [err, res] = await this.$sync(
+					this.$http.police.editActivity({
 						subject:this.title,
 						address:this.address,
 						isNotHoliday:this.changeNum,
 						isRepeat:this.changeNum1,
-						infoActivityPlanList:data
+						infoActivityPlanList:this.sumDate
 					})
-					.then(data => {
-						console.log(data)
-					})
+				);
+				if (!err) {
+					Indicator.close();
+					this.$router.push('/index')
+					console.log(res);
+				}else {
+					Indicator.close();
+					this.toast_text = "创建失败";
+					this.toast();
+				}
+			},
+			createActivity(){
+				if(this.title===''){
+					this.toast_text = "请输入活动主题";
+					this.toast();
+					return;
+				}
+				if(this.address===''){
+					this.toast_text = "请输入活动地址";
+					this.toast();
+					return;
+				}
+				if(this.temp===undefined){
+					this.toast_text = "请选择活动时间";
+					this.toast();
+					return;
+				}
+				// let data=[
+				// 	{
+				// 		id:'',
+				// 		relationId:1,
+				// 		week:'周二',
+				// 		startTime:'09:00:00',
+				// 		isEnabled:1
+				// 	}
+				// ]
+				this.__fetchCreate()
 			}
 		}
 	};

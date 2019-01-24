@@ -90,5 +90,13 @@ export default [{
 		outKey: "listForRob",
 		action: "/mobile/v1/couse/listForRob",
 	},
-    
+    {
+		//获取课程参与人请假人列表
+		verb:'post',
+		outKey:'couseList',
+		action:'/mobile/v1/couse/listForCouse',
+		reqParams:[
+			'priorityNo'//课程优先id
+		]
+	}
 ];

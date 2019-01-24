@@ -76,7 +76,7 @@
     <div class="top">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">参与人员({{list1.length}}/{{list.length}})</span>
+        <span class="fw">参与人员({{list1.length}}/21)</span>
       </div>
       <div class="content">
         <ul>
@@ -86,7 +86,7 @@
               <div>{{q.name}}</div>
             </div>
           </li>
-          <li v-show="list2.length > 0">
+          <li v-show="atP > 0">
             <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="dialogJoin">
           </li>
         </ul>
@@ -129,7 +129,8 @@ export default {
 			list2: [],
 			title: "参与人员",
 			join: false,
-			text: "该课程还有剩余名额，是否加入？"
+			text: "该课程还有剩余名额，是否加入？",
+			person: {}
 		};
 	},
 	components: {
@@ -145,47 +146,63 @@ export default {
 		Cancel() {
 			this.join = false;
 		},
-		Confirm() {
+		async Confirm() {
 			Indicator.open({
 				text: "正在加入..",
 				spinnerType: "snake"
 			});
-			setTimeout(function() {
-				Indicator.close();
-			}, 2000);
-			this.join = false;
+			await this.__fetchRob();
 		},
 		async __fetchDetails() {
-			const [err, resp] = await this.$sync(this.$http.police.details());
-			console.log(err,resp)
+			this.person = this.$route.query;
+			const [err, resp] = await this.$sync(
+				this.$http.police.couseList({
+					priorityNo: this.person.priorityNo
+				})
+			);
+			console.log(err, resp);
 			if (!err && resp.STATUS) {
-				this.list = resp.result.list;
-				this.allPerson = resp.result.list.length;
+				console.log(resp);
+				this.list = resp.result.listForCouse;
 				console.log(this.list);
 				this.list1 = this.list.filter(function(item, index, array) {
 					return item.is_leave == 0;
 				});
+				console.log(this.list1);
 				this.list2 = this.list.filter(function(item, index, array) {
 					return item.is_leave == 1;
 				});
 			}
 		},
 		async __fetchRob() {
-			const [err, resp] = await this.$sync(this.$http.police.rob());
-						console.log(err,resp)
-
-			if(!err && resp.STATUS){
-				console.log(resp)
+			this.person = this.$route.query;
+			console.log(this.person.priorityNo)
+			console.log(this.person.id)
+			const [err, resp] = await this.$sync(
+				this.$http.police.robbingClass({
+					priorityNo: this.person.priorityNo,
+					userId: this.person.id
+				})
+			);
+			console.log(err, resp);
+			if (!err && resp.STATUS) {
+				Indicator.close();
+				this.join = false;
+			} else {
+				Indicator.close();
+				this.join = false;
+				alert('抢课失败')
 			}
 		},
 		async __fetch() {
 			await this.__fetchDetails();
-		},
-		async __Rob(){
-			await this.__fetchRob();
 		}
 	},
-	computed: {},
+	computed: {
+		atP: function() {
+			return 21 - this.list1.length;
+		}
+	},
 	async created() {
 		await this.__fetch();
 	}

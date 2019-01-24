@@ -106,7 +106,7 @@
       </div>
 
       <div class="login_btn" @click="login()">
-        <div class="login_text" >立即登录</div>
+        <div class="login_text">立即登录</div>
       </div>
     </main>
   </div>
@@ -165,22 +165,26 @@ export default {
 			const [err, res] = await this.$sync(
 				this.$http.police.login({ phone: this.num })
 			);
-			console.log(err,res)
 			if (!err) {
-				Indicator.close();
-				this.$router.push({
-					path: "/index",
-					query: {
-						isManager:res.result.isManager,
-						name:res.result.name,
-						iconUrl:res.result.iconUrl,
-						id:res.result.id,
-						phone:res.result.phone,
-						gmtCreate:res.result.gmtCreate,
-					}
-				});
-			}
-			 else {
+				if (res.STATUS === true) {
+					// 存储信息;
+					localStorage.setItem("userName", this.num);
+					Indicator.close();
+					this.$router.push({
+						path: "/index",
+						query: {
+							query: {
+								isManager: res.result.isManager,
+								name: res.result.name,
+								iconUrl: res.result.iconUrl,
+								id: res.result.id,
+								phone: res.result.phone,
+								gmtCreate: res.result.gmtCreate
+							}
+						}
+					});
+				}
+			} else {
 				Indicator.close();
 				this.toast_text = err.msg;
 				this.toast();
