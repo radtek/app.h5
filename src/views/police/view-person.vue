@@ -94,7 +94,7 @@
       <dialog-join :showToast="join" :text="text" @doCancel="Cancel" @doConfirm="Confirm"></dialog-join>
     </div>
     <div class="separate" v-show="isShowUsers && list2.length > 0"></div>
-
+    <toast :text="toast_text" :showToast="showToast"></toast>
     <div class="top" v-show="list2.length > 0">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
@@ -127,17 +127,22 @@ export default {
 			list: [],
 			list1: [],
 			list2: [],
+			list3: [],
 			title: "参与人员",
 			join: false,
 			text: "该课程还有剩余名额，是否加入？",
-			person: {}
+			person: {},
+			toast_text: "",
+			showToast: false
 		};
 	},
 	components: {
 		topHead: () =>
 			import(/* webpackChunkName:"police-header" */ "~v/police/__wc__/header/header.vue"),
 		dialogJoin: () =>
-			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
+			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue"),
+		toast: () =>
+			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
 	},
 	methods: {
 		dialogJoin() {
@@ -157,7 +162,7 @@ export default {
 			this.person = this.$route.query;
 			const [err, resp] = await this.$sync(
 				this.$http.police.listForCouse({
-					priorityNo: this.person.priorityNo
+					priorityNo: this.person.priority_no
 				})
 			);
 			console.log(err, resp);
@@ -180,22 +185,32 @@ export default {
 			console.log(this.person.id);
 			const [err, resp] = await this.$sync(
 				this.$http.police.robbingClass({
-					priorityNo: this.person.priorityNo,
-					userId: this.person.id
+					priorityNo: this.person.priority_no,
+					userId: this.person.userId
 				})
 			);
 			console.log(err, resp);
 			if (!err && resp.STATUS) {
+				this.list3 = resp.result;
 				Indicator.close();
 				this.join = false;
+				location.reload();
 			} else {
 				Indicator.close();
 				this.join = false;
-				alert("抢课失败");
+				this.toast_text = err.msg;
+				this.toast();
 			}
 		},
 		async __fetch() {
 			await this.__fetchDetails();
+		},
+		toast() {
+			const self = this;
+			this.showToast = true;
+			setTimeout(function() {
+				self.showToast = false;
+			}, 2000);
 		}
 	},
 	computed: {
@@ -204,12 +219,9 @@ export default {
 		}
 	},
 	async created() {
-		await this.__fetch();
 		this.person = this.$route.query;
 		console.log(this.person);
-	},
-	async actived() {
-		console.log(this.$route.query);
+		await this.__fetch();
 	}
 };
 </script>

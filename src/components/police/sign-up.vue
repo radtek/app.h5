@@ -7,7 +7,7 @@
             <div class="header">
                 <span class="left">{{formatDate(index)}} {{i.week}}  ({{i.total}}/21人已报名)</span>
                 <div class="right">
-                    <span @click="goto('查看参与人员','view-person',{priorityNo:i.priorityNo,id:person.id})">查看全部</span>
+                    <span @click="goto('查看参与人员','view-person',{priority_no:i.priority_no,userId:person.id})">查看全部</span>
                     <div class="img"><img :src="getLocalMduImg('police','quanbu2')"></div>
                 </div>
             </div>
@@ -21,7 +21,6 @@
       <div class="main">
         <span class="left">
           <div class="head">
-            <img src="http://img1.imgtn.bdimg.com/it/u=2802691956,955693789&fm=26&gp=0.jpg" alt>
           </div>
         </span>
         <div class="right">
@@ -95,6 +94,7 @@ export default {
                   this.rows[index].iconUrls =  e.iconUrls.split(',')
               }
             })
+            console.log(this.rows)
           }
         },
         __fetch(){
@@ -104,7 +104,6 @@ export default {
     },
     mounted(){
         this.__fetch()
-        console.log(this.person)
     },
 }
 </script>
