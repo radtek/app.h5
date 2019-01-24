@@ -85,5 +85,33 @@ export default [
 		outKey: "listForRob",
 		action: "/mobile/v1/couse/listForRob",
 	},
+	{
+		// 请假列表
+		verb: "post",
+		outKey: "listForLeave",
+		action: "/mobile/v1/couse/listForLeave",
+		reqParams: [
+			"userId",
+		]
+	},
+	{
+		// 获取课程参与人请假人列表
+		verb: "post",
+		outKey: "listForCouse",
+		action: "/mobile/v1/couse/listForCouse",
+		reqParams: [
+			"priorityNo",
+		]
+	},
+	{
+		// 获取课程参与人或者请假人列表
+		verb: "post",
+		outKey: "listForJoinOrLeave",
+		action: "/mobile/v1/couse/listForJoinOrLeave",
+		reqParams: [
+			"priorityNo",
+			"IsLeave"
+		]
+	},
     
 ];

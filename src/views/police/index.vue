@@ -107,9 +107,6 @@
       }
     },
     methods: {
-<<<<<<< HEAD
-      async __fetchUser(){ //总用户数据
-=======
 		editChange(){
     		this.$router.push({
 				path:'/create-activities',
@@ -119,7 +116,6 @@
 			})
 		},
       async __fetchUser(){
->>>>>>> ef4ee5b5a4f0d65d0791aa8631f9c6d0d7e53d17
         const [err, resp] = await this.$sync(this.$http.police.getAllUser());
           if(!err){
             this.total = resp.result.length;
