@@ -138,7 +138,8 @@
               <div class="name">{{q.name}}</div>
             </div>
           </li>
-          <li v-show="leaveP > 0">
+          <li v-show="leaveP > 0"
+			  v-if="isManager">
             <router-link :to="{path:'/add-person'}">
               <img :src="getLocalMduImg('police','redadd')" alt class="add">
             </router-link>
