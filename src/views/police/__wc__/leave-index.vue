@@ -36,17 +36,24 @@
         <div class="cancel"
              @click="cancel"></div>
     </div>
+    <toast :text="toast_text" :showToast="showToast"></toast>
   </div>
 </template>
 
 <script>
 import { utils } from "~rx";
 export default {
+    components: {
+     toast: () =>
+			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
+    },
     data(){
         return {
             leaveDate:[],
             leave:[],
             dialog2:false,
+            toast_text:"",
+            showToast: false,
         }
     },
     props: {
@@ -83,18 +90,26 @@ export default {
             this.dialog2 = false
             this.$emit("doCancel")
         },
+        toast() {
+            const self = this;
+            this.showToast = true;
+            setTimeout(function() {
+            self.showToast = false;
+            }, 2000);
+        },
         async submit(){
             if(!this.kv.priority_no){
                 return false;
             }
-            console.log(this.kv)
             const [err, resp] = await this.$sync(this.$http.police.leaveClass({
                 priorityNo:this.kv.priority_no,
                 userId:this.kv.userId,
             }));
           if(!err){
-            console.log(resp.result)
             this.dialog2 = true;
+          }else{
+            this.toast_text =  "已请假，请勿重复请假"
+            this.toast()
           }
             
         }

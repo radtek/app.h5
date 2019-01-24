@@ -132,6 +132,7 @@
                   v-show="right=='完成'"
                   @click="changeImg(index)"
                 ></div>
+								
               </div>
 
               <div class="name">{{q.name}}</div>
@@ -199,6 +200,7 @@ export default {
 			}
 		},
 		changeImg(index) {
+			console.log(index)
 			this.cartData[index].isSelect = !this.cartData[index].isSelect;
 			this.$set(this.cartData, index, this.cartData[index]);
 		},

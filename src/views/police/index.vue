@@ -41,6 +41,7 @@
       <sign-up class="sign-up"
                @join="dlistJoin"
                :person="person"
+               :isRefresh="refresh"
                ></sign-up>
     </main>
  </div>
@@ -84,6 +85,7 @@
     data(){
       return {
       edit:false,
+      refresh:false,
       infoActivity: [], //获取活动详情
       total:0,
       isManager:false,
@@ -160,14 +162,20 @@
       },
       isLeaveCancel(){
         this.leave= false;
+        
       },
       isJoinSubmit(){
         this.listJoin = false;
         this.join = false;
       },
       isJoinCancel(){
-        this.listJoin = false;
-        this.join = false;
+        if(!this.refresh){
+          this.refresh = true;
+          console.log(this.refresh)
+          this.listJoin = false;
+          this.join = false;
+        }
+        this.refresh = false;
       }
     },
     created() {

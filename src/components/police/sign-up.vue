@@ -46,12 +46,25 @@ export default {
             default(){
                 return {}
             }      
+        },
+        isRefresh: {
+            type:Boolean,
+            default(){
+                return false
+            }
         }
     },
     watch: {
         total(){
             if(this.total == 21){
                 this.Add = false
+            }
+        },
+        isRefresh(){
+            console.log(this.isRefresh)
+            if(this.isRefresh){
+                console.log('一刷新')
+                this.__fetch();
             }
         }
     },
