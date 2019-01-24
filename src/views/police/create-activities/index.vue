@@ -124,8 +124,8 @@
 					}
 				}
 			}else{
-				this.title=''
-				this.address='', 
+				// this.title=''
+				// this.address='', 
 					console.log("temp",this.$route.query.temp)
 				if(this.$route.query.temp!==undefined) {
 					// this.temp=this.$route.query.temp
@@ -142,10 +142,12 @@
 						;
 						if (flag) {
 							dateArr.push(date[i]);
-						}
-						;
+						};
+						
 						this.dateArr = dateArr
 						this.allArr=dateArr
+						this.allArr.forEach(item=>item.id='')
+						this.allArr.forEach(item=>item.relationId=1)
 						console.log('dateArr',this.dateArr)
 					}
 				}
