@@ -1,5 +1,4 @@
-export default [
-	{
+export default [{
 		//登录接口
 		verb: "post",
 		outKey: "login",
@@ -16,7 +15,6 @@ export default [
 		reqParams: [
 			"phone",
 			"name",
-			"icon"
 		]
 	},
 	{
@@ -38,17 +36,22 @@ export default [
 			"subject","address","isNotHoliday","isRepeat","infoActivityPlanList"
 		]
 	},
-    {
+	{
 		// 查询活动设置
 		verb: "post",
 		outKey: "getInfoActivity",
 		action: "mobile/v1/infoActivity/selectById",
-		reqParams: [
-			{ name: "page", default: 1 },
-			{ name: "pageSize", default: 10 }
+		reqParams: [{
+				name: "page",
+				default: 1
+			},
+			{
+				name: "pageSize",
+				default: 10
+			}
 		]
-    },
-    {
+	},
+	{
 		// 获得所有参与人员
 		verb: "post",
 		outKey: "getAllUser",

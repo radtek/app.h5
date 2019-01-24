@@ -106,7 +106,7 @@
       </div>
 
       <div class="login_btn" @click="login()">
-        <div class="login_text" >立即登录</div>
+        <div class="login_text">立即登录</div>
       </div>
     </main>
   </div>
@@ -136,19 +136,7 @@ export default {
 		clear() {
 			this.num = "";
 		},
-		// get_code() {
-		// 	const Num = this.num;
-		// 	if (this.num == "") {
-		// 		this.toast_text = "请输入手机号";
-		// 		this.toast();
-		// 	} else if (!this.phoneN.test(Num)) {
-		// 		this.toast_text = "手机号格式错误";
-		// 		this.toast();
-		// 	} else if (this.phoneN.test(Num)) {
-		// 		//发请求
-		// 		console.log("要发请求了");
-		// 	}
-		// },
+
 		async login() {
 			const Num = this.num;
 			if (Num == "") {

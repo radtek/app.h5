@@ -163,7 +163,7 @@ export default {
 			title: "全部参与人员",
 			right: "编辑",
 			left: "",
-			id:0,
+			id: 0,
 			isAdmin: true,
 			join: false,
 			text: "",
@@ -185,7 +185,7 @@ export default {
 			if (!err) {
 				this.list = resp.result;
 				this.atPerson = this.list.length;
-				console.log(this.list)
+				console.log(this.list);
 			}
 		},
 		async __fetch() {
@@ -208,36 +208,35 @@ export default {
 			this.join = false;
 		},
 
-		Confirm() {
+		async Confirm() {
 			//发请求
-
 			Indicator.open({
 				text: "删除中..",
 				spinnerType: "snake"
 			});
-			this.join = false;
-
-			setTimeout(function() {
-				Indicator.close();
-			}, 2000);
-		},
-		async Delete() {
 			const [err, resp] = await this.$sync(
 				this.$http.police.delUser({
-					id: 1
+					id: 5
 				})
 			);
 			console.log(err, resp);
-			// var R = this.cartData;
-			// this.N = 0;
-			// for (let i of R) {
-			// 	if (i.isSelect) {
-			// 		this.N++;
-			// 	}
-			// }
-			// if (this.N !== 0) {
-			// 	this.join = !this.join;
-			// }
+			if (!err) {
+				this.join = false;
+				Indicator.close();
+			} else {
+			}
+		},
+		Delete() {
+			var R = this.cartData;
+			this.N = 0;
+			for (let i of R) {
+				if (i.isSelect) {
+					this.N++;
+				}
+			}
+			if (this.N !== 0) {
+				this.join = !this.join;
+			}
 		}
 	},
 	computed: {

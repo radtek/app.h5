@@ -1,9 +1,9 @@
 <style lang="scss">
-  @import "../../assets/modules/police/view-signUp.scss";
+@import "../../assets/modules/police/view-signUp.scss";
 </style>
 <template>
     <div class="sign-up">
-        <div class="sign-content" v-for="i,index in rows">
+        <div class="sign-content" v-for="(i,index) in rows" :key="index">
             <div class="header">
                 <span class="left">{{formatDate(index)}} {{i.week}}  ({{i.total}}/21人已报名)</span>
                 <div class="right">
@@ -12,18 +12,30 @@
                 </div>
             </div>
             <div class="main">
-                <span class="left"><div class="head" v-for="(url,index) in i.iconUrls"><img  :src="url" ></div></span>
+                <span class="left"><div class="head" v-for="(url,index) in i.iconUrls" :key="index"><img  :src="url" ></div></span>
                 <div class="right" v-if="Add"><img :src="getLocalMduImg('police','button')"
                                         @click="dialogJoin(i)"></div>
             </div>
             <div class="footer">5人请假，还可以抢名额</div>
         </div>
-        <div class="more" v-if="isManager">
-            <div class="more-text">没有更多活动了，快来
-                <div class="more-button" @click="goto('创建活动','/create-activities')"><span>立即创建</span></div></div>
-            
+      <div class="main">
+        <span class="left">
+          <div class="head">
+          </div>
+        </span>
+        <div class="right">
+          <img :src="getLocalMduImg('police','button')" @click="dialogJoin">
         </div>
+      </div>
+      <div class="footer">5人请假，还可以抢名额</div>
+    <div class="more" v-if="isManager">
+      <div class="more-text">没有更多活动了，快来
+        <div class="more-button" @click="goto('创建活动','/create-activities')">
+          <span>立即创建</span>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 import { utils } from "~rx";
