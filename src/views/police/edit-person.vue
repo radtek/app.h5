@@ -118,7 +118,7 @@
       ></dialog-join>
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">参与人员({{atPerson}}/{{allPerson}})</span>
+        <span class="fw">参与人员({{atPerson}})</span>
       </div>
       <div class="content">
         <ul>
@@ -132,7 +132,6 @@
                   v-show="right=='完成'"
                   @click="changeImg(index)"
                 ></div>
-								
               </div>
 
               <div class="name">{{q.name}}</div>
@@ -168,7 +167,11 @@ export default {
 			join: false,
 			text: "",
 			isEdit: true,
-			N: 0
+			N: 0,
+			arr: [],
+			Num: 0,
+			B: [],
+			delArr: []
 		};
 	},
 	components: {
@@ -200,30 +203,56 @@ export default {
 			}
 		},
 		changeImg(index) {
-			console.log(index)
+			// console.log(index + 1);
+
+			// this.Num++;
+			// console.log(this.Num)
 			this.cartData[index].isSelect = !this.cartData[index].isSelect;
 			this.$set(this.cartData, index, this.cartData[index]);
+			var P = this.cartData[index].id;
+			this.arr.push(P);
+			let A = this.arr;
+			this.B = [];
+			let C = {};
+			for (var i = 0; i < A.length; i++) {
+				var item = A[i];
+				if (C[item]) {
+					C[item] = C[item] + 1;
+				} else {
+					C[item] = 1;
+				}
+			}
+			for (let K in C) {
+				if (C[K] % 2 == 1) {
+					this.B.push(K);
+				}
+			}
+			this.delArr = this.B.join("##");
 		},
 		Cancel() {
 			this.join = false;
 		},
 
-		async Confirm() {
+		async Confirm(index) {
 			//发请求
+			console.log(this.delArr);
 			Indicator.open({
 				text: "删除中..",
 				spinnerType: "snake"
 			});
 			const [err, resp] = await this.$sync(
 				this.$http.police.delUser({
-					id: 5
+					userIds: this.delArr
 				})
 			);
 			console.log(err, resp);
 			if (!err) {
 				this.join = false;
 				Indicator.close();
+				location.reload();
 			} else {
+				this.join = false;
+				Indicator.close();
 			}
 		},
 		Delete() {
@@ -247,7 +276,7 @@ export default {
 			return `确定要删除${this.N}个学员吗`;
 		}
 	},
-	async created() {
+	async activated() {
 		if (!this.isAdmin) {
 			this.right = "";
 		}

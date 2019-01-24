@@ -23,7 +23,7 @@ export default [{
 		outKey: "delUser",
 		action: "/mobile/v1/user/deleteUserById",
 		reqParams: [
-			"id"
+			'userIds'//多个id通过##拼接的String
 		]
 	},
 	{
