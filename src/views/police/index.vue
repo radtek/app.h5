@@ -11,7 +11,7 @@
         </div>
       <div class="nav" v-else></div>
       <div class="column">
-        <div :class="{'column-input':true,'editActive':edit}">
+        <div :class="{'column-input':true}">
           <div class="column-text">
             <div class="column-name">
               <span>活动名称：</span> 
@@ -42,6 +42,7 @@
                @join="dlistJoin"
                :person="person"
                :isRefresh="refresh"
+               @doRefresh="doRefresh"
                ></sign-up>
     </main>
  </div>
@@ -51,15 +52,18 @@
   </footer>
   <dialog-leave :show="leave"
                 :kv="kv"
+                :leaveDate="leaveDate"
                 @doCancel="isLeaveCancel"
                 @doSubmit="isLeaveSubmit"></dialog-leave>
   <dialog-join  
                 :show="join"
                 :kv="kv"
+                :joinList="joinList"
                 @doCancel="isJoinCancel"
                 @doSubmit="isJoinSubmit"></dialog-join>
   <list-join    :show="listJoin"
                 :joinData="joinData"
+                :kv="kv"
                 @doCancel="isJoinCancel"
                 @doSubmit="isJoinSubmit"></list-join>
   <toast :text="toast_text" :showToast="showToast"></toast>
@@ -84,7 +88,6 @@
     },
     data(){
       return {
-      edit:false,
       refresh:false,
       infoActivity: [], //获取活动详情
       total:0,
@@ -97,18 +100,35 @@
       startWeek:"",
       toast_text:"",
       person:{},
+      leaveDate:[],
+      joinList:[],
       kv:{},
       showToast: false,
       }
     },
     methods: {
-      async __fetchUser(){
+      async __fetchUser(){ //总用户数据
         const [err, resp] = await this.$sync(this.$http.police.getAllUser());
           if(!err){
             this.total = resp.result.length;
           }
       },
-      async __fetchActivity(){
+      async __fetchJoin(){ //抢课列表数据
+            const[err,resp] = await this.$sync(this.$http.police.listForRob())
+            if(!err){
+                this.joinList = resp.result.listForRob
+            }
+        },
+      async __fetchList(){ //请假数据
+            const [err, resp] = await this.$sync(this.$http.police.listForLeave({
+                userId:this.kv.userId
+            }));
+          if(!err){
+            this.leaveDate = resp.result.listForLeave
+
+          }
+        },
+      async __fetchActivity(){ //列表数据
         const [err, resp] = await this.$sync(
           this.$http.police.activityList({
             userId:this.person.id
@@ -117,8 +137,11 @@
         
           if(!err){
             this.infoActivity = resp.result.infoActivity; 
-            this.startTime = resp.result.startTime.slice(0,16)
-            this.startWeek = resp.result.week
+            if(this.startTime){
+              this.startTime = resp.result.startTime.slice(0,16)
+              this.startWeek = resp.result.week
+            }
+            
           }else{
             this.toast_text =  "请重试"
             this.toast()
@@ -128,12 +151,17 @@
         this.kv.userId = this.person.id
         if(this.person.isManager == 1){
           this.isManager = true
+        }else{
+          this.isManager = false;
         }
+        
       },
       async __fetch(){
         await this.__fetchPerson()
         await this.__fetchUser()
         await this.__fetchActivity()
+        await this.__fetchList()
+        await this.__fetchJoin()
       },
       toast() {
         const self = this;
@@ -141,11 +169,6 @@
         setTimeout(function() {
           self.showToast = false;
         }, 2000);
-      },
-      inFulfil(){
-        if(this.edit){
-          this.edit = false;
-        }
       },
       dialogLeave(){
         this.leave = true;
@@ -157,28 +180,40 @@
       dialogJoin(){
         this.join = true;
       },
+      doRefresh(){
+        if(this.refresh){
+        this.refresh = false;
+        }
+      },
       isLeaveSubmit(){
         this.leave = false;
       },
       isLeaveCancel(){
-        this.leave= false;
-        
+        if(!this.refresh){
+          this.refresh = true
+          this.leave= false;
+          this.__fetch()
+          }
       },
       isJoinSubmit(){
         this.listJoin = false;
         this.join = false;
       },
       isJoinCancel(){
-        if(!this.refresh){
-          this.refresh = true;
-          console.log(this.refresh)
+          if(!this.refresh){
+          this.refresh = true
           this.listJoin = false;
           this.join = false;
-        }
-        this.refresh = false;
+          this.__fetch()
+          }
+          
       }
     },
-    created() {
+    created(){
+      this.person = this.$route.query
+      this.__fetch();
+    },
+    activated() {
       this.person = this.$route.query
       this.__fetch();
     },

@@ -50,7 +50,6 @@ export default {
         return {
             dialog2:false,
             state:true,
-            kv:[],
             dialog1:true
         }
     },
@@ -59,6 +58,12 @@ export default {
             type:Boolean,
             default(){
                 return false
+            }
+        },
+        kv: {
+            type:Object,
+            default(){
+                return {}
             }
         },
         joinData: {
@@ -81,7 +86,6 @@ export default {
             if(!this.kv.priority_no){
                 return false
             }
-            this.kv.userId = this.joinData.userIds[0]
             const [err, resp] = await this.$sync(this.$http.police.robbingClass({
                 priorityNo:this.kv.priority_no,
                 userId:this.kv.userId,
@@ -100,8 +104,6 @@ export default {
             
             
         }
-    },
-    mounted() {
     },
 }
 </script>

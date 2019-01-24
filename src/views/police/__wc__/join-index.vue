@@ -7,7 +7,7 @@
           <img :src="getLocalMduImg('police','active')">
         </div>
         <div class="item">
-          <div class="list" v-for="i,index in joinData">
+          <div class="list" v-for="i,index in joinList">
             <div class="time"><span></span>{{formatDate(index)}}</div>
             <div class="choose">
               <input type="radio" 
@@ -50,7 +50,6 @@ export default {
         return {
             dialog2:false,
             state:true,
-            joinData:[],
             dialog1:true
         }
     },
@@ -66,22 +65,22 @@ export default {
             default(){
                 return {}
             }
-        }
+        },
+        joinList: {
+            type:Array,
+            default(){
+                return []
+            }
+        },
     },
     methods: {
         formatDate(i){
-            return utils.formatDate(this.joinData[i].start_time,"yyyy-MM-dd hh:mm")
+            return utils.formatDate(this.joinList[i].start_time,"yyyy-MM-dd hh:mm")
         },
         cancel(){
             this.dialog2 = false
             this.dialog1 = true
             this.$emit("doCancel")
-        },
-        async __fetch(){
-            const[err,resp] = await this.$sync(this.$http.police.listForRob())
-            if(!err){
-                this.joinData = resp.result.listForRob
-            }
         },
         async submit(){
             if(!this.kv.priority_no){
@@ -106,9 +105,6 @@ export default {
             
             
         }
-    },
-    mounted() {
-    this.__fetch()
     },
 }
 </script>
