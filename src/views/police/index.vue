@@ -7,7 +7,7 @@
       <main class="content">
       <div class="backpic"><img :src="getLocalMduImg('police','yujia')"></div>
       <div class="nav" v-if="isManager">
-        <span  @click="goto('查看活动','create-activities')">编辑</span>
+        <span  @click="editChange">编辑</span>
         </div>
       <div class="nav" v-else></div>
       <div class="column">
@@ -102,6 +102,14 @@
       }
     },
     methods: {
+		editChange(){
+    		this.$router.push({
+				path:'/create-activities',
+				query:{
+					type:'edit'
+				}
+			})
+		},
       async __fetchUser(){
         const [err, resp] = await this.$sync(this.$http.police.getAllUser());
           if(!err){

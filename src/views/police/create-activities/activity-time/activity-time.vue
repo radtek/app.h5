@@ -2,14 +2,11 @@
     <div>
 		<Header :title="mainTitle" :right="rightTitle"  @change="change"></Header>
 		<div class="time-contain"  v-for="(item,index) in date" :key="index">
-			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del">
+			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del(index)">
 				<div class="time-font" :class="{'active':rightTitle==='完成'}">
 					{{item.week}}{{item.startTime}}
 				</div>
 			<div class="img" :class="{on:item.isSelect}" @click="test(index)"></div>
-			<!--<div class="contain">-->
-				<!--<input  id="switch" class="mui-switch mui-switch-animbg" type="checkbox" @click="test(index)">-->
-			<!--</div>-->
 		</div>
 		<img class="addImg" v-if="rightTitle==='编辑'" src="@/assets/imgs/police/add.png" @click="showDateTimePicker2"></img>
 		<div id="app">
@@ -84,14 +81,14 @@
 			}
 		},
 		activated(){
-			this.rightTitle='编辑'
-		},
-		created(){
 			let arrTrue=this.$route.query.arr.filter(item=>item.isEnabled===1)
 			arrTrue.forEach(item=>item.isSelect = true)
 			let arrFs=this.$route.query.arr.filter(item=>item.isEnabled===0)
 			arrFs.forEach(item=>item.isSelect = false)
 			this.date=arrTrue.concat(arrFs)
+			this.rightTitle='编辑'
+		},
+		created(){
 			this.calRootFontSize()
 			this.timeControl()
 			window.onresize = () => {
