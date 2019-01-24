@@ -201,6 +201,9 @@ export default {
 				name: "宋海兵8"
 			}
 		];
+	},
+	activated() {
+		console.log(this.$route.query)
 	}
 };
 </script>

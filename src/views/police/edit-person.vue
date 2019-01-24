@@ -162,6 +162,7 @@ export default {
 			title: "全部参与人员",
 			right: "编辑",
 			left: "",
+			id:0,
 			isAdmin: true,
 			join: false,
 			text: "",
@@ -183,6 +184,7 @@ export default {
 			if (!err) {
 				this.list = resp.result;
 				this.atPerson = this.list.length;
+				console.log(this.list)
 			}
 		},
 		async __fetch() {

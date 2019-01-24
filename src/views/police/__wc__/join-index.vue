@@ -1,6 +1,6 @@
 <template>
     <div class="leave" v-if="show">
-    <div class="mask"></div>
+    <div class="mask" ></div>
     <div class="dialog1" v-if="dialog1">
       <div class="content">
         <div class="mark">
@@ -74,6 +74,7 @@ export default {
         },
         cancel(){
             this.dialog2 = false
+            this.dialog1 = true
             this.$emit("doCancel")
         },
         async __fetch(){
@@ -93,8 +94,15 @@ export default {
                 userId:this.kv.userId,
             }));
             if(!err){
+                this.state = true
                 this.dialog1 = false;
                 this.dialog2 = true;
+            }else {
+                this.state = false;
+                this.dialog1 = false;
+                this.dialog2 = true;
+
+
             }
             
             
