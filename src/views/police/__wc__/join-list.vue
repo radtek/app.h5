@@ -80,6 +80,7 @@ export default {
         cancel(){
             this.dialog2 = false
             this.dialog1 = true
+            this.kv.priority_no = null
             this.$emit("doCancel")
         },
         async submit(){

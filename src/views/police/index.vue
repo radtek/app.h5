@@ -151,7 +151,7 @@
             }
             
           }else{
-            this.toast_text =  "请重试"
+            this.toast_text =  "数据获取错误，请重新登录"
             this.toast()
           }
       },
