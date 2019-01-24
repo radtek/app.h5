@@ -125,27 +125,28 @@
 				}
 			}else{
 				this.title=''
-				this.address='',
+				this.address='', 
 					console.log("temp",this.$route.query.temp)
 				if(this.$route.query.temp!==undefined) {
 					// this.temp=this.$route.query.temp
-					this.date = this.$route.query.temp.filter(item => item.isSelect)
-					this.date.forEach(item => item.isEnabled = 1)
+					let date = this.$route.query.temp.filter(item => item.isSelect)
+					date.forEach(item => item.isEnabled = 1)
 					const dateArr = [];
-					for (let i = 0; i < this.date.length; i++) {
+					for (let i = 0; i < date.length; i++) {
 						var flag = true;
 						for (let j = 0; j < dateArr.length; j++) {
-							if (this.date[i].startTime == dateArr[j].startTime) {
+							if (date[i].startTime == dateArr[j].startTime) {
 								flag = false;
-							}
-							;
+							};
 						}
 						;
 						if (flag) {
-							dateArr.push(this.date[i]);
+							dateArr.push(date[i]);
 						}
 						;
 						this.dateArr = dateArr
+						this.allArr=dateArr
+						console.log('dateArr',this.dateArr)
 					}
 				}
 			}
@@ -232,7 +233,9 @@
 					text: "创建中..",
 					spinnerType: "snake"
 				});
+				console.log("233",this.allArr);
 				const [err, res] = await this.$sync(
+					
 					this.$http.police.editActivity({
 						subject:this.title,
 						address:this.address,
