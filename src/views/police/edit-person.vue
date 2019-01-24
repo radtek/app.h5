@@ -107,7 +107,8 @@
 
 <template>
   <div rs-view="edit-person">
-    <top-head :title="title" :right="right" :left="left" @change="change" @delete="Delete"></top-head>
+    <top-head v-if="isManager" :title="title" :right="right" :left="left" @change="change" @delete="Delete"></top-head>
+	<top-head v-else :title="title" :left="left" @change="change" @delete="Delete"></top-head>
     <div class="top">
       <dialog-join
         :showToast="join"
@@ -161,6 +162,7 @@ export default {
 			list: [],
 			title: "全部参与人员",
 			right: "编辑",
+			isManager:false,
 			left: "",
 			id: 0,
 			isAdmin: true,
@@ -245,7 +247,6 @@ export default {
 					userIds: this.delArr
 				})
 			);
-			console.log(err, resp);
 			if (!err) {
 				this.join = false;
 				Indicator.close();
@@ -277,6 +278,11 @@ export default {
 		}
 	},
 	async activated() {
+		if(this.$route.query.query == 1){
+			this.isManager = true
+		}else{
+			this.isManager = false
+		}
 		if (!this.isAdmin) {
 			this.right = "";
 		}
