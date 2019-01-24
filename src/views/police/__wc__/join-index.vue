@@ -7,15 +7,15 @@
           <img :src="getLocalMduImg('police','active')">
         </div>
         <div class="item">
-          <div class="list" v-for="i,index in info">
+          <div class="list" v-for="i,index in joinData">
             <div class="time"><span></span>{{formatDate(index)}}</div>
             <div class="choose">
               <input type="radio" 
-                     :id="i.id" 
+                     :id="i.start_time" 
                      name="leaveData"
-                     :value="i.id"
-                     v-model="kv.id">
-              <label :for="i.id" :class="[isWebp()?'labelWebp':'']">
+                     v-model="kv.priority_no"
+                     :value="i.priority_no">
+              <label :for="i.start_time" :class="[isWebp()?'labelWebp':'']">
               </label>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default {
         return {
             dialog2:false,
             state:true,
-            kv:{},
+            joinData:[],
             dialog1:true
         }
     },
@@ -61,16 +61,16 @@ export default {
                 return false
             }
         },
-        info: {
-            type:Array,
+        kv: {
+            type:Object,
             default(){
-                return []
+                return {}
             }
         }
     },
     methods: {
         formatDate(i){
-            return utils.formatDate(this.info[i].startTime,"yyyy-MM-dd hh:mm")
+            return utils.formatDate(this.joinData[i].start_time,"yyyy-MM-dd hh:mm")
         },
         cancel(){
             this.dialog2 = false
@@ -79,14 +79,17 @@ export default {
         async __fetch(){
             const[err,resp] = await this.$sync(this.$http.police.listForRob())
             if(!err){
+                this.joinData = resp.result.listForRob
             }
         },
         async submit(){
-            if(!this.kv.id){
+            console.log(this.kv)
+            if(!this.kv.priority_no){
                 return false
             }
+            
             const [err, resp] = await this.$sync(this.$http.police.robbingClass({
-                priorityNo:this.kv.id,
+                priorityNo:this.kv.priority_no,
                 userId:this.kv.userId,
             }));
             if(!err){

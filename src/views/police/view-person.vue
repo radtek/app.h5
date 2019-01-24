@@ -156,7 +156,7 @@ export default {
 		async __fetchDetails() {
 			this.person = this.$route.query;
 			const [err, resp] = await this.$sync(
-				this.$http.police.couseList({
+				this.$http.police.listForCouse({
 					priorityNo: this.person.priorityNo
 				})
 			);

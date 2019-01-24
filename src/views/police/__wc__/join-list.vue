@@ -1,22 +1,21 @@
 <template>
     <div class="leave" v-if="show">
     <div class="mask"></div>
-    <div class="dialog1">
+    <div class="dialog1" v-if="dialog1">
       <div class="content">
         <div class="mark">
-          <img :src="getLocalMduImg('police','qingjia')">
+          <img :src="getLocalMduImg('police','active')">
         </div>
         <div class="item">
-          <div class="list" v-for="i,index in leaveDate"
-          >
-            <div class="time"><span></span>{{formatDate(index)}}</div>
+          <div class="list">
+            <div class="time"><span></span>{{formatDate()}}</div>
             <div class="choose">
               <input type="radio" 
-                     :id="i.start_time" 
+                     :id="joinData.start_time" 
                      name="leaveData"
-                     :value="i.priority_no"
-                     v-model="kv.priority_no">
-              <label :for="i.start_time" :class="[isWebp()?'labelWebp':'']">
+                     v-model="kv.priority_no"
+                     :value="joinData.priority_no">
+              <label :for="joinData.start_time" :class="[isWebp()?'labelWebp':'']">
               </label>
             </div>
           </div>
@@ -31,10 +30,15 @@
         </div>
       </div>
     </div>
-    <div class="dialog2" v-if="dialog2">
-        <img :src="getLocalMduImg('police','qjcg')">
-        <div class="cancel"
-             @click="cancel"></div>
+    <div :class="[state?'dialog2-cg':'dialog2-sb']" v-if="dialog2">
+        <div v-if="state">
+        <img :src="getLocalMduImg('police','bmcg')" >
+        <div class="cancel" @click="cancel"></div>
+        </div>
+        <div v-else>
+            <img :src="getLocalMduImg('police','bmsb')" >
+            <img :src="getLocalMduImg('police','zdl')" @click="cancel">
+        </div>
     </div>
   </div>
 </template>
@@ -44,9 +48,10 @@ import { utils } from "~rx";
 export default {
     data(){
         return {
-            leaveDate:[],
-            leave:[],
             dialog2:false,
+            state:true,
+            kv:[],
+            dialog1:true
         }
     },
     props: {
@@ -56,7 +61,7 @@ export default {
                 return false
             }
         },
-        kv: {
+        joinData: {
             type:Object,
             default(){
                 return {}
@@ -64,20 +69,8 @@ export default {
         }
     },
     methods: {
-        formatDate(i){
-            return utils.formatDate(this.leaveDate[i].start_time,"yyyy-MM-dd hh:mm")
-        },
-        async __fetchList(){
-            const [err, resp] = await this.$sync(this.$http.police.listForLeave({
-                userId:this.kv.userId
-            }));
-          if(!err){
-            this.leaveDate = resp.result.listForLeave
-
-          }
-        },
-        async __fetch(){
-            await this.__fetchList();
+        formatDate(){
+            return utils.formatDate(this.joinData.start_time,"yyyy-MM-dd hh:mm")
         },
         cancel(){
             this.dialog2 = false
@@ -85,23 +78,23 @@ export default {
         },
         async submit(){
             if(!this.kv.priority_no){
-                return false;
+                return false
             }
-            console.log(this.kv)
-            const [err, resp] = await this.$sync(this.$http.police.leaveClass({
+            this.kv.userId = this.joinData.userIds[0]
+            const [err, resp] = await this.$sync(this.$http.police.robbingClass({
                 priorityNo:this.kv.priority_no,
                 userId:this.kv.userId,
             }));
-          if(!err){
-            console.log(resp.result)
-            this.dialog2 = true;
-          }
+            console.log(err)
+            if(!err){
+                this.dialog1 = false;
+                this.dialog2 = true;
+            }
+            
             
         }
     },
     mounted() {
-        this.__fetch()
-        
     },
 }
 </script>
@@ -162,6 +155,7 @@ export default {
                             font-family:Adobe Heiti Std R;
                             font-weight:normal;
                             color:rgba(102,102,102,1);
+                            vertical-align: middle;
                             span {
                                 display: inline-block;
                                 background:rgba(102,102,102,1);
@@ -204,7 +198,7 @@ export default {
                             }
                             .labelWebp {
                                 position: absolute;
-                                background:url("../police/imgs/check1.png") 427px 31px no-repeat;
+                                background:url("../police/imgs/webp/check1.webp") 427px 31px no-repeat;
                                 background-size: 36px 36px;
                                 top:0;
                                 left:0;
@@ -248,7 +242,7 @@ export default {
 
             }
         }
-        .dialog2 {
+        .dialog2-cg {
             width:690px;
             height:920px;
             position: absolute;
@@ -264,8 +258,19 @@ export default {
                 height:100px;
                 position: absolute;
                 bottom:60px;
-                opacity: 0.2;
                 left:110px;
+            }
+        }
+        .dialog2-sb {
+            width:470px;
+            height:498px;
+            position: absolute;
+            top:50%;
+            left:50%;
+            margin:-249px 0 0 -235px;
+            img {
+                width:100%;
+                height:100%;
             }
         }
     }  
