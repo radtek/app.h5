@@ -18,16 +18,6 @@
             </div>
             <div class="footer">5人请假，还可以抢名额</div>
         </div>
-      <div class="main">
-        <span class="left">
-          <div class="head">
-          </div>
-        </span>
-        <div class="right">
-          <img :src="getLocalMduImg('police','button')" @click="dialogJoin">
-        </div>
-      </div>
-      <div class="footer">5人请假，还可以抢名额</div>
     <div class="more" v-if="isManager">
       <div class="more-text">没有更多活动了，快来
         <div class="more-button" @click="goto('创建活动','/create-activities')">
@@ -107,7 +97,6 @@ export default {
                   this.rows[index].iconUrls =  e.iconUrls.split(',')
               }
             })
-            console.log(this.rows)
           }
         },
         __fetch(){
