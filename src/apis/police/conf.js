@@ -44,8 +44,6 @@ export default [
 		outKey: "getInfoActivity",
 		action: "mobile/v1/infoActivity/selectById",
 		reqParams: [
-			{ name: "page", default: 1 },
-			{ name: "pageSize", default: 10 }
 		]
     },
     {
