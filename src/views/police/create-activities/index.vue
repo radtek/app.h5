@@ -125,7 +125,29 @@
 				}
 			}else{
 				this.title=''
-				this.address=''
+				this.address='',
+					console.log("temp",this.$route.query.temp)
+				if(this.$route.query.temp!==undefined) {
+					// this.temp=this.$route.query.temp
+					this.date = this.$route.query.temp.filter(item => item.isSelect)
+					this.date.forEach(item => item.isEnabled = 1)
+					const dateArr = [];
+					for (let i = 0; i < this.date.length; i++) {
+						var flag = true;
+						for (let j = 0; j < dateArr.length; j++) {
+							if (this.date[i].startTime == dateArr[j].startTime) {
+								flag = false;
+							}
+							;
+						}
+						;
+						if (flag) {
+							dateArr.push(this.date[i]);
+						}
+						;
+						this.dateArr = dateArr
+					}
+				}
 			}
 		
 		},
