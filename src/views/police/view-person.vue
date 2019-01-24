@@ -176,8 +176,8 @@ export default {
 		},
 		async __fetchRob() {
 			this.person = this.$route.query;
-			console.log(this.person.priorityNo)
-			console.log(this.person.id)
+			console.log(this.person);
+			console.log(this.person.id);
 			const [err, resp] = await this.$sync(
 				this.$http.police.robbingClass({
 					priorityNo: this.person.priorityNo,
@@ -191,7 +191,7 @@ export default {
 			} else {
 				Indicator.close();
 				this.join = false;
-				alert('抢课失败')
+				alert("抢课失败");
 			}
 		},
 		async __fetch() {
@@ -205,6 +205,11 @@ export default {
 	},
 	async created() {
 		await this.__fetch();
+		this.person = this.$route.query;
+		console.log(this.person);
+	},
+	async actived() {
+		console.log(this.$route.query);
 	}
 };
 </script>

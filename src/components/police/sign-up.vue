@@ -7,7 +7,7 @@
             <div class="header">
                 <span class="left">{{formatDate(index)}} {{i.week}}  ({{i.total}}/21人已报名)</span>
                 <div class="right">
-                    <span @click="goto('查看参与人员','view-person')">查看全部</span>
+                    <span @click="goto('查看参与人员','view-person',{priorityNo:i.priorityNo,id:person.id})">查看全部</span>
                     <div class="img"><img :src="getLocalMduImg('police','quanbu2')"></div>
                 </div>
             </div>
