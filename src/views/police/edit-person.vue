@@ -132,7 +132,6 @@
                   v-show="right=='完成'"
                   @click="changeImg(index)"
                 ></div>
-								
               </div>
 
               <div class="name">{{q.name}}</div>
@@ -200,7 +199,7 @@ export default {
 			}
 		},
 		changeImg(index) {
-			console.log(index)
+			console.log(index);
 			this.cartData[index].isSelect = !this.cartData[index].isSelect;
 			this.$set(this.cartData, index, this.cartData[index]);
 		},
@@ -224,6 +223,8 @@ export default {
 				this.join = false;
 				Indicator.close();
 			} else {
+				this.join = false;
+				Indicator.close();
 			}
 		},
 		Delete() {
@@ -247,7 +248,8 @@ export default {
 			return `确定要删除${this.N}个学员吗`;
 		}
 	},
-	async created() {
+	async activated() {
+
 		if (!this.isAdmin) {
 			this.right = "";
 		}

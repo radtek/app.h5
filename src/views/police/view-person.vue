@@ -218,7 +218,7 @@ export default {
 			return 21 - this.list1.length;
 		}
 	},
-	async created() {
+	async activated() {
 		this.person = this.$route.query;
 		console.log(this.person);
 		await this.__fetch();
