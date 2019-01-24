@@ -17,7 +17,9 @@
       <slot name="empty">
         <div class="empty-wrap"
              @click.stop="onEmptyClick">
-          <rx-icon name="comment"></rx-icon>
+          <!-- <rx-icon name="comment"></rx-icon> -->
+          <img :src="getLocalImg('empty-comment')"
+               alt="" />
           <p>暂无评论,快来抢占首屏吧</p>
         </div>
       </slot>
