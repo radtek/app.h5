@@ -1,17 +1,21 @@
 <template>
-    <div class="leave">
-    <div class="mask"></div>
+    <div class="leave" v-if="show">
+    <div class="mask" ></div>
     <div class="dialog1" v-if="dialog1">
       <div class="content">
         <div class="mark">
-          <img :src="getLocalMduImg('police','qingjia')">
+          <img :src="getLocalMduImg('police','active')">
         </div>
         <div class="item">
-          <div class="list" v-for="i in leaveDate">
-            <div class="time">·{{i.date}} {{i.time}}</div>
+          <div class="list" v-for="i,index in joinList">
+            <div class="time"><span></span>{{formatDate(index)}}</div>
             <div class="choose">
-              <input type="radio" :id="i.id" name="leaveData">
-              <label :for="i.id" :class="[isWebp()?'labelWebp':'']">
+              <input type="radio" 
+                     :id="i.start_time" 
+                     name="leaveData"
+                     v-model="kv.priority_no"
+                     :value="i.priority_no">
+              <label :for="i.start_time" :class="[isWebp()?'labelWebp':'']">
               </label>
             </div>
           </div>
@@ -40,33 +44,67 @@
 </template>
 
 <script>
+import { utils } from "~rx";
 export default {
     data(){
         return {
-            leaveDate:[],
             dialog2:false,
             state:true,
             dialog1:true
         }
     },
+    props: {
+        show: {
+            type:Boolean,
+            default(){
+                return false
+            }
+        },
+        kv: {
+            type:Object,
+            default(){
+                return {}
+            }
+        },
+        joinList: {
+            type:Array,
+            default(){
+                return []
+            }
+        },
+    },
     methods: {
+        formatDate(i){
+            return utils.formatDate(this.joinList[i].start_time,"yyyy-MM-dd hh:mm")
+        },
         cancel(){
             this.dialog2 = false
+            this.dialog1 = true
             this.$emit("doCancel")
         },
-        submit(){
-            this.dialog1 = false;
-            this.dialog2 = true;
-            if(!this.state){
-                console.log('报名失败')
-                return
+        async submit(){
+            if(!this.kv.priority_no){
+                return false
             }
-            console.log('报名成功')
+            
+            const [err, resp] = await this.$sync(this.$http.police.robbingClass({
+                priorityNo:this.kv.priority_no,
+                userId:this.kv.userId,
+            }));
+            if(!err){
+                this.state = true
+                this.dialog1 = false;
+                this.dialog2 = true;
+            }else {
+                this.state = false;
+                this.dialog1 = false;
+                this.dialog2 = true;
+
+
+            }
+            
+            
         }
-    },
-    mounted() {
-        this.leaveDate = [{id:"1",date:"2019-01-14",time:"20:00"},{id:"2",date:"2019-01-14",time:"20:00"},{id:"3",date:"2019-01-14",time:"20:00"}]
-    
     },
 }
 </script>
@@ -127,6 +165,16 @@ export default {
                             font-family:Adobe Heiti Std R;
                             font-weight:normal;
                             color:rgba(102,102,102,1);
+                            vertical-align: middle;
+                            span {
+                                display: inline-block;
+                                background:rgba(102,102,102,1);
+                                width:8px;
+                                height:8px;
+                                border-radius:50%;
+                                vertical-align: middle;
+                                margin-right:8px;
+                            }
                         }
                         .choose {
                             input[type=radio] {

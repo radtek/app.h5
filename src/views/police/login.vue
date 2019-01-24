@@ -75,7 +75,6 @@
 				color: rgba(255, 255, 255, 1);
 			}
 		}
-
 	}
 }
 </style>
@@ -106,14 +105,16 @@
         <toast :text="toast_text" :showToast="showToast"></toast>
       </div>
 
-      <div class="login_btn">
-        <div class="login_text" @click="login()">立即登录</div>
+      <div class="login_btn" @click="login()">
+        <div class="login_text">立即登录</div>
       </div>
     </main>
   </div>
 </template>
 
 <script>
+import { Indicator } from "mint-ui";
+
 export default {
 	name: "login",
 	data() {
@@ -135,22 +136,9 @@ export default {
 		clear() {
 			this.num = "";
 		},
-		get_code() {
-			var Num = this.num;
-			if (this.num == "") {
-				this.toast_text = "请输入手机号";
-				this.toast();
-			} else if (!this.phoneN.test(Num)) {
-				this.toast_text = "手机号格式错误";
-				this.toast();
-			} else if (this.phoneN.test(Num)) {
-				//发请求
-				console.log("要发请求了");
-			}
-		},
-		login() {
-			var Num = this.num;
-			var Code = this.code;
+
+		async login() {
+			const Num = this.num;
 			if (Num == "") {
 				this.toast_text = "请输入手机号";
 				this.toast();
@@ -158,29 +146,51 @@ export default {
 				this.toast_text = "手机号格式错误";
 				this.toast();
 			} else if (this.phoneN.test(Num)) {
-				if (this.click == 0) {
-					//发请求
-					console.log("要发请求了");
-					//存储信息
-					localStorage.setItem("username", Num);
-					//防多次点击
-					this.click = 1;
-					var self = this;
-					setTimeout(function() {
-						self.click = 0;
-					}, 2000);
-				} else {
-					this.toast_text = "不要重复点击";
-					this.toast();
-				}
+				//发请求
+				Indicator.open({
+					text: "登录中..",
+					spinnerType: "snake"
+				});
+				this.__fetch();
 			}
 		},
 		toast() {
-			var self = this;
+			const self = this;
 			this.showToast = true;
 			setTimeout(function() {
 				self.showToast = false;
 			}, 2000);
+		},
+		async __fetchLogin() {
+			const [err, res] = await this.$sync(
+				this.$http.police.login({ phone: this.num })
+			);
+			if (!err) {
+			if(res.STATUS===true){
+				// 存储信息;
+				localStorage.setItem("userName", this.num);
+				Indicator.close();
+				this.$router.push({
+					path: "/index",
+					query: {
+							isManager:res.result.isManager,
+							name:res.result.name,
+							iconUrl:res.result.iconUrl,
+							id:res.result.id,
+							phone:res.result.phone,
+							gmtCreate:res.result.gmtCreate,
+						
+					}
+				});
+			}
+			} else {
+				Indicator.close();
+				this.toast_text = err.msg;
+				this.toast();
+			}
+		},
+		async __fetch() {
+			await this.__fetchLogin();
 		}
 	},
 	created() {}

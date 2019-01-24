@@ -75,6 +75,8 @@
                             display:inline-block;
                             width:480px;
                             vertical-align:text-top;
+                            height:60px;
+                            overflow: scroll;
                         }
                         input,textarea{
                             border:none;
@@ -124,6 +126,13 @@
                     .red {
                         color:#FF3254;
                     }
+                    .nored {
+                        font-size:24px;
+                        font-family:PingFang-SC-Medium;
+                        font-weight:bold;
+                        color:rgba(153,153,153,1);
+                        line-height:42px;
+                    }
                     .jion {
                         font-size:26px;
                         font-family:PingFang-SC-Medium;
@@ -151,6 +160,32 @@
                     }
                 }
 
+            }
+        }
+        .more {
+            text-align: center;
+            .more-text {
+                font-size:26px;
+                font-family:PingFang-SC-Medium;
+                font-weight:bold;
+                color:rgba(51,51,51,1);
+                padding:50px 0;
+            }
+            .more-button {
+                width:168px;
+                height:60px;
+                border:2px solid rgba(0,151,238,1);
+                border-radius:30px;
+                text-align: center;
+                line-height: 56px;
+                display:inline-block;
+    
+                span {
+                    font-size:26px;
+                    font-family:PingFang-SC-Medium;
+                    font-weight:bold;
+                    color:rgba(0,151,238,1);
+                }
             }
         }
     }

@@ -13,10 +13,10 @@
 	background: rgba(0, 0, 0, 1);
 	opacity: 0.4;
 }
-.box1{
-    display: flex;
-    justify-content: center;
-    margin-top:-900px;
+.box1 {
+	display: flex;
+	justify-content: center;
+	margin-top: -900px;
 }
 .window1 {
 	position: absolute;
@@ -49,13 +49,13 @@
 				height: 39px;
 				margin-right: 54px;
 				margin-left: 89px;
-            }
-            .cancel1{
-                width: 102px;
-                height: 39px;
+			}
+			.cancel1 {
+				width: 102px;
+				height: 39px;
 				margin-right: 54px;
 				margin-left: 89px;
-            }
+			}
 			.confirm1 {
 				width: 331px;
 				height: 176px;
@@ -117,20 +117,18 @@ export default {
 			default() {
 				return false;
 			}
-        },
-        isView:{
-            type:Boolean,
-            
-        }
-    },
-    methods:{
-        cancel(){
-            this.$emit('doCancel')
-        },
-        confirm(){
-            this.$emit('doConfirm')
-        }
-        
-    }
+		},
+		isView: {
+			type: Boolean
+		}
+	},
+	methods: {
+		cancel() {
+			this.$emit("doCancel");
+		},
+		confirm() {
+			this.$emit("doConfirm");
+		}
+	}
 };
 </script>
