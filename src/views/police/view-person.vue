@@ -64,6 +64,7 @@
 			font-family: PingFang-SC-Medium;
 			font-weight: 500;
 			color: rgba(51, 51, 51, 1);
+			word-break: break-all;
 		}
 	}
 }
@@ -75,35 +76,35 @@
     <div class="top">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">参与人员({{atPerson}}/{{allPerson}})</span>
+        <span class="fw">参与人员({{list1.length}}/21)</span>
       </div>
       <div class="content">
         <ul>
-          <li v-for="(q,index) in list" :key="index">
+          <li v-for="(q,index) in list1" :key="index">
             <div class="person">
-              <img :src="q.iconUrl" class="head_icon">
+              <img :src="q.icon_url" class="head_icon">
               <div>{{q.name}}</div>
             </div>
           </li>
-          <li v-show="leaveP > 0">
+          <li v-show="atP > 0">
             <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="dialogJoin">
           </li>
         </ul>
       </div>
       <dialog-join :showToast="join" :text="text" @doCancel="Cancel" @doConfirm="Confirm"></dialog-join>
     </div>
-    <div class="separate" v-show="isShowUsers && leaveP > 0"></div>
-
-    <div class="top" v-show="leaveP > 0">
+    <div class="separate" v-show="isShowUsers && list2.length > 0"></div>
+    <toast :text="toast_text" :showToast="showToast"></toast>
+    <div class="top" v-show="list2.length > 0">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">请假人员({{leaveP}})</span>
+        <span class="fw">请假人员({{list2.length}})</span>
       </div>
       <div class="content">
         <ul>
-          <li v-for="(q,index) in list" :key="index">
+          <li v-for="(q,index) in list2" :key="index">
             <div class="person">
-              <img :src="q.iconUrl" class="head_icon">
+              <img :src="q.icon_url" class="head_icon">
               <div>{{q.name}}</div>
             </div>
           </li>
@@ -121,19 +122,27 @@ export default {
 	data() {
 		return {
 			isShowUsers: true,
-			atPerson: 16,
-			allPerson: 20,
+			atPerson: "",
+			allPerson: "",
 			list: [],
+			list1: [],
+			list2: [],
+			list3: [],
 			title: "参与人员",
 			join: false,
-			text: "该课程还有剩余名额，是否加入？"
+			text: "该课程还有剩余名额，是否加入？",
+			person: {},
+			toast_text: "",
+			showToast: false
 		};
 	},
 	components: {
 		topHead: () =>
 			import(/* webpackChunkName:"police-header" */ "~v/police/__wc__/header/header.vue"),
 		dialogJoin: () =>
-			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
+			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue"),
+		toast: () =>
+			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
 	},
 	methods: {
 		dialogJoin() {
@@ -142,65 +151,77 @@ export default {
 		Cancel() {
 			this.join = false;
 		},
-		Confirm() {
+		async Confirm() {
 			Indicator.open({
 				text: "正在加入..",
 				spinnerType: "snake"
 			});
-			setTimeout(function() {
+			await this.__fetchRob();
+		},
+		async __fetchDetails() {
+			this.person = this.$route.query;
+			const [err, resp] = await this.$sync(
+				this.$http.police.listForCouse({
+					priorityNo: this.person.priority_no
+				})
+			);
+			console.log(err, resp);
+			if (!err && resp.STATUS) {
+				console.log(resp);
+				this.list = resp.result.listForCouse;
+				console.log(this.list);
+				this.list1 = this.list.filter(function(item, index, array) {
+					return item.is_leave == 0;
+				});
+				console.log(this.list1);
+				this.list2 = this.list.filter(function(item, index, array) {
+					return item.is_leave == 1;
+				});
+			}
+		},
+		async __fetchRob() {
+			this.person = this.$route.query;
+			console.log(this.person);
+			console.log(this.person.id);
+			const [err, resp] = await this.$sync(
+				this.$http.police.robbingClass({
+					priorityNo: this.person.priority_no,
+					userId: this.person.userId
+				})
+			);
+			console.log(err, resp);
+			if (!err && resp.STATUS) {
+				this.list3 = resp.result;
 				Indicator.close();
+				this.join = false;
+				location.reload();
+			} else {
+				Indicator.close();
+				this.join = false;
+				this.toast_text = err.msg;
+				this.toast();
+			}
+		},
+		async __fetch() {
+			await this.__fetchDetails();
+		},
+		toast() {
+			const self = this;
+			this.showToast = true;
+			setTimeout(function() {
+				self.showToast = false;
 			}, 2000);
-			this.join = false;
 		}
 	},
 	computed: {
-		leaveP: function() {
-			return this.allPerson - this.atPerson;
+		atP: function() {
+			return 21 - this.list1.length;
 		}
 	},
-	created() {
-		this.list = [
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵啊"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵3"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵4"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵5"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵6"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵7"
-			},
-			{
-				iconUrl:
-					"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2951924714,3607611016&fm=26&gp=0.jpg",
-				name: "宋海兵8"
-			}
-		];
+	async activated() {
+		this.person = this.$route.query;
+		console.log(this.person);
+		await this.__fetch();
 	}
 };
 </script>
