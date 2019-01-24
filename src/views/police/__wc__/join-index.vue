@@ -84,7 +84,6 @@ export default {
             }
         },
         async submit(){
-            console.log(this.kv)
             if(!this.kv.priority_no){
                 return false
             }
