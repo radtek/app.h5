@@ -2,13 +2,11 @@
     <div>
 		<Header :title="mainTitle" :right="rightTitle"  @change="change"></Header>
 		<div class="time-contain"  v-for="(item,index) in date" :key="index">
-			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del">
+			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del(index)">
 				<div class="time-font" :class="{'active':rightTitle==='完成'}">
-					{{item.week}}{{item.time}}
+					{{item.week}}{{item.startTime}}
 				</div>
-			<div class="contain">
-				<input  id="swich" class="mui-switch mui-switch-animbg" type="checkbox" @click="test(index)">
-			</div>
+			<div class="img" :class="{on:item.isSelect}" @click="test(index)"></div>
 		</div>
 		<img class="addImg" v-if="rightTitle==='编辑'" src="@/assets/imgs/police/add.png" @click="showDateTimePicker2"></img>
 		<div id="app">
@@ -46,6 +44,7 @@
 				let selectAll=this.selectAll()
 				if(selectAll){
 					to.query.temp = this.date;
+					console.log('router',this.date)
 				}else{
 					to.query.temp = undefined;
 				}
@@ -78,10 +77,15 @@
 				dateTimePickerResult2: '',
 				nowWeek:'',
 				nowTime:'',
-				date:[{week:'周一',time:'09:00',isSelect: false}]
+				date:[]
 			}
 		},
 		activated(){
+			let arrTrue=this.$route.query.arr.filter(item=>item.isEnabled===1)
+			arrTrue.forEach(item=>item.isSelect = true)
+			let arrFs=this.$route.query.arr.filter(item=>item.isEnabled===0)
+			arrFs.forEach(item=>item.isSelect = false)
+			this.date=arrTrue.concat(arrFs)
 			this.rightTitle='编辑'
 		},
 		created(){
@@ -143,7 +147,7 @@
 				let nowDate=	this.dateTimePickerResult2.toString().slice(0,9);
 				this.nowTime=	this.dateTimePickerResult2.toString().slice(10,16);
 				this.nowWeek= this.getWeek(new Date(nowDate));
-				this.date.push({week:this.nowWeek,time:this.nowTime,isSelect:false})
+				this.date.push({week:this.nowWeek,startTime:this.nowTime,isSelect:false})
 			},
 			timeControl () {
 				const today = new Date()
@@ -180,6 +184,17 @@
 			.delImg {
 				width: 58px;
 				height: 58px;
+			}
+			.img{
+				margin: 0 20px;
+				width: 112px;
+				height: 76px;
+				background-image: url(~@/assets/imgs/police/6.png);
+				background-size: 112px 76px;
+				&.on{
+					background-image: url(~@/assets/imgs/police/5.png);
+					background-size: 112px 76px;
+				}
 			}
 			.active {
 				margin-right: 200px;
