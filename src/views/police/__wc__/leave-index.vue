@@ -49,7 +49,6 @@ export default {
     },
     data(){
         return {
-            leaveDate:[],
             leave:[],
             dialog2:false,
             toast_text:"",
@@ -68,23 +67,17 @@ export default {
             default(){
                 return {}
             }
+        },
+        leaveDate: {
+            type:Array,
+            default(){
+                return []
+            }
         }
     },
     methods: {
         formatDate(i){
             return utils.formatDate(this.leaveDate[i].start_time,"yyyy-MM-dd hh:mm")
-        },
-        async __fetchList(){
-            const [err, resp] = await this.$sync(this.$http.police.listForLeave({
-                userId:this.kv.userId
-            }));
-          if(!err){
-            this.leaveDate = resp.result.listForLeave
-
-          }
-        },
-        async __fetch(){
-            await this.__fetchList();
         },
         cancel(){
             this.dialog2 = false
@@ -113,10 +106,6 @@ export default {
           }
             
         }
-    },
-    mounted() {
-        this.__fetch()
-        
     },
 }
 </script>

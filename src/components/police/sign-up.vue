@@ -63,16 +63,15 @@ export default {
             }
         },
         isRefresh(){
-            console.log(this.isRefresh)
             if(this.isRefresh){
-                console.log('一刷新')
-                this.__fetch();
+                this.__fetch()
+                this.$emit('doRefresh')
             }
         }
     },
     methods: {
         dialogJoin(i){
-        this.$emit('join',i)
+        this.$emit('join',i,this.person)
       },
       __fetchPerson(){
           if(this.person.isManager == 1){
