@@ -165,7 +165,6 @@ export default {
 			const [err, res] = await this.$sync(
 				this.$http.police.login({ phone: this.num })
 			);
-			console.log(res)
 			if (!err) {
 			if(res.STATUS===true){
 				// 存储信息;
