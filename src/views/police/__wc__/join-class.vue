@@ -9,15 +9,11 @@
 }
 .mask {
 	width: 100%;
-	height: 105%;
+	height: 100%;
 	background: rgba(0, 0, 0, 1);
 	opacity: 0.4;
 }
-.box1 {
-	position: absolute;
-	left: 0;
-	top: 0;
-}
+
 .window1 {
 	position: absolute;
 	top:400px;
