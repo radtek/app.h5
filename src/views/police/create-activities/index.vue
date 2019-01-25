@@ -14,7 +14,7 @@
 			<div class="activity-font" v-if="temp===undefined">请选择活动时间</div>
 			<div class="time-contain" v-else>
 				<div class="contain">
-					<div class="time" v-for="(item,index) in dateArr" :key="index">{{item.week}}{{item.startTime}}</div>
+					<div class="time" v-for="(item,index) in dateTr" :key="index">{{item.week}}{{item.startTime}}</div>
 				</div>
 					
 			</div>
@@ -89,6 +89,16 @@
 						this.dateArr = res.result.infoActivityPlanList.filter(item => item.isEnabled === 1)
 						if(JSON.parse(localStorage.getItem('date'))){
 							this.dateArr=JSON.parse(localStorage.getItem('date'))
+							this.dateTr=this.dateArr.filter(item=>item.isSelect)
+							this.dateTr.forEach(item=>item.isEnabled = 1)
+							let dateFs=this.dateArr.filter(item=>!item.isSelect)
+							dateFs.forEach(item=>item.isEnabled = 0)
+							this.dateArr=this.dateTr.concat(dateFs)
+							this.dateArr.forEach(item=>item.id='')
+							this.dateArr.forEach(item=>item.relationId=1)
+							
+						}else{
+							this.dateTr= res.result.infoActivityPlanList.filter(item => item.isEnabled === 1)
 						}
 						if(JSON.parse(localStorage.getItem('date'))==''){
 							this.temp = undefined
@@ -220,7 +230,8 @@
 				changeNum1:1,
 				toast_text: "",
 				showToast: false,
-				dateArr:[]
+				dateArr:[],
+				dateTr:[]
 			}
 		},
 		methods:{
@@ -277,7 +288,7 @@
 						address:this.address,
 						isNotHoliday:this.changeNum,
 						isRepeat:this.changeNum1,
-						infoActivityPlanList:this.allArr
+						infoActivityPlanList:this.dateArr
 					})
 				);
 				if (!err) {
