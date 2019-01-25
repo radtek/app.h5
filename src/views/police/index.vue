@@ -199,6 +199,7 @@
   	activated() {
 			this.personId=localStorage.getItem('id')
 			this.isManager=localStorage.getItem('isManager')
+			this.kv.userId = this.personId
   		this.__fetch();
   	}
   };

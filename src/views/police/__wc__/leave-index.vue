@@ -107,6 +107,7 @@ export default {
           }else{
             this.toast_text =  "已请假，请勿重复请假"
             this.toast()
+            console.log(err)
           }
            this.kv.priority_no = null  
         }
@@ -118,7 +119,7 @@ export default {
   .leave {
         width:100%;
         height:100%;
-        position:fixed;
+        position:absolute;
         .mask {
             width:100%;
             height:100%;
@@ -126,7 +127,7 @@ export default {
             opacity:0.4;
         }
         .dialog1    {
-            position: fixed;
+            position: absolute;
             top:50%;
             left:50%;
             margin: -266px 0 0 -304px;
@@ -259,7 +260,7 @@ export default {
         .dialog {
             width:690px;
             height:920px;
-            position: fixed;
+            position: absolute;
             top:50%;
             left:50%;
             margin:-460px 0 0 -345px;
@@ -270,7 +271,7 @@ export default {
             .cancel {
                 width:470px;
                 height:100px;
-                position: fixed;
+                position: absolute;
                 bottom:60px;
                 opacity: 0.2;
                 left:110px;
