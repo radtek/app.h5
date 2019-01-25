@@ -130,7 +130,7 @@
   .leave {
   	width: 100%;
   	height: 100%;
-  	position: fixed;
+  	position: absolute;
   	.mask {
   		width: 100%;
   		height: 100%;
@@ -138,7 +138,7 @@
   		opacity: 0.4;
   	}
   	.dialog1 {
-  		position: fixed;
+  		position: absolute;
   		top: 50%;
   		left: 50%;
   		margin: -266px 0 0 -304px;
