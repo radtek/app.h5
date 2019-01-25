@@ -5,11 +5,15 @@ import axios from "axios";
 import { stringify } from "qs";
 
 const isProd = process.env.NODE_ENV === "production";
-const apiRoot = `${
-	process.env.NODE_ENV === "development"
-		? (process.env.JXRS_APP_MODULE === "police"?"http://police.guotailimin.com":"http://manage.guotailimin.com")
-		: window.location.origin
-}/`;
+const apiRoot =
+	process.env.JXRS_APP_MODULE === "police"
+		? "http://police.guotailimin.com/"
+		: `${
+			process.env.NODE_ENV === "development"
+				? "http://manage.guotailimin.com/"
+				: window.location.origin
+		  }/`;
+
 // axios 配置
 axios.defaults.timeout = 15000;
 axios.defaults.headers.post["Content-Type"] =
@@ -117,17 +121,23 @@ export function createApis(...apiMapData) {
 					// 		? item.action.substr(1)
 					// 		: item.action
 					// }`;
-					//以下改动为获取mall的mock数据修改了uri，有接口后删除并还原上面部分
+					// 以下改动为获取mall的mock数据修改了uri，有接口后删除并还原上面部分
 					let uri;
-					if(item.action[1]+item.action[2]+item.action[3]+item.action[4] == "mall"){
-						const mockuri = "https://www.easy-mock.com/mock/5c3d7e82b462544a5709ceac/"
+					if (
+						item.action[1] +
+							item.action[2] +
+							item.action[3] +
+							item.action[4] ==
+						"mall"
+					) {
+						const mockuri =
+							"https://www.easy-mock.com/mock/5c3d7e82b462544a5709ceac/";
 						uri = `${mockuri}${
-								item.action[0] === "/"
-									? item.action.substr(1)
-									: item.action
-							}`
-					}
-					else{
+							item.action[0] === "/"
+								? item.action.substr(1)
+								: item.action
+						}`;
+					} else {
 						uri = `${apiRoot}${
 							item.action[0] === "/"
 								? item.action.substr(1)
