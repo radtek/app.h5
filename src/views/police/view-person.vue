@@ -1,6 +1,19 @@
 <style lang="scss">
-[rs-view="view-person"] {
-	height: 100%;
+.index {
+	display: flex;
+    min-height: 100%;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+	.body {
+				flex: 1;
+        overflow-y: scroll;
+        display:flex;
+        background:rgba(245,245,245,1);
+		[rs-view="view-person"] {
+						flex: 1;
+            position: relative;
 	.fw {
 		font-family: PingFang-SC-Bold;
 		font-weight: bold;
@@ -69,10 +82,15 @@
 		}
 	}
 }
+	}
+}
+
 </style>
 
 <template>
-  <div rs-view="view-person">
+<div class="index">
+	<div class="body">
+		<div rs-view="view-person">
     <top-head :title="title"></top-head>
     <div class="top">
       <div class="title1">
@@ -113,6 +131,9 @@
       </div>
     </div>
   </div>
+	</div>
+</div>
+  
 </template>
 
 <script>

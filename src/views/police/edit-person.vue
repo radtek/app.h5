@@ -1,157 +1,178 @@
 <style lang="scss">
-[rs-view="edit-person"] {
-	.fw {
-		font-family: PingFang-SC-Bold;
-		font-weight: bold;
-	}
-	.title1 {
-		display: flex;
-		align-items: center;
-		margin: 0 30px;
-		border-bottom: 1px solid rgba(230, 230, 230, 1);
-		padding-top: 40px;
-		padding-bottom: 18px;
-		.line {
-			width: 19px;
-			height: 41px;
-			margin-right: 8px;
-		}
-		span {
-			font-size: 32px;
-			color: rgba(102, 102, 102, 1);
-		}
-	}
-	.content {
-		margin-top: 40px;
-		display: flex;
-		padding: 0 20px;
-		ul {
-			li {
-				display: inline-block;
-				margin-right: 27.5px;
-
-				.add {
-					width: 100px;
-					height: 100px;
+.index {
+	display: flex;
+    min-height: 100%;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+	.body {
+		flex: 1;
+        overflow-y: scroll;
+        display:flex;
+        background:rgba(245,245,245,1);
+		[rs-view="edit-person"] {
+			flex: 1;
+            position: relative;
+			.fw {
+				font-family: PingFang-SC-Bold;
+				font-weight: bold;
+			}
+			.title1 {
+				display: flex;
+				align-items: center;
+				margin: 0 30px;
+				border-bottom: 1px solid rgba(230, 230, 230, 1);
+				padding-top: 40px;
+				padding-bottom: 18px;
+				.line {
+					width: 19px;
+					height: 41px;
+					margin-right: 8px;
+				}
+				span {
+					font-size: 32px;
+					color: rgba(102, 102, 102, 1);
 				}
 			}
-			li:nth-child(5n) {
-				margin-right: 0;
+			.content {
+				margin-top: 40px;
+				display: flex;
+				padding: 0 20px;
+				ul {
+					li {
+						display: inline-block;
+						margin-right: 27.5px;
+
+						.add {
+							width: 100px;
+							height: 100px;
+						}
+					}
+					li:nth-child(5n) {
+						margin-right: 0;
+					}
+					li:nth-last-child(-n + 5) {
+						margin-bottom: 0;
+					}
+				}
 			}
-			li:nth-last-child(-n + 5) {
-				margin-bottom: 0;
+			.person {
+				width: 120px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+
+				.icon_head {
+					width: 100px;
+					position: relative;
+					background: #000;
+					border-radius: 50%;
+					height: 100px;
+				}
+
+				.icon1 {
+					width: 100px;
+					height: 100px;
+					border-radius: 50%;
+					opacity: 0.6;
+					filter: alpha(opacity=60);
+				}
+				.icon {
+					width: 100px;
+					height: 100px;
+					border-radius: 50%;
+				}
+
+				.circle {
+					background: url(../../assets/modules/police/imgs/circle.png)
+						no-repeat;
+					background-size: 36px 36px;
+					width: 36px;
+					height: 36px;
+					position: absolute;
+					top: 32px;
+					left: 32px;
+				}
+				.pitch {
+					background: url(../../assets/modules/police/imgs/pitch.png)
+						no-repeat;
+					background-size: 100% 100%;
+					width: 36px;
+					height: 36px;
+					position: absolute;
+					top: 32px;
+					left: 32px;
+				}
+				.name {
+					width: 120px;
+					text-align: center;
+					margin-top: 10px;
+					margin-bottom: 30px;
+					font-size: 28px;
+					font-family: PingFang-SC-Medium;
+					font-weight: 500;
+					color: rgba(51, 51, 51, 1);
+				}
 			}
-		}
-	}
-	.person {
-		width: 120px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-
-		.icon_head {
-			width: 100px;
-			position: relative;
-			background: #000;
-			border-radius: 50%;
-			height: 100px;
-		}
-
-		.icon1 {
-			width: 100px;
-			height: 100px;
-			border-radius: 50%;
-			opacity: 0.6;
-			filter: alpha(opacity=60);
-		}
-		.icon {
-			width: 100px;
-			height: 100px;
-			border-radius: 50%;
-		}
-
-		.circle {
-			background: url(../../assets/modules/police/imgs/circle.png)
-				no-repeat;
-			background-size: 36px 36px;
-			width: 36px;
-			height: 36px;
-			position: absolute;
-			top: 32px;
-			left: 32px;
-		}
-		.pitch {
-			background: url(../../assets/modules/police/imgs/pitch.png)
-				no-repeat;
-			background-size: 100% 100%;
-			width: 36px;
-			height: 36px;
-			position: absolute;
-			top: 32px;
-			left: 32px;
-		}
-		.name {
-			width: 120px;
-			text-align: center;
-			margin-top: 10px;
-			margin-bottom: 30px;
-			font-size: 28px;
-			font-family: PingFang-SC-Medium;
-			font-weight: 500;
-			color: rgba(51, 51, 51, 1);
 		}
 	}
 }
+
 </style>
 
 <template>
-  <div rs-view="edit-person">
-    <top-head
-      v-if="isManager == 1"
-      :title="title"
-      :right="right"
-      :left="left"
-      @change="change"
-      @delete="Delete"
-    ></top-head>
-    <top-head v-else :title="title" :left="left" @change="change" @delete="Delete"></top-head>
-    <div class="top">
-      <dialog-join
-        :showToast="join"
-        :isView="isEdit"
-        :text="num"
-        @doCancel="Cancel"
-        @doConfirm="Confirm"
-      ></dialog-join>
-      <div class="title1">
-        <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">参与人员({{atPerson}})</span>
-      </div>
-      <div class="content">
-        <ul>
-          <li v-for="(q,index) in list" :key="index">
-            <div class="person">
-              <div class="icon_head">
-                <img :src="q.iconUrl" :class="[right == '完成'?'icon1':'icon']">
-                <div
-                  class="circle"
-                  :class="{pitch:q.isSelect}"
-                  v-show="right=='完成'"
-                  @click="changeImg(index)"
-                ></div>
-              </div>
+<div class="index">
+	<div class="body">
+		<div rs-view="edit-person">
+			<top-head
+			v-if="isManager == 1"
+			:title="title"
+			:right="right"
+			:left="left"
+			@change="change"
+			@delete="Delete"
+			></top-head>
+			<top-head v-else :title="title" :left="left" @change="change" @delete="Delete"></top-head>
+			<div class="top">
+			<dialog-join
+				:showToast="join"
+				:isView="isEdit"
+				:text="num"
+				@doCancel="Cancel"
+				@doConfirm="Confirm"
+			></dialog-join>
+			<div class="title1">
+				<img :src="getLocalMduImg('police','line')" alt class="line">
+				<span class="fw">参与人员({{atPerson}})</span>
+			</div>
+			<div class="content">
+				<ul>
+				<li v-for="(q,index) in list" :key="index">
+					<div class="person">
+					<div class="icon_head">
+						<img :src="q.iconUrl" :class="[right == '完成'?'icon1':'icon']">
+						<div
+						class="circle"
+						:class="{pitch:q.isSelect}"
+						v-show="right=='完成'"
+						@click="changeImg(index)"
+						></div>
+					</div>
 
-              <div class="name">{{q.name}}</div>
-            </div>
-          </li>
-          <li v-show="isManager == 1 ">
-            <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="add">
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+					<div class="name">{{q.name}}</div>
+					</div>
+				</li>
+				<li v-show="isManager == 1 ">
+					<img :src="getLocalMduImg('police','redadd')" alt class="add" @click="add">
+				</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+			</div>
+		</div>
 </template>
 
 <script>
