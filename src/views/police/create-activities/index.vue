@@ -143,22 +143,22 @@
 					date.forEach(item => item.isEnabled = 1)
 					newDate.forEach(item => item.isEnabled = 0)
 					this.allArr=date.concat(newDate)
-					this.allArr.forEach(item=>item.id='',item.relationId=1);
-					// const dateArr = [];
-					// for (let i = 0; i < date.length; i++) {
-					// 	var flag = true;
-					// 	for (let j = 0; j < dateArr.length; j++) {
-					// 		if (date[i].startTime == dateArr[j].startTime) {
-					// 			flag = false;
-					// 		};
-					// 	};
-					// 	if (flag) {
-					// 		dateArr.push(date[i]);
-					// 	};
-					// 	this.dateArr = dateArr;
-					// 	console.log('allArr',this.allArr)
-					//	
-					// }
+					this.allArr.forEach(item=>item.id='');	
+					this.allArr.forEach(item=>item.relationId=1);
+					
+					const dateArr = [];
+					for (let i = 0; i < date.length; i++) {
+						var flag = true;
+						for (let j = 0; j < dateArr.length; j++) {
+							if (date[i].startTime == dateArr[j].startTime) {
+								flag = false;
+							};
+						};
+						if (flag) {
+							dateArr.push(date[i]);
+						};
+						this.dateArr = dateArr;
+					}
 				}
 			}
 		
