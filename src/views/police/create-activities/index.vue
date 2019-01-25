@@ -138,14 +138,14 @@
 				}
 			}else{
 				if(this.$route.query.temp!==undefined) {
-					// this.temp=this.$route.query.temp
-					console.log('temp',this.$route.query.temp)
 					let newDate=this.$route.query.temp.filter(item => !item.isSelect);
 					let date = this.$route.query.temp.filter(item => item.isSelect);
 					date.forEach(item => item.isEnabled = 1)
 					newDate.forEach(item => item.isEnabled = 0)
 					this.allArr=date.concat(newDate)
-					this.allArr.forEach(item=>item.id='',item.relationId=1);
+					this.allArr.forEach(item=>item.id='');	
+					this.allArr.forEach(item=>item.relationId=1);
+					
 					const dateArr = [];
 					for (let i = 0; i < date.length; i++) {
 						var flag = true;
@@ -158,8 +158,6 @@
 							dateArr.push(date[i]);
 						};
 						this.dateArr = dateArr;
-						console.log('allArr',this.allArr)
-						
 					}
 				}
 			}
