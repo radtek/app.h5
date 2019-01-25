@@ -158,7 +158,7 @@
 				const repeatDate = this.date.filter(d=>d.week === week && d.startTime === startTime);
 				
 				if(!repeatDate || !repeatDate.length) {
-					this.date.push({ week, startTime, isSelect: false })
+					this.date.push({ week:week, startTime: startTime, isSelect: false })
 				}
 			},
 			timeControl () {
