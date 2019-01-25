@@ -7,7 +7,9 @@
             <div class="header">
                 <span class="left">{{formatDate(index)}} {{i.week}}  ({{i.total}}/21人已报名)</span>
                 <div class="right">
-                    <span @click="goto('查看参与人员','view-person',{priority_no:i.priority_no,userId:person.id})">查看全部</span>
+                    <router-link :to="{path:'/view-person',query:{priority_no:i.priority_no,userId:person.id}}">
+                    <span>查看全部</span>
+                    </router-link>
                     <div class="img"><img :src="getLocalMduImg('police','quanbu2')"></div>
                 </div>
             </div>

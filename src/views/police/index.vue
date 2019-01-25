@@ -27,8 +27,10 @@
         </div>
         
         <div class="column-footer">
-          <div class="jion">已有<span class="red" @click="goto('全部参与人员','edit-person')">{{total}}</span>人参与活动 &nbsp;
-          <span class="red" @click="goto('全部参与人员','edit-person',{query:person.isManager})">查看全部</span>
+          <div class="jion">已有<span class="red">{{total}}</span>人参与活动 &nbsp;
+          <router-link :to="{path:'/edit-person',query:{query:person.isManager}}">
+          <span class="red">查看全部</span>
+          </router-link>
           <p class="img"><img :src="getLocalMduImg('police','quanbu')"></p></div>
           <div class="tips" v-if="this.startTime">温馨提示：您最近的课程是
             <span class='red'>{{this.startTime}} {{this.startWeek}}</span>
