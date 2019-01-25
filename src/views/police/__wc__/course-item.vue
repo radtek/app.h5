@@ -53,7 +53,7 @@
   	},
   	data() {
   		return {
-  			totalCount: 2
+  			totalCount: 21
   		};
   	},
   	computed: {
