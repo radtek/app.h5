@@ -145,6 +145,17 @@ module.exports = {
 					"/login",
 					"/card"
 				];
+			case "police":
+				return [
+					"/login",
+					"/index",
+					"/personnel",
+					"/add-person",
+					"/view-person",
+					"/edit-person",
+					"/create-activities",
+					"/activity-time"
+				];
 			default:
 				break;
 		}

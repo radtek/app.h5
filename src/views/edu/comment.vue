@@ -107,7 +107,7 @@
   			const action = isSupported
   				? "cancelZanToComment"
   				: "addZanToComment";
-  			this.$http.edu[action]({
+  			this.$http.news[action]({
   				contentId: this.contentid,
   				commentId: item.id
   			}).then(() => {

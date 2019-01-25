@@ -8,7 +8,7 @@
         .header {
             display:flex;
             justify-content:space-between;
-            align-items:center;
+            align-items:flex-start;
             padding:5px 0;
             
             .left {
@@ -26,6 +26,11 @@
                 font-weight:bold;
                 color:rgba(153,153,153,1);
                 line-height:42px;
+                a {
+                    color:rgba(153,153,153,1)
+                }
+                a:hover { text-decoration:none;
+                          color:rgba(153,153,153,1);}
             }
             .img {
                 display:inline-block;

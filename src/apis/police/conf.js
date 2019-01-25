@@ -86,6 +86,12 @@ export default [
 		action: "/mobile/v1/couse/listForRob",
 	},
 	{
+		// 自动排课
+		verb: "post",
+		outKey: "init",
+		action: "/mobile/v1/couse/init",
+	},
+	{
 		// 请假列表
 		verb: "post",
 		outKey: "listForLeave",
