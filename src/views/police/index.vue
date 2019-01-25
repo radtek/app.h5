@@ -7,7 +7,7 @@
       <main class="content">
         <div class="backpic"><img :src="getLocalMduImg('police','yujia')"></div>
         <div class="nav"
-             v-if="isManager">
+             v-if="isManager === 1">
           <span @click="editChange">编辑</span>
         </div>
         <div class="nav"
@@ -54,15 +54,6 @@
                        @join="dlistJoin"
                        :item="item"
                        :leave-item="leaveListOfCourse[i]"></course-item>
-        </div>
-        <div class="more"
-             v-if="isManager">
-          <!-- <div class="more-text">没有更多活动了，快来
-            <div class="more-button"
-                 @click="goto('创建活动','/create-activities')">
-              <span>立即创建</span>
-            </div>
-          </div> -->
         </div>
       </main>
     </div>
@@ -202,6 +193,7 @@
   		},
   	},
   	activated() {
+			console.log(this.isManager)
   		this.__fetch();
   	}
   };
