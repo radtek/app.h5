@@ -168,7 +168,8 @@ export default {
 			if (!err) {
 			if(res.STATUS===true){
 				// 存储信息;
-				localStorage.setItem("userName", this.num);
+				const curTime= new Date().getTime();
+				localStorage.setItem("userName", JSON.stringify({phone:this.num,time:curTime}));
 				Indicator.close();
 				this.$router.push({
 					path: "/index",
