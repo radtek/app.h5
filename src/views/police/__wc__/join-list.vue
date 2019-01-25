@@ -105,10 +105,8 @@ export default {
                 this.state = false;
                 this.dialog1 = false;
                 this.dialog2 = true;
-
-
             }
-            
+            this.kv.priority_no = null 
             
         }
     },

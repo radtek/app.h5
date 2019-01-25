@@ -108,7 +108,7 @@ export default {
             this.toast_text =  "已请假，请勿重复请假"
             this.toast()
           }
-            
+           this.kv.priority_no = null  
         }
     },
 }

@@ -100,6 +100,7 @@
   			this.dialog1 = true;
   		},
   		async doSubmit() {
+			  console.log(this.kv.priority_no)
   			if (!this.kv.priority_no) {
   				return false;
   			}
@@ -118,8 +119,9 @@
   			} else {
   				this.state = false;
   				this.dialog1 = false;
-  				this.dialog2 = true;
-  			}
+				this.dialog2 = true;
+			  }
+			  this.kv.priority_no = null 
   		}
   	}
   };
