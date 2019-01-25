@@ -7,7 +7,7 @@
       <main class="content">
         <div class="backpic"><img :src="getLocalMduImg('police','yujia')"></div>
         <div class="nav"
-             v-if="isManager === 1">
+             v-if="isManager == 1">
           <span @click="editChange">编辑</span>
         </div>
         <div class="nav"
@@ -55,6 +55,7 @@
                        :item="item"
                        :leave-item="leaveListOfCourse[i]"></course-item>
         </div>
+
       </main>
     </div>
     <footer :class="[isWebp()?'webp':'']">
