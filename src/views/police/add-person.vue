@@ -171,7 +171,10 @@ export default {
 			if (!err && res.STATUS) {
 				Indicator.close();
 				this.$router.push({
-					path: "/edit-person"
+					path: "/edit-person",
+					query:{
+						isManager:1
+					}
 				});
 			} else {
 				Indicator.close();

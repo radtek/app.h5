@@ -107,8 +107,15 @@
 
 <template>
   <div rs-view="edit-person">
-    <top-head v-if="isManager" :title="title" :right="right" :left="left" @change="change" @delete="Delete"></top-head>
-	<top-head v-else :title="title" :left="left" @change="change" @delete="Delete"></top-head>
+    <top-head
+      v-if="isManager"
+      :title="title"
+      :right="right"
+      :left="left"
+      @change="change"
+      @delete="Delete"
+    ></top-head>
+    <top-head v-else :title="title" :left="left" @change="change" @delete="Delete"></top-head>
     <div class="top">
       <dialog-join
         :showToast="join"
@@ -138,10 +145,8 @@
               <div class="name">{{q.name}}</div>
             </div>
           </li>
-          <li v-show="leaveP > 0">
-            <router-link :to="{path:'/add-person'}">
-              <img :src="getLocalMduImg('police','redadd')" alt class="add">
-            </router-link>
+          <li v-show="isManager">
+            <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="add">
           </li>
         </ul>
       </div>
@@ -162,10 +167,9 @@ export default {
 			list: [],
 			title: "全部参与人员",
 			right: "编辑",
-			isManager:false,
+			isManager: false,
 			left: "",
 			id: 0,
-			isAdmin: true,
 			join: false,
 			text: "",
 			isEdit: true,
@@ -206,9 +210,6 @@ export default {
 		},
 		changeImg(index) {
 			// console.log(index + 1);
-
-			// this.Num++;
-			// console.log(this.Num)
 			this.cartData[index].isSelect = !this.cartData[index].isSelect;
 			this.$set(this.cartData, index, this.cartData[index]);
 			var P = this.cartData[index].id;
@@ -267,6 +268,14 @@ export default {
 			if (this.N !== 0) {
 				this.join = !this.join;
 			}
+		},
+		add() {
+			this.$router.push({
+				path: "/add-person",
+				query: {
+					isManager: 1
+				}
+			});
 		}
 	},
 	computed: {
@@ -278,13 +287,14 @@ export default {
 		}
 	},
 	async activated() {
-		if(this.$route.query.query == 1){
-			this.isManager = true
-		}else{
-			this.isManager = false
+		console.log(this.$route.query);
+		if (this.$route.query.query == 1) {
+			this.isManager = true;
+		} else {
+			this.isManager = false;
 		}
-		if (!this.isAdmin) {
-			this.right = "";
+		if (this.$route.query.isManager == 1) {
+			this.isManager = true;
 		}
 		await this.__fetch();
 		let nowList = this.list;
