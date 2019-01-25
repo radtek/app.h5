@@ -86,7 +86,8 @@
     <div class="content">
       <div class="name fw">
         <div>上传头像:</div>
-        <img :src="getLocalMduImg('police','add')" alt>
+        <img :src="getLocalMduImg('police','add')" alt @click="choose" v-if="!isUrl">
+        <img :src="icon" alt v-else>
       </div>
     </div>
     <div class="bottom">
@@ -110,7 +111,9 @@ export default {
 			name: "",
 			toast_text: "",
 			showToast: false,
-			phoneN: /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
+			phoneN: /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/,
+			icon: "",
+			isUrl: false
 		};
 	},
 	components: {
@@ -133,6 +136,9 @@ export default {
 			} else if (!this.phoneN.test(Num)) {
 				this.toast_text = "手机号格式错误";
 				this.toast();
+			} else if ((this.isUrl == false)) {
+				this.toast_text = "请选择头像";
+				this.toast();
 			} else {
 				Indicator.open({
 					text: "添加中..",
@@ -140,6 +146,11 @@ export default {
 				});
 				this.__fetch();
 			}
+		},
+		choose() {
+			this.$router.push({
+				path: "/choose-icon"
+			});
 		},
 		toast() {
 			var self = this;
@@ -152,14 +163,18 @@ export default {
 			const [err, res] = await this.$sync(
 				this.$http.police.addUser({
 					name: this.name,
-					phone: this.num
+					phone: this.num,
+					icon:this.icon
 				})
 			);
 			console.log(err, res);
 			if (!err && res.STATUS) {
 				Indicator.close();
 				this.$router.push({
-					path: "/edit-person"
+					path: "/edit-person",
+					query:{
+						isManager:1
+					}
 				});
 			} else {
 				Indicator.close();
@@ -170,6 +185,13 @@ export default {
 		async __fetch() {
 			await this.__fetchAdd();
 		}
+	},
+	activated() {
+		this.icon = this.$route.query.icon;
+		if (this.icon != undefined) {
+			this.isUrl = true;
+		}
+		console.log(this.icon);
 	}
 };
 </script>

@@ -76,10 +76,21 @@ export function createRoutes(Vue) {
 				component: () =>
 					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/test.vue`)
 			},
+			{
+				path: "/choose-icon",
+				component: () =>
+					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/choose-icon.vue`)
+			}
 		],
 	});
 	router.beforeEach((to, from, next) => {
 		if(to.path === '/login') return next();
+		const exp = 60 *1000* 60 * 24; // 一天的秒数
+		let dataObj=JSON.parse(localStorage.getItem('userName'))
+		console.log(dataObj.time)
+		if((new Date().getTime() - dataObj.time) > exp){
+			localStorage.removeItem('userName')
+		}
 		if(localStorage.getItem('userName')){
 			next()
 		}else {
