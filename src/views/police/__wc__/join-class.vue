@@ -14,12 +14,14 @@
 	opacity: 0.4;
 }
 .box1 {
-	display: flex;
-	justify-content: center;
-	margin-top: -900px;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
 .window1 {
 	position: absolute;
+	top:400px;
+	left: 75px;
 	width: 608px;
 	height: 442px;
 	background: linear-gradient(
