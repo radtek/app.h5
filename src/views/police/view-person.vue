@@ -93,9 +93,9 @@
       </div>
       <dialog-join :showToast="join" :text="text" @doCancel="Cancel" @doConfirm="Confirm"></dialog-join>
     </div>
-    <div class="separate" v-show="isShowUsers && list2.length > 0"></div>
+    <div class="separate" v-show="isShowUsers && atP > 0"></div>
     <toast :text="toast_text" :showToast="showToast"></toast>
-    <div class="top" v-show="list2.length > 0">
+    <div class="top" v-show="atP > 0">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
         <span class="fw">请假人员({{list2.length}})</span>
