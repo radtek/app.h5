@@ -36,16 +36,17 @@
 
 <script>
 	import { utils } from "~rx";
-	import { MessageBox } from 'mint-ui';
 	export default {
 		name: "activity-time",
 		beforeRouteLeave(to, from, next) {
 			if (to.name == 'create-activities') {
+				console.log('111',this.date)
+				localStorage.setItem('date',JSON.stringify(this.date))
+				console.log('local',localStorage.getItem('date'))
 				to.query.newArr=this.date
 				let selectAll=this.selectAll()
 				if(selectAll){
 					to.query.temp = this.date;
-					console.log('router',this.date)
 				}else{
 					to.query.temp = undefined;
 				}
@@ -82,14 +83,18 @@
 			}
 		},
 		activated(){
-			if(this.$route.query.arr!==[]){
-				let arrTrue=this.$route.query.arr.filter(item=>item.isEnabled===1)
-				arrTrue.forEach(item=>item.isSelect = true)
-				let arrFs=this.$route.query.arr.filter(item=>item.isEnabled===0)
-				arrFs.forEach(item=>item.isSelect = false)
-				this.date=arrTrue.concat(arrFs)
+			if(localStorage.getItem('date')){
+				this.date=JSON.parse(localStorage.getItem('date'))
 			}else{
-				
+				if(this.$route.query.arr!==[]){
+					let arrTrue=this.$route.query.arr.filter(item=>item.isEnabled===1)
+					arrTrue.forEach(item=>item.isSelect = true)
+					let arrFs=this.$route.query.arr.filter(item=>item.isEnabled===0)
+					arrFs.forEach(item=>item.isSelect = false)
+					this.date=arrTrue.concat(arrFs)
+				}else if(this.$route.query.arr===[]){
+					
+				}
 			}
 			this.rightTitle='编辑'
 		},
