@@ -108,7 +108,7 @@
 <template>
   <div rs-view="edit-person">
     <top-head
-      v-if="isManager"
+      v-if="isManager == 1"
       :title="title"
       :right="right"
       :left="left"
@@ -145,7 +145,7 @@
               <div class="name">{{q.name}}</div>
             </div>
           </li>
-          <li v-show="isManager">
+          <li v-show="isManager == 1 ">
             <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="add">
           </li>
         </ul>
@@ -167,7 +167,7 @@ export default {
 			list: [],
 			title: "全部参与人员",
 			right: "编辑",
-			isManager: false,
+			isManager: localStorage.getItem('isManager'),
 			left: "",
 			id: 0,
 			join: false,
@@ -273,7 +273,7 @@ export default {
 			this.$router.push({
 				path: "/add-person",
 				query: {
-					isManager: 1
+					isManager: localStorage.getItem('isManager')
 				}
 			});
 		}
@@ -287,14 +287,6 @@ export default {
 		}
 	},
 	async activated() {
-		if (localStorage.getItem('isManager') == 1) {
-			this.isManager = true;
-		} else {
-			this.isManager = false;
-		}
-		if (localStorage.getItem('isManager') == 1) {
-			this.isManager = true;
-		}
 		await this.__fetch();
 		let nowList = this.list;
 		nowList.forEach(item => (item.isSelect = false));

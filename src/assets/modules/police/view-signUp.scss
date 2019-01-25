@@ -50,9 +50,11 @@
             position: relative;
             .left {
                 height:60px;
+                width:100%;
                 line-height: 60px;
                 padding:0 10px;
                 overflow: hidden;
+                overflow-y:hidden;
             }
             .right {
                 width:99px;

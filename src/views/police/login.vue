@@ -41,6 +41,7 @@
 				margin-right: 16px;
 			}
 			.input_phone {
+				line-height: 80px;
 				width: 65%;
 			}
 
