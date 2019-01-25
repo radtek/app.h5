@@ -15,7 +15,7 @@
 			li {
 				display: inline-block;
 				margin-right: 27.5px;
-                margin-top: 20px;
+				margin-top: 20px;
 				position: relative;
 				.pitch {
 					width: 36px;
@@ -39,6 +39,8 @@
 <template>
   <div rs-view="choose-icon">
     <top-head :title="title" :right="right" @change="change"></top-head>
+    <toast :text="toast_text" :showToast="showToast"></toast>
+
     <div class="content">
       <ul>
         <li v-for="(q,index) in urls" :key="index">
@@ -55,28 +57,52 @@ export default {
 	name: "choose-icon",
 	components: {
 		topHead: () =>
-			import(/* webpackChunkName:"police-header" */ "~v/police/__wc__/header/header.vue")
+			import(/* webpackChunkName:"police-header" */ "~v/police/__wc__/header/header.vue"),
+		toast: () =>
+			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
 	},
 	data() {
-		return { title: "选择头像", right: "完成", urls: {} ,icon:''};
+		return {
+			title: "选择头像",
+			right: "完成",
+			urls: {},
+			icon: "",
+            isCheck: false,
+            toast_text:'',
+            showToast:false
+		};
 	},
 	methods: {
 		change() {
-            console.log(this.icon)
-			this.$router.push({
-				path: "/add-person",
-				query: {
-					icon: this.icon
-				}
-			});
+			console.log(this.icon);
+
+			if (this.isCheck) {
+				this.$router.push({
+					path: "/add-person",
+					query: {
+						icon: this.icon
+					}
+				});
+			} else {
+				this.toast_text = "请选择头像";
+				this.toast();
+			}
 		},
 		changeImg(index) {
 			console.log(index + 1);
 			this.cartData.forEach(item => (item.isSelect = false));
 			this.cartData[index].isSelect = !this.cartData[index].isSelect;
-            this.$set(this.cartData, index, this.cartData[index]);
-            this.icon = this.cartData[index].icon
-            console.log(this.icon)
+			this.$set(this.cartData, index, this.cartData[index]);
+			this.icon = this.cartData[index].icon;
+			this.isCheck = true;
+			console.log(this.icon);
+		},
+		toast() {
+			const self = this;
+			this.showToast = true;
+			setTimeout(function() {
+				self.showToast = false;
+			}, 2000);
 		}
 	},
 	created() {
