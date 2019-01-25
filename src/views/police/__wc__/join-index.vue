@@ -60,18 +60,13 @@
   		return {
   			dialog2: false,
   			state: true,
-  			dialog1: true,
+			  dialog1: true,
+			  kv:{},
   			show: this.value
   		};
   	},
   	props: {
   		value: Boolean,
-  		kv: {
-  			type: Object,
-  			default() {
-  				return {};
-  			}
-  		},
   		joinList: {
   			type: Array,
   			default() {
@@ -107,7 +102,7 @@
   			const [err] = await this.$sync(
   				this.$http.police.robbingClass({
   					priorityNo: this.kv.priority_no,
-  					userId: this.kv.userId
+  					userId: localStorage.getItem('id')
   				})
   			);
   			if (!err) {
@@ -130,7 +125,9 @@
   .leave {
   	width: 100%;
   	height: 100%;
-  	position: absolute;
+	position: absolute;
+	top:0;
+    left:0;
   	.mask {
   		width: 100%;
   		height: 100%;

@@ -99,7 +99,7 @@ export default {
             }
             const [err, resp] = await this.$sync(this.$http.police.leaveClass({
                 priorityNo:this.kv.priority_no,
-                userId:this.kv.userId,
+                userId:localStorage.getItem('id'),
             }));
           if(!err){
             this.dialog = true;
@@ -120,6 +120,8 @@ export default {
         width:100%;
         height:100%;
         position:absolute;
+        top:0;
+        left:0;
         .mask {
             width:100%;
             height:100%;

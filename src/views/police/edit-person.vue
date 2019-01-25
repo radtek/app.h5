@@ -287,13 +287,12 @@ export default {
 		}
 	},
 	async activated() {
-		console.log(this.$route.query);
-		if (this.$route.query.query == 1) {
+		if (localStorage.getItem('isManager') == 1) {
 			this.isManager = true;
 		} else {
 			this.isManager = false;
 		}
-		if (this.$route.query.isManager == 1) {
+		if (localStorage.getItem('isManager') == 1) {
 			this.isManager = true;
 		}
 		await this.__fetch();

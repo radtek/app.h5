@@ -69,14 +69,12 @@
     <footer :class="[isWebp()?'webp':'']">
       <div class="left">分享</div>
       <div class="right"
-           @click="leave=true">请假</div>
+           @click="isLeave">请假</div>
     </footer>
     <dialog-leave v-model="leave"
-                  :kv="kv"
 									@refresh="__fetch()"
                   :leaveDate="leaveDate"></dialog-leave>
     <dialog-join v-model="join"
-                 :kv="kv"
 								 @refresh="__fetch()"
                  :join-list="joinList"></dialog-join>
     <toast :text="toast_text"
@@ -103,7 +101,7 @@
   			infoActivity: {}, // 获取活动详情
   			joinListOfCourse: [],
   			leaveListOfCourse: [],
-  			isManager: 0,
+  			isManager: localStorage.getItem('isManager'),
   			leave: false,
 				join: false,
 				lJoin:false,
@@ -112,10 +110,8 @@
   			startTime: "",
   			startWeek: "",
   			toast_text: "",
-  			personId: "",
   			leaveDate: [],
   			joinList: [],
-  			kv: {},
   			showToast: false
   		};
   	},
@@ -137,6 +133,14 @@
 				}
 
 			},
+			isLeave(){
+				if(!this.leaveDate.length){
+					this.toast_text = "暂时没有课程安排~";
+					this.toast();
+				}else{
+					this.leave = true
+				}
+			},
   		async __fetchJoin() {
   			// 抢课列表数据
   			const [err, resp] = await this.$sync(
@@ -150,7 +154,7 @@
   			// 请假数据
   			const [err, resp] = await this.$sync(
   				this.$http.police.listForLeave({
-  					userId: this.personId
+  					userId: localStorage.getItem('id')
   				})
   			);
   			if (!err) {
@@ -161,7 +165,7 @@
   			// 列表数据
   			const [err, resp] = await this.$sync(
   				this.$http.police.activityList({
-  					userId: this.personId
+  					userId: localStorage.getItem('id')
   				})
   			);
 
@@ -181,6 +185,7 @@
   			}
   		},
   		async __fetch() {
+				this.startTime = null
   			await this.__fetchActivity();
   			await this.__fetchList();
   			await this.__fetchJoin();
@@ -197,9 +202,6 @@
   		},
   	},
   	activated() {
-			this.personId=localStorage.getItem('id')
-			this.isManager=localStorage.getItem('isManager')
-			this.kv.userId = this.personId
   		this.__fetch();
   	}
   };
