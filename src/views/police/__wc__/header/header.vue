@@ -23,7 +23,7 @@
 		},
 		methods:{
 			goBack(){
-				this.$router.go(-1)
+				this.$router.back()
 			},
 			del(){
 				this.$emit('delete')
