@@ -40,10 +40,7 @@
 		name: "activity-time",
 		beforeRouteLeave(to, from, next) {
 			if (to.name == 'create-activities') {
-				console.log('111',this.date)
 				localStorage.setItem('date',JSON.stringify(this.date))
-				console.log('local',localStorage.getItem('date'))
-				to.query.newArr=this.date
 				let selectAll=this.selectAll()
 				if(selectAll){
 					to.query.temp = this.date;
@@ -155,9 +152,14 @@
 			syncDateTimePicker2 (result) {
 				this.dateTimePickerResult2 = result.year + '-' + result.month + '-' + result.day + ' ' + result.hour + ':' + result.minute+':00'
 				let nowDate=	this.dateTimePickerResult2.toString().slice(0,9);
-				this.nowTime=	this.dateTimePickerResult2.toString().slice(10,18);
-				this.nowWeek= this.getWeek(new Date(nowDate));
-				this.date.push({week:this.nowWeek,startTime:this.nowTime,isSelect:false})
+				const startTime=	this.dateTimePickerResult2.toString().slice(10,18);
+				const week= this.getWeek(new Date(nowDate));
+				
+				const repeatDate = this.date.filter(d=>d.week === week && d.startTime === startTime);
+				
+				if(!repeatDate || !repeatDate.length) {
+					this.date.push({ week, startTime, isSelect: false })
+				}
 			},
 			timeControl () {
 				const today = new Date()
