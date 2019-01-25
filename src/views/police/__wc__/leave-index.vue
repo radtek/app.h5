@@ -99,7 +99,7 @@ export default {
             }
             const [err, resp] = await this.$sync(this.$http.police.leaveClass({
                 priorityNo:this.kv.priority_no,
-                userId:this.kv.userId,
+                userId:localStorage.getItem('id'),
             }));
           if(!err){
             this.dialog = true;
@@ -107,6 +107,7 @@ export default {
           }else{
             this.toast_text =  "已请假，请勿重复请假"
             this.toast()
+            console.log(err)
           }
            this.kv.priority_no = null  
         }
@@ -118,7 +119,9 @@ export default {
   .leave {
         width:100%;
         height:100%;
-        position: absolute;
+        position: fixed;;
+        top:0;
+        left:0;
         .mask {
             width:100%;
             height:100%;

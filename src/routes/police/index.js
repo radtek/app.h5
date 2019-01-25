@@ -73,9 +73,10 @@ export function createRoutes(Vue) {
 					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/default-icon.vue`)
 			},
 			{
-				path: "/test",
+				path: "/class",
+				name:'class',
 				component: () =>
-					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/test.vue`)
+					import( /* webpackChunkName: "view-class" */ `~v/${MODULENAME}/class.vue`),
 			},
 			{
 				path: "/choose-icon",

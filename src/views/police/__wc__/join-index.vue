@@ -50,28 +50,31 @@
              @click="doCancel">
       </div>
     </div>
+	<toast :text="toast_text"
+           :showToast="showToast"></toast>
   </div>
 </template>
 
 <script>
   import { utils } from "~rx";
   export default {
+	  components: {
+		  toast: () =>
+  			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
+  	},
   	data() {
   		return {
   			dialog2: false,
   			state: true,
-  			dialog1: true,
-  			show: this.value
+			  dialog1: true,
+			  kv:{},
+			  show: this.value,
+			  toast_text: "",
+			  showToast: false
   		};
   	},
   	props: {
   		value: Boolean,
-  		kv: {
-  			type: Object,
-  			default() {
-  				return {};
-  			}
-  		},
   		joinList: {
   			type: Array,
   			default() {
@@ -85,7 +88,7 @@
   		},
   		show(val) {
   			this.$emit("input", val);
-  		}
+		},
   	},
   	methods: {
   		formatDate(i) {
@@ -93,6 +96,13 @@
   				this.joinList[i].start_time,
   				"yyyy-MM-dd hh:mm"
   			);
+		  },
+		  toast() {
+  			this.showToast = true;
+  			setTimeout(() => {
+				  this.showToast = false;
+				  this.show = false;
+  			}, 1500);
   		},
   		doCancel() {
   			this.show = false;
@@ -100,7 +110,6 @@
   			this.dialog1 = true;
   		},
   		async doSubmit() {
-			  console.log(this.kv.priority_no)
   			if (!this.kv.priority_no) {
   				return false;
   			}
@@ -108,18 +117,19 @@
   			const [err] = await this.$sync(
   				this.$http.police.robbingClass({
   					priorityNo: this.kv.priority_no,
-  					userId: this.kv.userId
+  					userId: localStorage.getItem('id')
   				})
-  			);
+			  );
+			  console.log(err)
   			if (!err) {
   				this.state = true;
   				this.dialog1 = false;
 				this.dialog2 = true;
 				this.$emit('refresh')
   			} else {
-  				this.state = false;
-  				this.dialog1 = false;
-				this.dialog2 = true;
+				this.toast_text = err.msg;
+				this.toast();
+				this.dialog1 = true;
 			  }
 			  this.kv.priority_no = null 
   		}
@@ -131,7 +141,9 @@
   .leave {
   	width: 100%;
   	height: 100%;
-  	position: absolute;
+	position: fixed;
+	top:0;
+    left:0;
   	.mask {
   		width: 100%;
   		height: 100%;

@@ -93,9 +93,9 @@
       </div>
       <dialog-join :showToast="join" :text="text" @doCancel="Cancel" @doConfirm="Confirm"></dialog-join>
     </div>
-    <div class="separate" v-show="isShowUsers && list2.length > 0"></div>
+    <div class="separate" v-show="isShowUsers && atP > 0"></div>
     <toast :text="toast_text" :showToast="showToast"></toast>
-    <div class="top" v-show="list2.length > 0">
+    <div class="top" v-show="atP > 0">
       <div class="title1">
         <img :src="getLocalMduImg('police','line')" alt class="line">
         <span class="fw">请假人员({{list2.length}})</span>
@@ -159,37 +159,29 @@ export default {
 			await this.__fetchRob();
 		},
 		async __fetchDetails() {
-			this.person = this.$route.query;
 			const [err, resp] = await this.$sync(
 				this.$http.police.listForCouse({
 					priorityNo: this.person.priority_no
 				})
 			);
-			console.log(err, resp);
 			if (!err && resp.STATUS) {
-				console.log(resp);
 				this.list = resp.result.listForCouse;
-				console.log(this.list);
 				this.list1 = this.list.filter(function(item, index, array) {
 					return item.is_leave == 0;
 				});
-				console.log(this.list1);
 				this.list2 = this.list.filter(function(item, index, array) {
 					return item.is_leave == 1;
 				});
 			}
 		},
 		async __fetchRob() {
-			this.person = this.$route.query;
-			console.log(this.person);
-			console.log(this.person.id);
+			
 			const [err, resp] = await this.$sync(
 				this.$http.police.robbingClass({
 					priorityNo: this.person.priority_no,
 					userId: this.person.userId
 				})
 			);
-			console.log(err, resp);
 			if (!err && resp.STATUS) {
 				this.list3 = resp.result;
 				Indicator.close();
@@ -219,8 +211,8 @@ export default {
 		}
 	},
 	async activated() {
-		this.person = this.$route.query;
-		console.log(this.person);
+		this.person.priority_no = this.$route.query.priority_no;
+		this.person.userId = localStorage.getItem('id')
 		await this.__fetch();
 	}
 };

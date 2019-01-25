@@ -7,7 +7,7 @@
     <div class="header">
       <span class="left">{{$rxUtils.formatDate(item.start_time,'yyyy-MM-dd hh:mm')}} {{item.week}} ({{item.count}}/{{totalCount}}人已报名)</span>
       <div class="right">
-        <router-link :to="{path:'/view-person',query:{priority_no:item.priority_no,userId:person.id}}">
+        <router-link :to="{path:'/view-person',query:{priority_no:item.priority_no}}">
           <span>查看全部</span>
         </router-link>
         <div class="img"><img :src="getLocalMduImg('police','quanbu2')"></div>
@@ -16,12 +16,13 @@
     <div class="main">
       <span class="left">
         <div class="head"
-             v-for="(url,index) in icons"
+             v-for="(url,index) in icons.slice(0,11)"
              :key="index"><img :src="url" /></div>
       </span>
+			<router-link :to="{path:'/view-person',query:{priority_no:item.priority_no,userId:person.id}}">
       <div class="right"
-           v-if="item.count<totalCount"><img :src="getLocalMduImg('police','button')"
-             @click="doJoin(item)"></div>
+           v-if="item.count<totalCount"><img :src="getLocalMduImg('police','button')"></div>
+			</router-link>
     </div>
     <div class="footer"
          v-if="leaveItem.count && item.count<totalCount">{{leaveItem.count}}人请假，还可以抢名额</div>
@@ -63,11 +64,6 @@
   				: [];
   		}
   	},
-  	methods: {
-  		doJoin(item) {
-  			this.$emit("join", item, this.person);
-  		}
-  	}
   };
 </script>
 
