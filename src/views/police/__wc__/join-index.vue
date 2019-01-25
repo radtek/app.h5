@@ -85,7 +85,7 @@
   		},
   		show(val) {
   			this.$emit("input", val);
-  		}
+		},
   	},
   	methods: {
   		formatDate(i) {
@@ -100,7 +100,6 @@
   			this.dialog1 = true;
   		},
   		async doSubmit() {
-			  console.log(this.kv.priority_no)
   			if (!this.kv.priority_no) {
   				return false;
   			}
@@ -131,7 +130,7 @@
   .leave {
   	width: 100%;
   	height: 100%;
-  	position: absolute;
+  	position: fixed;
   	.mask {
   		width: 100%;
   		height: 100%;
@@ -139,7 +138,7 @@
   		opacity: 0.4;
   	}
   	.dialog1 {
-  		position: absolute;
+  		position: fixed;
   		top: 50%;
   		left: 50%;
   		margin: -266px 0 0 -304px;

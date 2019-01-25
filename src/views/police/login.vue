@@ -168,20 +168,13 @@ export default {
 			if (!err) {
 			if(res.STATUS===true){
 				// 存储信息;
+				localStorage.setItem('id',res.result.id)
+				localStorage.setItem('isManager',res.result.isManager)
 				const curTime= new Date().getTime();
 				localStorage.setItem("userName", JSON.stringify({phone:this.num,time:curTime}));
 				Indicator.close();
 				this.$router.push({
-					path: "/index",
-					query: {
-							isManager:res.result.isManager,
-							name:res.result.name,
-							iconUrl:res.result.iconUrl,
-							id:res.result.id,
-							phone:res.result.phone,
-							gmtCreate:res.result.gmtCreate,
-						
-					}
+					path: "/index"
 				});
 			}
 			} else {
