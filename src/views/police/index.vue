@@ -113,7 +113,7 @@
   			infoActivity: {}, // 获取活动详情
   			joinListOfCourse: [],
   			leaveListOfCourse: [],
-  			isManager: false,
+  			isManager: 0,
   			leave: false,
 				join: false,
 				lJoin:false,
@@ -183,7 +183,6 @@
   		},
   		__fetchPerson() {
   			this.kv.userId = this.person.id;
-  			this.isManager = this.person.isManager === 1;
   		},
   		async __fetch() {
   			await this.__fetchPerson();
@@ -205,7 +204,8 @@
   	activated() {
   		if (this.$route.query.id) {
   			this.person.id = this.$route.query.id;
-  			this.person.isManager = this.$route.query.isManager;
+				this.isManager = this.$route.query.isManager;
+				console.log(this.isManager)
   		}
   		this.__fetch();
   	}
