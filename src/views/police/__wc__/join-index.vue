@@ -98,7 +98,6 @@
   			this.show = false;
   			this.dialog2 = false;
   			this.dialog1 = true;
-  			this.$emit("cancel");
   		},
   		async doSubmit() {
   			if (!this.kv.priority_no) {
@@ -112,11 +111,10 @@
   				})
   			);
   			if (!err) {
-  				this.show = false;
-
   				this.state = true;
   				this.dialog1 = false;
-  				this.dialog2 = true;
+				this.dialog2 = true;
+				this.$emit('refresh')
   			} else {
   				this.state = false;
   				this.dialog1 = false;

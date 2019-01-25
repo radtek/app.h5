@@ -7,8 +7,7 @@
           <img :src="getLocalMduImg('police','qingjia')">
         </div>
         <div class="item">
-          <div class="list" v-for="i,index in leaveDate"
-          >
+          <div class="list" v-for="i,index in leaveDate">
             <div class="time"><span></span>{{formatDate(index)}}</div>
             <div class="choose">
               <input type="radio" 
@@ -22,7 +21,7 @@
           </div>
         </div>
         <div class="comfirm">
-          <div class="cancel" @click="cancel">
+          <div class="cancel" @click="show=false">
             <img :src="getLocalMduImg('police','cancelText')">
           </div>
           <div class="sure" @click="submit">
@@ -31,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="dialog2" v-if="dialog2">
+    <div class="dialog" v-if="dialog">
         <img :src="getLocalMduImg('police','qjcg')">
         <div class="cancel"
              @click="cancel"></div>
@@ -50,18 +49,14 @@ export default {
     data(){
         return {
             leave:[],
-            dialog2:false,
+            dialog:false,
             toast_text:"",
+            show:this.value,
             showToast: false,
         }
     },
     props: {
-        show: {
-            type:Boolean,
-            default(){
-                return false
-            }
-        },
+        value: Boolean,
         kv: {
             type:Object,
             default(){
@@ -75,13 +70,21 @@ export default {
             }
         }
     },
+    watch: {
+  		value(val) {
+  			this.show = val;
+  		},
+  		show(val) {
+  			this.$emit("input", val);
+  		}
+  	},
     methods: {
         formatDate(i){
             return utils.formatDate(this.leaveDate[i].start_time,"yyyy-MM-dd hh:mm")
         },
         cancel(){
-            this.dialog2 = false
-            this.$emit("doCancel")
+            this.show = false;
+            this.dialog = false;
         },
         toast() {
             const self = this;
@@ -99,7 +102,8 @@ export default {
                 userId:this.kv.userId,
             }));
           if(!err){
-            this.dialog2 = true;
+            this.dialog = true;
+            this.$emit('refresh')
           }else{
             this.toast_text =  "已请假，请勿重复请假"
             this.toast()
@@ -252,7 +256,7 @@ export default {
 
             }
         }
-        .dialog2 {
+        .dialog {
             width:690px;
             height:920px;
             position: absolute;

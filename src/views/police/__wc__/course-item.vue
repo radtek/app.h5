@@ -24,7 +24,7 @@
              @click="doJoin(item)"></div>
     </div>
     <div class="footer"
-         v-if="leaveItem.count">{{leaveItem.count}}人请假，还可以抢名额</div>
+         v-if="leaveItem.count && item.count<totalCount">{{leaveItem.count}}人请假，还可以抢名额</div>
   </div>
 </template>
 
@@ -53,7 +53,7 @@
   	},
   	data() {
   		return {
-  			totalCount: 21
+  			totalCount: 2
   		};
   	},
   	computed: {

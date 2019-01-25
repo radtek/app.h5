@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="column-icon"
-               @click="dialogJoin">
+               @click="join=true">
             <div>抢名额</div>
             <img :src="getLocalMduImg('police','minge')">
           </div>
@@ -48,12 +48,6 @@
             </div>
           </div>
         </div>
-        <!-- <sign-up class="sign-up"
-                 @join="dlistJoin"
-                 :person="person"
-                 :isRefresh="refresh"
-                 @doRefresh="doRefresh"></sign-up> -->
-
         <div class="sign-up">
           <course-item v-for="(item,i) in joinListOfCourse"
                        :key="i"
@@ -62,7 +56,6 @@
                        :leave-item="leaveListOfCourse[i]"
                        :person="person"></course-item>
         </div>
-
         <div class="more"
              v-if="isManager">
           <div class="more-text">没有更多活动了，快来
@@ -77,17 +70,19 @@
     <footer :class="[isWebp()?'webp':'']">
       <div class="left">分享</div>
       <div class="right"
-           @click="dialogLeave()">请假</div>
+           @click="leave=true">请假</div>
     </footer>
-    <dialog-leave :show="leave"
+    <dialog-leave v-model="leave"
                   :kv="kv"
-                  :leaveDate="leaveDate"
-                  @doCancel="isLeaveCancel"
-                  @doSubmit="isLeaveSubmit"></dialog-leave>
+									@refresh="__fetch()"
+                  :leaveDate="leaveDate"></dialog-leave>
     <dialog-join v-model="join"
                  :kv="kv"
+								 @refresh="__fetch()"
                  :join-list="joinList"></dialog-join>
     <list-join :show="listJoin"
+							 @refresh="__fetch()"
+							 v-model="listJoin"
                :joinData="joinData"
                :kv="kv"></list-join>
     <toast :text="toast_text"
@@ -118,12 +113,10 @@
   			infoActivity: {}, // 获取活动详情
   			joinListOfCourse: [],
   			leaveListOfCourse: [],
-
-  			refresh: false,
-  			total: 0,
   			isManager: false,
   			leave: false,
-  			join: false,
+				join: false,
+				lJoin:false,
   			listJoin: false,
   			joinData: {},
   			startTime: "",
@@ -204,31 +197,10 @@
   				this.showToast = false;
   			}, 2000);
   		},
-  		dialogLeave() {
-  			this.leave = true;
-  		},
   		dlistJoin(i) {
   			this.joinData = i;
   			this.listJoin = true;
   		},
-  		dialogJoin() {
-  			this.join = true;
-  		},
-  		doRefresh() {
-  			if (this.refresh) {
-  				this.refresh = false;
-  			}
-  		},
-  		isLeaveSubmit() {
-  			this.leave = false;
-  		},
-  		isLeaveCancel() {
-  			if (!this.refresh) {
-  				this.refresh = true;
-  				this.leave = false;
-  				this.__fetch();
-  			}
-  		}
   	},
   	activated() {
   		if (this.$route.query.id) {

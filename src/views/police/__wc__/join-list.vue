@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="comfirm">
-          <div class="cancel" @click="cancel">
+          <div class="cancel"@click="show=false">
             <img :src="getLocalMduImg('police','cancelText')">
           </div>
           <div class="sure" @click="submit">
@@ -50,16 +50,12 @@ export default {
         return {
             dialog2:false,
             state:true,
-            dialog1:true
+            dialog1:true,
+            show:this.value
         }
     },
     props: {
-        show: {
-            type:Boolean,
-            default(){
-                return false
-            }
-        },
+        value: Boolean,
         kv: {
             type:Object,
             default(){
@@ -73,11 +69,20 @@ export default {
             }
         }
     },
+    watch: {
+  		value(val) {
+  			this.show = val;
+  		},
+  		show(val) {
+  			this.$emit("input", val);
+  		}
+  	},
     methods: {
         formatDate(){
             return utils.formatDate(this.joinData.start_time,"yyyy-MM-dd hh:mm")
         },
         cancel(){
+            this.show = false;
             this.dialog2 = false
             this.dialog1 = true
             this.kv.priority_no = null
@@ -95,6 +100,7 @@ export default {
                 this.state = true
                 this.dialog1 = false;
                 this.dialog2 = true;
+                this.$emit('refresh')
             }else {
                 this.state = false;
                 this.dialog1 = false;
