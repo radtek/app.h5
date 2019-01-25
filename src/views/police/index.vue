@@ -195,7 +195,7 @@
   	},
   	activated() {
 			console.log(this.isManager)
-  		this.__fetch();
+			this.__fetch();
   	}
   };
 </script>
