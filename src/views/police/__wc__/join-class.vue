@@ -2,14 +2,13 @@
 .boxx {
 	width: 100%;
 	height: 100%;
-	z-index: 10;
 	position: absolute;
 	left: 0;
 	top: 0;
 }
 .mask {
 	width: 100%;
-	height: 100%;
+	height: 105%;
 	background: rgba(0, 0, 0, 1);
 	opacity: 0.4;
 }
