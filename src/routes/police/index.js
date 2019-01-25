@@ -63,6 +63,7 @@ export function createRoutes(Vue) {
 			//活动时间
 			{
 				path: "/activity-time",
+				name:'activity-time',
 				component: () =>
 					import(/* webpackChunkName: "view-time" */ `~v/${MODULENAME}/create-activities/activity-time/activity-time.vue`)
 			},

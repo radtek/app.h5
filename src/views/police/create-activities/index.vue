@@ -56,6 +56,14 @@
 					vm.address=''
 				})
 			}
+			if(from.name==='activity-time'){
+				next(vm => {
+					console.log(JSON.parse(localStorage.getItem('date')))
+					if(JSON.parse(localStorage.getItem('date'))===[]){
+						vm.temp=1
+					}
+				})
+			}
 			next()
 		},
 		beforeRouteLeave(to, from, next) {
@@ -65,103 +73,125 @@
 			next();
 		},
 		async	activated(){
-			if(this.$route.query.type==='edit'){
-				this.mainTitle='编辑活动'
-			}else{
-				this.mainTitle='创建活动'
-			}
 			//是否避开假日和是否重复默认为是
 			document.getElementById('switch').checked=true
 			document.getElementById('switch1').checked=true
 			this.temp=this.$route.query.temp
-			//筛选isSelect为true的对象返回新数组
-			if(this.$route.query.type==='edit'){
-				if(this.$route.query.temp!==undefined){
-					// this.temp=this.$route.query.temp
-					this.date=this.$route.query.temp.filter(item=>item.isSelect)
-					this.date.forEach(item=>item.isEnabled = 1)
-					const dateArr=[];
-					for(let i=0;i<this.date.length;i++){
-						var flag = true;
-						for(let j=0;j<dateArr.length;j++){
-							if(this.date[i].startTime == dateArr[j].startTime){
-								flag = false;
-							};
-						};
-						if(flag){
-							dateArr.push(this.date[i]);
-						};
-						this.dateArr=dateArr
-					};
-					this.dateFs=this.$route.query.temp.filter(item=>!item.isSelect)
-					this.dateFs.forEach(item=>item.isEnabled = 0)
-					this.sumDate=this.date.concat(this.dateFs)
-					this.sumDate.forEach(item=>item.id='')
-					this.sumDate.forEach(item=>item.relationId=1)
-					//对数组进行去重
-					const allArr = [];//新数组
-					for(let i=0;i<this.sumDate.length;i++){
-						var flag = true;
-						for(let j=0;j<allArr.length;j++){
-							if(this.sumDate[i].startTime == allArr[j].startTime){
-								flag = false;
-							};
-						};
-						if(flag){
-							allArr.push(this.sumDate[i]);
-						};
-					};
-					this.allArr=allArr
-				}else {
-					const [err, res] = await this.$sync(
+			const [err, res] = await this.$sync(
 						this.$http.police.getInfoActivity({})
 					);
 					if (!err) {
-						const	infoActivity=res.result.infoActivity
-						this.title=infoActivity.subject
-						this.address=infoActivity.address
-						this.temp=1;
-						this.array=res.result.infoActivityPlanList
-						this.dateArr=res.result.infoActivityPlanList.filter(item=>item.isEnabled===1)
-						if(infoActivity.isNotHoliday===1){
-							document.getElementById('switch').checked=true
-						}else {
-							document.getElementById('switch').checked=false
+						const infoActivity = res.result.infoActivity
+						this.title = infoActivity.subject
+						this.address = infoActivity.address
+						this.temp = 1;
+						this.array = res.result.infoActivityPlanList
+						this.dateArr = res.result.infoActivityPlanList.filter(item => item.isEnabled === 1)
+						if(JSON.parse(localStorage.getItem('date'))){
+							this.dateArr=JSON.parse(localStorage.getItem('date'))
 						}
-						if(infoActivity.isRepeat===1){
-							document.getElementById('switch1').checked=true
-						}else {
-							document.getElementById('switch1').checked=false
+						if(JSON.parse(localStorage.getItem('date'))==''){
+							this.temp = undefined
 						}
-					}else {
+						if (infoActivity.isNotHoliday === 1) {
+							document.getElementById('switch').checked = true
+						} else {
+							document.getElementById('switch').checked = false
+						}
+						if (infoActivity.isRepeat === 1) {
+							document.getElementById('switch1').checked = true
+						} else {
+							document.getElementById('switch1').checked = false
+						}
 					}
-				}
-			}else{
-				if(this.$route.query.temp!==undefined) {
-					let newDate=this.$route.query.temp.filter(item => !item.isSelect);
-					let date = this.$route.query.temp.filter(item => item.isSelect);
-					date.forEach(item => item.isEnabled = 1)
-					newDate.forEach(item => item.isEnabled = 0)
-					this.allArr=date.concat(newDate)
-					this.allArr.forEach(item=>item.id='');	
-					this.allArr.forEach(item=>item.relationId=1);
-					
-					const dateArr = [];
-					for (let i = 0; i < date.length; i++) {
-						var flag = true;
-						for (let j = 0; j < dateArr.length; j++) {
-							if (date[i].startTime == dateArr[j].startTime) {
-								flag = false;
-							};
-						};
-						if (flag) {
-							dateArr.push(date[i]);
-						};
-						this.dateArr = dateArr;
-					}
-				}
-			}
-		
+			//筛选isSelect为true的对象返回新数组
+			// if(this.$route.query.type==='edit'){
+			// 	if(this.$route.query.temp!==undefined){
+			// 		// this.temp=this.$route.query.temp
+			// 		this.date=this.$route.query.temp.filter(item=>item.isSelect)
+			// 		this.date.forEach(item=>item.isEnabled = 1)
+			// 		const dateArr=[];
+			// 		for(let i=0;i<this.date.length;i++){
+			// 			var flag = true;
+			// 			for(let j=0;j<dateArr.length;j++){
+			// 				if(this.date[i].startTime == dateArr[j].startTime){
+			// 					flag = false;
+			// 				};
+			// 			};
+			// 			if(flag){
+			// 				dateArr.push(this.date[i]);
+			// 			};
+			// 			this.dateArr=dateArr
+			// 		};
+			// 		this.dateFs=this.$route.query.temp.filter(item=>!item.isSelect)
+			// 		this.dateFs.forEach(item=>item.isEnabled = 0)
+			// 		this.sumDate=this.date.concat(this.dateFs)
+			// 		this.sumDate.forEach(item=>item.id='')
+			// 		this.sumDate.forEach(item=>item.relationId=1)
+			// 		//对数组进行去重
+			// 		const allArr = [];//新数组
+			// 		for(let i=0;i<this.sumDate.length;i++){
+			// 			var flag = true;
+			// 			for(let j=0;j<allArr.length;j++){
+			// 				if(this.sumDate[i].startTime == allArr[j].startTime){
+			// 					flag = false;
+			// 				};
+			// 			};
+			// 			if(flag){
+			// 				allArr.push(this.sumDate[i]);
+			// 			};
+			// 		};
+			// 		this.allArr=allArr
+			// 	}else {
+			// 		const [err, res] = await this.$sync(
+			// 			this.$http.police.getInfoActivity({})
+			// 		);
+			// 		if (!err) {
+			// 			const	infoActivity=res.result.infoActivity
+			// 			this.title=infoActivity.subject
+			// 			this.address=infoActivity.address
+			// 			this.temp=1;
+			// 			this.array=res.result.infoActivityPlanList
+			// 			this.dateArr=res.result.infoActivityPlanList.filter(item=>item.isEnabled===1)
+			// 			if(infoActivity.isNotHoliday===1){
+			// 				document.getElementById('switch').checked=true
+			// 			}else {
+			// 				document.getElementById('switch').checked=false
+			// 			}
+			// 			if(infoActivity.isRepeat===1){
+			// 				document.getElementById('switch1').checked=true
+			// 			}else {
+			// 				document.getElementById('switch1').checked=false
+			// 			}
+			// 		}else {
+			// 		}
+			// 	}
+			// }else{
+			// 	if(this.$route.query.temp!==undefined) {
+			// 		let newDate=this.$route.query.temp.filter(item => !item.isSelect);
+			// 		let date = this.$route.query.temp.filter(item => item.isSelect);
+			// 		date.forEach(item => item.isEnabled = 1)
+			// 		newDate.forEach(item => item.isEnabled = 0)
+			// 		this.allArr=date.concat(newDate)
+			// 		this.allArr.forEach(item=>item.id='');	
+			// 		this.allArr.forEach(item=>item.relationId=1);
+			//		
+			// 		const dateArr = [];
+			// 		for (let i = 0; i < date.length; i++) {
+			// 			var flag = true;
+			// 			for (let j = 0; j < dateArr.length; j++) {
+			// 				if (date[i].startTime == dateArr[j].startTime) {
+			// 					flag = false;
+			// 				};
+			// 			};
+			// 			if (flag) {
+			// 				dateArr.push(date[i]);
+			// 			};
+			// 			this.dateArr = dateArr;
+			// 		}
+			// 	}
+			// }
+			//
 		},
 		components: {
 			Header: () =>
@@ -178,7 +208,7 @@
 		data(){
 			return{
 				array:[],
-				mainTitle:'创建活动',
+				mainTitle:'编辑活动',
 				date:[],
 				sumDate:[],
 				dateFs:[],
