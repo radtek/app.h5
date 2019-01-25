@@ -84,7 +84,7 @@ export function createRoutes(Vue) {
 		],
 	});
 	router.beforeEach((to, from, next) => {
-		if(to.path === '/login'&&localStorage.getItem('userName')!='')  next('index');
+		if(to.path === '/login') return next();
 		const exp = 60 *1000* 60 * 24; // 一天的秒数
 		let dataObj=JSON.parse(localStorage.getItem('userName'))
 		console.log(dataObj.time)
