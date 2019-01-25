@@ -16,7 +16,8 @@
                 <div class="right" v-if="Add"><img :src="getLocalMduImg('police','button')"
                                         @click="dialogJoin(i)"></div>
             </div>
-            <div class="footer">5人请假，还可以抢名额</div>
+            <div class="footer" v-if="i.leaveCount">{{i.leaveCount}}人请假，还可以抢名额</div>
+            <div class="footer" v-else></div>
         </div>
   </div>
 </template>
@@ -32,6 +33,7 @@ export default {
             kv:{},
             Add:true,
             isLeave:[],
+            leavePeople:[],
             isManager:false
         }
     },
@@ -80,15 +82,21 @@ export default {
                     userId:this.person.id
                 }));
           if(!err){
-            this.rows = resp.result.list
+            this.rows = resp.result.joinList
+            const leave = resp.result.leaveList
+            leave.forEach(e => {
+                this.leavePeople.push(e.count)
+            })
             this.rows.forEach((e,index) => {
-              this.rows[index].names =  e.names.split(',')
-              this.rows[index].userIds = e.userIds.split(',')
-              this.rows[index].total = this.rows[index].userIds.length
+              if(e.names){this.rows[index].names =  e.names.split(',')}
+              this.total.push(this.rows[index].count)
               if(this.rows[index].iconUrls){
                   this.rows[index].iconUrls =  e.iconUrls.split(',')
               }
+              this.rows[index].leaveCount = this.leavePeople[index]
+              this.rows[index].total = this.total[index]
             })
+            console.log(this.rows)
           }
         },
         __fetch(){
