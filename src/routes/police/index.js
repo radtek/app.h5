@@ -71,6 +71,11 @@ export function createRoutes(Vue) {
 				component: () =>
 					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/default-icon.vue`)
 			},
+			{
+				path: "/test",
+				component: () =>
+					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/test.vue`)
+			},
 		],
 	});
 	router.beforeEach((to, from, next) => {

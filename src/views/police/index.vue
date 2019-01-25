@@ -152,7 +152,7 @@
         
           if(!err){
             this.infoActivity = resp.result.infoActivity; 
-            if(this.startTime){
+            if(resp.result.startTime){
               this.startTime = resp.result.startTime.slice(0,16)
               this.startWeek = resp.result.week
             }

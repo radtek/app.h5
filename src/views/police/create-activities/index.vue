@@ -50,7 +50,18 @@
 		created(){
 		
 		},
+		beforeRouteEnter (to, from, next) {
+			if(from.name==='index'){
+				next(vm => {
+					vm.title=''
+					vm.address=''
+				})
+			}
+			next()
+			
+		},
 		async	activated(){
+			console.log('arr',this.$route.query.newArr)
 			if(this.$route.query.type==='edit'){
 				this.mainTitle='编辑活动'
 			}else{
@@ -60,7 +71,6 @@
 			document.getElementById('switch').checked=true
 			document.getElementById('switch1').checked=true
 			this.temp=this.$route.query.temp
-			console.log("query",this.$route.query.temp)
 			//筛选isSelect为true的对象返回新数组
 			if(this.$route.query.type==='edit'){
 				if(this.$route.query.temp!==undefined){
@@ -124,9 +134,6 @@
 					}
 				}
 			}else{
-				// this.title=''
-				// this.address='', 
-					console.log("temp",this.$route.query.temp)
 				if(this.$route.query.temp!==undefined) {
 					// this.temp=this.$route.query.temp
 					let date = this.$route.query.temp.filter(item => item.isSelect)
@@ -143,12 +150,10 @@
 						if (flag) {
 							dateArr.push(date[i]);
 						};
-						
 						this.dateArr = dateArr
 						this.allArr=dateArr
 						this.allArr.forEach(item=>item.id='')
 						this.allArr.forEach(item=>item.relationId=1)
-						console.log('dateArr',this.dateArr)
 					}
 				}
 			}
@@ -214,6 +219,7 @@
 			},
 			changeTime(){
 				if(this.$route.query.type==='edit'){
+					console.log('new',this.$route.query.newArr)
 					this.$router.push({
 						path:'/activity-time',
 						query:{
