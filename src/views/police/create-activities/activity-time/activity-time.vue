@@ -41,6 +41,7 @@
 		name: "activity-time",
 		beforeRouteLeave(to, from, next) {
 			if (to.name == 'create-activities') {
+				to.query.newArr=this.date
 				let selectAll=this.selectAll()
 				if(selectAll){
 					to.query.temp = this.date;
@@ -87,6 +88,8 @@
 				let arrFs=this.$route.query.arr.filter(item=>item.isEnabled===0)
 				arrFs.forEach(item=>item.isSelect = false)
 				this.date=arrTrue.concat(arrFs)
+			}else{
+				
 			}
 			this.rightTitle='编辑'
 		},
@@ -145,12 +148,10 @@
 				this.dateTimePickerIsShow2 = true
 			},
 			syncDateTimePicker2 (result) {
-			
 				this.dateTimePickerResult2 = result.year + '-' + result.month + '-' + result.day + ' ' + result.hour + ':' + result.minute+':00'
 				let nowDate=	this.dateTimePickerResult2.toString().slice(0,9);
 				this.nowTime=	this.dateTimePickerResult2.toString().slice(10,18);
 				this.nowWeek= this.getWeek(new Date(nowDate));
-				console.log(this.dateTimePickerResult2)
 				this.date.push({week:this.nowWeek,startTime:this.nowTime,isSelect:false})
 			},
 			timeControl () {
