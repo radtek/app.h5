@@ -279,6 +279,7 @@ export default {
 		}
 	},
 	async activated() {
+		console.log(this.$route)
 		if(this.$route.query.query == 1){
 			this.isManager = true
 		}else{
