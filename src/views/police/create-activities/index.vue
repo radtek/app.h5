@@ -34,9 +34,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="footer-button" @click="createActivity">
-			<img src="@/assets/imgs/police/but.png">
-			<div class="but-font" >创建活动</div>
+		<div class="footer-button" >
+			<img src="@/assets/imgs/police/but.png" @click="createActivity">
+			<div class="but-font" @click="createActivity">创建活动</div>
 		</div>
 		<toast :text="toast_text" :showToast="showToast"></toast>
 	</div>
@@ -47,9 +47,8 @@
 	import { Indicator } from 'mint-ui';
 	export default {
 		name: "index",
-		created(){
-		
-		},
+		created(){},
+		//路由进入之前情况输入框
 		beforeRouteEnter (to, from, next) {
 			if(from.name==='index'){
 				next(vm => {
@@ -58,10 +57,14 @@
 				})
 			}
 			next()
-			
+		},
+		beforeRouteLeave(to, from, next) {
+			if (to.name === 'index') {
+				localStorage.removeItem('date')
+			}
+			next();
 		},
 		async	activated(){
-			console.log('arr',this.$route.query.newArr)
 			if(this.$route.query.type==='edit'){
 				this.mainTitle='编辑活动'
 			}else{
@@ -136,8 +139,13 @@
 			}else{
 				if(this.$route.query.temp!==undefined) {
 					// this.temp=this.$route.query.temp
-					let date = this.$route.query.temp.filter(item => item.isSelect)
+					console.log('temp',this.$route.query.temp)
+					let newDate=this.$route.query.temp.filter(item => !item.isSelect);
+					let date = this.$route.query.temp.filter(item => item.isSelect);
 					date.forEach(item => item.isEnabled = 1)
+					newDate.forEach(item => item.isEnabled = 0)
+					this.allArr=date.concat(newDate)
+					this.allArr.forEach(item=>item.id='',item.relationId=1);
 					const dateArr = [];
 					for (let i = 0; i < date.length; i++) {
 						var flag = true;
@@ -145,15 +153,13 @@
 							if (date[i].startTime == dateArr[j].startTime) {
 								flag = false;
 							};
-						}
-						;
+						};
 						if (flag) {
 							dateArr.push(date[i]);
 						};
-						this.dateArr = dateArr
-						this.allArr=dateArr
-						this.allArr.forEach(item=>item.id='')
-						this.allArr.forEach(item=>item.relationId=1)
+						this.dateArr = dateArr;
+						console.log('allArr',this.allArr)
+						
 					}
 				}
 			}
@@ -205,7 +211,6 @@
 				}else{
 					this.changeNum=0
 				}
-				console.log(!document.getElementById('switch').checked ? "未选中" : "选中");
 			},
 			//是否重复
 			test1(){
@@ -215,11 +220,9 @@
 				}else{
 					this.changeNum1=0
 				}
-				console.log(!document.getElementById('switch1').checked ? "未选中" : "选中");
 			},
 			changeTime(){
 				if(this.$route.query.type==='edit'){
-					console.log('new',this.$route.query.newArr)
 					this.$router.push({
 						path:'/activity-time',
 						query:{
@@ -234,16 +237,13 @@
 						}
 					})
 				}
-				
 			},
 			async  __fetchCreate(){
 				Indicator.open({
 					text: "创建中..",
 					spinnerType: "snake"
 				});
-				console.log("233",this.allArr);
 				const [err, res] = await this.$sync(
-					
 					this.$http.police.editActivity({
 						subject:this.title,
 						address:this.address,
@@ -255,7 +255,6 @@
 				if (!err) {
 					Indicator.close();
 					this.$router.push('/index')
-					console.log(res);
 				}else {
 					Indicator.close();
 					this.toast_text = "创建失败";

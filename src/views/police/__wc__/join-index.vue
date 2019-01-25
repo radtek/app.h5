@@ -98,9 +98,9 @@
   			this.show = false;
   			this.dialog2 = false;
   			this.dialog1 = true;
-  			this.$emit("cancel");
   		},
   		async doSubmit() {
+			  console.log(this.kv.priority_no)
   			if (!this.kv.priority_no) {
   				return false;
   			}
@@ -112,16 +112,16 @@
   				})
   			);
   			if (!err) {
-  				this.show = false;
-
   				this.state = true;
   				this.dialog1 = false;
-  				this.dialog2 = true;
+				this.dialog2 = true;
+				this.$emit('refresh')
   			} else {
   				this.state = false;
   				this.dialog1 = false;
-  				this.dialog2 = true;
-  			}
+				this.dialog2 = true;
+			  }
+			  this.kv.priority_no = null 
   		}
   	}
   };
