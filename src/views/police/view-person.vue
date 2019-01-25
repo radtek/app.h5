@@ -1,5 +1,6 @@
 <style lang="scss">
 [rs-view="view-person"] {
+	height: 100%;
 	.fw {
 		font-family: PingFang-SC-Bold;
 		font-weight: bold;
@@ -175,7 +176,6 @@ export default {
 			}
 		},
 		async __fetchRob() {
-			
 			const [err, resp] = await this.$sync(
 				this.$http.police.robbingClass({
 					priorityNo: this.person.priority_no,
@@ -212,7 +212,7 @@ export default {
 	},
 	async activated() {
 		this.person.priority_no = this.$route.query.priority_no;
-		this.person.userId = localStorage.getItem('id')
+		this.person.userId = localStorage.getItem("id");
 		await this.__fetch();
 	}
 };
