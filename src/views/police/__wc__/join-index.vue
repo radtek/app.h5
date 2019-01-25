@@ -50,19 +50,27 @@
              @click="doCancel">
       </div>
     </div>
+	<toast :text="toast_text"
+           :showToast="showToast"></toast>
   </div>
 </template>
 
 <script>
   import { utils } from "~rx";
   export default {
+	  components: {
+		  toast: () =>
+  			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
+  	},
   	data() {
   		return {
   			dialog2: false,
   			state: true,
 			  dialog1: true,
 			  kv:{},
-  			show: this.value
+			  show: this.value,
+			  toast_text: "",
+			  showToast: false
   		};
   	},
   	props: {
@@ -88,6 +96,13 @@
   				this.joinList[i].start_time,
   				"yyyy-MM-dd hh:mm"
   			);
+		  },
+		  toast() {
+  			this.showToast = true;
+  			setTimeout(() => {
+				  this.showToast = false;
+				  this.show = false;
+  			}, 1500);
   		},
   		doCancel() {
   			this.show = false;
@@ -104,16 +119,17 @@
   					priorityNo: this.kv.priority_no,
   					userId: localStorage.getItem('id')
   				})
-  			);
+			  );
+			  console.log(err)
   			if (!err) {
   				this.state = true;
   				this.dialog1 = false;
 				this.dialog2 = true;
 				this.$emit('refresh')
   			} else {
-  				this.state = false;
-  				this.dialog1 = false;
-				this.dialog2 = true;
+				this.toast_text = err.msg;
+				this.toast();
+				this.dialog1 = true;
 			  }
 			  this.kv.priority_no = null 
   		}
