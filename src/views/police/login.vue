@@ -41,15 +41,9 @@
 				margin-right: 16px;
 			}
 			.input_phone {
-				width: 400px;
+				width: 65%;
 			}
-			.cancel {
-				width: 32px;
-				height: 32px;
-				right: 61px;
-				position: absolute;
-				display: none;
-			}
+
 			.input_phone::-ms-cancel {
 				display: none;
 			}
@@ -76,6 +70,18 @@
 			}
 		}
 	}
+	.cancel {
+		width: 20%;
+		text-align: center;
+		display: none;
+		img {
+			width: 36px;
+			height: 36px;
+		}
+	}
+	.phone_box{
+		width: 15%;
+	}
 }
 </style>
 
@@ -84,7 +90,10 @@
     <header>登录页面</header>
     <main>
       <div class="phone">
-        <img :src="getLocalMduImg('police','phone')" class="phone_icon">
+        <div class="phone_box">
+          <img :src="getLocalMduImg('police','phone')" class="phone_icon">
+        </div>
+
         <input
           ref="phone"
           id="phone"
@@ -96,12 +105,10 @@
           v-model="num"
           required
         >
-        <img
-          class="cancel"
-          :src="getLocalMduImg('police','cancel1')"
-          @click="clear()"
-          v-show="this.num !=''"
-        >
+        <div class="cancel">
+          <img :src="getLocalMduImg('police','cancel1')" @click="clear()" v-show="this.num !=''">
+        </div>
+
         <toast :text="toast_text" :showToast="showToast"></toast>
       </div>
 
@@ -165,25 +172,24 @@ export default {
 			const [err, res] = await this.$sync(
 				this.$http.police.login({ phone: this.num })
 			);
-			console.log(res)
+			console.log(res);
 			if (!err) {
-			if(res.STATUS===true){
-				// 存储信息;
-				localStorage.setItem("userName", this.num);
-				Indicator.close();
-				this.$router.push({
-					path: "/index",
-					query: {
-							isManager:res.result.isManager,
-							name:res.result.name,
-							iconUrl:res.result.iconUrl,
-							id:res.result.id,
-							phone:res.result.phone,
-							gmtCreate:res.result.gmtCreate,
-						
-					}
-				});
-			}
+				if (res.STATUS === true) {
+					// 存储信息;
+					localStorage.setItem("userName", this.num);
+					Indicator.close();
+					this.$router.push({
+						path: "/index",
+						query: {
+							isManager: res.result.isManager,
+							name: res.result.name,
+							iconUrl: res.result.iconUrl,
+							id: res.result.id,
+							phone: res.result.phone,
+							gmtCreate: res.result.gmtCreate
+						}
+					});
+				}
 			} else {
 				Indicator.close();
 				this.toast_text = err.msg;
