@@ -26,14 +26,14 @@
             </div>
           </div>
           <div class="column-icon"
-               @click="join=true">
+               @click="robbing">
             <div>抢名额</div>
             <img :src="getLocalMduImg('police','minge')">
           </div>
 
           <div class="column-footer">
             <div class="jion">已有<span class="red">{{userCount}}</span>人参与活动 &nbsp;
-              <router-link :to="{path:'/edit-person',query:{query:person.isManager}}">
+              <router-link :to="{path:'/edit-person',query:{query:isManager}}">
                 <span class="red">查看全部</span>
               </router-link>
               <p class="img"><img :src="getLocalMduImg('police','quanbu')"></p>
@@ -53,17 +53,16 @@
                        :key="i"
                        @join="dlistJoin"
                        :item="item"
-                       :leave-item="leaveListOfCourse[i]"
-                       :person="person"></course-item>
+                       :leave-item="leaveListOfCourse[i]"></course-item>
         </div>
         <div class="more"
              v-if="isManager">
-          <div class="more-text">没有更多活动了，快来
+          <!-- <div class="more-text">没有更多活动了，快来
             <div class="more-button"
                  @click="goto('创建活动','/create-activities')">
               <span>立即创建</span>
             </div>
-          </div>
+          </div> -->
         </div>
       </main>
     </div>
@@ -80,11 +79,6 @@
                  :kv="kv"
 								 @refresh="__fetch()"
                  :join-list="joinList"></dialog-join>
-    <list-join :show="listJoin"
-							 @refresh="__fetch()"
-							 v-model="listJoin"
-               :joinData="joinData"
-               :kv="kv"></list-join>
     <toast :text="toast_text"
            :showToast="showToast"></toast>
   </div>
@@ -94,16 +88,12 @@
   export default {
   	name: "PoliceIndex",
   	components: {
-  		// signUp: () =>
-  		// 	  import(/* webpackChunkName: "police.signup" */ "~v/police/__wc__/sign-up.vue"),
   		courseItem: () =>
   			import(/* webpackChunkName:"police.course.item" */ "~v/police/__wc__/course-item.vue"),
   		dialogLeave: () =>
   			import(/* webpackChunkName: "police.dlg.leave" */ "~v/police/__wc__/leave-index.vue"),
   		dialogJoin: () =>
   			import(/* webpackChunkName: "police.dlg.join" */ "~v/police/__wc__/join-index.vue"),
-  		listJoin: () =>
-  			import(/* webpackChunkName: "police.list.join" */ "~v/police/__wc__/join-list.vue"),
   		toast: () =>
   			import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
   	},
@@ -122,7 +112,7 @@
   			startTime: "",
   			startWeek: "",
   			toast_text: "",
-  			person: {},
+  			personId: "",
   			leaveDate: [],
   			joinList: [],
   			kv: {},
@@ -137,21 +127,30 @@
   					type: "edit"
   				}
   			});
-  		},
+			},
+			robbing(){
+				if(!this.joinList.length){
+					this.toast_text = "没有多余名额~";
+					this.toast();
+				}else{
+					this.join = true
+				}
+
+			},
   		async __fetchJoin() {
   			// 抢课列表数据
   			const [err, resp] = await this.$sync(
   				this.$http.police.listForRob()
   			);
   			if (!err) {
-  				this.joinList = resp.result.listForRob;
+					this.joinList = resp.result.listForRob;
   			}
   		},
   		async __fetchList() {
   			// 请假数据
   			const [err, resp] = await this.$sync(
   				this.$http.police.listForLeave({
-  					userId: this.kv.userId
+  					userId: this.personId
   				})
   			);
   			if (!err) {
@@ -162,7 +161,7 @@
   			// 列表数据
   			const [err, resp] = await this.$sync(
   				this.$http.police.activityList({
-  					userId: this.person.id
+  					userId: this.personId
   				})
   			);
 
@@ -181,11 +180,7 @@
   				this.toast();
   			}
   		},
-  		__fetchPerson() {
-  			this.kv.userId = this.person.id;
-  		},
   		async __fetch() {
-  			await this.__fetchPerson();
   			await this.__fetchActivity();
   			await this.__fetchList();
   			await this.__fetchJoin();
@@ -194,7 +189,7 @@
   			this.showToast = true;
   			setTimeout(() => {
   				this.showToast = false;
-  			}, 2000);
+  			}, 1500);
   		},
   		dlistJoin(i) {
   			this.joinData = i;
@@ -202,11 +197,8 @@
   		},
   	},
   	activated() {
-  		if (this.$route.query.id) {
-  			this.person.id = this.$route.query.id;
-				this.isManager = this.$route.query.isManager;
-				console.log(this.isManager)
-  		}
+			this.personId=localStorage.getItem('id')
+			this.isManager=localStorage.getItem('isManager')
   		this.__fetch();
   	}
   };

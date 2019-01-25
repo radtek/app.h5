@@ -118,7 +118,7 @@ export default {
   .leave {
         width:100%;
         height:100%;
-        position: absolute;
+        position:fixed;
         .mask {
             width:100%;
             height:100%;
@@ -126,7 +126,7 @@ export default {
             opacity:0.4;
         }
         .dialog1    {
-            position: absolute;
+            position: fixed;
             top:50%;
             left:50%;
             margin: -266px 0 0 -304px;
@@ -259,7 +259,7 @@ export default {
         .dialog {
             width:690px;
             height:920px;
-            position: absolute;
+            position: fixed;
             top:50%;
             left:50%;
             margin:-460px 0 0 -345px;
@@ -270,7 +270,7 @@ export default {
             .cancel {
                 width:470px;
                 height:100px;
-                position: absolute;
+                position: fixed;
                 bottom:60px;
                 opacity: 0.2;
                 left:110px;

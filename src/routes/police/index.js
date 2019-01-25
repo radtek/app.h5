@@ -72,9 +72,9 @@ export function createRoutes(Vue) {
 					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/default-icon.vue`)
 			},
 			{
-				path: "/test",
+				path: "/class",
 				component: () =>
-					import(/* webpackChunkName: "view-default-icon" */ `~v/${MODULENAME}/test.vue`)
+					import(/* webpackChunkName: "view-class" */ `~v/${MODULENAME}/class.vue`)
 			},
 			{
 				path: "/choose-icon",
@@ -87,7 +87,6 @@ export function createRoutes(Vue) {
 		if(to.path === '/login') return next();
 		const exp = 60 *1000* 60 * 24; // 一天的秒数
 		let dataObj=JSON.parse(localStorage.getItem('userName'))
-		console.log(dataObj.time)
 		if((new Date().getTime() - dataObj.time) > exp){
 			localStorage.removeItem('userName')
 		}
