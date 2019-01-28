@@ -100,7 +100,7 @@
 						}else{
 							this.dateTr= res.result.infoActivityPlanList.filter(item => item.isEnabled === 1)
 						}
-						if(JSON.parse(localStorage.getItem('date'))==''){
+						if(JSON.parse(localStorage.getItem('date'))==''||this.selectAll()===false){
 							this.temp = undefined
 						}
 						if (infoActivity.isNotHoliday === 1) {
@@ -241,6 +241,11 @@
 				setTimeout(function() {
 					self.showToast = false;
 				}, 2000);
+			},
+			selectAll(){
+				if(JSON.parse(localStorage.getItem('date'))){
+					return JSON.parse(localStorage.getItem('date')).some(item => item.isSelect);
+				}
 			},
 			//节假日
 			test(){
