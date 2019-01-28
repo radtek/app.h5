@@ -58,7 +58,6 @@
 			}
 			if(from.name==='activity-time'){
 				next(vm => {
-					console.log(JSON.parse(localStorage.getItem('date')))
 					if(JSON.parse(localStorage.getItem('date'))===[]){
 						vm.temp=1
 					}
