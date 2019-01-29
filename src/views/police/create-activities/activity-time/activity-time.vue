@@ -1,6 +1,6 @@
 <template>
     <div>
-		<Header :title="mainTitle" :right="rightTitle"  @change="change"></Header>
+		<Header :title="mainTitle" :right="rightTitle" :router="router"  @change="change"></Header>
 		<div class="time-contain"  v-for="(item,index) in date" :key="index">
 			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del(index)">
 				<div class="time-font" :class="{'active':rightTitle==='完成'}">
@@ -76,7 +76,8 @@
 				dateTimePickerResult2: '',
 				nowWeek:'',
 				nowTime:'',
-				date:[]
+				date:[],
+				router:'/create-activities'
 			}
 		},
 		activated(){
