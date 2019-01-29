@@ -171,7 +171,7 @@
                   <div class="name">{{q.name}}</div>
                 </div>
               </li>
-              <li v-show="isManager == 1 ">
+              <li v-show="isManager == 1 && right=='编辑'">
                 <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="add">
               </li>
             </ul>
@@ -205,7 +205,7 @@ export default {
 			N: 0,
 			arr: [],
 			Num: 0,
-			B: [],
+			arr1: [],
 			delArr: [],
 			router: "index"
 		};
@@ -239,28 +239,28 @@ export default {
 			}
 		},
 		changeImg(index) {
-			// console.log(index + 1);
+			console.log(index + 1);
 			this.cartData[index].isSelect = !this.cartData[index].isSelect;
 			this.$set(this.cartData, index, this.cartData[index]);
-			var P = this.cartData[index].id;
-			this.arr.push(P);
-			let A = this.arr;
-			this.B = [];
-			let C = {};
-			for (var i = 0; i < A.length; i++) {
-				var item = A[i];
-				if (C[item]) {
-					C[item] = C[item] + 1;
+			var Pid = this.cartData[index].id;
+			this.arr.push(Pid);
+			let Arr = this.arr;
+			this.arr1 = [];
+			let Obj = {};
+			for (var i = 0; i < Arr.length; i++) {
+				var item = Arr[i];
+				if (Obj[item]) {
+					Obj[item] = Obj[item] + 1;
 				} else {
-					C[item] = 1;
+					Obj[item] = 1;
 				}
 			}
-			for (let K in C) {
-				if (C[K] % 2 == 1) {
-					this.B.push(K);
+			for (let K in Obj) {
+				if (Obj[K] % 2 == 1) {
+					this.arr1.push(K);
 				}
 			}
-			this.delArr = this.B.join("##");
+			this.delArr = this.arr1.join("##");
 		},
 		Cancel() {
 			this.join = false;
@@ -282,6 +282,7 @@ export default {
 				this.join = false;
 				Indicator.close();
 				await this.__fetch();
+				// location.reload();
 			} else {
 				this.join = false;
 				Indicator.close();

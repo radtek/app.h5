@@ -87,7 +87,7 @@
       <div class="name fw">
         <div>上传头像:</div>
         <img :src="getLocalMduImg('police','add')" alt @click="choose" v-if="!this.icon">
-        <img :src="icon" alt v-else>
+        <img :src="icon" alt v-else @click="choose">
       </div>
     </div>
     <div class="bottom">
