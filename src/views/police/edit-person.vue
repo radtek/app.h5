@@ -130,11 +130,18 @@
           :title="title"
           :right="right"
           :left="left"
-		  :router="router"
+          :router="router"
           @change="change"
           @delete="Delete"
         ></top-head>
-        <top-head v-else :title="title" :left="left" :router="router" @change="change" @delete="Delete"></top-head>
+        <top-head
+          v-else
+          :title="title"
+          :left="left"
+          :router="router"
+          @change="change"
+          @delete="Delete"
+        ></top-head>
         <div class="top">
           <dialog-join
             :showToast="join"
@@ -186,7 +193,7 @@ export default {
 			atPerson: 0,
 			allPerson: 20,
 			list: [],
-			router:'index',
+			router: "index",
 			title: "全部参与人员",
 			right: "编辑",
 			isManager: localStorage.getItem("isManager"),
@@ -199,7 +206,8 @@ export default {
 			arr: [],
 			Num: 0,
 			B: [],
-			delArr: []
+			delArr: [],
+			router: "index"
 		};
 	},
 	components: {
@@ -273,7 +281,7 @@ export default {
 			if (!err) {
 				this.join = false;
 				Indicator.close();
-				location.reload();
+				await this.__fetch();
 			} else {
 				this.join = false;
 				Indicator.close();
