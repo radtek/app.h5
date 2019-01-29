@@ -16,7 +16,7 @@
     <div class="main">
       <span class="left">
         <div class="head"
-             v-for="(url,index) in icons.slice(0,11)"
+             v-for="(url,index) in icons"
              :key="index"><img :src="url" /></div>
       </span>
 			<router-link :to="{path:'/view-person',query:{priority_no:item.priority_no,userId:person.id}}">
