@@ -1,5 +1,5 @@
-<style lang="scss">
-.index {
+<style lang="scss" scoped>
+[rs-view="view-person"] {
 	display: flex;
 	min-height: 100%;
 	text-decoration: none;
@@ -11,7 +11,7 @@
 		overflow-y: scroll;
 		display: flex;
 		background: rgba(245, 245, 245, 1);
-		[rs-view="view-person"] {
+		.index {
 			flex: 1;
 			// position: relative;
 			.fw {
@@ -87,9 +87,9 @@
 </style>
 
 <template>
-  <div class="index">
+  <div rs-view="view-person">
     <div class="body">
-      <div rs-view="view-person">
+      <div class="index">
         <top-head :title="title"></top-head>
         <div class="top">
           <div class="title1">
