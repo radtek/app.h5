@@ -132,8 +132,9 @@
           :left="left"
           @change="change"
           @delete="Delete"
+			:router="router"
         ></top-head>
-        <top-head v-else :title="title" :left="left" @change="change" @delete="Delete"></top-head>
+        <top-head v-else :title="title" :left="left" @change="change" @delete="Delete" :router="router"></top-head>
         <div class="top">
           <dialog-join
             :showToast="join"
@@ -197,7 +198,8 @@ export default {
 			arr: [],
 			Num: 0,
 			B: [],
-			delArr: []
+			delArr: [],
+			router:'index'
 		};
 	},
 	components: {
