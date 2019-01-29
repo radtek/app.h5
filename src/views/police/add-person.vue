@@ -191,6 +191,11 @@ export default {
 	},
 	activated() {
 		this.icon = this.$route.query.icon;
+		console.log(this.icon)
+		if (this.icon != undefined || '') {
+			this.isUrl = true;
+		}
+		console.log(this.icon);
 	}
 };
 </script>
