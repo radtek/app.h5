@@ -153,7 +153,6 @@
 				this.dateTimePickerResult2 = result.year + '-' + result.month + '-' + result.day + ' ' + result.hour + ':' + result.minute+':00'
 				let nowDate=	this.dateTimePickerResult2.toString().slice(0,9);
 				const startTime=	this.dateTimePickerResult2.toString().slice(10,18);
-				console.log(nowDate.replace(/-/g, "/"))
 				const week= this.getWeek(new Date(nowDate.replace(/-/g, "/")));
 				const repeatDate = this.date.filter(d=>d.week === week && d.startTime === startTime);
 				

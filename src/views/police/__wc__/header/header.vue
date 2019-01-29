@@ -19,11 +19,12 @@
 		props:{
 			left:String,
 			title:String,
-			right:String
+			right:String,
+			router:String
 		},
 		methods:{
 			goBack(){
-				this.$router.back()
+				this.$router.push(this.router)
 			},
 			del(){
 				this.$emit('delete')

@@ -11,8 +11,9 @@ export function createRoutes(Vue) {
 		routes: [{
 			path: "/index",
 			component: () =>
-				import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`)
+				import(/* webpackChunkName: "view-index" */ `~v/${MODULENAME}/index.vue`),
 		},
+			
 		{
 			//商品详情
 			path: "/details",
@@ -77,9 +78,12 @@ export function createRoutes(Vue) {
 				//购物车
 				path: "/shop-car",
 				component: () =>
-					import( /* webpackChunkName: "shop-car" */ `~v/${MODULENAME}/shop-car.vue`)
+					import( /* webpackChunkName: "shop-car" */ `~v/${MODULENAME}/shop-car.vue`),
+				meta: {
+					keepAlive: true
+				}
 			}
-		]
+		],
 
 	});
 }
