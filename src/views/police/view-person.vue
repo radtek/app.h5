@@ -14,6 +14,7 @@
 		.index {
 			flex: 1;
 			// position: relative;
+			
 			.fw {
 				font-family: PingFang-SC-Bold;
 				font-weight: bold;
