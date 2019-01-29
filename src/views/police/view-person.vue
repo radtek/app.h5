@@ -143,7 +143,7 @@ export default {
 		return {
 			isShowUsers: true,
 			atPerson: "",
-			router:'index',
+			router: "index",
 			allPerson: "",
 			list: [],
 			list1: [],
@@ -154,7 +154,8 @@ export default {
 			text: "该课程还有剩余名额，是否加入？",
 			person: {},
 			toast_text: "",
-			showToast: false
+			showToast: false,
+			router: "index"
 		};
 	},
 	components: {
@@ -206,7 +207,7 @@ export default {
 				this.list3 = resp.result;
 				Indicator.close();
 				this.join = false;
-				location.reload();
+				await this.__fetch();
 			} else {
 				Indicator.close();
 				this.join = false;
