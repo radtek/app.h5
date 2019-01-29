@@ -144,7 +144,7 @@
         ></top-head>
         <div class="top">
           <dialog-join
-            :showToast="join"
+            :showToast="isShow"
             :isView="isEdit"
             :text="num"
             @doCancel="Cancel"
@@ -179,12 +179,13 @@
         </div>
       </div>
     </div>
+	  <toast :text="toast_text" :showToast="showToast"></toast>
   </div>
 </template>
 
 <script>
 import { Indicator } from "mint-ui";
-import { setTimeout } from "timers";
+import { utils } from "~rx";
 export default {
 	name: "edit-person",
 	data() {
@@ -199,7 +200,7 @@ export default {
 			isManager: localStorage.getItem("isManager"),
 			left: "",
 			id: 0,
-			join: false,
+			isShow: false,
 			text: "",
 			isEdit: true,
 			N: 0,
@@ -207,16 +208,30 @@ export default {
 			Num: 0,
 			arr1: [],
 			delArr: [],
+			showToast: false,
+			toast_text: "",
 			router: "index"
 		};
 	},
 	components: {
 		topHead: () =>
-			import(/* webpackChunkName:"police-header" */ "~v/police/__wc__/header/header.vue"),
+			import(/* webpackChunkName:"top-header" */ "~v/police/__wc__/header/header.vue").then(
+				utils.fixAsyncCmpLifeCycle),
 		dialogJoin: () =>
-			import(/* webpackChunkName: "signUp" */ "~v/police/__wc__/join-class.vue")
+			import(/* webpackChunkName: "dialog-join" */ "~v/police/__wc__/join-class.vue").then(
+				utils.fixAsyncCmpLifeCycle),
+		toast: () =>
+			import(/* webpackChunkName:"toast" */ "~v/police/__wc__/phone-toast.vue").then(
+				utils.fixAsyncCmpLifeCycle)
 	},
 	methods: {
+		toast() {
+			const self = this;
+			this.showToast = true;
+			setTimeout(function() {
+				self.showToast = false;
+			}, 2000);
+		},
 		async __fetchUser() {
 			const [err, resp] = await this.$sync(
 				this.$http.police.getAllUser()
@@ -224,7 +239,9 @@ export default {
 			if (!err) {
 				this.list = resp.result;
 				this.atPerson = this.list.length;
-				console.log(this.list);
+				let nowList = this.list;
+				nowList.forEach(item => (item.isSelect = false));
+				this.cartData = nowList;
 			}
 		},
 		async __fetch() {
@@ -232,23 +249,22 @@ export default {
 		},
 		change(e) {
 			this.right = e;
-			if (this.right == "完成") {
+			if (this.right === "完成") {
 				this.left = "删除";
 			} else {
 				this.left = "";
 			}
 		},
 		changeImg(index) {
-			console.log(index + 1);
 			this.cartData[index].isSelect = !this.cartData[index].isSelect;
 			this.$set(this.cartData, index, this.cartData[index]);
-			var Pid = this.cartData[index].id;
+			const Pid = this.cartData[index].id;
 			this.arr.push(Pid);
 			let Arr = this.arr;
 			this.arr1 = [];
 			let Obj = {};
-			for (var i = 0; i < Arr.length; i++) {
-				var item = Arr[i];
+			for (let i = 0; i < Arr.length; i++) {
+				const item = Arr[i];
 				if (Obj[item]) {
 					Obj[item] = Obj[item] + 1;
 				} else {
@@ -263,12 +279,11 @@ export default {
 			this.delArr = this.arr1.join("##");
 		},
 		Cancel() {
-			this.join = false;
+			this.isShow = false;
 		},
 
 		async Confirm(index) {
 			//发请求
-			console.log(this.delArr);
 			Indicator.open({
 				text: "删除中..",
 				spinnerType: "snake"
@@ -279,17 +294,19 @@ export default {
 				})
 			);
 			if (!err) {
-				this.join = false;
+				this.isShow = false;
 				Indicator.close();
 				await this.__fetch();
-				// location.reload();
+				this.arr=[]
 			} else {
-				this.join = false;
+				this.isShow = false;
+				this.toast_text =err.msg;
+				this.toast();
 				Indicator.close();
 			}
 		},
 		Delete() {
-			var R = this.cartData;
+			const R = this.cartData;
 			this.N = 0;
 			for (let i of R) {
 				if (i.isSelect) {
@@ -297,7 +314,7 @@ export default {
 				}
 			}
 			if (this.N !== 0) {
-				this.join = !this.join;
+				this.isShow = !this.isShow;
 			}
 		},
 		add() {
@@ -319,9 +336,7 @@ export default {
 	},
 	async activated() {
 		await this.__fetch();
-		let nowList = this.list;
-		nowList.forEach(item => (item.isSelect = false));
-		this.cartData = nowList;
+		
 	}
 };
 </script>
