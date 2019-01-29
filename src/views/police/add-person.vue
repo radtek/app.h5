@@ -64,7 +64,7 @@
 </style>
 <template>
   <div rs-view="add-person">
-    <top-head :title="title"></top-head>
+    <top-head :title="title" :router="router"></top-head>
     <div class="content">
       <div class="name fw borderB">
         <div class="name1">姓名:</div>
@@ -108,6 +108,7 @@ export default {
 		return {
 			title: "添加参与人员",
 			num: "",
+			router:'edit-person',
 			name: "",
 			toast_text: "",
 			showToast: false,

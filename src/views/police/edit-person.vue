@@ -130,10 +130,11 @@
           :title="title"
           :right="right"
           :left="left"
+		  :router="router"
           @change="change"
           @delete="Delete"
         ></top-head>
-        <top-head v-else :title="title" :left="left" @change="change" @delete="Delete"></top-head>
+        <top-head v-else :title="title" :left="left" :router="router" @change="change" @delete="Delete"></top-head>
         <div class="top">
           <dialog-join
             :showToast="join"
@@ -185,6 +186,7 @@ export default {
 			atPerson: 0,
 			allPerson: 20,
 			list: [],
+			router:'index',
 			title: "全部参与人员",
 			right: "编辑",
 			isManager: localStorage.getItem("isManager"),
