@@ -281,7 +281,7 @@ export default {
 			if (!err) {
 				this.join = false;
 				Indicator.close();
-				location.reload();
+				await this.__fetch();
 			} else {
 				this.join = false;
 				Indicator.close();

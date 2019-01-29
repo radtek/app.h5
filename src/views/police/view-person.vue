@@ -143,7 +143,7 @@ export default {
 		return {
 			isShowUsers: true,
 			atPerson: "",
-			router:'index',
+			router: "index",
 			allPerson: "",
 			list: [],
 			list1: [],
@@ -155,7 +155,7 @@ export default {
 			person: {},
 			toast_text: "",
 			showToast: false,
-			router:'index'
+			router: "index"
 		};
 	},
 	components: {
@@ -207,7 +207,7 @@ export default {
 				this.list3 = resp.result;
 				Indicator.close();
 				this.join = false;
-				location.reload();
+				await this.__fetch();
 			} else {
 				Indicator.close();
 				this.join = false;
