@@ -86,7 +86,7 @@
     <div class="content">
       <div class="name fw">
         <div>上传头像:</div>
-        <img :src="getLocalMduImg('police','add')" alt @click="choose" v-if="!isUrl">
+        <img :src="getLocalMduImg('police','add')" alt @click="choose" v-if="!this.icon">
         <img :src="icon" alt v-else>
       </div>
     </div>
@@ -136,7 +136,7 @@ export default {
 			} else if (!this.phoneN.test(Num)) {
 				this.toast_text = "手机号格式错误";
 				this.toast();
-			} else if ((this.isUrl == false)) {
+			} else if (this.isUrl == false) {
 				this.toast_text = "请选择头像";
 				this.toast();
 			} else {
@@ -164,7 +164,7 @@ export default {
 				this.$http.police.addUser({
 					name: this.name,
 					phone: this.num,
-					icon:this.icon
+					icon: this.icon
 				})
 			);
 			console.log(err, res);
@@ -172,10 +172,13 @@ export default {
 				Indicator.close();
 				this.$router.push({
 					path: "/edit-person",
-					query:{
-						isManager:1
+					query: {
+						isManager: 1
 					}
 				});
+				this.num = "";
+				this.name = "";
+				this.icon = '';
 			} else {
 				Indicator.close();
 				this.toast_text = err.msg;
@@ -188,10 +191,6 @@ export default {
 	},
 	activated() {
 		this.icon = this.$route.query.icon;
-		if (this.icon != undefined) {
-			this.isUrl = true;
-		}
-		console.log(this.icon);
 	}
 };
 </script>
