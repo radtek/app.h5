@@ -212,7 +212,8 @@
 					utils.fixAsyncCmpLifeCycle
 				),
 			toast: () =>
-				import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
+				import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue").then(
+					utils.fixAsyncCmpLifeCycle)
 		},
 		data(){
 			return{
