@@ -13,7 +13,7 @@
         background:rgba(245,245,245,1);
 		[rs-view="edit-person"] {
 			flex: 1;
-            position: relative;
+            // position: relative;
 			.fw {
 				font-family: PingFang-SC-Bold;
 				font-weight: bold;
