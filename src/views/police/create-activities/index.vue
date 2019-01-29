@@ -1,6 +1,6 @@
 <template>
     <div>
-	   <Header :title="mainTitle" ></Header>
+	   <Header :title="mainTitle" :router="router"></Header>
 		<div class="activity-contain">
 			<div class="title">活动主题:</div>
 			<input placeholder="请输入活动主题" v-model="title">
@@ -230,7 +230,8 @@
 				toast_text: "",
 				showToast: false,
 				dateArr:[],
-				dateTr:[]
+				dateTr:[],
+				router:'index'
 			}
 		},
 		methods:{

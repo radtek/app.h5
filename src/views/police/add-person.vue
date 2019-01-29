@@ -108,6 +108,7 @@ export default {
 		return {
 			title: "添加参与人员",
 			num: "",
+			router:'edit-person',
 			name: "",
 			toast_text: "",
 			showToast: false,

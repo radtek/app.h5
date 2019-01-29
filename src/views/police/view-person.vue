@@ -143,6 +143,7 @@ export default {
 		return {
 			isShowUsers: true,
 			atPerson: "",
+			router:'index',
 			allPerson: "",
 			list: [],
 			list1: [],

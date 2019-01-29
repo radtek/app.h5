@@ -194,7 +194,6 @@
   		},
   	},
   	activated() {
-			console.log(this.isManager)
 			this.__fetch();
   	}
   };
