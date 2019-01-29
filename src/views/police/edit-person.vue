@@ -207,7 +207,6 @@ export default {
 			Num: 0,
 			B: [],
 			delArr: [],
-			router: "index"
 		};
 	},
 	components: {

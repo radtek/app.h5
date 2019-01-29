@@ -155,7 +155,6 @@ export default {
 			person: {},
 			toast_text: "",
 			showToast: false,
-			router: "index"
 		};
 	},
 	components: {
