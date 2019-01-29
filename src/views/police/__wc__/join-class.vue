@@ -15,6 +15,7 @@
 
 .window1 {
 	position: absolute;
+	z-index:100;
 	top:400px;
 	left: 75px;
 	width: 608px;
