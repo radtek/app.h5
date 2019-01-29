@@ -38,7 +38,7 @@
 
 <template>
   <div rs-view="choose-icon">
-    <top-head :title="title" :right="right" @change="change"></top-head>
+    <top-head :title="title" :right="right" @change="change" :router="router"></top-head>
     <toast :text="toast_text" :showToast="showToast"></toast>
 
     <div class="content">
@@ -65,6 +65,7 @@ export default {
 		return {
 			title: "选择头像",
 			right: "完成",
+			router:'add-person',
 			urls: {},
 			icon: "",
             isCheck: false,

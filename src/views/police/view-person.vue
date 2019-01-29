@@ -1,139 +1,138 @@
-<style lang="scss">
-.index {
+<style lang="scss" scoped>
+[rs-view="view-person"] {
 	display: flex;
-    min-height: 100%;
-    text-decoration: none;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
+	min-height: 100%;
+	text-decoration: none;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
 	.body {
-				flex: 1;
-        overflow-y: scroll;
-        display:flex;
-        background:rgba(245,245,245,1);
-		[rs-view="view-person"] {
-						flex: 1;
-            position: relative;
-	.fw {
-		font-family: PingFang-SC-Bold;
-		font-weight: bold;
-	}
-	.title1 {
+		flex: 1;
+		overflow-y: scroll;
 		display: flex;
-		align-items: center;
-		margin: 0 30px;
-		border-bottom: 1px solid rgba(230, 230, 230, 1);
-		padding-top: 40px;
-		padding-bottom: 18px;
-		.line {
-			width: 19px;
-			height: 41px;
-			margin-right: 8px;
-		}
-		span {
-			font-size: 32px;
-			color: rgba(102, 102, 102, 1);
-		}
-	}
-	.content {
-		margin-top: 40px;
-		display: flex;
-		padding: 0 20px;
-		ul {
-			li {
-				display: inline-block;
-				margin-right: 27.5px;
-
-				.add {
-					width: 100px;
-					height: 100px;
+		background: rgba(245, 245, 245, 1);
+		.index {
+			flex: 1;
+			// position: relative;
+			
+			.fw {
+				font-family: PingFang-SC-Bold;
+				font-weight: bold;
+			}
+			.title1 {
+				display: flex;
+				align-items: center;
+				margin: 0 30px;
+				border-bottom: 1px solid rgba(230, 230, 230, 1);
+				padding-top: 40px;
+				padding-bottom: 18px;
+				.line {
+					width: 19px;
+					height: 41px;
+					margin-right: 8px;
+				}
+				span {
+					font-size: 32px;
+					color: rgba(102, 102, 102, 1);
 				}
 			}
-			li:nth-child(5n) {
-				margin-right: 0;
-			}
-			li:nth-last-child(-n + 5) {
-				margin-bottom: 0;
-			}
-		}
-	}
-	.person {
-		width: 120px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+			.content {
+				margin-top: 40px;
+				display: flex;
+				padding: 0 20px;
+				ul {
+					li {
+						display: inline-block;
+						margin-right: 27.5px;
 
-		img {
-			width: 100px;
-			height: 100px;
-			border-radius: 50%;
-			margin-bottom: 10px;
-		}
-		div {
-			width: 120px;
-			text-align: center;
-			margin-bottom: 30px;
-			font-size: 28px;
-			font-family: PingFang-SC-Medium;
-			font-weight: 500;
-			color: rgba(51, 51, 51, 1);
-			word-break: break-all;
+						.add {
+							width: 100px;
+							height: 100px;
+						}
+					}
+					li:nth-child(5n) {
+						margin-right: 0;
+					}
+					li:nth-last-child(-n + 5) {
+						margin-bottom: 0;
+					}
+				}
+			}
+			.person {
+				width: 120px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+
+				img {
+					width: 100px;
+					height: 100px;
+					border-radius: 50%;
+					margin-bottom: 10px;
+				}
+				div {
+					width: 120px;
+					text-align: center;
+					margin-bottom: 30px;
+					font-size: 28px;
+					font-family: PingFang-SC-Medium;
+					font-weight: 500;
+					color: rgba(51, 51, 51, 1);
+					word-break: break-all;
+				}
+			}
 		}
 	}
 }
-	}
-}
-
 </style>
 
 <template>
-<div class="index">
-	<div class="body">
-		<div rs-view="view-person">
-    <top-head :title="title"></top-head>
-    <div class="top">
-      <div class="title1">
-        <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">参与人员({{list1.length}}/21)</span>
-      </div>
-      <div class="content">
-        <ul>
-          <li v-for="(q,index) in list1" :key="index">
-            <div class="person">
-              <img :src="q.icon_url" class="head_icon">
-              <div>{{q.name}}</div>
-            </div>
-          </li>
-          <li v-show="atP > 0">
-            <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="dialogJoin">
-          </li>
-        </ul>
-      </div>
-      <dialog-join :showToast="join" :text="text" @doCancel="Cancel" @doConfirm="Confirm"></dialog-join>
-    </div>
-    <div class="separate" v-show="isShowUsers && atP > 0"></div>
-    <toast :text="toast_text" :showToast="showToast"></toast>
-    <div class="top" v-show="atP > 0">
-      <div class="title1">
-        <img :src="getLocalMduImg('police','line')" alt class="line">
-        <span class="fw">请假人员({{list2.length}})</span>
-      </div>
-      <div class="content">
-        <ul>
-          <li v-for="(q,index) in list2" :key="index">
-            <div class="person">
-              <img :src="q.icon_url" class="head_icon">
-              <div>{{q.name}}</div>
-            </div>
-          </li>
-        </ul>
+  <div rs-view="view-person">
+    <div class="body">
+      <div class="index">
+        <top-head :title="title" :router="router"></top-head>
+        <div class="top">
+          <div class="title1">
+            <img :src="getLocalMduImg('police','line')" alt class="line">
+            <span class="fw">参与人员({{list1.length}}/21)</span>
+          </div>
+          <div class="content">
+            <ul>
+              <li v-for="(q,index) in list1" :key="index">
+                <div class="person">
+                  <img :src="q.icon_url" class="head_icon">
+                  <div>{{q.name}}</div>
+                </div>
+              </li>
+              <li v-show="atP > 0">
+                <img :src="getLocalMduImg('police','redadd')" alt class="add" @click="dialogJoin">
+              </li>
+            </ul>
+          </div>
+          <dialog-join :showToast="join" :text="text" @doCancel="Cancel" @doConfirm="Confirm"></dialog-join>
+        </div>
+        <div class="separate" v-show="isShowUsers && atP > 0"></div>
+        <toast :text="toast_text" :showToast="showToast"></toast>
+        <div class="top" v-show="atP > 0">
+          <div class="title1">
+            <img :src="getLocalMduImg('police','line')" alt class="line">
+            <span class="fw">请假人员({{list2.length}})</span>
+          </div>
+          <div class="content">
+            <ul>
+              <li v-for="(q,index) in list2" :key="index">
+                <div class="person">
+                  <img :src="q.icon_url" class="head_icon">
+                  <div>{{q.name}}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-	</div>
-</div>
-  
 </template>
 
 <script>
@@ -145,6 +144,7 @@ export default {
 		return {
 			isShowUsers: true,
 			atPerson: "",
+			router: "index",
 			allPerson: "",
 			list: [],
 			list1: [],
@@ -155,7 +155,7 @@ export default {
 			text: "该课程还有剩余名额，是否加入？",
 			person: {},
 			toast_text: "",
-			showToast: false
+			showToast: false,
 		};
 	},
 	components: {
@@ -207,7 +207,7 @@ export default {
 				this.list3 = resp.result;
 				Indicator.close();
 				this.join = false;
-				location.reload();
+				await this.__fetch();
 			} else {
 				Indicator.close();
 				this.join = false;

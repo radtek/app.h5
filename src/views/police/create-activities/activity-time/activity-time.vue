@@ -1,6 +1,6 @@
 <template>
     <div>
-		<Header :title="mainTitle" :right="rightTitle"  @change="change"></Header>
+		<Header :title="mainTitle" :right="rightTitle" :router="router"  @change="change"></Header>
 		<div class="time-contain"  v-for="(item,index) in date" :key="index">
 			<img class="delImg" v-if="rightTitle==='完成'" src="@/assets/imgs/police/866.png" @click="del(index)">
 				<div class="time-font" :class="{'active':rightTitle==='完成'}">
@@ -76,7 +76,8 @@
 				dateTimePickerResult2: '',
 				nowWeek:'',
 				nowTime:'',
-				date:[]
+				date:[],
+				router:'/create-activities'
 			}
 		},
 		activated(){
@@ -153,7 +154,6 @@
 				this.dateTimePickerResult2 = result.year + '-' + result.month + '-' + result.day + ' ' + result.hour + ':' + result.minute+':00'
 				let nowDate=	this.dateTimePickerResult2.toString().slice(0,9);
 				const startTime=	this.dateTimePickerResult2.toString().slice(10,18);
-				console.log(nowDate.replace(/-/g, "/"))
 				const week= this.getWeek(new Date(nowDate.replace(/-/g, "/")));
 				const repeatDate = this.date.filter(d=>d.week === week && d.startTime === startTime);
 				

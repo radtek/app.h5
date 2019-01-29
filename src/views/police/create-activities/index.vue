@@ -1,6 +1,6 @@
 <template>
     <div>
-	   <Header :title="mainTitle" ></Header>
+	   <Header :title="mainTitle" :router="router"></Header>
 		<div class="activity-contain">
 			<div class="title">活动主题:</div>
 			<input placeholder="请输入活动主题" v-model="title">
@@ -58,7 +58,6 @@
 			}
 			if(from.name==='activity-time'){
 				next(vm => {
-					console.log(JSON.parse(localStorage.getItem('date')))
 					if(JSON.parse(localStorage.getItem('date'))===[]){
 						vm.temp=1
 					}
@@ -213,7 +212,8 @@
 					utils.fixAsyncCmpLifeCycle
 				),
 			toast: () =>
-				import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
+				import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue").then(
+					utils.fixAsyncCmpLifeCycle)
 		},
 		data(){
 			return{
@@ -231,7 +231,8 @@
 				toast_text: "",
 				showToast: false,
 				dateArr:[],
-				dateTr:[]
+				dateTr:[],
+				router:'index'
 			}
 		},
 		methods:{

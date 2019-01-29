@@ -2,6 +2,7 @@
 	background:rgba(245,245,245,1);
 	width: 100%;
 	height: 100%;
+	overflow:auto;
 	.main-contain{
 		padding-top: 20px;
 		.contain{
@@ -104,7 +105,6 @@
 	}
 	.obtained-contain{
 		padding-top: 20px;
-		overflow:auto;
 		height: 100%;
 		.title{
 			background: white;

@@ -43,7 +43,6 @@
 					<div class="obtained-button">商品已下架</div>
 					<img  class="img" src="@/assets/imgs/mall/shanchu.png">
 				</div>
-				<div class="wire"></div>
 			</div>
 		</div>	
 		<div class="footer">

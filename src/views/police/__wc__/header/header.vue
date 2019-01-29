@@ -19,11 +19,12 @@
 		props:{
 			left:String,
 			title:String,
-			right:String
+			right:String,
+			router:String
 		},
 		methods:{
 			goBack(){
-				this.$router.back()
+				this.$router.push(this.router)
 			},
 			del(){
 				this.$emit('delete')
@@ -49,6 +50,7 @@
 		box-shadow:0px 4px 20px 0px rgba(0,151,238,0.5);
 		.contain{
 			display: flex;
+			height:100%;
 			justify-content: space-between;
 			padding-top: 24px;
 			padding-left: 20px;
