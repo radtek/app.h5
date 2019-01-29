@@ -91,7 +91,7 @@
   <div rs-view="view-person">
     <div class="body">
       <div class="index">
-        <top-head :title="title"></top-head>
+        <top-head :title="title" :router="router"></top-head>
         <div class="top">
           <div class="title1">
             <img :src="getLocalMduImg('police','line')" alt class="line">
@@ -144,6 +144,7 @@ export default {
 		return {
 			isShowUsers: true,
 			atPerson: "",
+			router:'index',
 			allPerson: "",
 			list: [],
 			list1: [],
