@@ -5,14 +5,20 @@ import axios from "axios";
 import { stringify } from "qs";
 
 const isProd = process.env.NODE_ENV === "production";
-const apiRoot =
-	process.env.JXRS_APP_MODULE === "police"
-		? "http://police.guotailimin.com/"
-		: `${
-			process.env.NODE_ENV === "development"
-				? "http://manage.guotailimin.com/"
-				: window.location.origin
-		  }/`;
+
+let apiRoot = "";
+
+if (process.env.JXRS_APP_MODULE === "police") {
+	apiRoot = `${window.location.protocol}//police.${
+		isProd ? "jxdangjian" : "guotailimin"
+	}.com/`;
+} else {
+	apiRoot = `${
+		process.env.NODE_ENV === "development"
+			? "http://manage.guotailimin.com/"
+			: window.location.origin
+	}/`;
+}
 
 // axios 配置
 axios.defaults.timeout = 15000;
