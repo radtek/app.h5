@@ -201,6 +201,7 @@
   						.replace(/<[^<>]+>/g, "")
   						.replace(/(^\s*)|(\s*&)/g, "")
   						.replace(/[\r\n]/g, "")
+  						.replace(/&?nbsp;/g, "")
   				: "";
 
   			if (!this.$isDev) {
