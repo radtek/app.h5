@@ -46,9 +46,14 @@ const gulpPlugins = {
 			let newContent = source;
 			Array.from(matches).forEach(it => {
 				const arr = it.split(".");
+
+				const newHash = mduHashMap[`${arr[0]}.${arr[2]}`];
+
+				if (!newHash) return;
+
 				newContent = newContent.replace(
 					new RegExp(it, "g"),
-					`${arr[0]}.${mduHashMap[`${arr[0]}.${arr[2]}`]}.${arr[2]}`
+					`${arr[0]}.${newHash}.${arr[2]}`
 				);
 			});
 
