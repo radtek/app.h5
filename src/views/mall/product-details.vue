@@ -1,13 +1,5 @@
 <template>
 	<div  rs-view="details">
-		<rx-pull ref="pull"
-				 :list="listPart2"
-				 :total="total"
-				 :down="down"
-				 :up="up"
-				 @downing="handleDown"
-				 @scroll-end="handleScrollEnd">
-			<rx-pull-down slot="down"></rx-pull-down>
 		<div class="contain">
 			<rx-swiper :pagination="false"
 					   :autoplay-time="4000"
@@ -40,7 +32,7 @@
 				<div class="size-contain">
 					<router-link :to="{path:'/type'}">
 					<div class="single-contain">
-						<span class="single-font">选择尺码规格类型</span>
+						<span class="single-font">{{size}}</span>
 						<img  class="single-img"  src="@/assets/imgs/mall/right.png"></img>
 					</div>
 					</router-link>
@@ -50,9 +42,9 @@
 						<div class="single-font">购买数量</div>
 						<div style="display: flex;align-items: center;padding-right: 10px">
 							<span class="shop">该商品限购1件</span>
-							<img  class="reduce-img"  src="@/assets/imgs/mall/reduce.png"></img>
-							<span class="num">1</span>
-							<img  class="add-img"  src="@/assets/imgs/mall/add.png"></img>
+							<img  class="reduce-img"  src="@/assets/imgs/mall/reduce.png" @click="reduce"></img>
+							<span class="num">{{shopNum}}</span>
+							<img  class="add-img"  src="@/assets/imgs/mall/add.png" @click="add"></img>
 						</div>
 					</div>
 				</div>
@@ -65,20 +57,19 @@
 			</div>
 			<div class="shop-details">
 				<div class="details-contain">
-					<div class="box"></div>
+					<div class="shop-box"></div>
 					<div class="font">商品详情</div>
 				</div>
 			</div>
 		</div>
 	<div class="footer-detail">
-		<div style="width: 190px;display: flex;align-items: center;justify-content: center">
+		<div style="width: 190px;display: flex;align-items: center;justify-content: center" @click="goCar">
 			<img class="img" src="@/assets/imgs/mall/shop.png"></img>
 		</div>
 		<button class="add-shop"
-				@click="goto">加入购物车</button>
+				>加入购物车</button>
 		<button class="pay-over">已售罄</button>
 	</div>
-		</rx-pull>
 	</div>
 </template>
 
@@ -87,7 +78,6 @@
 	import Pull from "~m/pull";
 	import Msgbox from "~m/__msgbox";
 	import UserNameMixin from "~m/__username";
-	import axios from 'axios'
 	export default {
 		name: "product-details",
 		mixins: [Pull, Msgbox, UserNameMixin],
@@ -96,35 +86,42 @@
 				listPart2: [],
 				total: 1000,
 				title:'商品详情描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款羽绒服外套连帽羽绒衣',
-				swipeTopics:[]
+				swipeTopics:[],
+				shopNum:1,
+				size:'选择尺码规格类型'
 			}
 		},
 		methods:{
 			__fetch() {
 				this.__fetchMallInfo();
 			},
-			goto(){
+			reduce(){
+				if(this.shopNum>1){
+					this.shopNum--
+				}
+			},
+			add(){
+				this.shopNum++
+			},
+			goCar(){
 				this.$router.push({path:'/shop-car'})
 			},
-			__fetchMallInfo(){
-				let that=this
-				axios.get('http://localhost:3000/home/banner')
-					.then(res=>{
-						console.log('res',res)
-						that.swipeTopics=res.data.swipeTopics
-					})
-				axios.get('https://www.easy-mock.com/mock/5c2dad1732924755e4c0db3c/example/shb')
-					.then(res=>{
-						this.listPart2=res.data.data.data
-					})
+			async  __fetchMallInfo(){
+				const [err,resp] = await this.$sync(this.$http.mall.getMallSwipe())
+				if(!err) {
+					this.swipeTopics = resp.result;
+				}
 			}
 		},
-		mounted() {
-			console.log(this.$route.query)
-		},
-		created(){
+		mounted() {},
+		activated(){
 			this.__fetch();
-		}
+			if(this.$route.query.newList){
+				console.log('newList',this.$route.query.newList)
+				this.newList=this.$route.query.newList
+				this.size=`${this.newList[0]},${this.newList[1]},${this.newList[2]}`
+			}
+		},
 	};
 </script>
 
@@ -133,6 +130,7 @@
 		.contain{
 			background:rgba(245,245,245,1);
 			height: 100%;
+			overflow-y: auto;
 			.img {
 				width: 100%;
 				height: 600px;
@@ -211,7 +209,7 @@
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
-					padding: 20px;
+					padding: 30px;
 					.single-font{
 						height:26px;
 						font-size:28px;
@@ -277,7 +275,7 @@
 				padding: 30px;
 				display: flex;
 				align-items: center;
-				.box{
+				.shop-box{
 					width:6px;
 					height:30px;
 					background:rgba(0,151,238,1);
