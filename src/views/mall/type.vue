@@ -97,15 +97,12 @@
 				}, 2000);
 			},
 			getValue1(list1) {
-				console.log(list1)
 				this.list1=list1
 			},
 			getValue2(list2) {
-				console.log(list2)
 				this.list2=list2
 			},
 			getValue3(list3) {
-				console.log(list3)
 				this.list3=list3
 			},
 			goBack() {
