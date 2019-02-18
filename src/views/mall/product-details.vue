@@ -129,7 +129,9 @@
 				showToast: false,
 				total: 1000,
 				title:'商品详情描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款羽绒服外套连帽羽绒衣',
-				swipeTopics:[],
+				swipeTopics:[
+				
+				],
 				shopNum:1,
 				size:'选择尺码规格类型'
 			}
@@ -163,11 +165,13 @@
 				this.$router.push({path:'/shop-car'})
 			},
 			async  __fetchMallInfo(){
-				const [err,resp] = await this.$sync(this.$http.mall.getMallSwipe())
-				if(!err) {
-					this.swipeTopics = resp.result;
+					this.swipeTopics = 	[{
+						imgPath:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062945526&di=05ce031f79c3d90c9c084b26ce7d0c3b&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c8415a77c3a4a80120a12372925c.jpg%402o.jpg'
+					},
+						{
+							imgPath:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546657924&di=d78403cf234fbca25cde7a02635cd751&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F019def58ee313aa8012049ef69e432.jpg%401280w_1l_2o_100sh.jpg'
+						}];
 					this.isPrerender=false
-				}
 			}
 		},
 		mounted() {},
