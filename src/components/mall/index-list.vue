@@ -2,7 +2,7 @@
     <div class="item-mall">
         <rx-row type="flex" >
             <rx-col :span="12" v-for="(item,index) in data" :key="index">
-                <div @click="goto('商品详情','/details',{id:item.id})">
+                <div @click="gotoDetail(item.id)">
                     <img :src="item.imgPath" alt="图片">
                     <div class="item-text">
                         <h2>{{item.title}}</h2>
@@ -27,7 +27,12 @@ export default {
 
     },
     methods: {
-
+        gotoDetail(id){
+            this.$router.push({
+                path:'/details',
+                query: {id:id}
+            })
+        }
     }
 }
 </script>
