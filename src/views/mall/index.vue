@@ -110,17 +110,126 @@
               console.log("详情页面")
         },
         async __fetchMallInfo(){
-            const [err,resp] = await this.$sync(this.$http.mall.getMallSwipe())
-            if(!err) {
-                this.swipeTopics = resp.result;
-            }
+            // const [err,resp] = await this.$sync(this.$http.mall.getMallSwipe())
+            // if(!err) {
+            //     this.swipeTopics = resp.result;
+            // }
+            this.swipeTopics = 
+[{
+    "description": '<div><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></div><div class="editor-topic-block"><p>加班1<span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></p></div>',
+    "fileKey": ["FGfFQFacwJ@upload_8369b2936bc0cee8e30360edbca3a8e5.jpg"],
+    "id": "516684310121172992",
+    "imgPath": ["https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546657924&di=d78403cf234fbca25cde7a02635cd751&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F019def58ee313aa8012049ef69e432.jpg%401280w_1l_2o_100sh.jpg"],
+  }, {
+    "description": '<div><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></div><div class="editor-topic-block"><p>加班1<span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span><span style="font-size: 14px; color: rgb(48, 49, 51);">加班1</span></p></div>',
+    "fileKey": ["FGfFQFacwJ@upload_8369b2936bc0cee8e30360edbca3a8e5.jpg"],
+    "id": "516684310121172992",
+    "imgPath": ["https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062945526&di=05ce031f79c3d90c9c084b26ce7d0c3b&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c8415a77c3a4a80120a12372925c.jpg%402o.jpg"],
+  }]
         },
         async __fetchSwipeTopics(){
-            const [err,resp] = await this.$sync(this.$http.mall.getMallList())
-            if(!err) {
-                const list = resp.result
-                this.listPart = list.slice(0,6)
-            }
+            // const [err,resp] = await this.$sync(this.$http.mall.getMallList())
+            // if(!err) {
+            //     const list = resp.result
+            //     this.listPart = list.slice(0,6)
+            // }
+            this.listPart = 
+            [{
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "一小米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "1"
+    }, {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "二大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "2"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "三大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "3"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "四大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "4"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "五大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "5"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "六大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "6"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "七大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "7"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "八大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "8"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "九大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "9"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "十大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "10"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "十一大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "11"
+    },
+    {
+      "imgPath": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546062882373&di=095c3725756ffb2c052a62d87428a4e9&imgtype=0&src=http%3A%2F%2Fpimages3.tianjimedia.com%2Fresources%2Fproduct%2F20170726%2F8076HJWF0941O8W7KZ6542417ODVFJB7.jpg",
+      "title": "十二大米小钢炮蓝牙音箱",
+      "score": "1000",
+      "price": "48",
+      "oldPrice": "88",
+      "id": "12"
+    },
+  ]
         },
   		async __append() {
   			const [err, resp] = await this.$sync(

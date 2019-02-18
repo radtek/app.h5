@@ -127,12 +127,98 @@ export default {
   			}
         },
         async __fetchDetailList(){
-            const [err,resp] = await this.$sync(this.$http.mall.getDetailList())
-            if(!err) {
-                const list = resp.result
-                this.listPart = list.slice(0,6)
+            // const [err,resp] = await this.$sync(this.$http.mall.getDetailList())
+            // if(!err) {
+            //     const list = resp.result
+            //     this.listPart = list.slice(0,6)
 
-            }
+            // }
+            this.listPart = 
+[{
+      "img": "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3417061725,3241456897&fm=58&bpow=500&bpoh=380",
+      "title": "商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗,不好看",
+      "score": "3000",
+      "price": "128",
+      "num": "1"
+    },
+    {
+      "img": "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2101320337,3872255227&fm=85&app=52&f=JPEG?w=121&h=75&s=E1F233C046F3B3DE18E004BE0300C0C2",
+      "title": "超级无敌变性金刚，钢铁侠特制版,不好看",
+      "score": "40000",
+      "price": "2000",
+      "num": "1"
+    },
+    {
+      "img": "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4118190083,57261496&fm=27&gp=0.jpg",
+      "title": "咸蛋超人，无敌破坏王cosplay宇智波斑,不好看",
+      "score": "5000",
+      "price": "1997",
+      "num": "1"
+    },
+    {
+      "img": "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3417061725,3241456897&fm=58&bpow=500&bpoh=380",
+      "title": "商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗,不好看",
+      "score": "3000",
+      "price": "128",
+      "num": "1"
+    },
+    {
+      "img": "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2101320337,3872255227&fm=85&app=52&f=JPEG?w=121&h=75&s=E1F233C046F3B3DE18E004BE0300C0C2",
+      "title": "超级无敌变性金刚，钢铁侠特制版,不好看",
+      "score": "40000",
+      "price": "2000",
+      "num": "1"
+    },
+    {
+      "img": "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4118190083,57261496&fm=27&gp=0.jpg",
+      "title": "咸蛋超人，无敌破坏王cosplay宇智波斑,不好看",
+      "score": "5000",
+      "price": "1997",
+      "num": "1"
+    },
+    {
+      "img": "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3417061725,3241456897&fm=58&bpow=500&bpoh=380",
+      "title": "商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗,不好看",
+      "score": "3000",
+      "price": "128",
+      "num": "1"
+    },
+    {
+      "img": "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2101320337,3872255227&fm=85&app=52&f=JPEG?w=121&h=75&s=E1F233C046F3B3DE18E004BE0300C0C2",
+      "title": "超级无敌变性金刚，钢铁侠特制版,不好看",
+      "score": "40000",
+      "price": "2000",
+      "num": "1"
+    },
+    {
+      "img": "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4118190083,57261496&fm=27&gp=0.jpg",
+      "title": "咸蛋超人，无敌破坏王cosplay宇智波斑,不好看",
+      "score": "5000",
+      "price": "1997",
+      "num": "1"
+    },
+    {
+      "img": "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3417061725,3241456897&fm=58&bpow=500&bpoh=380",
+      "title": "商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗,不好看",
+      "score": "3000",
+      "price": "128",
+      "num": "1"
+    },
+    {
+      "img": "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2101320337,3872255227&fm=85&app=52&f=JPEG?w=121&h=75&s=E1F233C046F3B3DE18E004BE0300C0C2",
+      "title": "超级无敌变性金刚，钢铁侠特制版,不好看",
+      "score": "40000",
+      "price": "2000",
+      "num": "1"
+    },
+    {
+      "img": "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4118190083,57261496&fm=27&gp=0.jpg",
+      "title": "咸蛋超人，无敌破坏王cosplay宇智波斑,不好看",
+      "score": "5000",
+      "price": "1997",
+      "num": "1"
+    }
+]
         },
         async __fetch(){
             await this.__fetchDetailList()
