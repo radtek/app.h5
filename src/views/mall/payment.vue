@@ -22,6 +22,7 @@
         </rx-row>
       </router-link>
       <div class="pay">
+        <toast :text="toast_text" :showToast="showToast"></toast>
         <div class="choose">选择支付方式</div>
         <div>
           <rx-row justify="center" type="flex">
@@ -99,10 +100,16 @@
 
 <script>
 export default {
+  components: {
+			toast: () =>
+				import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
+		},
 	data() {
 		return {
 			rows: [],
-			score: "",
+      score: "",
+      toast_text: "",
+			showToast: false,
 			isChecked: false,
 			allPrice: 0
 		};
@@ -118,13 +125,23 @@ export default {
 		},
 		doPay() {
 			if (!this.isChecked) {
+        this.toast();
 				return false;
 			}
       console.log(this.isChecked);
       this.$router.push({
         path:'/paymentEnd'
       })
-		},
+    },
+    toast() {
+        this.toast_text = '请选择支付方式'
+				const self = this;
+        this.showToast = true;
+        
+				setTimeout(function() {
+					self.showToast = false;
+				}, 2000);
+      },
 		__fetch() {
 			this.rows = [
 				{ price: "100.00", name: "女士羽绒服", num: 2 },
