@@ -7,7 +7,7 @@
 <template>
   <div class="payment">
     <div class="body">
-      <router-link :to="{}">
+      <router-link :to="{path:'/address-manage'}">
         <rx-row justify="center" class="action" v-for="(item,index) in action" :key="index">
           <rx-col :span="23" class="col-action">
             <p>
@@ -67,14 +67,20 @@
             </rx-col>
           </rx-row>
         </div>
-        <div class="footer">
-            <span class="add">总计： ￥{{allPrice}}+{{score}}积分</span>
-            <div class="doPay"
-                 @click="doPay()">
-                 <span>支付</span>
-            </div>
-        </div>
       </div>
+        <div class="item">
+                <div class="list"
+                     v-for="item in rows">
+                    <div class="left">
+                        <span class="name">{{item.name}}</span>
+                        <span class="num">×{{item.num}}</span>
+                    </div>
+                    <div class="right">
+                        <span class="price"
+                              v-model="allPrice">￥{{item.price}}</span>
+                    </div>
+                </div>
+          </div>
       <div class="pay-score">
         <rx-row justify="center" type="flex">
           <rx-col :span="20">消费积分</rx-col>
@@ -114,7 +120,10 @@ export default {
 			if (!this.isChecked) {
 				return false;
 			}
-			console.log(this.isChecked);
+      console.log(this.isChecked);
+      this.$router.push({
+        path:'/paymentEnd'
+      })
 		},
 		__fetch() {
 			this.rows = [
