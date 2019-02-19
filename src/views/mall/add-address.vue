@@ -31,7 +31,10 @@
 		</div>
 		<div class="default">
 			<span class="font">设为默认地址</span>
-			<img src="@/assets/imgs/mall/miss.png">
+			<div @click="change">
+				<img src="@/assets/imgs/mall/miss.png" v-if="isSelect">
+				<img src="@/assets/imgs/mall/xuanzhong.png" v-else></img>
+			</div>
 		</div>
 	</div>
   
@@ -39,7 +42,17 @@
 
 <script>
 	export default {
-		name: "add-address"
+		name: "add-address",
+		data(){
+			return{
+				isSelect:true
+			}
+		},
+		methods:{
+			change(){
+				this.isSelect=!this.isSelect
+			}
+		}
 	};
 </script>
 

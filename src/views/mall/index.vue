@@ -228,8 +228,7 @@
       "price": "48",
       "oldPrice": "88",
       "id": "12"
-    },
-  ]
+    }]
         },
   		async __append() {
   			const [err, resp] = await this.$sync(
@@ -237,6 +236,7 @@
               );
   			if (!err) {
                 const list = resp.result;
+                console.log(resp)
   				if (list && list.length) {
                       this.listPart = this.listPart.concat(list);
   				}
