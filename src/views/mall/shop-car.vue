@@ -1,4 +1,15 @@
 <template>
+	<section rs-view="details">
+		<rx-pull ref="pull"
+				 :list="goods"
+				 :total="total"
+				 :down="down"
+				 :up="up"
+				 @downing="handleDown"
+				 @uping="handleUp"
+				 @scroll-end="handleScrollEnd">
+			<rx-pull-down slot="down"></rx-pull-down>
+			<rx-pull-up slot="up"></rx-pull-up>
     <div class="main">
 		<div  class="main-contain" v-for="(item,index) in cartData" :key="index" >
 			<div class="contain" >
@@ -45,6 +56,9 @@
 				</div>
 			</div>
 		</div>	
+		
+	</div>
+		</rx-pull>
 		<div class="footer">
 			<div class="img"  :class="[isSelectAll?'on':'']" @click="allCheck"></div>
 			<span class="footer-font" >全选</span>
@@ -58,18 +72,151 @@
 			</div>
 			<button class="button">结算</button>
 		</div>
-	</div>
+	</section>
 </template>
 
 <script>
+	import { utils } from "~rx";
+	import Pull from "~m/pull";
 	export default {
 		name: "shop-car",
+		mixins: [Pull],
 		created(){
+			this.__fetch();
 			let nowList=this.goods
 			nowList.forEach(item=>item.isSelect = false)
 			this.cartData= nowList
 		},
 		methods:{
+			__fetch(){
+				this.goods=[{
+					img:require('@/assets/imgs/mall/weizhong.png'),
+					goodImg:require('@/assets/imgs/mall/good.png'),
+					detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+					size:'XL, 蓝色，64G，套餐一',
+					integral:'3000',
+					price:'积分+￥128',
+					sale:'原价 ￥212',
+					reduceImg:require('@/assets/imgs/mall/reduce.png'),
+					addImg:require('@/assets/imgs/mall/add.png'),
+					num:1,
+					limtNum:6,
+					delImg:require('@/assets/imgs/mall/shanchu.png')
+				},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:3,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:4,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:6,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:6,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:6,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:6,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:6,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+					{
+						img:require('@/assets/imgs/mall/weizhong.png'),
+						goodImg:require('@/assets/imgs/mall/good.png'),
+						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
+						size:'XL, 蓝色，64G，套餐一',
+						integral:'3000',
+						price:'积分+￥128',
+						sale:'原价 ￥212',
+						reduceImg:require('@/assets/imgs/mall/reduce.png'),
+						addImg:require('@/assets/imgs/mall/add.png'),
+						num:1,
+						limtNum:6,
+						delImg:require('@/assets/imgs/mall/shanchu.png')
+					},
+				]
+			},
 			reduce(index){
 				if(this.cartData[index].num===1){
 					return
@@ -104,49 +251,8 @@
 				isSelectAll:false,
 				cartData:[],
 				num:1,
-				goods:[
-					{
-					img:require('@/assets/imgs/mall/weizhong.png'),
-					goodImg:require('@/assets/imgs/mall/good.png'),
-					detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
-					size:'XL, 蓝色，64G，套餐一',
-					integral:'3000',
-					price:'积分+￥128',
-					sale:'原价 ￥212',
-					reduceImg:require('@/assets/imgs/mall/reduce.png'),
-					addImg:require('@/assets/imgs/mall/add.png'),
-						num:1,
-					limtNum:6,
-					delImg:require('@/assets/imgs/mall/shanchu.png')
-				},
-					{
-						img:require('@/assets/imgs/mall/weizhong.png'),
-						goodImg:require('@/assets/imgs/mall/good.png'),
-						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
-						size:'XL, 蓝色，64G，套餐一',
-						integral:'3000',
-						price:'积分+￥128',
-						sale:'原价 ￥212',
-						reduceImg:require('@/assets/imgs/mall/reduce.png'),
-						addImg:require('@/assets/imgs/mall/add.png'),
-						num:1,
-						limtNum:3,
-						delImg:require('@/assets/imgs/mall/shanchu.png')
-					},
-					{
-						img:require('@/assets/imgs/mall/weizhong.png'),
-						goodImg:require('@/assets/imgs/mall/good.png'),
-						detail:'商品详细描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款式不好看吗',
-						size:'XL, 蓝色，64G，套餐一',
-						integral:'3000',
-						price:'积分+￥128',
-						sale:'原价 ￥212',
-						reduceImg:require('@/assets/imgs/mall/reduce.png'),
-						addImg:require('@/assets/imgs/mall/add.png'),
-						num:1,
-						limtNum:4,
-						delImg:require('@/assets/imgs/mall/shanchu.png')
-					}],
+				total:1000,
+				goods:[],
 			}
 		},
 	};

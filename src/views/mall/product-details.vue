@@ -1,5 +1,12 @@
 <template>
-	<div  rs-view="details">
+	<section rs-view="details">
+		<rx-pull ref="pull"
+				 :list="swipeTopics"
+				 :total="total"
+				 :down="down"
+				 @downing="handleDown"
+				 @scroll-end="handleScrollEnd">
+			<rx-pull-down slot="down"></rx-pull-down>
 		<!--骨架屏-->
 		<template v-if="isPrerender">
 			<div class="prerender-pane-banner"></div>
@@ -95,48 +102,54 @@
 						<div class="shop-box"></div>
 						<div class="font">商品详情</div>
 					</div>
+					<div>weyryewrgtffffffffretyrfvtrevfgrvegfgvregyfvgegfgvcergfgerfvreftyertgfgghrvertyfgrefvgyregfvyyvervetrtgfv</div>
+					<div>weyryewrgtffffffffretyrfvtrevfgrvegfgvregyfvgegfgvcergfgerfvreftyertgfgghrvertyfgrefvgyregfvyyvervetrtgfv</div>
+					<div>weyryewrgtffffffffretyrfvtrevfgrvegfgvregyfvgegfgvcergfgerfvreftyertgfgghrvertyfgrefvgyregfvyyvervetrtgfv</div>
+					<div>weyryewrgtffffffffretyrfvtrevfgrvegfgvregyfvgegfgvcergfgerfvreftyertgfgghrvertyfgrefvgyregfvyyvervetrtgfv</div>
+					<div>weyryewrgtffffffffretyrfvtrevfgrvegfgvregyfvgegfgvcergfgerfvreftyertgfgghrvertyfgrefvgyregfvyyvervetrtgfv</div>
 				</div>
 			</div>
-			<div class="footer-detail">
-				<div style="width: 190px;display: flex;align-items: center;justify-content: center" @click="goCar">
-					<img class="img" src="@/assets/imgs/mall/shop.png"></img>
-				</div>
-				<button class="add-shop" @click="addShopCar">加入购物车</button>
-				<button class="pay-over">已售罄</button>
-			</div>
+		
 		</template>
 		<toast :text="toast_text" :showToast="showToast"></toast>
-	</div>
+		</rx-pull>
+		<div class="footer-detail">
+			<div style="width: 190px;display: flex;align-items: center;justify-content: center" @click="goCar">
+				<img class="img" src="@/assets/imgs/mall/shop.png"></img>
+			</div>
+			<button class="add-shop" @click="addShopCar">加入购物车</button>
+			<button class="pay-over">已售罄</button>
+		</div>
+	</section>
 </template>
 
 <script>
 	import { utils } from "~rx";
 	import Pull from "~m/pull";
-	import Msgbox from "~m/__msgbox";
-	import UserNameMixin from "~m/__username";
 	export default {
 		name: "product-details",
-		mixins: [Pull, Msgbox, UserNameMixin],
+		mixins: [Pull],
 		components: {
 			toast: () =>
 				import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
 		},
 		data(){
 			return{
+				total:1000,
 				isPrerender:true,
 				listPart2: [],
 				toast_text: "",
 				showToast: false,
-				total: 1000,
 				title:'商品详情描述2018冬季新款男士羽绒服白鹅绒加厚大码中长款羽绒服外套连帽羽绒衣',
-				swipeTopics:[
-				
-				],
+				swipeTopics:[],
 				shopNum:1,
 				size:'选择尺码规格类型'
 			}
 		},
 		methods:{
+			async __fetch() {
+				this. __fetchMallInfo()
+			},
 			toast() {
 				const self = this;
 				this.showToast = true;
@@ -176,7 +189,7 @@
 		},
 		mounted() {},
 		activated(){
-			this.__fetchMallInfo();
+			this.__fetch();
 			if(this.$route.query.newList){
 				console.log('newList',this.$route.query.newList)
 				this.newList=this.$route.query.newList
@@ -197,7 +210,6 @@
 		}
 		.rx-skeleton {
 			padding: 0 15px;
-
 			.rx-cell-footer {
 				display: flex;
 			}
@@ -222,7 +234,6 @@
 		.contain{
 			background:rgba(245,245,245,1);
 			height: 100%;
-			overflow-y: auto;
 			.img {
 				width: 100%;
 				height: 600px;
@@ -382,7 +393,9 @@
 		}
 	}
 	.footer-detail{
-		position: fixed;
+		position: -webkit-sticky;
+		position: sticky;
+		z-index:2000;
 		bottom: 0;
 		height:98px;
 		width: 100%;
