@@ -70,7 +70,7 @@
 				</div>
 				<div class="sale">（已优惠￥34）</div>
 			</div>
-			<button class="button">结算</button>
+			<button class="button" @click="gotoPay()">结算</button>
 		</div>
 	</section>
 </template>
@@ -222,6 +222,11 @@
 					return
 				}
 				this.cartData[index].num--
+			},
+			gotoPay(){
+				this.$router.push({
+					path:'payment'
+				})
 			},
 			add(index){
 				if(this.cartData[index].num>=this.cartData[index].limtNum){

@@ -7,7 +7,7 @@
 <template>
   <div class="payment">
     <div class="body">
-      <router-link :to="{}">
+      <router-link :to="{path:'/address-manage'}">
         <rx-row justify="center" class="action" v-for="(item,index) in action" :key="index">
           <rx-col :span="23" class="col-action">
             <p>
@@ -22,6 +22,7 @@
         </rx-row>
       </router-link>
       <div class="pay">
+        <toast :text="toast_text" :showToast="showToast"></toast>
         <div class="choose">选择支付方式</div>
         <div>
           <rx-row justify="center" type="flex">
@@ -67,14 +68,20 @@
             </rx-col>
           </rx-row>
         </div>
-        <div class="footer">
-            <span class="add">总计： ￥{{allPrice}}+{{score}}积分</span>
-            <div class="doPay"
-                 @click="doPay()">
-                 <span>支付</span>
-            </div>
-        </div>
       </div>
+        <div class="item">
+                <div class="list"
+                     v-for="item in rows">
+                    <div class="left">
+                        <span class="name">{{item.name}}</span>
+                        <span class="num">×{{item.num}}</span>
+                    </div>
+                    <div class="right">
+                        <span class="price"
+                              v-model="allPrice">￥{{item.price}}</span>
+                    </div>
+                </div>
+          </div>
       <div class="pay-score">
         <rx-row justify="center" type="flex">
           <rx-col :span="20">消费积分</rx-col>
@@ -93,10 +100,16 @@
 
 <script>
 export default {
+  components: {
+			toast: () =>
+				import(/* webpackChunkName:"police-phone-toast" */ "~v/police/__wc__/phone-toast.vue")
+		},
 	data() {
 		return {
 			rows: [],
-			score: "",
+      score: "",
+      toast_text: "",
+			showToast: false,
 			isChecked: false,
 			allPrice: 0
 		};
@@ -112,10 +125,23 @@ export default {
 		},
 		doPay() {
 			if (!this.isChecked) {
+        this.toast();
 				return false;
 			}
-			console.log(this.isChecked);
-		},
+      console.log(this.isChecked);
+      this.$router.push({
+        path:'/paymentEnd'
+      })
+    },
+    toast() {
+        this.toast_text = '请选择支付方式'
+				const self = this;
+        this.showToast = true;
+        
+				setTimeout(function() {
+					self.showToast = false;
+				}, 2000);
+      },
 		__fetch() {
 			this.rows = [
 				{ price: "100.00", name: "女士羽绒服", num: 2 },
